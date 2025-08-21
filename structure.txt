@@ -1,0 +1,54 @@
+Project Structure (Graphical Overview)
+
+pollo-loco/
+├── assets/
+│   ├── fonts/
+│   │   └── gringo-nights/
+│   │       └── GringoNights.ttf
+│   └── img/
+│       ├── 1_editables/
+│       ├── 10_external_img/
+│       ├── 2_character_pepe/
+│       │   ├── Pepe.png
+│       │   ├── 1_idle/
+│       │   │   ├── idle/
+│       │   │   └── long_idle/
+│       │   ├── 2_walk/
+│       │   ├── 3_jump/
+│       │   ├── 4_hurt/
+│       │   └── 5_dead/
+│       ├── 3_enemies_chicken/
+│       ├── 4_enemie_boss_chicken/
+│       ├── 5_background/
+│       ├── 6_salsa_bottle/
+│       ├── 7_statusbars/
+│       ├── 8_coin/
+│       ├── 9_intro_outro_screens/
+│       └── You won, you lost/
+├── index.html
+├── style.css
+├── js/
+│   ├── fullscreen.js
+│   └── game.js
+├── levels/
+│   └── level1.js
+├── models/
+│   ├── background-object.class.js
+│   ├── bottle.class.js
+│   ├── character.class.js
+│   ├── chicken.class.js
+│   ├── cloud.class.js
+│   ├── coin.class.js
+│   ├── collectible-objekt.class.js
+│   ├── collidable-object.class.js
+│   ├── drawable-object.class.js
+│   ├── endboss.class.js
+│   ├── keyboard.class.js
+│   ├── level.class.js
+│   ├── movable-object.class.js
+│   ├── status-bar.class.js
+│   ├── throwable-object.class.js
+│   └── world.class.js
+├── README.md
+├── ORDNERSTRUKTUR.txt
+└── structure.txt
