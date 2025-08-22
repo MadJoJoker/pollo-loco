@@ -9,6 +9,5 @@ class BackgroundObject extends MovableObject {
     this.loadImage(imagePath);
     this.x = x;
     this.y = y;
-    console.log("[DEBUG] BackgroundObject erstellt:", { imagePath, x, y });
   }
 }

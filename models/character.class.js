@@ -65,9 +65,7 @@ class Character extends MovableObject {
     }
   }
   animate() {
-    console.log("[DEBUG] Character.animate() gestartet");
     setInterval(() => {
-      console.log("STANDORT:", this.x, "Y:", this.y);
       if (
         this.world?.keyboard?.RIGHT &&
         this.x < this.world.level.level_end_x

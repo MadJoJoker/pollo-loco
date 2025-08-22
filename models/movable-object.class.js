@@ -15,7 +15,6 @@ class MovableObject extends DrawableObject {
   constructor() {
     super();
     this.loadImage;
-    console.log("[DEBUG] MovableObject erstellt:", this);
   }
 
   // energy = 100;
@@ -45,7 +44,6 @@ class MovableObject extends DrawableObject {
     this.img.src = path;
     this.img.onload = () => {
       this.imageLoaded = true;
-      console.log("[DEBUG] loadImage: Bild geladen", path);
     };
     this.img.onerror = () => {
       this.imageLoaded = false;
@@ -63,21 +61,7 @@ class MovableObject extends DrawableObject {
 
   draw(ctx) {
     if (this.img?.complete && this.imageLoaded) {
-      console.debug(
-        "[DEBUG] draw() img:",
-        this.img,
-        "src:",
-        this.img.src,
-        "class:",
-        this.constructor.name
-      );
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    } else {
-      console.warn(
-        "[DEBUG] draw() übersprungen, img nicht geladen:",
-        this.img?.src,
-        this
-      );
     }
   }
 

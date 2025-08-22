@@ -5,29 +5,30 @@ class World {
   ctx;
   keyboard = new Keyboard();
   camera_x = 0;
-  statusBar = new StatusBar();
+  healthBar = new StatusBar(120, 0, 100, 40, "health");
+  bottleBar = new StatusBar(10, 0, 100, 40, "bottle");
+  coinBar = new StatusBar(10, 30, 100, 40, "coin");
   throwableObjects = [];
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.keyboard = keyboard;
-    console.log("[DEBUG] World erstellt:", this);
     this.setWorld();
     this.checkCollisions();
     setInterval(() => {
       this.updateCamera();
       this.draw();
-    }, 1000 / 30); // 60 FPS
+    }, 1000 / 30); 
   }
- updateCamera() {
-  const minCameraX = 0;
-  const maxCameraX = 719 * 2; // umbauen auf max level //
-  if (this.character && typeof this.character.x === "number") {
-    let targetX = this.character.x - 120;
-    this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
+  updateCamera() {
+    const minCameraX = 0;
+    const maxCameraX = 719 * 2; // umbauen auf max level //
+    if (this.character && typeof this.character.x === "number") {
+      let targetX = this.character.x - 120;
+      this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
+    }
   }
-}
   setWorld() {
     this.character.world = this;
   }
@@ -59,20 +60,16 @@ class World {
   }
 
   draw() {
-    console.log("draw() called");
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(-this.camera_x, 0);
-    console.log("backgroundObjects:", this.level.backgroundObjects,0);
     this.addObjectsToMap(this.level.backgroundObjects);
-    console.log("clouds:", this.level.clouds);
     this.addObjectsToMap(this.level.clouds);
-    console.log("character:", this.character);
     this.addToMap(this.character);
-    console.log("enemies:", this.level.enemies);
     this.addObjectsToMap(this.level.enemies);
     this.ctx.translate(this.camera_x, 0);
-    console.log("statusBar:", this.statusBar);
-    this.addToMap(this.statusBar);
+    this.addToMap(this.healthBar);
+    this.addToMap(this.bottleBar);
+    this.addToMap(this.coinBar);
   }
 
   addObjectsToMap(objects) {
