@@ -14,8 +14,7 @@ body {
 canvas {
   background-color: black;
   display: block;
-  height: 480px;
-  width: 720px;
+ 
 }
 @font-face {
   font-family: "GringoNights";

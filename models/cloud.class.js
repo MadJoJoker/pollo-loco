@@ -1,5 +1,5 @@
 class Cloud extends MovableObject {
-  y = 14;
+  y = 50;
   width = 450;
   height = 250;
 
@@ -12,7 +12,10 @@ class Cloud extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.x -= 5;
-    }, 1000);
+      this.x -= 0.18;
+        if (this.x < -this.width) {
+      this.x = 800 + Math.random() * 200; // wiederholung der Wolken nur für den grund background//
+        }
+    }, 1000/60);
   }
 }

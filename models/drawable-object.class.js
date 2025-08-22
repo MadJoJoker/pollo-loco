@@ -1,19 +1,29 @@
 class DrawableObject {
-  constructor() {
-    console.log("[DEBUG] DrawableObject erstellt:", this);
-  }
   img;
-  imageCache = {};
+  imageCache = [];
   currentImage = 0;
   x = 120;
   y = 300;
   height = 150;
   width = 100;
 
+  constructor() {
+    console.log("[DEBUG] DrawableObject erstellt:", this);
+  }
+
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
+    this.img.onload = () => {
+      this.imageLoaded = true;
+      console.log("[DEBUG] loadImage: Bild geladen", path);
+    };
+    this.img.onerror = () => {
+      this.imageLoaded = false;
+      console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
+    };
   }
+
   loadImages(paths) {
     paths.forEach((path) => {
       let img = new Image();
@@ -21,11 +31,12 @@ class DrawableObject {
       this.imageCache[path] = img;
     });
   }
+
   draw(ctx) {
-    if (this.img && this.img instanceof HTMLImageElement && this.img.complete) {
+    if (this.img && this.img.complete) {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     } else {
-      console.warn('[DEBUG] draw() übersprungen, img nicht geladen:', this);
+      console.warn("[DEBUG] draw() übersprungen, img nicht geladen:", this);
     }
   }
 

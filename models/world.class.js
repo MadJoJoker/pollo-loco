@@ -18,14 +18,16 @@ class World {
     setInterval(() => {
       this.updateCamera();
       this.draw();
-    }, 1600); // 60 FPS
+    }, 1000 / 30); // 60 FPS
   }
-  updateCamera() {
-    if (this.character && typeof this.character.x === "number") {
-      this.camera_x = Math.max(0, this.character.x - 120);
-    }
+ updateCamera() {
+  const minCameraX = 0;
+  const maxCameraX = 719 * 2;
+  if (this.character && typeof this.character.x === "number") {
+    let targetX = this.character.x - 120; 
+    this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
   }
-
+}
   setWorld() {
     this.character.world = this;
   }
@@ -59,20 +61,18 @@ class World {
   draw() {
     console.log("draw() called");
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.translate(this.camera_x, 0);
-    console.log("backgroundObjects:", this.level.backgroundObjects);
+    this.ctx.translate(-this.camera_x, 0);
+    console.log("backgroundObjects:", this.level.backgroundObjects,0);
     this.addObjectsToMap(this.level.backgroundObjects);
-    console.log("statusBar:", this.statusBar);
-    this.addToMap(this.statusBar);
-    this.ctx.translate(this.camera_x, 0);
-
-    console.log("character:", this.character);
-    this.addToMap(this.character);
     console.log("clouds:", this.level.clouds);
     this.addObjectsToMap(this.level.clouds);
+    console.log("character:", this.character);
+    this.addToMap(this.character);
     console.log("enemies:", this.level.enemies);
     this.addObjectsToMap(this.level.enemies);
-    this.ctx.translate(-this.camera_x, 0);
+    this.ctx.translate(this.camera_x, 0);
+    console.log("statusBar:", this.statusBar);
+    this.addToMap(this.statusBar);
   }
 
   addObjectsToMap(objects) {
@@ -89,7 +89,7 @@ class World {
     mo.drawFrame(this.ctx);
 
     if (mo.otherDirection) {
-      this.flipImageBack();
+      this.flipImageBack(mo);
     }
   }
 

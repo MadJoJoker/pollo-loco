@@ -1,24 +1,9 @@
 class Level {
-  enemies = [];
-  clouds = [];
-  backgroundObjects = [];
-
-  constructor(...args) {
-    this.enemies = [];
-    this.clouds = [];
-    this.backgroundObjects = [];
-    args.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((obj) => {
-        if (obj instanceof Chicken || obj instanceof Endboss) {
-          this.enemies.push(obj);
-        } else if (obj instanceof Cloud) {
-          this.clouds.push(obj);
-        } else if (obj instanceof BackgroundObject) {
-          this.backgroundObjects.push(obj);
-        }
-      });
-    });
+  level_end_x = 719 * 3;
+  constructor(enemies = [], clouds = [], backgroundObjects = []) {
+    this.enemies = enemies;
+    this.clouds = clouds;
+    this.backgroundObjects = backgroundObjects;
     console.log("[DEBUG] Level erstellt:", this);
   }
 }

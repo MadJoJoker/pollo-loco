@@ -1,4 +1,8 @@
 class Character extends MovableObject {
+  height = 250;
+  y = 180;
+  speed = 10;
+
   IMAGES_WALKING = [
     "/assets/img/2_character_pepe/2_walk/W-21.png",
     "/assets/img/2_character_pepe/2_walk/W-22.png",
@@ -42,49 +46,29 @@ class Character extends MovableObject {
     this.applyGravity();
     this.animate();
   }
-
+  moveRight() {
+    super.moveRight();
+    const stopX = this.world.level.level_end_x - 100;
+    if (this.x > stopX) {
+      this.x = stopX;
+    }
+  }
   animate() {
     console.log("[DEBUG] Character.animate() gestartet");
     setInterval(() => {
       if (
-        this.walking_sound &&
-        typeof this.walking_sound.pause === "function"
+        this.world?.keyboard?.RIGHT &&
+        this.x < this.world.level.level_end_x
       ) {
-        this.walking_sound.pause();
+        this.moveRight();
+        this.otherDirection = false;
       }
-      if (
-        this.world &&
-        this.world.keyboard &&
-        this.world.level &&
-        typeof this.world.keyboard.RIGHT !== "undefined" &&
-        typeof this.world.level.level_end_x !== "undefined"
-      ) {
-        if (
-          this.world.keyboard.RIGHT &&
-          this.x < this.world.level.level_end_x
-        ) {
-          this.moveRight();
-          this.otherDirection = false;
-          if (
-            this.walking_sound &&
-            typeof this.walking_sound.play === "function"
-          ) {
-            this.walking_sound.play();
-          }
-        }
-        if (this.world.keyboard.LEFT && this.x > 0) {
-          this.moveLeft();
-          this.otherDirection = true;
-          if (
-            this.walking_sound &&
-            typeof this.walking_sound.play === "function"
-          ) {
-            this.walking_sound.play();
-          }
-        }
-        if (this.world.keyboard.SPACE && this.isAboveGround()) {
-          this.jump();
-        }
+      if (this.world?.keyboard?.LEFT && this.x > 0) {
+        this.moveLeft();
+        this.otherDirection = true;
+      }
+      if (this.world?.keyboard?.SPACE && this.isAboveGround()) {
+        this.jump();
       }
     }, 1000 / 60);
   }

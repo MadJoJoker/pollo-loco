@@ -1,10 +1,4 @@
 class MovableObject extends DrawableObject {
-  constructor() {
-    super();
-    this.loadImage;
-    console.log("[DEBUG] MovableObject erstellt:", this);
-  }
-
   x = 120;
   y = 280;
   img;
@@ -15,7 +9,14 @@ class MovableObject extends DrawableObject {
   currentImage = 0;
   speed = 0.15;
   otherDirection = false;
-  acceleration = 2.5;
+  // acceleration = 2.5;
+
+  constructor() {
+    super();
+    this.loadImage;
+    console.log("[DEBUG] MovableObject erstellt:", this);
+  }
+
   // energy = 100;
   // lastHit = 0;
   // hit = 0;
@@ -58,12 +59,7 @@ class MovableObject extends DrawableObject {
   }
 
   draw(ctx) {
-    if (
-      this.img &&
-      this.img instanceof HTMLImageElement &&
-      this.img.complete &&
-      this.imageLoaded
-    ) {
+    if (this.img?.complete && this.imageLoaded) {
       console.debug(
         "[DEBUG] draw() img:",
         this.img,
@@ -79,7 +75,11 @@ class MovableObject extends DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
@@ -120,7 +120,7 @@ class MovableObject extends DrawableObject {
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
-    // Setze imageLoaded auf true, wenn das Bild geladen ist
+
     if (this.img && this.img.complete) {
       this.imageLoaded = true;
     } else {

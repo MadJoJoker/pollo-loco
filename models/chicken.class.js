@@ -11,9 +11,7 @@ class Chicken extends MovableObject {
 
   constructor() {
     super();
-    this.loadImage(
-      "/assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png"
-    );
+    this.loadImage('assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     this.x = 200 + Math.random() * 500;
     this.speed = 0.15 + Math.random() * 0.25;
     console.log("[DEBUG] Chicken erstellt:", { x: this.x });
@@ -24,24 +22,16 @@ class Chicken extends MovableObject {
 
   animate() {
     console.log("[DEBUG] Chicken.animate() gestartet");
-    let firstLoaded = false;
-    setInterval(() => {
-      let i = this.currentImage % this.IMAGES_WALKING.length;
-      let path = this.IMAGES_WALKING[i];
-      let img = this.imageCache[path];
-      if (img && img.complete) {
-        this.img = img;
-        if (!firstLoaded) {
-          console.log(
-            "[DEBUG] Chicken Animation: Erstes Bild geladen und gesetzt:",
-            path
-          );
-          firstLoaded = true;
-        }
-      } else {
-        console.warn("[DEBUG] Chicken Animation: Bild nicht geladen", path);
+    let frame = 0;
+    const step = () => {
+      if (typeof this.isDead === "function" && this.isDead()) return; // Stoppe Animation wenn tot
+      this.moveLeft();
+      if (frame % this.animationSpeed === 0) {
+        this.playAnimation(this.IMAGES_WALKING);
       }
-      this.currentImage++;
-    }, 1000);
+      frame++;
+      requestAnimationFrame(step);
+    };
+    step();
   }
 }
