@@ -1,3 +1,5 @@
+
+
 const backgroundObjects = [
   //AIR
   new BackgroundObject("assets/img/5_background/layers/air.png", 0, 0, 0, 0),
@@ -88,9 +90,12 @@ const backgroundObjects = [
 ];
 //ACHTUNG nach LAyer sorrtieren//
 const level1 = new Level(
-  [new Chicken(), new Chicken(), new Chicken(), new Endboss()],
-  [new Cloud()],
-  backgroundObjects
+  [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+  [new Cloud(), new Cloud(),new Cloud()],
+  backgroundObjects,
+  [new Bottle(),new Bottle(),new Bottle(),new Bottle(),new Bottle(),new Bottle(),],
+  [new Coin(),new Coin(),new Coin(),new Coin(),new Coin(),new Coin()]
+
 );
 
 level1.level_end_x = Math.max(

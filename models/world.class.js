@@ -9,6 +9,7 @@ class World {
   bottleBar = new StatusBar(10, 0, 100, 40, "bottle");
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
   throwableObjects = [];
+  
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
@@ -19,7 +20,7 @@ class World {
     setInterval(() => {
       this.updateCamera();
       this.draw();
-    }, 1000 / 30); 
+    }, 1000 / 30);
   }
   updateCamera() {
     const minCameraX = 0;
@@ -42,9 +43,12 @@ class World {
 
   checkThrowObjects() {
     if (this.keyboard.D) {
-      let bottle = new ThrowableObject(
+      let bottle = new Bottle(
         this.character.x + 100,
-        this.character.y + 100
+        this.character.y + 100,
+        50, // Breite
+        60, // Höhe
+        "throw"
       );
       this.throwableObjects.push(bottle);
     }
@@ -70,6 +74,7 @@ class World {
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
+    this.addToMap(this.bottle);
   }
 
   addObjectsToMap(objects) {

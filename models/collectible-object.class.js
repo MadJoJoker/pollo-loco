@@ -1,44 +1,21 @@
-class MovableObject extends DrawableObject {
-  x = 120;
-  y = 280;
+class CollectibleObject extends MovableObject {
+  x;
+  y;
   img;
   imageLoaded = false;
-  height = 150;
-  width = 100;
+  height = 50;
+  width = 80;
   imageCache = {};
   currentImage = 0;
-  speed = 0.15;
   otherDirection = false;
-  acceleration = 2.5;
   animationSpeed = 120;
+  collected = false;
+  collectedItem = { bottles: 0, coins: 0 };
 
   constructor() {
     super();
     this.loadImage;
   }
-
-  // energy = 100;
-  // lastHit = 0;
-  // hit = 0;
-
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25);
-  }
-  isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else if (this instanceof Character) {
-      return this.y < 180;
-    } else {
-      return false;
-    }
-  }
-
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
@@ -66,20 +43,31 @@ class MovableObject extends DrawableObject {
   }
 
   drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof Chicken ||
-      this instanceof Endboss
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = "2";
-      ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = "2";
+    ctx.strokeStyle = "red";
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
+    ctx.restore();
   }
 
-  isColliding(mo) {
+  animateScale(ctx, scale = 1.6, duration = 2000) {
+    ctx.save();
+    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+    ctx.scale(scale, scale);
+    ctx.translate(-(this.x + this.width / 2), -(this.y + this.height / 2));
+    this.draw(ctx);
+    ctx.restore();
+
+    setTimeout(() => {
+      ctx.save();
+      this.draw(ctx);
+      ctx.restore();
+    }, duration);
+  }
+
+  isCollidingCollection(mo) {
     return (
       this.x + this.width > mo.x &&
       this.y + this.height > mo.y &&
@@ -88,20 +76,22 @@ class MovableObject extends DrawableObject {
     );
   }
 
-  hit() {
-    this.energy -= 5;
-    if (this.energy < 0) {
-      this.energy = 0;
-    } else {
-      this.lastHit = new Date().getTime();
-    }
+  isCollected() {
+    return this.collected;
   }
 
-  isDead() {
-    return this.energy === 0;
+  collect(type) {
+    // if (!this.collected) {
+    //   this.collected = true;
+    //   if (type === "bottle") {
+    //     this.collectedItem.bottles++;
+    //   } else if (type === "coin") {
+    //     this.collectedItem.coins++;
+    //   }
+    // Sound
   }
 
-  isHurt() {
+  isCollactable() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
@@ -118,25 +108,4 @@ class MovableObject extends DrawableObject {
       this.lastAnimationTime = now;
     }
   }
-  moveRight() {
-    this.x += this.speed;
-    if (this.IMAGES_WALKING) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
-  }
-
-  moveLeft() {
-    this.x -= this.speed;
-    if (this.IMAGES_WALKING) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
-  }
-
-  jump() {
-    this.speedY = 30;
-    if (this.IMAGES_JUMPING) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    }
-  }
-
 }

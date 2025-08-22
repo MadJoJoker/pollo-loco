@@ -5,8 +5,7 @@ class Cloud extends MovableObject {
 
   constructor() {
     super().loadImage("/assets/img/5_background/layers/4_clouds/1.png");
-    this.x = Math.random() * 500;
-    console.log("[DEBUG] Cloud erstellt:", this);
+    this.x = Math.random() * 1900;
     this.animate();
   }
 
@@ -14,7 +13,7 @@ class Cloud extends MovableObject {
     setInterval(() => {
       this.x -= 0.18;
         if (this.x < -this.width) {
-      this.x = 800 + Math.random() * 200; // wiederholung der Wolken nur für den grund background//
+      this.x = 600 + Math.random() * 200; // wiederholung der Wolken nur für den grund background//
         }
     }, 1000/60);
   }
