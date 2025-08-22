@@ -33,9 +33,10 @@ class MovableObject extends DrawableObject {
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       return true;
-    } else {
+    } else if (this instanceof Character) {
       return this.y < 180;
-      //  grundbild laden
+    } else {
+      return false;
     }
   }
 
