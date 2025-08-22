@@ -22,9 +22,9 @@ class World {
   }
  updateCamera() {
   const minCameraX = 0;
-  const maxCameraX = 719 * 2;
+  const maxCameraX = 719 * 2; // umbauen auf max level //
   if (this.character && typeof this.character.x === "number") {
-    let targetX = this.character.x - 120; 
+    let targetX = this.character.x - 120;
     this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
   }
 }

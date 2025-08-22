@@ -9,7 +9,8 @@ class MovableObject extends DrawableObject {
   currentImage = 0;
   speed = 0.15;
   otherDirection = false;
-  // acceleration = 2.5;
+  acceleration = 2.5;
+  animationSpeed = 120;
 
   constructor() {
     super();
@@ -34,6 +35,7 @@ class MovableObject extends DrawableObject {
       return true;
     } else {
       return this.y < 180;
+      //  grundbild laden
     }
   }
 
@@ -70,7 +72,11 @@ class MovableObject extends DrawableObject {
       );
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     } else {
-      console.warn("[DEBUG] draw() übersprungen, img nicht geladen:", this);
+      console.warn(
+        "[DEBUG] draw() übersprungen, img nicht geladen:",
+        this.img?.src,
+        this
+      );
     }
   }
 
@@ -81,7 +87,7 @@ class MovableObject extends DrawableObject {
       this instanceof Endboss
     ) {
       ctx.beginPath();
-      ctx.lineWidth = "5";
+      ctx.lineWidth = "2";
       ctx.strokeStyle = "blue";
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
@@ -115,28 +121,36 @@ class MovableObject extends DrawableObject {
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
-
   playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-
-    if (this.img && this.img.complete) {
-      this.imageLoaded = true;
-    } else {
-      this.imageLoaded = false;
+    if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
+    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
+    const now = Date.now();
+    if (now - this.lastAnimationTime > this.animationSpeed) {
+      this.currentImage++;
+      if (this.currentImage >= images.length) this.currentImage = 0;
+      let path = images[this.currentImage];
+      this.img = this.imageCache[path];
+      this.lastAnimationTime = now;
     }
-    this.currentImage++;
   }
   moveRight() {
     this.x += this.speed;
+    if (this.IMAGES_WALKING) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
   }
 
   moveLeft() {
     this.x -= this.speed;
+    if (this.IMAGES_WALKING) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
   }
 
   jump() {
     this.speedY = 30;
+    if (this.IMAGES_JUMPING) {
+      this.playAnimation(this.IMAGES_JUMPING);
+    }
   }
 }

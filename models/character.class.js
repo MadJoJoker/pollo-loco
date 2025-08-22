@@ -1,10 +1,12 @@
 class Character extends MovableObject {
   height = 250;
+  width = 180;
   y = 180;
   x = 10;
   speed = 10;
+  animationSpeed = 50;
 
-  IMAGES_WALKING = [
+   IMAGES_WALKING = [
     "/assets/img/2_character_pepe/2_walk/W-21.png",
     "/assets/img/2_character_pepe/2_walk/W-22.png",
     "/assets/img/2_character_pepe/2_walk/W-23.png",
@@ -25,7 +27,15 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/3_jump/J-39.png",
   ];
 
-  IMAGES_DEAD = ["/assets/img/2_character_pepe/5_dead/D-51.png"];
+  IMAGES_DEAD = [
+    "/assets/img/2_character_pepe/5_dead/D-51.png",
+    "/assets/img/2_character_pepe/5_dead/D-52.png",
+    "/assets/img/2_character_pepe/5_dead/D-53.png",
+    "/assets/img/2_character_pepe/5_dead/D-54.png",
+    "/assets/img/2_character_pepe/5_dead/D-54.png",
+    "/assets/img/2_character_pepe/5_dead/D-56.png",
+    "/assets/img/2_character_pepe/5_dead/D-57.png",
+  ];
 
   IMAGES_HURT = [
     "/assets/img/2_character_pepe/4_hurt/H-41.png",
@@ -49,7 +59,7 @@ class Character extends MovableObject {
   }
   moveRight() {
     super.moveRight();
-    const stopX = this.world.level.level_end_x - 100;
+    const stopX = this.world.level.level_end_x - 180;
     if (this.x > stopX) {
       this.x = stopX;
     }
@@ -69,8 +79,11 @@ class Character extends MovableObject {
         this.moveLeft();
         this.otherDirection = true;
       }
-      if (this.world?.keyboard?.SPACE && this.isAboveGround()) {
+      if (this.world?.keyboard?.SPACE && !this.isAboveGround()) {
         this.jump();
+      }
+      if (this.isAboveGround() && this.IMAGES_JUMPING) {
+        this.playAnimation(this.IMAGES_JUMPING);
       }
     }, 1000 / 60);
   }
