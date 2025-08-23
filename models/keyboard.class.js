@@ -1,6 +1,5 @@
 class Keyboard {
   constructor() {
-    console.log("[DEBUG] Keyboard erstellt:", this);
   }
   LEFT = false;
   RIGHT = false;

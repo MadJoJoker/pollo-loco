@@ -10,7 +10,6 @@ class World {
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
   throwableObjects = [];
 
-
   constructor(canvas, keyboard) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
@@ -58,23 +57,25 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
+        this.healthBar.setPercentage(this.character.energy);
       }
     });
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.save();
     this.ctx.translate(-this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.enemies);
-    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.coins);
+    this.ctx.restore();
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
-    this.addToMap(this.bottle);
   }
 
   addObjectsToMap(objects) {

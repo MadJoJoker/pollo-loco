@@ -7,20 +7,16 @@ class DrawableObject {
   height = 150;
   width = 100;
 
-  constructor() {
-    console.log("[DEBUG] DrawableObject erstellt:", this);
-  }
+  constructor() {}
 
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
     this.img.onload = () => {
       this.imageLoaded = true;
-      console.log("[DEBUG] loadImage: Bild geladen", path);
     };
     this.img.onerror = () => {
       this.imageLoaded = false;
-      console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
     };
   }
 
@@ -33,19 +29,40 @@ class DrawableObject {
   }
 
   draw(ctx) {
-    if (this.img && this.img.complete) {
+    if (this.img && this.img.complete && this.imageLoaded) {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    } else {
-      console.warn("[DEBUG] draw() übersprungen, img nicht geladen:", this);
     }
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken|| this instanceof ChickenSmall) {
+    if (
+      this instanceof Character
+    ) {
       ctx.beginPath();
       ctx.lineWidth = "2";
       ctx.strokeStyle = "blue";
-      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.rect(this.x + 10 , this.y + 80, this.width - 25, this.height - 90);
+      ctx.stroke();
+    }
+    if (this instanceof Chicken) {
+      ctx.beginPath();
+      ctx.lineWidth = "2";
+      ctx.strokeStyle = "blue";
+      ctx.rect(this.x , this.y + 5, this.width, this.height - 15);
+      ctx.stroke();
+    }
+    if (this instanceof ChickenSmall) {
+      ctx.beginPath();
+      ctx.lineWidth = "2";
+      ctx.strokeStyle = "green";
+      ctx.rect(this.x + 7 , this.y + 5 , this.width - 15, this.height - 10);
+      ctx.stroke();
+    }
+     if (this instanceof Endboss) {
+      ctx.beginPath();
+      ctx.lineWidth = "2";
+      ctx.strokeStyle = "black";
+      ctx.rect(this.x + 7 , this.y + 60 , this.width - 10, this.height - 70);
       ctx.stroke();
     }
   }

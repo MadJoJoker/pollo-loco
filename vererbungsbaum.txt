@@ -1,0 +1,16 @@
+# Vererbungsbaum für pollo-loco
+
+DrawableObject
+│
+├─ MovableObject---------------│─ CollectibleObject
+│   ├─ Character                  ├─ Coin
+│   ├─ Chicken                    └─ Bottle
+│   ├─ ChickenSmall
+│   ├─ Endboss
+│   ├─ Cloud
+│   ├─ BackgroundObject
+│   └─ ThrowableObject
+│
+├─ StatusBar
+
+
