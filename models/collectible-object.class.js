@@ -50,6 +50,29 @@ class CollectibleObject extends MovableObject {
       ctx.strokeStyle = "purple";
       ctx.rect(this.x + 30, this.y + 15, this.width - 50, this.height - 20);
       ctx.stroke();
+
+      const centerX = this.x + this.width / 2;
+      const centerY = this.y + this.height / 2;
+      const radius = Math.min(this.width, this.height) / 2;
+      if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
+        let t = Date.now() / 300;
+        let gradient = ctx.createRadialGradient(
+          centerX,
+          centerY,
+          5,
+          centerX,
+          centerY,
+          radius
+        );
+        gradient.addColorStop(0, "rgba(255,255,255,0.7)");
+        gradient.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.globalAlpha = 0.2 + 0.2 * Math.sin(t);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
       ctx.restore();
     }
 
@@ -57,7 +80,7 @@ class CollectibleObject extends MovableObject {
       const centerX = this.x + this.width / 2;
       const centerY = this.y + this.height / 2;
       const radius = this.width / 2;
-      // Validate all values are finite and radius > 0
+
       if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
         ctx.save();
         ctx.beginPath();
