@@ -90,7 +90,7 @@ const backgroundObjects = [
 ];
 //ACHTUNG nach LAyer sorrtieren//
 const level1 = new Level(
-  [new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Endboss()],
+  [new Chicken(),new Chicken(),new Chicken(),new ChickenSmall(),new ChickenSmall(),new ChickenSmall(), new Endboss()],
   [new Cloud(), new Cloud(),new Cloud()],
   backgroundObjects,
   [new Bottle(),new Bottle(),new Bottle(),new Bottle(),new Bottle(),new Bottle(),],

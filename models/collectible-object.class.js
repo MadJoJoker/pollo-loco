@@ -11,6 +11,7 @@ class CollectibleObject extends MovableObject {
   animationSpeed = 120;
   collected = false;
   collectedItem = { bottles: 0, coins: 0 };
+  
 
   constructor() {
     super();
@@ -42,15 +43,18 @@ class CollectibleObject extends MovableObject {
     }
   }
 
-  drawFrame(ctx) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.lineWidth = "2";
-    ctx.strokeStyle = "red";
-    ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.stroke();
-    ctx.restore();
-  }
+  // drawFrame(ctx){
+  // if (
+  //   this instanceof Bottle ||
+  //   this instanceof Coin){
+  //   ctx.save();
+  //   ctx.beginPath();
+  //   ctx.lineWidth = "2";
+  //   ctx.strokeStyle = "red";
+  //   ctx.rect(this.x, this.y, this.width, this.height);
+  //   ctx.stroke();
+  //   ctx.restore();
+  // }
 
   animateScale(ctx, scale = 1.6, duration = 2000) {
     ctx.save();

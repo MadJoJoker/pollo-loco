@@ -9,7 +9,7 @@ class World {
   bottleBar = new StatusBar(10, 0, 100, 40, "bottle");
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
   throwableObjects = [];
-  
+
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;

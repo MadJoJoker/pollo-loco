@@ -49,7 +49,6 @@ class Character extends MovableObject {
   constructor(world) {
     super().loadImage("/assets/img/2_character_pepe/2_walk/W-21.png");
     this.world = world;
-    console.log("[DEBUG] Character erstellt:", { world });
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
     this.loadImages(this.IMAGES_DEAD);
