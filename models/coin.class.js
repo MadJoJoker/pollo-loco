@@ -26,6 +26,13 @@ class Coin extends CollectibleObject {
     "/assets/img/8_coin/coin_1.png",
     "/assets/img/8_coin/coin_2.png",
   ];
+ offset = {
+    top: 60,
+    bottom: 60,
+    left: 65,
+    right: 65,
+  };
+    
 
   constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
     super();

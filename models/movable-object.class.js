@@ -64,6 +64,22 @@ class MovableObject extends DrawableObject {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
   }
+  drawFrameOffset(ctx) {
+    if (this.offset) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.lineWidth = "2";
+      ctx.strokeStyle = "White";
+      ctx.rect(
+        this.x + this.offset.left,
+        this.y + this.offset.top,
+        this.width - this.offset.left - this.offset.right,
+        this.height - this.offset.top - this.offset.bottom
+      );
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
 
   // drawFrame(ctx) {
   //   if (
@@ -138,5 +154,4 @@ class MovableObject extends DrawableObject {
       this.playAnimation(this.IMAGES_JUMPING);
     }
   }
-
 }

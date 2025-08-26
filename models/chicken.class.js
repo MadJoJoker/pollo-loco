@@ -20,7 +20,12 @@ class Chicken extends MovableObject {
   this.loadImages(this.IMAGES_WALKING);
   this.animate();
   }
-
+  offset = {
+    top: 40,
+    bottom: 30,
+    left: 30,
+    right: 30,
+  };
 animate() {
   setInterval(() => {
     this.moveLeft();

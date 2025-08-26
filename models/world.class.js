@@ -19,7 +19,7 @@ class World {
     setInterval(() => {
       this.updateCamera();
       this.draw();
-    }, 1000 / 30);
+    }, 1000 / 60);
   }
   updateCamera() {
     const minCameraX = 0;
@@ -90,7 +90,9 @@ class World {
     }
     mo.draw(this.ctx);
     mo.drawFrame(this.ctx);
-
+    if (typeof mo.drawFrameOffset === "function") {
+      mo.drawFrameOffset(this.ctx);
+    }
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
