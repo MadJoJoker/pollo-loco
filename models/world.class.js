@@ -16,10 +16,116 @@ class World {
     this.keyboard = keyboard;
     this.setWorld();
     this.checkCollisions();
+    this.healthBar.setPercentage(100);
+    this.bottleBar.setPercentage(0);
+    this.coinBar.setPercentage(0);
     setInterval(() => {
       this.updateCamera();
       this.draw();
     }, 1000 / 60);
+
+    setInterval(() => {
+      this.checkCharacterChickenCollision();
+      if (this.level?.bottles) {
+        for (let i = this.level.bottles.length - 1; i >= 0; i--) {
+          const bottle = this.level.bottles[i];
+          if (this.isCollection(this.character, bottle)) {
+            this.character.bottles += 1;
+            this.level.bottles.splice(i, 1);
+            console.log("Bottle wurde eingesammelt!");
+            console.log(
+              "Coins:",
+              this.character.coins,
+              "Bottles:",
+              this.character.bottles
+            );
+            this.bottleBar.setPercentage(this.character.bottles);
+          }
+        }
+      }
+      if (this.level?.coins) {
+        for (let i = this.level.coins.length - 1; i >= 0; i--) {
+          const coin = this.level.coins[i];
+          if (this.isCollection(this.character, coin)) {
+            this.character.coins += 1;
+            this.level.coins.splice(i, 1);
+            console.log("character collected coin");
+            console.log(
+              "Coins:",
+              this.character.coins,
+              "Bottles:",
+              this.character.bottles
+            );
+            this.coinBar.setPercentage(this.character.coins);
+          }
+        }
+      }
+    }, 100);
+  }
+
+  isCollection(character, collectible) {
+    const a = {
+      left: character.x + (character.offset?.left || 0),
+      right: character.x + character.width - (character.offset?.right || 0),
+      top: character.y + (character.offset?.top || 0),
+      bottom: character.y + character.height - (character.offset?.bottom || 0),
+    };
+    const b = {
+      left: collectible.x + (collectible.offset?.left || 0),
+      right:
+        collectible.x + collectible.width - (collectible.offset?.right || 0),
+      top: collectible.y + (collectible.offset?.top || 0),
+      bottom:
+        collectible.y + collectible.height - (collectible.offset?.bottom || 0),
+    };
+    return (
+      a.left < b.right &&
+      a.right > b.left &&
+      a.top < b.bottom &&
+      a.bottom > b.top
+    );
+  }
+
+  checkCharacterChickenCollision() {
+    if (!this.level?.enemies || !this.character) return;
+    this.level.enemies.forEach((enemy) => {
+      if (
+        enemy instanceof Chicken ||
+        enemy instanceof ChickenSmall ||
+        enemy instanceof Endboss
+      ) {
+        if (this.isOffsetColliding(this.character, enemy)) {
+          if (enemy instanceof Chicken) {
+            console.log("character hittet by chicken");
+          } else if (enemy instanceof ChickenSmall) {
+            console.log("character hittet by small chicken");
+          } else if (enemy instanceof Endboss) {
+            console.log("character hittet by endboss");
+          }
+        }
+      }
+    });
+  }
+
+  isOffsetColliding(objA, objB) {
+    const a = {
+      left: objA.x + (objA.offset?.left || 0),
+      right: objA.x + objA.width - (objA.offset?.right || 0),
+      top: objA.y + (objA.offset?.top || 0),
+      bottom: objA.y + objA.height - (objA.offset?.bottom || 0),
+    };
+    const b = {
+      left: objB.x + (objB.offset?.left || 0),
+      right: objB.x + objB.width - (objB.offset?.right || 0),
+      top: objB.y + (objB.offset?.top || 0),
+      bottom: objB.y + objB.height - (objB.offset?.bottom || 0),
+    };
+    return (
+      a.left < b.right &&
+      a.right > b.left &&
+      a.top < b.bottom &&
+      a.bottom > b.top
+    );
   }
   updateCamera() {
     const minCameraX = 0;

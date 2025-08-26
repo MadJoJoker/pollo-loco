@@ -9,12 +9,22 @@ body {
   background-size: 100% 100%;
   min-height: 100vh;
   font-family: "GringoNights";
-  text-align: center;
+  justify-content: center;
+
 }
 canvas {
   background-color: black;
   display: block;
- 
+
+}
+#fullscreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+h1{
+  font-size: 65px;
 }
 @font-face {
   font-family: "GringoNights";

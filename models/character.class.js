@@ -5,6 +5,12 @@ class Character extends MovableObject {
   x = 10;
   speed = 10;
   animationSpeed = 50;
+  damage = 10;
+  lastAttack = 0;
+  bottles = 0;
+  coins = 0;
+  throwBottles = [];
+  lastHit;
 
   IMAGES_WALKING = [
     "/assets/img/2_character_pepe/2_walk/W-21.png",
@@ -102,6 +108,14 @@ class Character extends MovableObject {
 
     setInterval(() => {
       let actionHappened = false;
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+        return;
+      }
+      if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+        return;
+      }
       if (
         this.world?.keyboard?.RIGHT &&
         this.x < this.world.level.level_end_x
@@ -148,115 +162,4 @@ class Character extends MovableObject {
       }
     }, 300);
   }
-
-  // damage = 20;
-  // height = 250;
-  // x = 0;
-  // y = 80;
-  // speedX = 5;
-  // groundPos = 171;
-
-  // lastIdle = new Date().getTime();
-  // lastAttack = 0;
-
-  // bottles = 0;
-  // coins = 0;
-  // throwBottles = [];
-
-  // AUDIOS = CHARACTER_ASSETS["AUDIOS"];
-  // IMAGES = CHARACTER_ASSETS["IMAGES"];
-  // PROPERTIES = CHARACTER_ASSETS["PROPERTIES"];
-
-  // keyboard;
-  // lastIdle = 0;
-  // launching = false;
-  // attacking = false;
-  // landed = false;
-
-  // moveRight() {
-  //   this.lastIdle = 0;
-  //   super.moveRight();
-  //   super.otherDirection = false;
-  // }
-
-  // canMoveLeft() {
-  //   return (
-  //     this.isMovingLeft() &&
-  //     this.x > 0 &&
-  //     !(this.launching || this.attacking || this.landed)
-  //   );
-  // }
-
-  // isMovingRight() {
-  //   return this.keyboard.RIGHT; // Poor Control should be fixed, this does not...
-  // }
-
-  // moveLeft() {
-  //   this.lastIdle = 0;
-  //   super.moveLeft();
-  //   super.otherDirection = true;
-  // }
-
-  // isMovingLeft() {
-  //   return this.keyboard.LEFT; // Poor Control should be fixed, this does not...
-  // }
-
-  // canLaunch() {
-  //   return this.keyboard.SPACE && (super.isAboveGround() || this.launching);
-  // }
-
-  // /**
-  //  * @param {number} groundPos - new groundPos
-  //  */
-  // launch(groundPos) {
-  //   this.lastIdle = 0;
-  //   super.launch(groundPos);
-  // }
-
-  // land() {
-  //   this.lastIdle = 0;
-  //   super.land();
-  // }
-
-  // canAttack() {
-  //   return (
-  //     this.keyboard.D &&
-  //     this.keyboard.THROW_REQUEST_START > this.keyboard.THROW_REQUEST_STOP
-  //   );
-  // }
-
-  // stopAnimate() {
-  //   super.stopGravity();
-  //   super.stopAnimate();
-  // }
-
-  // move(timeStamp) {
-  //   if (this.moveCharTime === undefined) {
-  //     this.moveCharTime = timeStamp;
-  //   }
-  //   const elapse = timeStamp - this.moveCharTime;
-  //   if (elapse > FRAMES_TIME) {
-  //     this.moveCharTime = timeStamp;
-  //     super.move(timeStamp);
-  //   }
-  // }
-
-  // moveCharacter(timeStamp) {
-  //   if (!super.isKilled()) {
-  //     if (this.canMoveRight()) {
-  //       this.moveRight();
-  //     }
-  //     if (this.canMoveLeft()) {
-  //       this.moveLeft();
-  //     }
-  //     if (this.canLaunch()) {
-  //       this.launch();
-  //     }
-  //     if (this.canAttack()) {
-  //       this.attack();
-  //     }
-  //   } else {
-  //     // ...
-  //   }
-  // }
 }

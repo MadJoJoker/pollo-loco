@@ -35,15 +35,12 @@ class Bottle extends CollectibleObject {
     this.loadImage(this.IMAGES_USED[0]);
     this.animate();
   }
-   offset = {
-    top: 90,
-    bottom: 80,
-    left: 50,
-    right: 35,
-  };// this.x + this.offset.left,
-    //     this.y + this.offset.top,
-    //     this.width - this.offset.left - this.offset.right,
-    //     this.height - this.offset.top - this.offset.bottom
+  offset = {
+    top: 30,
+    bottom: 20,
+    left: 40,
+    right: 40,
+  };
   animate() {
     setInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.IMAGES_USED.length;

@@ -8,28 +8,28 @@ class StatusBar extends DrawableObject {
   imageCache_COINS = [];
 
   IMAGES_HEALTH = [
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png", // 0
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png", // 1
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png", // 2
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png", // 3
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png", // 4
-    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png", // 5
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png",
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png",
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png",
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png",
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
+    "/assets/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
   ];
   IMAGES_BOTTLES = [
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png", // 0
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png", // 1
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png", // 2
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png", // 3
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png", // 4
-    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png", // 5
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png",
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png",
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png",
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png",
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png",
+    "/assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png",
   ];
   IMAGES_COINS = [
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png", // 0
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png", // 1
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png", // 2
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png", // 3
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png", // 4
-    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png", // 5
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png",
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png",
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png",
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/60.png",
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
+    "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
 
   constructor(x = 20, y = 0, width = 150, height = 50, type = "health") {
@@ -42,12 +42,35 @@ class StatusBar extends DrawableObject {
     if (type === "bottle") this.IMAGES_USED = this.IMAGES_BOTTLES;
     if (type === "coin") this.IMAGES_USED = this.IMAGES_COINS;
     this.loadImages(this.IMAGES_USED);
-    this.loadImage(this.IMAGES_USED[5]); // ensures imageLoaded is set
+    this.loadImage(this.IMAGES_USED[5]);
   }
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES_USED[this.resolveImageIndex()];
-    this.loadImage(path); // ensures imageLoaded is set
+    this.loadImage(path);
+  }
+  draw(ctx) {
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    ctx.font = "24px 'GringoNights', Arial, sans-serif";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "right";
+    if (
+      this.IMAGES_USED === this.IMAGES_BOTTLES ||
+      this.IMAGES_USED === this.IMAGES_COINS
+    ) {
+      ctx.fillText(
+        this.percentage === 0 ? "0" : String(this.percentage),
+        this.x + this.width - 10,
+        this.y + this.height / 2 + 8
+      );
+    }
+    if (this.IMAGES_USED === this.IMAGES_HEALTH) {
+      ctx.fillText(
+        `${this.percentage}%`,
+        this.x + this.width - 10,
+        this.y + this.height / 2 + 8
+      );
+    }
   }
 
   resolveImageIndex() {
