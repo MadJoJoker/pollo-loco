@@ -178,6 +178,7 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.character.throwBottles);
     this.ctx.restore();
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);

@@ -106,6 +106,7 @@ class Character extends MovableObject {
     let idleStartTime = Date.now();
     let isIdleLongActive = false;
 
+    let canThrowBottle = true;
     setInterval(() => {
       let actionHappened = false;
       if (this.isDead()) {
@@ -135,6 +136,26 @@ class Character extends MovableObject {
         this.jump();
         this.playAnimation(this.IMAGES_JUMPING);
         actionHappened = true;
+      }
+      if (this.world?.keyboard?.D && canThrowBottle) {
+        const bottleX = this.otherDirection
+          ? this.x + this.offset.left // links
+          : this.x + this.width - this.offset.right; // rechts
+        const bottleY = this.y + this.height / 2;
+        const bottle = new ThrowableObject(
+          bottleX,
+          bottleY,
+          this.otherDirection
+        );
+        bottle.throw();
+        if (this.throwBottles) {
+          this.throwBottles.push(bottle);
+        }
+        canThrowBottle = false;
+        actionHappened = true;
+      }
+      if (!this.world?.keyboard?.D) {
+        canThrowBottle = true;
       }
       if (this.isAboveGround() && this.IMAGES_JUMPING) {
         this.playAnimation(this.IMAGES_JUMPING);

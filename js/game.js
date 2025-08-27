@@ -9,42 +9,54 @@ function init() {
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode === 39) {
+    // Pfeil rechts
     keyboard.RIGHT = true;
   }
   if (e.keyCode === 37) {
+    // Pfeil links
     keyboard.LEFT = true;
   }
   if (e.keyCode === 38) {
+    // Pfeil oben
     keyboard.UP = true;
   }
   if (e.keyCode === 40) {
+    // Pfeil unten
     keyboard.DOWN = true;
   }
   if (e.keyCode === 32) {
+    // Leertaste
     keyboard.SPACE = true;
   }
   if (e.keyCode === 68) {
-    keyboard.SPACE = true;
+    // D
+    keyboard.D = true;
   }
 });
 window.addEventListener("keyup", (e) => {
   if (e.keyCode === 39) {
+    // Pfeil rechts
     keyboard.RIGHT = false;
   }
   if (e.keyCode === 37) {
+    // Pfeil links
     keyboard.LEFT = false;
   }
   if (e.keyCode === 38) {
+    // Pfeil oben
     keyboard.UP = false;
   }
   if (e.keyCode === 40) {
+    // Pfeil unten
     keyboard.DOWN = false;
   }
   if (e.keyCode === 32) {
+    // Leertaste
     keyboard.SPACE = false;
   }
   if (e.keyCode === 68) {
-    keyboard.SPACE = false;
+    // D
+    keyboard.D = false;
   }
 });
 // let intervalIds = [];

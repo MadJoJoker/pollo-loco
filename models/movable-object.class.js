@@ -52,6 +52,7 @@ class MovableObject extends DrawableObject {
   }
 
   loadImages(arr) {
+    if (!Array.isArray(arr) || arr.length === 0) return;
     arr.forEach((path) => {
       let img = new Image();
       img.src = path;
