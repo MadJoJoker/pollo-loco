@@ -1,3 +1,4 @@
+
 const buttonIds = [
   "startGame",
   "highscoreButton",
@@ -53,6 +54,21 @@ const buttonListeners = {
     },
   },
 };
+
+//Eventlistener
+window.addEventListener("resize", updateCanvasFullscreenBtn);
+updateCanvasFullscreenBtn();
+
+document
+  .getElementById("canvasFullscreenButton")
+  .addEventListener("click", function () {
+    if (typeof fullscreen === "function") fullscreen();
+  });
+
+checkMobileButtonsBar();
+
+window.addEventListener("resize", checkMobileButtonsBar);
+
 
 function addMobileButtonListeners() {
   Object.keys(buttonListeners).forEach((id) => {
@@ -128,13 +144,11 @@ function updateCanvasFullscreenBtn() {
     }
   }
 }
-window.addEventListener("resize", updateCanvasFullscreenBtn);
-updateCanvasFullscreenBtn();
+function showRotateScreen() {
+  document.getElementById("extrascreens").classList.remove("hidden");
+  document.getElementById("rotateScreen").classList.remove("hidden");
+}
 
-document.getElementById("canvasFullscreenButton").addEventListener("click", function() {
-  if (typeof fullscreen === "function") fullscreen();
-});
-
-checkMobileButtonsBar();
-
-window.addEventListener("resize", checkMobileButtonsBar);
+function hideRotateScreen() {
+  document.getElementById("rotateScreen").classList.add("hidden");
+}
