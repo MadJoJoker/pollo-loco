@@ -95,13 +95,7 @@ class Character extends MovableObject {
     left: 60,
     right: 60,
   };
-  moveRight() {
-    super.moveRight();
-    const stopX = this.world.level.level_end_x - 180;
-    if (this.x > stopX) {
-      this.x = stopX;
-    }
-  }
+
   animate() {
     let idleStartTime = Date.now();
     let isIdleLongActive = false;
@@ -109,6 +103,17 @@ class Character extends MovableObject {
     let canThrowBottle = true;
     setInterval(() => {
       let actionHappened = false;
+      if (
+        this.world &&
+        this.world.chickens &&
+        Array.isArray(this.world.chickens)
+      ) {
+        this.world.chickens.forEach((chicken) => {
+          if (this.isColliding(chicken) && !this.isHurt()) {
+            this.hit();
+          }
+        });
+      }
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         return;
@@ -169,6 +174,8 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if (
+        !this.isDead() &&
+        !this.isHurt() &&
         !this.world?.keyboard?.RIGHT &&
         !this.world?.keyboard?.LEFT &&
         !this.world?.keyboard?.SPACE &&
@@ -182,5 +189,12 @@ class Character extends MovableObject {
         }
       }
     }, 300);
+  }
+  moveRight() {
+    super.moveRight();
+    const stopX = this.world.level.level_end_x - 180;
+    if (this.x > stopX) {
+      this.x = stopX;
+    }
   }
 }

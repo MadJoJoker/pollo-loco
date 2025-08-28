@@ -1,23 +1,6 @@
 class Coin extends CollectibleObject {
 
-  static randomArcCoins(arcs = 3) {
-    const coins = [];
-    function randomArcParams() {
-      const startX = 50 + Math.random() * 1000;
-      const endX = startX + 400 + Math.random() * 400;
-      const peakY = 50 + Math.random() * 40;
-      const baseY = 140 + Math.random() * 40;
-      const count = 1 + Math.floor(Math.random() * 5);
-      return { startX, endX, peakY, baseY, count };
-    }
-    for (let arc = 0; arc < arcs; arc++) {
-      const params = randomArcParams();
-      for (let i = 0; i < params.count; i++) {
-        coins.push(new Coin(undefined, undefined, { ...params, index: i }));
-      }
-    }
-    return coins;
-  }
+
   height = 145;
   width = 145;
   y = 210;
@@ -32,7 +15,7 @@ class Coin extends CollectibleObject {
     left: 65,
     right: 65,
   };
-    
+
 
   constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
     super();
@@ -57,5 +40,23 @@ class Coin extends CollectibleObject {
       let path = this.IMAGES_WALKING[this.currentImage];
       this.img = this.imageCache[path];
     }, this.animationSpeed);
+  }
+  static randomArcCoins(arcs = 3) {
+    const coins = [];
+    function randomArcParams() {
+      const startX = 50 + Math.random() * 1000;
+      const endX = startX + 400 + Math.random() * 400;
+      const peakY = 50 + Math.random() * 40;
+      const baseY = 140 + Math.random() * 40;
+      const count = 1 + Math.floor(Math.random() * 5);
+      return { startX, endX, peakY, baseY, count };
+    }
+    for (let arc = 0; arc < arcs; arc++) {
+      const params = randomArcParams();
+      for (let i = 0; i < params.count; i++) {
+        coins.push(new Coin(undefined, undefined, { ...params, index: i }));
+      }
+    }
+    return coins;
   }
 }

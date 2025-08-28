@@ -110,6 +110,18 @@ class CollectibleObject extends MovableObject {
       }
     }
   }
+  playAnimation(images) {
+    if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
+    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
+    const now = Date.now();
+    if (now - this.lastAnimationTime > this.animationSpeed) {
+      this.currentImage++;
+      if (this.currentImage >= images.length) this.currentImage = 0;
+      let path = images[this.currentImage];
+      this.img = this.imageCache[path];
+      this.lastAnimationTime = now;
+    }
+  }
 
   animateScale(ctx, scale = 1.6, duration = 2000) {
     ctx.save();
@@ -139,32 +151,11 @@ class CollectibleObject extends MovableObject {
     return this.collected;
   }
 
-  collect(type) {
-    // if (!this.collected) {
-    //   this.collected = true;
-    //   if (type === "bottle") {
-    //     this.collectedItem.bottles++;
-    //   } else if (type === "coin") {
-    //     this.collectedItem.coins++;
-    //   }
-    // Sound
-  }
 
   isCollactable() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < 1;
   }
-  playAnimation(images) {
-    if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
-    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
-    const now = Date.now();
-    if (now - this.lastAnimationTime > this.animationSpeed) {
-      this.currentImage++;
-      if (this.currentImage >= images.length) this.currentImage = 0;
-      let path = images[this.currentImage];
-      this.img = this.imageCache[path];
-      this.lastAnimationTime = now;
-    }
-  }
+
 }

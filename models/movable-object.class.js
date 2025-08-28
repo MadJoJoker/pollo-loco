@@ -11,34 +11,13 @@ class MovableObject extends DrawableObject {
   otherDirection = false;
   acceleration = 2.5;
   animationSpeed = 120;
-
+  energy = 100;
+  lastHit = 0;
+  hit = 0;
   constructor() {
     super();
     this.loadImage;
   }
-
-  // energy = 100;
-  // lastHit = 0;
-  // hit = 0;
-
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25);
-  }
-  isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else if (this instanceof Character) {
-      return this.y < 180;
-    } else {
-      return false;
-    }
-  }
-
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
@@ -82,21 +61,40 @@ class MovableObject extends DrawableObject {
     }
   }
 
-  // drawFrame(ctx) {
-  //   if (
-  //     this instanceof Character ||
-  //     this instanceof Chicken ||
-  //     this instanceof Endboss || ChickenSmall
-  //   ) {
-  //     ctx.beginPath();
-  //     ctx.lineWidth = "2";
-  //     ctx.strokeStyle = "blue";
-  //     ctx.rect(this.x, this.y, this.width, this.height);
-  //     ctx.stroke();
-  //   }
-  // }
 
-  isColliding(mo) {
+
+  playAnimation(images) {
+    if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
+    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
+    const now = Date.now();
+    if (now - this.lastAnimationTime > this.animationSpeed) {
+      this.currentImage++;
+      if (this.currentImage >= images.length) this.currentImage = 0;
+      let path = images[this.currentImage];
+      this.img = this.imageCache[path];
+      this.lastAnimationTime = now;
+    }
+  }
+
+ applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25);
+  }
+  isAboveGround() {
+    if (this instanceof ThrowableObject) {
+      return true;
+    } else if (this instanceof Character) {
+      return this.y < 180;
+    } else {
+      return false;
+    }
+  }
+
+    isColliding(mo) {
     return (
       this.x + this.width > mo.x &&
       this.y + this.height > mo.y &&
@@ -121,19 +119,7 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
-    return timepassed < 1;
-  }
-  playAnimation(images) {
-    if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
-    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
-    const now = Date.now();
-    if (now - this.lastAnimationTime > this.animationSpeed) {
-      this.currentImage++;
-      if (this.currentImage >= images.length) this.currentImage = 0;
-      let path = images[this.currentImage];
-      this.img = this.imageCache[path];
-      this.lastAnimationTime = now;
-    }
+    return timepassed < 1.5;
   }
   moveRight() {
     this.x += this.speed;
@@ -156,3 +142,16 @@ class MovableObject extends DrawableObject {
     }
   }
 }
+ // drawFrame(ctx) {
+  //   if (
+  //     this instanceof Character ||
+  //     this instanceof Chicken ||
+  //     this instanceof Endboss || ChickenSmall
+  //   ) {
+  //     ctx.beginPath();
+  //     ctx.lineWidth = "2";
+  //     ctx.strokeStyle = "blue";
+  //     ctx.rect(this.x, this.y, this.width, this.height);
+  //     ctx.stroke();
+  //   }
+  // }

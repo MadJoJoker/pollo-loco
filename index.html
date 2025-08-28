@@ -15,9 +15,39 @@
   <body onload="init()">
     <div id="fullscreen">
       <h1>El Pollo Loco - chicken Tabasco</h1>
-      <canvas id="canvas" width="720" height="480"></canvas>
+      <canvas id="canvas" width="720" height="480"> </canvas>
+      <div id="canvasFullscreenBtn" class="canvas-fullscreen-btn hidden">
+        <button id="canvasFullscreenButton">Fullscreen</button>
+      </div>
     </div>
+    <div id="extrascreens" class="extrascreens hidden">
+      <div id="startscreen" class="startscreen">
+        <button id="startGame">Start EL Gameos</button>
+        <button id="highscoreButton">Highscore Heroes</button>
+      </div>
+      <div id="highscore" class="highscore hidden">
+        <button id="startGame">Start EL Gameos</button>
+        <button id="backButton">Back</button>
+      </div>
+      <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
+        <div id="leftButtons" class="mobile-buttons">
+          <button id="leftButton">links</button>
+          <button id="rightButton">rechts</button>
+        </div>
 
+        <div id="middleButtons" class="mobile-buttons">
+          <button id="jumpButton">jump</button>
+          <button id="throwButton">throw</button>
+        </div>
+
+        <div id="rightButtons" class="mobile-buttons">
+          <button id="pauseButton">pause</button>
+          <button id="muteButton">mute</button>
+
+          <button id="fullscreenButton">fullscreen</button>
+        </div>
+      </div>
+    </div>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -45,5 +75,6 @@
     <script src="js/fullscreen.js"></script>
 
     <script src="js/game.js"></script>
+    <script src="js/extra-screens.js"></script>
   </body>
 </html>

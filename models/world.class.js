@@ -174,10 +174,10 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
-    this.addToMap(this.character);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.coins);
+    this.addToMap(this.character);
     this.addObjectsToMap(this.character.throwBottles);
     this.ctx.restore();
     this.addToMap(this.healthBar);

@@ -1,6 +1,11 @@
 let canvas;
 let world;
-let keyboard = new Keyboard();
+window.keyboard = new Keyboard();
+
+document.addEventListener("contextmenu", function (e) {
+  //Kontextmenü
+  e.preventDefault();
+});
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -59,6 +64,18 @@ window.addEventListener("keyup", (e) => {
     keyboard.D = false;
   }
 });
+
+document.addEventListener("keydown", function (e) {
+  if (
+    (document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.msFullscreenElement) &&
+    (e.code === "Space" || e.keyCode === 32)
+  ) {
+    e.preventDefault();
+  }
+});
+
 // let intervalIds = [];
 
 // function setStoppableInterval(fn, time) {

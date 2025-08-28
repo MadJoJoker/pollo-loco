@@ -58,10 +58,7 @@ class Endboss extends MovableObject {
     bottom: 80,
     left: 50,
     right: 35,
-  }; // this.x + this.offset.left,
-  //     this.y + this.offset.top,
-  //     this.width - this.offset.left - this.offset.right,
-  //     this.height - this.offset.top - this.offset.bottom
+  }; 
   animate() {
     setInterval(() => {
       if (
