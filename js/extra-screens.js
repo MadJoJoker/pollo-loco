@@ -1,4 +1,3 @@
-
 const buttonIds = [
   "startGame",
   "highscoreButton",
@@ -69,7 +68,6 @@ checkMobileButtonsBar();
 
 window.addEventListener("resize", checkMobileButtonsBar);
 
-
 function addMobileButtonListeners() {
   Object.keys(buttonListeners).forEach((id) => {
     const btn = document.getElementById(id);
@@ -118,7 +116,8 @@ function showScreen(screenId) {
 }
 
 function checkMobileButtonsBar() {
-  if (window.innerWidth <= 720) {
+  const isFullscreen = document.fullscreenElement !== null;
+  if (window.innerWidth < 721 || isFullscreen) {
     showScreen("mobileButtonsBar");
   } else {
     const screens = [
@@ -133,6 +132,8 @@ function checkMobileButtonsBar() {
     });
   }
 }
+document.addEventListener("fullscreenchange", checkMobileButtonsBar);
+
 function updateCanvasFullscreenBtn() {
   const mobileBar = document.getElementById("mobileButtonsBar");
   const canvasBtn = document.getElementById("canvasFullscreenBtn");

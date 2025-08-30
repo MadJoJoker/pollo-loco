@@ -56,7 +56,14 @@ class World {
               "Bottles:",
               this.character.bottles
             );
-            this.coinBar.setPercentage(this.character.coins);
+            console.log("Total Coins (created):", Coin.getTotalCoins());
+            let totalCoins = Coin.getTotalCoins();
+            let collectedCoins = this.character.coins;
+            let percent =
+              totalCoins > 0
+                ? Math.round((collectedCoins / totalCoins) * 100)
+                : 0;
+            this.coinBar.setPercentage(percent);
           }
         }
       }
@@ -97,10 +104,22 @@ class World {
         if (this.isOffsetColliding(this.character, enemy)) {
           if (enemy instanceof Chicken) {
             console.log("character hittet by chicken");
+            this.character.isHurt();
+            this.character.hit();
+            this.healthBar.setPercentage(this.character.energy);
+            console.log(this.character.energy + "Energie");
           } else if (enemy instanceof ChickenSmall) {
             console.log("character hittet by small chicken");
+            this.character.isHurt();
+            this.character.hit();
+            this.healthBar.setPercentage(this.character.energy);
+            console.log(this.character.energy + "Energie");
           } else if (enemy instanceof Endboss) {
             console.log("character hittet by endboss");
+            this.character.isHurt();
+            this.character.hit();
+            console.log(this.character.energy + "Energie");
+            this.healthBar.setPercentage(this.character.energy);
           }
         }
       }

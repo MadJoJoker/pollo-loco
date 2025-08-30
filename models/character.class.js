@@ -11,6 +11,7 @@ class Character extends MovableObject {
   coins = 0;
   throwBottles = [];
   lastHit;
+  energy = 100;
 
   IMAGES_WALKING = [
     "/assets/img/2_character_pepe/2_walk/W-21.png",
@@ -120,7 +121,7 @@ class Character extends MovableObject {
       }
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
-        return;
+
       }
       if (
         this.world?.keyboard?.RIGHT &&
@@ -144,8 +145,8 @@ class Character extends MovableObject {
       }
       if (this.world?.keyboard?.D && canThrowBottle) {
         const bottleX = this.otherDirection
-          ? this.x + this.offset.left // links
-          : this.x + this.width - this.offset.right; // rechts
+          ? this.x + this.offset.left
+          : this.x + this.width - this.offset.right;
         const bottleY = this.y + this.height / 2;
         const bottle = new ThrowableObject(
           bottleX,
@@ -181,7 +182,7 @@ class Character extends MovableObject {
         !this.world?.keyboard?.SPACE &&
         !this.isAboveGround()
       ) {
-        if (Date.now() - idleStartTime > 3000) {
+        if (Date.now() - idleStartTime > 5000) {
           this.playAnimation(this.IMAGES_IDLE_LONG);
           isIdleLongActive = true;
         } else {
@@ -196,5 +197,12 @@ class Character extends MovableObject {
     if (this.x > stopX) {
       this.x = stopX;
     }
+  }
+
+  hit() {
+    return super.hit();
+  }
+  isHurt() {
+    return super.isHurt();
   }
 }

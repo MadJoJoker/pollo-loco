@@ -86,7 +86,6 @@ const backgroundObjects = [
     0
   ),
 ];
-//ACHTUNG nach LAyer sorrtieren//
 const level1 = new Level(
   [
     new Chicken(),

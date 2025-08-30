@@ -1,5 +1,5 @@
 class Coin extends CollectibleObject {
-
+  static totalCoins = 0;
 
   height = 145;
   width = 145;
@@ -9,13 +9,12 @@ class Coin extends CollectibleObject {
     "/assets/img/8_coin/coin_1.png",
     "/assets/img/8_coin/coin_2.png",
   ];
- offset = {
+  offset = {
     top: 60,
     bottom: 60,
     left: 65,
     right: 65,
   };
-
 
   constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
     super();
@@ -32,6 +31,7 @@ class Coin extends CollectibleObject {
     this.loadImage("/assets/img/8_coin/coin_1.png");
     this.loadImages(this.IMAGES_WALKING);
     this.animate();
+    Coin.totalCoins++;
   }
 
   animate() {
@@ -58,5 +58,9 @@ class Coin extends CollectibleObject {
       }
     }
     return coins;
+  }
+
+  static getTotalCoins() {
+    return Coin.totalCoins;
   }
 }

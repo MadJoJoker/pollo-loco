@@ -13,7 +13,7 @@ class MovableObject extends DrawableObject {
   animationSpeed = 120;
   energy = 100;
   lastHit = 0;
-  hit = 0;
+  // hit = 0;
   constructor() {
     super();
     this.loadImage;
@@ -119,7 +119,7 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
-    return timepassed < 1.5;
+    return timepassed < 0.2;
   }
   moveRight() {
     this.x += this.speed;

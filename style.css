@@ -17,26 +17,15 @@ body {
   font-family: "GringoNights";
   src: url("/assets/fonts/gringo-nights/GringoNights.ttf") format("truetype");
 }
-canvas,
-#fullscreen,
-.rotate-screen,
-.extrascreens,
-.mobile-buttons-bar,
-.highscore,
-.startscreen {
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow: hidden;
-}
+
 .hidden {
   display: none !important;
 }
 canvas {
   background-color: black;
   display: block;
+  border-radius: 25px;
+  border: solid 5px rgba(204, 119, 34, 0.8);
 }
 #fullscreen:fullscreen h1 {
   display: none !important;
@@ -79,6 +68,10 @@ h1 {
   font-size: 65px;
 }
 .mobile-buttons-bar {
+ position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 5%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -150,6 +143,7 @@ h1 {
     width: 100vw;
     max-width: 100vw;
   }
+
 }
 
 @media only screen and (max-height: 480px) {
