@@ -154,8 +154,13 @@ class World {
       this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
     }
   }
-  setWorld() {
+   setWorld() {
     this.character.world = this;
+    if (this.level?.enemies) {
+      this.level.enemies.forEach(enemy => {
+        enemy.world = this;
+      });
+    }
   }
 
   run() {

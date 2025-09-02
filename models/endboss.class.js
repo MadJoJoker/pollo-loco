@@ -41,41 +41,71 @@ class Endboss extends MovableObject {
     "/assets/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-  constructor() {
+  constructor(level_end_x, level) {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-
     this.x = 1900;
+
+    this.level = level;
+    this.level_end_x = level_end_x;
     this.animate();
     this.animationSpeed = 750;
+    this.isWalking = false;
+    this.isAttacking = false;
+    this.setRandomAction();
   }
   offset = {
     top: 90,
     bottom: 80,
     left: 50,
     right: 35,
-  }; 
+  };
+  setRandomAction() {
+    setInterval(() => {
+      const action = Math.floor(Math.random() * 3);
+      this.isWalking = action === 1;
+      this.isAttacking = action === 2;
+      console.log("[Endboss] setRandomAction:", {
+        action,
+        isWalking: this.isWalking,
+        isAttacking: this.isAttacking,
+      });
+    }, 3000);
+  }
+
   animate() {
     setInterval(() => {
-      if (
+      const inRange =
         this.world &&
         this.world.character &&
-        this.world.character.x >= this.world.level.level_end_x - 710
-      ) {
-        this.playAnimation(this.IMAGES_ALERT);
-      }
+        this.world.character.x >= this.level_end_x - 710;
 
-      if (this.isWalking) {
-        this.moveLeft();
-        this.playAnimation(this.IMAGES_WALKING);
-      }
-      if (this.isAttacking) {
+      const oldX = this.x;
+      const oldY = this.y;
+
+      if (inRange && this.isAttacking) {
         this.jump();
         this.playAnimation(this.IMAGES_ATTACK);
+        // this.y -= 5;
+        // this.y = oldY;
+      } else if (inRange && this.isWalking) {
+        this.moveLeft();
+        this.playAnimation(this.IMAGES_WALKING);
+        this.x -= 10;
+        this.shouldMoveRight = true;
+      } else if (this.shouldMoveRight) {
+        if (this.x + 10 < 1900) {
+          this.moveRight();
+          this.x += 10;
+        } else {
+          this.shouldMoveRight = false; 
+        }
+      } else if (inRange) {
+        this.playAnimation(this.IMAGES_ALERT);
       }
     }, this.animationSpeed);
   }
