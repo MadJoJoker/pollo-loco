@@ -53,9 +53,10 @@ class Endboss extends MovableObject {
     this.level = level;
     this.level_end_x = level_end_x;
     this.animate();
-    this.animationSpeed = 750;
+    this.animationSpeed = 110;
     this.isWalking = false;
     this.isAttacking = false;
+    this.isDeadNow = false;
     this.setRandomAction();
   }
   offset = {
@@ -74,7 +75,7 @@ class Endboss extends MovableObject {
         isWalking: this.isWalking,
         isAttacking: this.isAttacking,
       });
-    }, 3000);
+    }, 1000);
   }
 
   animate() {
@@ -88,24 +89,35 @@ class Endboss extends MovableObject {
       const oldY = this.y;
 
       if (inRange && this.isAttacking) {
+        this.animationSpeed = 170;
+
         this.jump();
         this.playAnimation(this.IMAGES_ATTACK);
         // this.y -= 5;
         // this.y = oldY;
+        this.animationSpeed = 110;
       } else if (inRange && this.isWalking) {
+        this.otherDirection = false;
         this.moveLeft();
         this.playAnimation(this.IMAGES_WALKING);
         this.x -= 10;
         this.shouldMoveRight = true;
       } else if (this.shouldMoveRight) {
         if (this.x + 10 < 1900) {
+          this.otherDirection = true;
           this.moveRight();
           this.x += 10;
         } else {
-          this.shouldMoveRight = false; 
+          this.shouldMoveRight = false;
         }
+      } else if (inRange && this.isDeadNow) {
+        this.isDead();
+        this.playAnimation(this.IMAGES_DEAD);
       } else if (inRange) {
+        this.animationSpeed = 170;
+
         this.playAnimation(this.IMAGES_ALERT);
+        this.animationSpeed = 110;
       }
     }, this.animationSpeed);
   }
