@@ -4,17 +4,11 @@ class Coin extends CollectibleObject {
   height = 145;
   width = 145;
   y = 210;
-
   IMAGES_WALKING = [
     "/assets/img/8_coin/coin_1.png",
     "/assets/img/8_coin/coin_2.png",
   ];
-  offset = {
-    top: 60,
-    bottom: 60,
-    left: 65,
-    right: 65,
-  };
+  offset = { top: 60, bottom: 60, left: 65, right: 65 };
 
   constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
     super();
@@ -28,7 +22,7 @@ class Coin extends CollectibleObject {
     this.x = x;
     this.y = y;
     this.animationSpeed = 250;
-    this.loadImage("/assets/img/8_coin/coin_1.png");
+    this.loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.animate();
     Coin.totalCoins++;
@@ -41,6 +35,7 @@ class Coin extends CollectibleObject {
       this.img = this.imageCache[path];
     }, this.animationSpeed);
   }
+
   static randomArcCoins(arcs = 3) {
     const coins = [];
     function randomArcParams() {

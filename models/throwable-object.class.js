@@ -1,4 +1,6 @@
 class ThrowableObject extends MovableObject {
+  offset = { top: 30, bottom: 20, left: 40, right: 40 };
+
   constructor(x, y, toLeft = false) {
     super();
     this.x = x;
@@ -9,20 +11,13 @@ class ThrowableObject extends MovableObject {
     this.toLeft = toLeft;
     this.loadImages(Bottle.IMAGES_BOTTLES_THROW);
     this.loadImage(Bottle.IMAGES_BOTTLES_THROW[0]);
-  
     this.throw();
     this.animateThrow();
   }
-  offset = {
-    top: 30,
-    bottom: 20,
-    left: 40,
-    right: 40,
-  };
+
   animateThrow() {
     this.throwAnimationInterval = setInterval(() => {
-      this.currentImage =
-        (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
+      this.currentImage = (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
       let path = Bottle.IMAGES_BOTTLES_THROW[this.currentImage];
       this.img = this.imageCache[path];
     }, this.animationSpeed);
@@ -37,25 +32,25 @@ class ThrowableObject extends MovableObject {
     const GAME_HEIGHT = 480;
     this.splashing = false;
     this.throwMoveInterval = setInterval(() => {
-      if (this.toLeft) {
-        this.x -= 20;
-      } else {
-        this.x += 20;
-      }
+      this.x += this.toLeft ? -20 : 20;
       this.y -= this.speedY;
       this.speedY -= this.acceleration;
       if (this.y >= GAME_HEIGHT - this.height && !this.splashing) {
         this.y = GAME_HEIGHT - this.height - 75;
         this.showSplash();
       }
-      if (this.world && this.world.level && this.world.level.enemies) {
-        for (let enemy of this.world.level.enemies) {
-          if (this.isOffsetColliding(this, enemy) && !this.splashing) {
-            this.showSplash();
-          }
+      this.checkEnemyCollision();
+    }, 180);
+  }
+
+  checkEnemyCollision() {
+    if (this.world && this.world.level && this.world.level.enemies) {
+      for (let enemy of this.world.level.enemies) {
+        if (this.isOffsetColliding(this, enemy) && !this.splashing) {
+          this.showSplash();
         }
       }
-    }, 180);
+    }
   }
 
   showSplash() {

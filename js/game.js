@@ -13,56 +13,20 @@ function init() {
 }
 
 window.addEventListener("keydown", (e) => {
-  if (e.keyCode === 39) {
-    // Pfeil rechts
-    keyboard.RIGHT = true;
-  }
-  if (e.keyCode === 37) {
-    // Pfeil links
-    keyboard.LEFT = true;
-  }
-  if (e.keyCode === 38) {
-    // Pfeil oben
-    keyboard.UP = true;
-  }
-  if (e.keyCode === 40) {
-    // Pfeil unten
-    keyboard.DOWN = true;
-  }
-  if (e.keyCode === 32) {
-    // Leertaste
-    keyboard.SPACE = true;
-  }
-  if (e.keyCode === 68) {
-    // D
-    keyboard.D = true;
-  }
+  if (e.keyCode === 39) keyboard.RIGHT = true; // Pfeil rechts
+  if (e.keyCode === 37) keyboard.LEFT = true;  // Pfeil links
+  if (e.keyCode === 38) keyboard.UP = true;    // Pfeil oben
+  if (e.keyCode === 40) keyboard.DOWN = true;  // Pfeil unten
+  if (e.keyCode === 32) keyboard.SPACE = true; // Leertaste
+  if (e.keyCode === 68) keyboard.D = true;     // D
 });
 window.addEventListener("keyup", (e) => {
-  if (e.keyCode === 39) {
-    // Pfeil rechts
-    keyboard.RIGHT = false;
-  }
-  if (e.keyCode === 37) {
-    // Pfeil links
-    keyboard.LEFT = false;
-  }
-  if (e.keyCode === 38) {
-    // Pfeil oben
-    keyboard.UP = false;
-  }
-  if (e.keyCode === 40) {
-    // Pfeil unten
-    keyboard.DOWN = false;
-  }
-  if (e.keyCode === 32) {
-    // Leertaste
-    keyboard.SPACE = false;
-  }
-  if (e.keyCode === 68) {
-    // D
-    keyboard.D = false;
-  }
+  if (e.keyCode === 39) keyboard.RIGHT = false;
+  if (e.keyCode === 37) keyboard.LEFT = false;
+  if (e.keyCode === 38) keyboard.UP = false;
+  if (e.keyCode === 40) keyboard.DOWN = false;
+  if (e.keyCode === 32) keyboard.SPACE = false;
+  if (e.keyCode === 68) keyboard.D = false;
 });
 
 document.addEventListener("keydown", function (e) {
@@ -76,37 +40,29 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// let intervalIds = [];
+let intervalIds = [];
 
-// function setStoppableInterval(fn, time) {
-//   let id = setInterval(fn, time);
-//   intervalIds.push(id);
-// }
+function setStoppableInterval(fn, time) {
+  let id = setInterval(fn, time);
+  intervalIds.push(id);
+  return id;
+}
 
-// let interval = setInterval(sayHello, 500);
-// let interval2 = setInterval(sayGoodbye, 500);
-// intervalIds.push(interval);
-// intervalIds.push(interval2);
+let i = 1;
+function sayHello() {
+  console.log('Hallo', i);
+  i++;
+}
+function sayGoodbye() {
+  console.log('Tschüss', i);
+  i++;
+}
 
-// console.log('ID vom Interval ist', interval);
+let interval = setStoppableInterval(sayHello, 500);
+let interval2 = setStoppableInterval(sayGoodbye, 500);
 
-// function stopGame() {
-//   // // Intervalle beenden
-//   // for (let i = 0; i < intervalIds.length; i++) {
-//   //   const id = intervalIds[i];
-//   //   clearInterval(id);
-//   // }
-//   intervalIds.forEach(clearInterval);
-// }
+console.log('ID vom Interval ist', interval);
 
-// let i = 1;
-
-// function sayHello() {
-//   console.log('Hallo', i);
-//   i++;
-// }
-
-// function sayGoodbye() {
-//   console.log('Tschüss', i);
-//   i++;
-// }
+function stopGame() {
+  intervalIds.forEach(clearInterval);
+}

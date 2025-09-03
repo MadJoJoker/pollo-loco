@@ -10,10 +10,12 @@ const buttonIds = [
   "muteButton",
   "fullscreenButton",
 ];
+
 // Kontextmenü = Aus
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
+
 const buttonListeners = {
   leftButton: {
     touchstart: function () {
@@ -54,18 +56,17 @@ const buttonListeners = {
   },
 };
 
-//Eventlistener
+// Eventlistener für Fullscreen-Button auf Canvas
 window.addEventListener("resize", updateCanvasFullscreenBtn);
 updateCanvasFullscreenBtn();
 
 document
-  .getElementById("canvasFullscreenButton")
+  .getElementById("canvasFullscreenBtn")
   .addEventListener("click", function () {
     if (typeof fullscreen === "function") fullscreen();
   });
 
 checkMobileButtonsBar();
-
 window.addEventListener("resize", checkMobileButtonsBar);
 
 function addMobileButtonListeners() {
@@ -76,12 +77,8 @@ function addMobileButtonListeners() {
       btn.addEventListener("touchstart", buttonListeners[id].touchstart);
       btn.addEventListener("click", buttonListeners[id].touchstart);
     } else {
-      btn.addEventListener("touchstart", buttonListeners[id].touchstart, {
-        passive: true,
-      });
-      btn.addEventListener("touchend", buttonListeners[id].touchend, {
-        passive: true,
-      });
+      btn.addEventListener("touchstart", buttonListeners[id].touchstart, { passive: true });
+      btn.addEventListener("touchend", buttonListeners[id].touchend, { passive: true });
     }
   });
 }
@@ -116,7 +113,10 @@ function showScreen(screenId) {
 }
 
 function checkMobileButtonsBar() {
-  const isFullscreen = document.fullscreenElement !== null;
+  const isFullscreen =
+    document.fullscreenElement !== null ||
+    document.webkitFullscreenElement !== null ||
+    document.msFullscreenElement !== null;
   if (window.innerWidth < 721 || isFullscreen) {
     showScreen("mobileButtonsBar");
   } else {
@@ -133,6 +133,8 @@ function checkMobileButtonsBar() {
   }
 }
 document.addEventListener("fullscreenchange", checkMobileButtonsBar);
+document.addEventListener("webkitfullscreenchange", checkMobileButtonsBar);
+document.addEventListener("msfullscreenchange", checkMobileButtonsBar);
 
 function updateCanvasFullscreenBtn() {
   const mobileBar = document.getElementById("mobileButtonsBar");
@@ -145,6 +147,7 @@ function updateCanvasFullscreenBtn() {
     }
   }
 }
+
 function showRotateScreen() {
   document.getElementById("extrascreens").classList.remove("hidden");
   document.getElementById("rotateScreen").classList.remove("hidden");

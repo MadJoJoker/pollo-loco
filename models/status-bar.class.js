@@ -38,54 +38,48 @@ class StatusBar extends DrawableObject {
     this.y = y;
     this.width = width;
     this.height = height;
-    if (type === "health") this.IMAGES_USED = this.IMAGES_HEALTH;
-    if (type === "bottle") this.IMAGES_USED = this.IMAGES_BOTTLES;
-    if (type === "coin") this.IMAGES_USED = this.IMAGES_COINS;
+    this.setTypeImages(type);
     this.loadImages(this.IMAGES_USED);
     this.loadImage(this.IMAGES_USED[5]);
   }
+
+  setTypeImages(type) {
+    if (type === "health") this.IMAGES_USED = this.IMAGES_HEALTH;
+    if (type === "bottle") this.IMAGES_USED = this.IMAGES_BOTTLES;
+    if (type === "coin") this.IMAGES_USED = this.IMAGES_COINS;
+  }
+
   setPercentage(percentage) {
     this.percentage = percentage;
     let path = this.IMAGES_USED[this.resolveImageIndex()];
     this.loadImage(path);
   }
+
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     ctx.font = "24px 'GringoNights', Arial, sans-serif";
     ctx.fillStyle = "black";
     ctx.textAlign = "right";
-    if (
-      this.IMAGES_USED === this.IMAGES_BOTTLES ||
-      this.IMAGES_USED === this.IMAGES_COINS
-    ) {
-      ctx.fillText(
-        this.percentage === 0 ? "0" : String(this.percentage),
-        this.x + this.width - 10,
-        this.y + this.height / 2 + 8
-      );
+    this.drawText(ctx);
+  }
+
+  drawText(ctx) {
+    const textX = this.x + this.width - 10;
+    const textY = this.y + this.height / 2 + 8;
+    if (this.IMAGES_USED === this.IMAGES_BOTTLES || this.IMAGES_USED === this.IMAGES_COINS) {
+      ctx.fillText(this.percentage === 0 ? "0" : String(this.percentage), textX, textY);
     }
     if (this.IMAGES_USED === this.IMAGES_HEALTH) {
-      ctx.fillText(
-        `${this.percentage}%`,
-        this.x + this.width - 10,
-        this.y + this.height / 2 + 8
-      );
+      ctx.fillText(`${this.percentage}%`, textX, textY);
     }
   }
 
   resolveImageIndex() {
-    if (this.percentage === 100) {
-      return 5;
-    } else if (this.percentage > 70) {
-      return 4;
-    } else if (this.percentage > 50) {
-      return 3;
-    } else if (this.percentage > 25) {
-      return 2;
-    } else if (this.percentage > 5) {
-      return 1;
-    } else {
-      return 0;
-    }
+    if (this.percentage === 100) return 5;
+    if (this.percentage > 70) return 4;
+    if (this.percentage > 50) return 3;
+    if (this.percentage > 25) return 2;
+    if (this.percentage > 5) return 1;
+    return 0;
   }
 }

@@ -70,11 +70,7 @@ class Endboss extends MovableObject {
       const action = Math.floor(Math.random() * 3);
       this.isWalking = action === 1;
       this.isAttacking = action === 2;
-      console.log("[Endboss] setRandomAction:", {
-        action,
-        isWalking: this.isWalking,
-        isAttacking: this.isAttacking,
-      });
+     
     }, 1000);
   }
 

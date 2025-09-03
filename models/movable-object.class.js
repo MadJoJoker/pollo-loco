@@ -13,17 +13,16 @@ class MovableObject extends DrawableObject {
   animationSpeed = 120;
   energy = 100;
   lastHit = 0;
-  // hit = 0;
+
   constructor() {
     super();
     this.loadImage;
   }
+
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
-    this.img.onload = () => {
-      this.imageLoaded = true;
-    };
+    this.img.onload = () => this.imageLoaded = true;
     this.img.onerror = () => {
       this.imageLoaded = false;
       console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
@@ -44,39 +43,36 @@ class MovableObject extends DrawableObject {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
   }
+
   drawFrameOffset(ctx) {
-    if (this.offset) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.lineWidth = "2";
-      ctx.strokeStyle = "White";
-      ctx.rect(
-        this.x + this.offset.left,
-        this.y + this.offset.top,
-        this.width - this.offset.left - this.offset.right,
-        this.height - this.offset.top - this.offset.bottom
-      );
-      ctx.stroke();
-      ctx.restore();
-    }
+    if (!this.offset) return;
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = "2";
+    ctx.strokeStyle = "White";
+    ctx.rect(
+      this.x + this.offset.left,
+      this.y + this.offset.top,
+      this.width - this.offset.left - this.offset.right,
+      this.height - this.offset.top - this.offset.bottom
+    );
+    ctx.stroke();
+    ctx.restore();
   }
-
-
 
   playAnimation(images) {
     if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
     if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
     const now = Date.now();
     if (now - this.lastAnimationTime > this.animationSpeed) {
-      this.currentImage++;
-      if (this.currentImage >= images.length) this.currentImage = 0;
+      this.currentImage = (this.currentImage + 1) % images.length;
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.lastAnimationTime = now;
     }
   }
 
- applyGravity() {
+  applyGravity() {
     setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
@@ -84,17 +80,14 @@ class MovableObject extends DrawableObject {
       }
     }, 1000 / 25);
   }
+
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else if (this instanceof Character) {
-      return this.y < 180;
-    } else {
-      return false;
-    }
+    if (this instanceof ThrowableObject) return true;
+    if (this instanceof Character) return this.y < 180;
+    return false;
   }
 
-    isColliding(mo) {
+  isColliding(mo) {
     return (
       this.x + this.width > mo.x &&
       this.y + this.height > mo.y &&
@@ -108,7 +101,7 @@ class MovableObject extends DrawableObject {
     if (this.energy < 0) {
       this.energy = 0;
     } else {
-      this.lastHit = new Date().getTime();
+      this.lastHit = Date.now();
     }
   }
 
@@ -117,41 +110,22 @@ class MovableObject extends DrawableObject {
   }
 
   isHurt() {
-    let timepassed = new Date().getTime() - this.lastHit;
-    timepassed = timepassed / 1000;
+    let timepassed = (Date.now() - this.lastHit) / 1000;
     return timepassed < 0.2;
   }
+
   moveRight() {
     this.x += this.speed;
-    if (this.IMAGES_WALKING) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
+    if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
   }
 
   moveLeft() {
     this.x -= this.speed;
-    if (this.IMAGES_WALKING) {
-      this.playAnimation(this.IMAGES_WALKING);
-    }
+    if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
   }
 
   jump() {
     this.speedY = 30;
-    if (this.IMAGES_JUMPING) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    }
+    if (this.IMAGES_JUMPING) this.playAnimation(this.IMAGES_JUMPING);
   }
 }
- // drawFrame(ctx) {
-  //   if (
-  //     this instanceof Character ||
-  //     this instanceof Chicken ||
-  //     this instanceof Endboss || ChickenSmall
-  //   ) {
-  //     ctx.beginPath();
-  //     ctx.lineWidth = "2";
-  //     ctx.strokeStyle = "blue";
-  //     ctx.rect(this.x, this.y, this.width, this.height);
-  //     ctx.stroke();
-  //   }
-  // }

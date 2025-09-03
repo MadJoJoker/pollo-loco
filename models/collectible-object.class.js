@@ -16,12 +16,11 @@ class CollectibleObject extends MovableObject {
     super();
     this.loadImage;
   }
+
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
-    this.img.onload = () => {
-      this.imageLoaded = true;
-    };
+    this.img.onload = () => this.imageLoaded = true;
     this.img.onerror = () => {
       this.imageLoaded = false;
       console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
@@ -43,80 +42,72 @@ class CollectibleObject extends MovableObject {
   }
 
   drawFrame(ctx) {
-    if (this instanceof Bottle) {
+    if (this instanceof Bottle) this.drawBottleFrame(ctx);
+    if (this instanceof Coin) this.drawCoinFrame(ctx);
+  }
+
+  drawBottleFrame(ctx) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = "2";
+    ctx.strokeStyle = "purple";
+    ctx.rect(this.x + 30, this.y + 15, this.width - 50, this.height - 20);
+    ctx.stroke();
+
+    const centerX = this.x + this.width / 2;
+    const centerY = this.y + this.height / 2;
+    const radius = Math.min(this.width, this.height) / 2;
+    if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
+      let t = Date.now() / 300;
+      let gradient = ctx.createRadialGradient(
+        centerX, centerY, 5, centerX, centerY, radius
+      );
+      gradient.addColorStop(0, "rgba(255,255,255,0.7)");
+      gradient.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.globalAlpha = 0.2 + 0.2 * Math.sin(t);
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    ctx.restore();
+  }
+
+  drawCoinFrame(ctx) {
+    const centerX = this.x + this.width / 2;
+    const centerY = this.y + this.height / 2;
+    const radius = this.width / 2;
+    if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
       ctx.save();
       ctx.beginPath();
       ctx.lineWidth = "2";
-      ctx.strokeStyle = "purple";
-      ctx.rect(this.x + 30, this.y + 15, this.width - 50, this.height - 20);
+      ctx.strokeStyle = "red";
+      ctx.rect(this.x + 50, this.y + 50, this.width - 100, this.height - 100);
       ctx.stroke();
 
-      const centerX = this.x + this.width / 2;
-      const centerY = this.y + this.height / 2;
-      const radius = Math.min(this.width, this.height) / 2;
-      if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
-        let t = Date.now() / 300;
-        let gradient = ctx.createRadialGradient(
-          centerX,
-          centerY,
-          5,
-          centerX,
-          centerY,
-          radius
-        );
-        gradient.addColorStop(0, "rgba(255,255,255,0.7)");
-        gradient.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.globalAlpha = 0.2 + 0.2 * Math.sin(t);
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
+      let t = Date.now() / 300;
+      let gradient = ctx.createRadialGradient(
+        centerX, centerY, 5, centerX, centerY, radius
+      );
+      gradient.addColorStop(0, "rgba(255,215,0,0.8)");
+      gradient.addColorStop(1, "rgba(230, 229, 223, 0)");
+      ctx.globalAlpha = 0.2 + 0.2 * Math.sin(t);
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.globalAlpha = 1;
       ctx.restore();
     }
-
-    if (this instanceof Coin) {
-      const centerX = this.x + this.width / 2;
-      const centerY = this.y + this.height / 2;
-      const radius = this.width / 2;
-
-      if ([centerX, centerY, radius].every(Number.isFinite) && radius > 0) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = "red";
-        ctx.rect(this.x + 50, this.y + 50, this.width - 100, this.height - 100);
-        ctx.stroke();
-
-        let t = Date.now() / 300;
-        let gradient = ctx.createRadialGradient(
-          centerX,
-          centerY,
-          5,
-          centerX,
-          centerY,
-          radius
-        );
-        gradient.addColorStop(0, "rgba(255,215,0,0.8)");
-        gradient.addColorStop(1, "rgba(230, 229, 223, 0)");
-        ctx.globalAlpha = 0.2 + 0.2 * Math.sin(t);
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        ctx.restore();
-      }
-    }
   }
+
   playAnimation(images) {
     if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
     if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
     const now = Date.now();
     if (now - this.lastAnimationTime > this.animationSpeed) {
-      this.currentImage++;
-      if (this.currentImage >= images.length) this.currentImage = 0;
+      this.currentImage = (this.currentImage + 1) % images.length;
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.lastAnimationTime = now;
@@ -151,11 +142,8 @@ class CollectibleObject extends MovableObject {
     return this.collected;
   }
 
-
   isCollactable() {
-    let timepassed = new Date().getTime() - this.lastHit;
-    timepassed = timepassed / 1000;
+    let timepassed = (Date.now() - this.lastHit) / 1000;
     return timepassed < 1;
   }
-
 }
