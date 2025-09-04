@@ -40,29 +40,30 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-let intervalIds = [];
+// let intervalIds = [];
 
-function setStoppableInterval(fn, time) {
-  let id = setInterval(fn, time);
-  intervalIds.push(id);
-  return id;
-}
+// function setStoppableInterval(fn, time) {
+//   let id = setInterval(fn, time);
+//   intervalIds.push(id);
+//   return id;
+// }
 
-let i = 1;
-function sayHello() {
-  console.log('Hallo', i);
-  i++;
-}
-function sayGoodbye() {
-  console.log('Tschüss', i);
-  i++;
-}
+// let i = 1;
+// function sayHello() {
+//   console.log('Hallo', i);
+//   i++;
+// }
+// function sayGoodbye() {
+//   console.log('Tschüss', i);
+//   i++;
+// }
 
-let interval = setStoppableInterval(sayHello, 500);
-let interval2 = setStoppableInterval(sayGoodbye, 500);
+// let interval = setStoppableInterval(sayHello, 11500);
+// let interval2 = setStoppableInterval(sayGoodbye, 11500);
 
-console.log('ID vom Interval ist', interval);
+// console.log('ID vom Interval ist', interval);
 
-function stopGame() {
-  intervalIds.forEach(clearInterval);
-}
+// function stopGame() {
+//   intervalIds.forEach(clearInterval);
+// }
+// document.getElementById('pauseButton').addEventListener('click', stopGame);

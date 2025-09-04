@@ -8,7 +8,8 @@ class World {
   healthBar = new StatusBar(120, 0, 100, 40, "health");
   bottleBar = new StatusBar(10, 0, 100, 40, "bottle");
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
-  throwableObjects = [];
+  endbossBar = new StatusBar(600, 0, 100, 40, "endboss");
+  // throwableObjects = []; // Entfernt, Flaschen werden über character.throwBottles verwaltet
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
@@ -23,6 +24,7 @@ class World {
     this.healthBar.setPercentage(100);
     this.bottleBar.setPercentage(0);
     this.coinBar.setPercentage(0);
+    this.endbossBar.setPercentage(100);
   }
 
   startGameLoops() {
@@ -34,7 +36,66 @@ class World {
     setInterval(() => {
       this.handleCollectibles();
       this.checkCharacterChickenCollision();
+      this.checkBottleEnemyCollision();
     }, 100);
+  }
+  checkBottleEnemyCollision() {
+    if (!this.character?.throwBottles || !this.level?.enemies) return;
+    console.log("[BottleCollision] Bottles:", this.character.throwBottles);
+    console.log("[BottleCollision] Enemies:", this.level.enemies);
+    this.character.throwBottles.forEach((bottle, bIdx) => {
+      if (
+        !bottle ||
+        typeof bottle.isOffsetColliding !== "function" ||
+        typeof bottle.x !== "number" ||
+        typeof bottle.y !== "number" ||
+        typeof bottle.width !== "number" ||
+        typeof bottle.height !== "number"
+      ) {
+        console.warn(
+          `[BottleCollision] Invalid bottle at index ${bIdx}:`,
+          bottle
+        );
+        return;
+      }
+      this.level.enemies.forEach((enemy, eIdx) => {
+        if (
+          !enemy ||
+          typeof enemy.x !== "number" ||
+          typeof enemy.y !== "number" ||
+          typeof enemy.width !== "number" ||
+          typeof enemy.height !== "number"
+        ) {
+          console.warn(
+            `[BottleCollision] Invalid enemy at index ${eIdx}:`,
+            enemy
+          );
+          return;
+        }
+        if (this.isEnemyType(enemy)) {
+          try {
+            if (bottle.isOffsetColliding(bottle, enemy)) {
+              console.log(
+                `[BottleCollision] Hit detected: bottle[${bIdx}] -> enemy[${eIdx}]`,
+                { bottle, enemy }
+              );
+              if (typeof enemy.hitByBottle === "function") {
+                enemy.hitByBottle(bottle);
+              }
+              if (typeof bottle.showSplash === "function") {
+                bottle.showSplash();
+              }
+            }
+          } catch (err) {
+            console.error(
+              `[BottleCollision] Error in isOffsetColliding: bottle[${bIdx}] enemy[${eIdx}]`,
+              err,
+              { bottle, enemy }
+            );
+          }
+        }
+      });
+    });
   }
 
   handleCollectibles() {
@@ -70,9 +131,7 @@ class World {
   getCoinPercent() {
     let totalCoins = Coin.getTotalCoins();
     let collectedCoins = this.character.coins;
-    return totalCoins > 0
-      ? Math.round((collectedCoins / totalCoins) * 100)
-      : 0;
+    return totalCoins > 0 ? Math.round((collectedCoins / totalCoins) * 100) : 0;
   }
 
   isCollection(character, collectible) {
@@ -82,7 +141,10 @@ class World {
   checkCharacterChickenCollision() {
     if (!this.level?.enemies || !this.character) return;
     this.level.enemies.forEach((enemy) => {
-      if (this.isEnemyType(enemy) && this.isOffsetColliding(this.character, enemy)) {
+      if (
+        this.isEnemyType(enemy) &&
+        this.isOffsetColliding(this.character, enemy)
+      ) {
         this.handleEnemyCollision(enemy);
       }
     });
@@ -134,7 +196,7 @@ class World {
   setWorld() {
     this.character.world = this;
     if (this.level?.enemies) {
-      this.level.enemies.forEach(enemy => {
+      this.level.enemies.forEach((enemy) => {
         enemy.world = this;
       });
     }
@@ -143,21 +205,7 @@ class World {
   run() {
     setInterval(() => {
       this.checkCollisions();
-      this.checkThrowObjects();
     }, 200);
-  }
-
-  checkThrowObjects() {
-    if (this.keyboard.D) {
-      let bottle = new Bottle(
-        this.character.x + 100,
-        this.character.y + 100,
-        50,
-        60,
-        "throw"
-      );
-      this.throwableObjects.push(bottle);
-    }
   }
 
   checkCollisions() {
@@ -196,6 +244,13 @@ class World {
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
+    if (
+      this.level &&
+      this.level.level_end_x &&
+      this.character.x > this.level.level_end_x - 900
+    ) {
+      this.addToMap(this.endbossBar);
+    }
   }
 
   addObjectsToMap(objects) {

@@ -3,6 +3,7 @@ class Endboss extends MovableObject {
   width = 250;
   y = 60;
   x;
+  energy = 100;
 
   IMAGES_WALKING = [
     "/assets/img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -70,7 +71,6 @@ class Endboss extends MovableObject {
       const action = Math.floor(Math.random() * 3);
       this.isWalking = action === 1;
       this.isAttacking = action === 2;
-     
     }, 1000);
   }
 
@@ -116,5 +116,13 @@ class Endboss extends MovableObject {
         this.animationSpeed = 110;
       }
     }, this.animationSpeed);
+  }
+
+  hitByBottle(bottle) {
+    this.energy -= 25;
+    this.isHurt();
+    if (this.energy <= 0) {
+      this.isDead();
+    }
   }
 }

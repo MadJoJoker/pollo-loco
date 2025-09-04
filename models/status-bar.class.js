@@ -31,7 +31,14 @@ class StatusBar extends DrawableObject {
     "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
     "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
-
+ IMAGES_ENDBOSS = [
+    "/assets/img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
+    "/assets/img/7_statusbars/2_statusbar_endboss/orange/orange20.png",
+    "/assets/img/7_statusbars/2_statusbar_endboss/blue/blue40.png",
+    "/assets/img/7_statusbars/2_statusbar_endboss/blue/blue60.png",
+    "/assets/img/7_statusbars/2_statusbar_endboss/green/green80.png",
+    "/assets/img/7_statusbars/2_statusbar_endboss/green/green100.png",
+  ];
   constructor(x = 20, y = 0, width = 150, height = 50, type = "health") {
     super();
     this.x = x;
@@ -47,6 +54,7 @@ class StatusBar extends DrawableObject {
     if (type === "health") this.IMAGES_USED = this.IMAGES_HEALTH;
     if (type === "bottle") this.IMAGES_USED = this.IMAGES_BOTTLES;
     if (type === "coin") this.IMAGES_USED = this.IMAGES_COINS;
+    if (type === "endboss") this.IMAGES_USED = this.IMAGES_ENDBOSS;
   }
 
   setPercentage(percentage) {
@@ -66,11 +74,21 @@ class StatusBar extends DrawableObject {
   drawText(ctx) {
     const textX = this.x + this.width - 10;
     const textY = this.y + this.height / 2 + 8;
-    if (this.IMAGES_USED === this.IMAGES_BOTTLES || this.IMAGES_USED === this.IMAGES_COINS) {
-      ctx.fillText(this.percentage === 0 ? "0" : String(this.percentage), textX, textY);
+    if (
+      this.IMAGES_USED === this.IMAGES_BOTTLES ||
+      this.IMAGES_USED === this.IMAGES_COINS
+    ) {
+      ctx.fillText(
+        this.percentage === 0 ? "0" : String(this.percentage),
+        textX,
+        textY
+      );
     }
     if (this.IMAGES_USED === this.IMAGES_HEALTH) {
       ctx.fillText(`${this.percentage}%`, textX, textY);
+    }
+    if (this.IMAGES_USED === this.IMAGES_ENDBOSS) {
+      ctx.fillText(`Dona`, textX, textY);
     }
   }
 

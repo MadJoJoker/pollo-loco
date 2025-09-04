@@ -87,15 +87,45 @@ const backgroundObjects = [
   ),
 ];
 const enemies = [
-    new Chicken(),
-    new Chicken(),
-    new Chicken(),
-    new ChickenSmall(),
-    new ChickenSmall(),
-    new ChickenSmall(),
- ];
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+];
 const clouds = [new Cloud(), new Cloud(), new Cloud()];
 const bottles = [
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
   new Bottle(),
   new Bottle(),
   new Bottle(),
@@ -107,9 +137,8 @@ const coins = Coin.randomArcCoins(3);
 
 const level1 = new Level(enemies, clouds, backgroundObjects, bottles, coins);
 
-
 level1.level_end_x = Math.max(
   ...backgroundObjects.map((obj) => obj.x + obj.width)
 );
-const endboss = new Endboss(level1.level_end_x,level1);
-enemies.push(endboss)
+const endboss = new Endboss(level1.level_end_x, level1);
+enemies.push(endboss);

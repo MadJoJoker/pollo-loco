@@ -2,6 +2,7 @@ class ChickenSmall extends MovableObject {
   height = 75;
   width = 75;
   y = 360;
+  energy = 100;
 
   IMAGES_WALKING = [
     "/assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
@@ -33,11 +34,19 @@ class ChickenSmall extends MovableObject {
     setInterval(() => {
       this.moveLeft();
     }, this.animationSpeed);
-      if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-        console.log('SMALL_CHICK_KILL');
-        
-        return;
-      }
+    if (this.isDead()) {
+      this.playAnimation(this.IMAGES_DEAD);
+      console.log("SMALL_CHICK_KILL");
+
+      return;
+    }
+  }
+  hitByBottle(bottle) {
+    this.energy -= 100;
+    this.isHurt();
+    if (this.energy <= 0) {
+      console.log("ChickenSmall energy is 0 or less:", this.energy);
+      this.gotKilled();
+    }
   }
 }

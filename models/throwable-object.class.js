@@ -16,8 +16,11 @@ class ThrowableObject extends MovableObject {
   }
 
   animateThrow() {
+    this.animationSpeed = 60;
+
     this.throwAnimationInterval = setInterval(() => {
-      this.currentImage = (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
+      this.currentImage =
+        (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
       let path = Bottle.IMAGES_BOTTLES_THROW[this.currentImage];
       this.img = this.imageCache[path];
     }, this.animationSpeed);
@@ -28,7 +31,7 @@ class ThrowableObject extends MovableObject {
       this.x = x;
       this.y = y;
     }
-    this.speedY = 30;
+    this.speedY = 15;
     const GAME_HEIGHT = 480;
     this.splashing = false;
     this.throwMoveInterval = setInterval(() => {
@@ -47,6 +50,9 @@ class ThrowableObject extends MovableObject {
     if (this.world && this.world.level && this.world.level.enemies) {
       for (let enemy of this.world.level.enemies) {
         if (this.isOffsetColliding(this, enemy) && !this.splashing) {
+          if (typeof enemy.hitByBottle === "function") {
+            enemy.hitByBottle(this);
+          }
           this.showSplash();
         }
       }
@@ -88,6 +94,23 @@ class ThrowableObject extends MovableObject {
   }
 
   isOffsetColliding(objA, objB) {
+    if (!objA || !objB) {
+      console.error(
+        "[BottleCollision] isOffsetColliding: objA oder objB ist undefined",
+        { objA, objB }
+      );
+      return false;
+    }
+    const required = ["x", "y", "width", "height"];
+    for (const key of required) {
+      if (typeof objA[key] !== "number" || typeof objB[key] !== "number") {
+        console.error(
+          `[BottleCollision] isOffsetColliding: Eigenschaft fehlt oder ist kein number: ${key}`,
+          { objA, objB }
+        );
+        return false;
+      }
+    }
     const a = {
       left: objA.x + (objA.offset?.left || 0),
       right: objA.x + objA.width - (objA.offset?.right || 0),
