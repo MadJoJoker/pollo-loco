@@ -9,7 +9,8 @@ class World {
   bottleBar = new StatusBar(10, 0, 100, 40, "bottle");
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
   endbossBar = new StatusBar(600, 0, 100, 40, "endboss");
-  // throwableObjects = []; // Entfernt, Flaschen werden über character.throwBottles verwaltet
+
+  effects = [];
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
@@ -30,6 +31,7 @@ class World {
   startGameLoops() {
     setInterval(() => {
       this.updateCamera();
+      this.updateEffects();
       this.draw();
     }, 1000 / 60);
 
@@ -39,26 +41,30 @@ class World {
       this.checkBottleEnemyCollision();
     }, 100);
   }
+
+  addEffect(effect) {
+    this.effects.push(effect);
+  }
+
+  updateEffects() {
+    this.effects = this.effects.filter((e) => {
+      e.update();
+      return !e.done;
+    });
+  }
   checkBottleEnemyCollision() {
     if (!this.character?.throwBottles || !this.level?.enemies) return;
-    console.log("[BottleCollision] Bottles:", this.character.throwBottles);
-    console.log("[BottleCollision] Enemies:", this.level.enemies);
-    this.character.throwBottles.forEach((bottle, bIdx) => {
+    this.character.throwBottles.forEach((bottle) => {
       if (
         !bottle ||
-        typeof bottle.isOffsetColliding !== "function" ||
         typeof bottle.x !== "number" ||
         typeof bottle.y !== "number" ||
         typeof bottle.width !== "number" ||
         typeof bottle.height !== "number"
       ) {
-        console.warn(
-          `[BottleCollision] Invalid bottle at index ${bIdx}:`,
-          bottle
-        );
         return;
       }
-      this.level.enemies.forEach((enemy, eIdx) => {
+      this.level.enemies.forEach((enemy) => {
         if (
           !enemy ||
           typeof enemy.x !== "number" ||
@@ -66,33 +72,10 @@ class World {
           typeof enemy.width !== "number" ||
           typeof enemy.height !== "number"
         ) {
-          console.warn(
-            `[BottleCollision] Invalid enemy at index ${eIdx}:`,
-            enemy
-          );
           return;
         }
-        if (this.isEnemyType(enemy)) {
-          try {
-            if (bottle.isOffsetColliding(bottle, enemy)) {
-              console.log(
-                `[BottleCollision] Hit detected: bottle[${bIdx}] -> enemy[${eIdx}]`,
-                { bottle, enemy }
-              );
-              if (typeof enemy.hitByBottle === "function") {
-                enemy.hitByBottle(bottle);
-              }
-              if (typeof bottle.showSplash === "function") {
-                bottle.showSplash();
-              }
-            }
-          } catch (err) {
-            console.error(
-              `[BottleCollision] Error in isOffsetColliding: bottle[${bIdx}] enemy[${eIdx}]`,
-              err,
-              { bottle, enemy }
-            );
-          }
+        if (this.isEnemyType(enemy) && this.isOffsetColliding(bottle, enemy)) {
+          this.handleBottleEnemyCollision(bottle, enemy);
         }
       });
     });
@@ -101,6 +84,18 @@ class World {
   handleCollectibles() {
     this.collectBottles();
     this.collectCoins();
+    this.collectGoldenEggs();
+  }
+
+  collectGoldenEggs() {
+    if (!this.level?.goldenEggs) return;
+    for (let i = this.level.goldenEggs.length - 1; i >= 0; i--) {
+      const egg = this.level.goldenEggs[i];
+      if (this.isCollection(this.character, egg) && !egg.collected) {
+        egg.collect(this.character);
+        this.level.goldenEggs.splice(i, 1);
+      }
+    }
   }
 
   collectBottles() {
@@ -157,6 +152,16 @@ class World {
       enemy instanceof Endboss
     );
   }
+  handleBottleEnemyCollision(bottle, enemy) {
+    if (!enemy.isHurt && !enemy.isDead) {
+      if (typeof enemy.hitByBottle === "function") {
+        enemy.hitByBottle(bottle);
+      }
+      if (typeof bottle.showSplash === "function") {
+        bottle.showSplash();
+      }
+    }
+  }
 
   handleEnemyCollision(enemy) {
     this.character.isHurt();
@@ -211,8 +216,7 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        this.character.hit();
-        this.healthBar.setPercentage(this.character.energy);
+        this.handleEnemyCollision(enemy);
       }
     });
   }
@@ -222,8 +226,13 @@ class World {
     this.ctx.save();
     this.ctx.translate(-this.camera_x, 0);
     this.drawLevelObjects();
+    this.drawEffects();
     this.ctx.restore();
     this.drawStatusBars();
+  }
+
+  drawEffects() {
+    this.effects.forEach((e) => e.draw(this.ctx));
   }
 
   clearCanvas() {
@@ -236,6 +245,7 @@ class World {
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.level.coins);
+    if (this.level.goldenEggs) this.addObjectsToMap(this.level.goldenEggs);
     this.addToMap(this.character);
     this.addObjectsToMap(this.character.throwBottles);
   }

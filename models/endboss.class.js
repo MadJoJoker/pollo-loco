@@ -4,7 +4,14 @@ class Endboss extends MovableObject {
   y = 60;
   x;
   energy = 100;
-
+  isRemoved = false;
+  isHurtNow = false;
+  deadAnimationTimeout = null;
+  animationSpeed = 110;
+  isWalking = false;
+  isAttacking = false;
+  isDeadNow = false;
+  shouldMoveRight = false;
   IMAGES_WALKING = [
     "/assets/img/4_enemie_boss_chicken/1_walk/G1.png",
     "/assets/img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -41,6 +48,7 @@ class Endboss extends MovableObject {
     "/assets/img/4_enemie_boss_chicken/5_dead/G25.png",
     "/assets/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
+  offset = { top: 90, bottom: 80, left: 50, right: 35 };
 
   constructor(level_end_x, level) {
     super().loadImage(this.IMAGES_WALKING[0]);
@@ -50,22 +58,12 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 1900;
-
     this.level = level;
     this.level_end_x = level_end_x;
-    this.animate();
-    this.animationSpeed = 110;
-    this.isWalking = false;
-    this.isAttacking = false;
-    this.isDeadNow = false;
     this.setRandomAction();
+    this.startAnimation();
   }
-  offset = {
-    top: 90,
-    bottom: 80,
-    left: 50,
-    right: 35,
-  };
+
   setRandomAction() {
     setInterval(() => {
       const action = Math.floor(Math.random() * 3);
@@ -74,55 +72,117 @@ class Endboss extends MovableObject {
     }, 1000);
   }
 
-  animate() {
+  startAnimation() {
     setInterval(() => {
-      const inRange =
-        this.world &&
-        this.world.character &&
-        this.world.character.x >= this.level_end_x - 710;
-
-      const oldX = this.x;
-      const oldY = this.y;
-
-      if (inRange && this.isAttacking) {
-        this.animationSpeed = 170;
-
-        this.jump();
-        this.playAnimation(this.IMAGES_ATTACK);
-        // this.y -= 5;
-        // this.y = oldY;
-        this.animationSpeed = 110;
-      } else if (inRange && this.isWalking) {
-        this.otherDirection = false;
-        this.moveLeft();
-        this.playAnimation(this.IMAGES_WALKING);
-        this.x -= 10;
-        this.shouldMoveRight = true;
-      } else if (this.shouldMoveRight) {
-        if (this.x + 10 < 1900) {
-          this.otherDirection = true;
-          this.moveRight();
-          this.x += 10;
-        } else {
-          this.shouldMoveRight = false;
-        }
-      } else if (inRange && this.isDeadNow) {
-        this.isDead();
-        this.playAnimation(this.IMAGES_DEAD);
-      } else if (inRange) {
-        this.animationSpeed = 170;
-
-        this.playAnimation(this.IMAGES_ALERT);
-        this.animationSpeed = 110;
-      }
+      if (this.isRemoved) return;
+      if (this.isDeadNow) return this.handleDeath();
+      if (this.isHurtNow) return this.handleHurt();
+      this.handleMovement();
     }, this.animationSpeed);
+  }
+
+  handleDeath() {
+    this.playAnimation(this.IMAGES_DEAD);
+    if (!this.deadAnimationTimeout) {
+      this.deadAnimationTimeout = setTimeout(() => {
+        if (!this.isRemoved) {
+          this.isRemoved = true;
+          if (
+            this.world &&
+            typeof this.world.addEffect === "function" &&
+            window.EndbossEffect
+          ) {
+            this.world.addEffect(
+              new window.EndbossEffect(this.x, this.y, this.width, this.height)
+            );
+          }
+          if (
+            this.world &&
+            this.world.level &&
+            Array.isArray(this.world.level.enemies)
+          ) {
+            const idx = this.world.level.enemies.indexOf(this);
+            if (idx !== -1) this.world.level.enemies.splice(idx, 1);
+          }
+          if (
+            this.world &&
+            this.world.level &&
+            typeof window.GoldenEgg === "function"
+          ) {
+            const eggY = this.y + this.height / 2 - 20;
+            const egg = new window.GoldenEgg(this.x, eggY);
+            if (!this.world.level.goldenEggs) this.world.level.goldenEggs = [];
+            this.world.level.goldenEggs.push(egg);
+          }
+        }
+      }, 1000);
+    }
+  }
+
+  handleHurt() {
+    this.playAnimation(this.IMAGES_HURT);
+  }
+
+  handleMovement() {
+    const inRange =
+      this.world &&
+      this.world.character &&
+      this.world.character.x >= this.level_end_x - 710;
+    if (inRange && this.isAttacking) {
+      this.handleAttack();
+    } else if (inRange && this.isWalking) {
+      this.handleWalk();
+    } else if (this.shouldMoveRight) {
+      this.handleMoveRight();
+    } else if (inRange) {
+      this.handleAlert();
+    }
+  }
+
+  handleAttack() {
+    this.animationSpeed = 170;
+    this.jump();
+    this.playAnimation(this.IMAGES_ATTACK);
+    this.animationSpeed = 110;
+  }
+
+  handleWalk() {
+    this.otherDirection = false;
+    this.moveLeft();
+    this.playAnimation(this.IMAGES_WALKING);
+    this.x -= 10;
+    this.shouldMoveRight = true;
+  }
+
+  handleMoveRight() {
+    if (this.x + 10 < 1900) {
+      this.otherDirection = true;
+      this.moveRight();
+      this.x += 10;
+    } else {
+      this.shouldMoveRight = false;
+    }
+  }
+
+  handleAlert() {
+    this.animationSpeed = 170;
+    this.playAnimation(this.IMAGES_ALERT);
+    this.animationSpeed = 110;
   }
 
   hitByBottle(bottle) {
     this.energy -= 25;
-    this.isHurt();
+    this.isHurtNow = true;
+    this.playAnimation(this.IMAGES_HURT);
+    setTimeout(() => {
+      this.isHurtNow = false;
+    }, 400);
+    if (this.world && this.world.endbossBar) {
+      this.world.endbossBar.setPercentage(this.energy);
+    }
     if (this.energy <= 0) {
-      this.isDead();
+      this.isDeadNow = true;
+      this.playAnimation(this.IMAGES_DEAD);
     }
   }
 }
