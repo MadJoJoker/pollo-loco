@@ -136,14 +136,28 @@ class World {
 
   checkCharacterChickenCollision() {
     if (!this.level?.enemies || !this.character) return;
-    this.level.enemies.forEach((enemy) => {
+    for (let enemy of this.level.enemies) {
       if (
         this.isEnemyType(enemy) &&
         this.isOffsetColliding(this.character, enemy)
       ) {
+        if (
+          typeof this.character.isAboveGround === "function" &&
+          this.character.isAboveGround() &&
+          enemy instanceof Chicken &&
+          typeof enemy.hitByJump === "function" &&
+          !enemy.isDeadNow
+        ) {
+          console.log(
+            "[DEBUG] World: Jump-Collision erkannt, Chicken stirbt, Charakter bleibt unverletzt"
+          );
+          enemy.hitByJump();
+          break;
+        }
         this.handleEnemyCollision(enemy);
+        break;
       }
-    });
+    }
   }
 
   isEnemyType(enemy) {
@@ -165,6 +179,14 @@ class World {
   }
 
   handleEnemyCollision(enemy) {
+    // Nur Charakter verletzen, wenn Gegner nicht tot ist
+    if (enemy.isDeadNow) {
+      console.log(
+        "[DEBUG] handleEnemyCollision(): Gegner ist tot, keine Verletzung"
+      );
+      return;
+    }
+    console.log("[DEBUG] handleEnemyCollision(): Verletzung wird ausgelöst");
     this.character.isHurt();
     this.character.hit();
     this.healthBar.setPercentage(this.character.energy);
@@ -216,6 +238,7 @@ class World {
 
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
+      if (enemy instanceof Chicken || enemy instanceof ChickenSmall) return;
       if (this.character.isColliding(enemy)) {
         this.handleEnemyCollision(enemy);
       }

@@ -106,7 +106,6 @@ class Character extends MovableObject {
 
   handleActions(canThrowBottle) {
     let actionHappened = false;
-    if (this.handleChickenCollision()) actionHappened = true;
     if (this.handleDeath()) actionHappened = true;
     if (this.handleHurt()) actionHappened = true;
     if (this.handleMovement()) actionHappened = true;
@@ -114,23 +113,6 @@ class Character extends MovableObject {
     if (this.handleThrow(canThrowBottle)) actionHappened = true;
     if (this.handleJumpAnimation()) actionHappened = true;
     return actionHappened;
-  }
-
-  handleChickenCollision() {
-    if (!this.world?.chickens || !Array.isArray(this.world.chickens))
-      return false;
-    return this.checkChickenCollisions();
-  }
-
-  checkChickenCollisions() {
-    let collided = false;
-    this.world.chickens.forEach((chicken) => {
-      if (this.isColliding(chicken) && !this.isHurt()) {
-        this.hit();
-        collided = true;
-      }
-    });
-    return collided;
   }
 
   handleDeath() {
@@ -268,10 +250,24 @@ class Character extends MovableObject {
   }
 
   hit() {
-    return super.hit();
+    const result = super.hit();
+    console.log("[DEBUG] hit(): Character.hit ausgelöst", {
+      energy: this.energy,
+      lastHit: this.lastHit,
+      function: "Character.hit",
+    });
+    return result;
   }
 
   isHurt() {
-    return super.isHurt();
+    const result = super.isHurt();
+    if (result) {
+      console.log("[DEBUG] isHurt(): Character.isHurt ausgelöst", {
+        energy: this.energy,
+        lastHit: this.lastHit,
+        function: "Character.isHurt",
+      });
+    }
+    return result;
   }
 }

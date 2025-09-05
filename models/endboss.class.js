@@ -12,6 +12,7 @@ class Endboss extends MovableObject {
   isAttacking = false;
   isDeadNow = false;
   shouldMoveRight = false;
+
   IMAGES_WALKING = [
     "/assets/img/4_enemie_boss_chicken/1_walk/G1.png",
     "/assets/img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -175,6 +176,9 @@ class Endboss extends MovableObject {
   }
 
   hitByBottle(bottle) {
+    console.log("[DEBUG] Endboss.hitByBottle() ausgelöst", {
+      energy: this.energy,
+    });
     this.energy -= 25;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);

@@ -1,4 +1,5 @@
 class ChickenSmall extends MovableObject {
+
   height = 75;
   width = 75;
   y = 360;
@@ -10,7 +11,7 @@ class ChickenSmall extends MovableObject {
     "/assets/img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
   ];
 
-  IMAGES_DEAD = ["assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
+  IMAGES_DEAD = ["/assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png"];
 
   constructor() {
     super();
@@ -41,12 +42,24 @@ class ChickenSmall extends MovableObject {
       return;
     }
   }
-  hitByBottle(bottle) {
+    hitByBottle(bottle) {
+    console.log("[DEBUG] ChickenSmall.hitByBottle() ausgelöst", {
+      energy: this.energy,
+    });
     this.energy -= 100;
-    this.isHurt();
-    if (this.energy <= 0) {
-      console.log("ChickenSmall energy is 0 or less:", this.energy);
-      this.gotKilled();
+    if (this.energy <= 0 && !this.isDeadNow) {
+      this.isDeadNow = true;
+      this.handleDeath();
+    }
+  }
+  hitByJump() {
+    console.log("[DEBUG] ChickenSmall.hitByJump() ausgelöst", {
+      energy: this.energy,
+    });
+    this.energy -= 100;
+    if (this.energy <= 0 && !this.isDeadNow) {
+      this.isDeadNow = true;
+      this.handleDeath();
     }
   }
 }

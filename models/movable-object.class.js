@@ -102,6 +102,10 @@ class MovableObject extends DrawableObject {
       this.energy = 0;
     } else {
       this.lastHit = Date.now();
+      console.log("[DEBUG] Character hit() ausgelöst", {
+        energy: this.energy,
+        lastHit: this.lastHit,
+      });
     }
   }
 
@@ -121,6 +125,12 @@ class MovableObject extends DrawableObject {
 
   isHurt() {
     let timepassed = (Date.now() - this.lastHit) / 1000;
+    if (timepassed < 0.2) {
+      console.log("[DEBUG] Character isHurt() ausgelöst", {
+        lastHit: this.lastHit,
+        timepassed,
+      });
+    }
     return timepassed < 0.2;
   }
 
