@@ -269,9 +269,10 @@ class World {
   }
 
   addToMap(mo) {
+    if (!mo) return;
     if (mo.otherDirection) this.flipImage(mo);
-    mo.draw(this.ctx);
-    mo.drawFrame(this.ctx);
+    if (typeof mo.draw === "function") mo.draw(this.ctx);
+    if (typeof mo.drawFrame === "function") mo.drawFrame(this.ctx);
     if (typeof mo.drawFrameOffset === "function") mo.drawFrameOffset(this.ctx);
     if (mo.otherDirection) this.flipImageBack(mo);
   }

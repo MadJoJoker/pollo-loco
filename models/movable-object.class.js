@@ -108,6 +108,16 @@ class MovableObject extends DrawableObject {
   isDead() {
     return this.energy === 0;
   }
+  removeFromEnemies() {
+    if (
+      this.world &&
+      this.world.level &&
+      Array.isArray(this.world.level.enemies)
+    ) {
+      const idx = this.world.level.enemies.indexOf(this);
+      if (idx !== -1) this.world.level.enemies.splice(idx, 1);
+    }
+  }
 
   isHurt() {
     let timepassed = (Date.now() - this.lastHit) / 1000;

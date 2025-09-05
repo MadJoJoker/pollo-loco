@@ -87,35 +87,39 @@ class Endboss extends MovableObject {
       this.deadAnimationTimeout = setTimeout(() => {
         if (!this.isRemoved) {
           this.isRemoved = true;
-          if (
-            this.world &&
-            typeof this.world.addEffect === "function" &&
-            window.EndbossEffect
-          ) {
-            this.world.addEffect(
-              new window.EndbossEffect(this.x, this.y, this.width, this.height)
-            );
+          this.addEndbossEffect();
+          this.removeFromEnemies();
+          if (this.world && this.world.endbossBar) {
+            this.world.endbossBar = null;
           }
-          if (
-            this.world &&
-            this.world.level &&
-            Array.isArray(this.world.level.enemies)
-          ) {
-            const idx = this.world.level.enemies.indexOf(this);
-            if (idx !== -1) this.world.level.enemies.splice(idx, 1);
-          }
-          if (
-            this.world &&
-            this.world.level &&
-            typeof window.GoldenEgg === "function"
-          ) {
-            const eggY = this.y + this.height / 2 - 20;
-            const egg = new window.GoldenEgg(this.x, eggY);
-            if (!this.world.level.goldenEggs) this.world.level.goldenEggs = [];
-            this.world.level.goldenEggs.push(egg);
-          }
+          this.spawnGoldenEgg();
         }
       }, 1000);
+    }
+  }
+
+  addEndbossEffect() {
+    if (
+      this.world &&
+      typeof this.world.addEffect === "function" &&
+      window.EndbossEffect
+    ) {
+      this.world.addEffect(
+        new window.EndbossEffect(this.x, this.y, this.width, this.height)
+      );
+    }
+  }
+
+  spawnGoldenEgg() {
+    if (
+      this.world &&
+      this.world.level &&
+      typeof window.GoldenEgg === "function"
+    ) {
+      const eggY = this.y + this.height / 2 - 20;
+      const egg = new window.GoldenEgg(this.x, eggY);
+      if (!this.world.level.goldenEggs) this.world.level.goldenEggs = [];
+      this.world.level.goldenEggs.push(egg);
     }
   }
 
