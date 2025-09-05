@@ -18,7 +18,7 @@ class ThrowableObject extends MovableObject {
   animateThrow() {
     this.animationSpeed = 60;
 
-    this.throwAnimationInterval = setInterval(() => {
+    this.throwAnimationInterval = window.setStoppableInterval(() => {
       this.currentImage =
         (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
       let path = Bottle.IMAGES_BOTTLES_THROW[this.currentImage];
@@ -34,7 +34,7 @@ class ThrowableObject extends MovableObject {
     this.speedY = 15;
     const GAME_HEIGHT = 480;
     this.splashing = false;
-    this.throwMoveInterval = setInterval(() => {
+    this.throwMoveInterval = window.setStoppableInterval(() => {
       this.x += this.toLeft ? -20 : 20;
       this.y -= this.speedY;
       this.speedY -= this.acceleration;
@@ -66,7 +66,7 @@ class ThrowableObject extends MovableObject {
     this.currentImage = 0;
     const splashImages = Bottle.IMAGES_BOTTLES_SPLASH;
     this.loadImages(splashImages);
-    this.splashInterval = setInterval(() => {
+    this.splashInterval = window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % splashImages.length;
       let path = splashImages[this.currentImage];
       this.img = this.imageCache[path];

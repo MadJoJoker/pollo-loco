@@ -22,7 +22,7 @@ class MovableObject extends DrawableObject {
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
-    this.img.onload = () => this.imageLoaded = true;
+    this.img.onload = () => (this.imageLoaded = true);
     this.img.onerror = () => {
       this.imageLoaded = false;
       console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
@@ -73,7 +73,7 @@ class MovableObject extends DrawableObject {
   }
 
   applyGravity() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;

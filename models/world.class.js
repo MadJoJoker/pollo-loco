@@ -1,6 +1,6 @@
 class World {
   character = new Character();
-  level = level1;
+  level;
   canvas;
   ctx;
   keyboard = new Keyboard();
@@ -16,6 +16,7 @@ class World {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.keyboard = keyboard;
+    this.level = typeof level1 !== "undefined" ? level1 : null;
     this.setWorld();
     this.initStatusBars();
     this.startGameLoops();
@@ -29,13 +30,13 @@ class World {
   }
 
   startGameLoops() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.updateCamera();
       this.updateEffects();
       this.draw();
     }, 1000 / 60);
 
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.handleCollectibles();
       this.checkCharacterChickenCollision();
       this.checkBottleEnemyCollision();
@@ -208,7 +209,7 @@ class World {
   }
 
   run() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.checkCollisions();
     }, 200);
   }

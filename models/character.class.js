@@ -94,12 +94,12 @@ class Character extends MovableObject {
   animate() {
     let idleStartTime = Date.now();
     let canThrowBottle = true;
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       const actionHappened = this.handleActions(canThrowBottle);
       if (!this.world?.keyboard?.D) canThrowBottle = true;
       if (actionHappened) idleStartTime = Date.now();
     }, 1000 / 45);
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.handleIdle(idleStartTime);
     }, 300);
   }
@@ -209,7 +209,7 @@ class Character extends MovableObject {
       : this.x + this.width - this.offset.right;
     const bottleY = this.y + this.height / 2;
     const bottle = new ThrowableObject(bottleX, bottleY, this.otherDirection);
-    bottle.world = this.world; 
+    bottle.world = this.world;
     bottle.throw();
     if (this.throwBottles) this.throwBottles.push(bottle);
     this.bottles -= 1;

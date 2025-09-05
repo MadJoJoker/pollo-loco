@@ -39,7 +39,7 @@ class Bottle extends CollectibleObject {
   offset = { top: 30, bottom: 20, left: 40, right: 40 };
 
   animate() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.IMAGES_USED.length;
       let path = this.IMAGES_USED[this.currentImage];
       this.img = this.imageCache[path];

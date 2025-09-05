@@ -14,11 +14,11 @@ function init() {
 
 window.addEventListener("keydown", (e) => {
   if (e.keyCode === 39) keyboard.RIGHT = true; // Pfeil rechts
-  if (e.keyCode === 37) keyboard.LEFT = true;  // Pfeil links
-  if (e.keyCode === 38) keyboard.UP = true;    // Pfeil oben
-  if (e.keyCode === 40) keyboard.DOWN = true;  // Pfeil unten
+  if (e.keyCode === 37) keyboard.LEFT = true; // Pfeil links
+  if (e.keyCode === 38) keyboard.UP = true; // Pfeil oben
+  if (e.keyCode === 40) keyboard.DOWN = true; // Pfeil unten
   if (e.keyCode === 32) keyboard.SPACE = true; // Leertaste
-  if (e.keyCode === 68) keyboard.D = true;     // D
+  if (e.keyCode === 68) keyboard.D = true; // D
 });
 window.addEventListener("keyup", (e) => {
   if (e.keyCode === 39) keyboard.RIGHT = false;
@@ -40,30 +40,36 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// let intervalIds = [];
+window.intervalIds = [];
+window.setStoppableInterval = function (fn, time) {
+  let id = setInterval(fn, time);
+  window.intervalIds.push(id);
+  return id;
+};
 
-// function setStoppableInterval(fn, time) {
-//   let id = setInterval(fn, time);
-//   intervalIds.push(id);
-//   return id;
-// }
+function stopAllIntervals() {
+  intervalIds.forEach(clearInterval);
+  intervalIds = [];
+}
 
-// let i = 1;
-// function sayHello() {
-//   console.log('Hallo', i);
-//   i++;
-// }
-// function sayGoodbye() {
-//   console.log('Tschüss', i);
-//   i++;
-// }
+function pauseGame() {
+  stopAllIntervals();
+  // Optional: Overlay oder Pause-Logik
+}
 
-// let interval = setStoppableInterval(sayHello, 11500);
-// let interval2 = setStoppableInterval(sayGoodbye, 11500);
+function playGame() {
+  // Intervalle neu starten, z.B. world.startIntervals() falls vorhanden
+  if (world && typeof world.startIntervals === "function") {
+    world.startIntervals();
+  }
+}
 
-// console.log('ID vom Interval ist', interval);
+function stopGame() {
+  stopAllIntervals();
+  // Optional: Game Over/Charakter Tod Logik
+}
 
-// function stopGame() {
-//   intervalIds.forEach(clearInterval);
-// }
-// document.getElementById('pauseButton').addEventListener('click', stopGame);
+const pauseButton = document.getElementById("pauseButton");
+const playButton = document.getElementById("playButton");
+if (pauseButton) pauseButton.addEventListener("click", pauseGame);
+if (playButton) playButton.addEventListener("click", playGame);

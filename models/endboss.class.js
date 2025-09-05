@@ -65,7 +65,7 @@ class Endboss extends MovableObject {
   }
 
   setRandomAction() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       const action = Math.floor(Math.random() * 3);
       this.isWalking = action === 1;
       this.isAttacking = action === 2;
@@ -73,7 +73,7 @@ class Endboss extends MovableObject {
   }
 
   startAnimation() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       if (this.isRemoved) return;
       if (this.isDeadNow) return this.handleDeath();
       if (this.isHurtNow) return this.handleHurt();

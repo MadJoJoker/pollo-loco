@@ -10,11 +10,11 @@ class Cloud extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.x -= 0.18;
-        if (this.x < -this.width) {
-      this.x = 600 + Math.random() * 200; 
-        }
-    }, 1000/60);
+      if (this.x < -this.width) {
+        this.x = 600 + Math.random() * 200;
+      }
+    }, 1000 / 60);
   }
 }

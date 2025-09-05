@@ -29,7 +29,7 @@ class Coin extends CollectibleObject {
   }
 
   animate() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.IMAGES_WALKING.length;
       let path = this.IMAGES_WALKING[this.currentImage];
       this.img = this.imageCache[path];

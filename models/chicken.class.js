@@ -28,7 +28,7 @@ class Chicken extends MovableObject {
     right: 30,
   };
   animate() {
-    setInterval(() => {
+    window.setStoppableInterval(() => {
       this.moveLeft();
     }, this.animationSpeed);
   }
