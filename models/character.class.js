@@ -72,7 +72,7 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  offset = { top: 130, bottom: 30, left: 60, right: 60 };
+  offset = { top: 130, bottom: 20, left: 45, right: 45 };
 
   constructor(world) {
     super().loadImage("/assets/img/2_character_pepe/2_walk/W-21.png");

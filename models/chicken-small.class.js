@@ -27,8 +27,8 @@ class ChickenSmall extends MovableObject {
   offset = {
     top: 0,
     bottom: 25,
-    left: 50,
-    right: 50,
+    left: 60,
+    right: 60,
   };
   animate() {
     window.setStoppableInterval(() => {

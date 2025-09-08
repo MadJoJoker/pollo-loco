@@ -180,7 +180,7 @@ class World {
     );
   }
   handleBottleEnemyCollision(bottle, enemy) {
-    if (!enemy.isHurt && !enemy.isDead) {
+    if (!enemy.isHurt && !enemy.isDeadNow) {
       if (typeof enemy.hitByBottle === "function") {
         enemy.hitByBottle(bottle);
       }
@@ -191,7 +191,6 @@ class World {
   }
 
   handleEnemyCollision(enemy) {
-    // Nur Charakter verletzen, wenn Gegner nicht tot ist
     if (enemy.isDeadNow) {
       console.log(
         "[DEBUG] handleEnemyCollision(): Gegner ist tot, keine Verletzung"
