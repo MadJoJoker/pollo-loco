@@ -1,5 +1,4 @@
 class ChickenSmall extends MovableObject {
-
   height = 75;
   width = 75;
   y = 360;
@@ -26,23 +25,37 @@ class ChickenSmall extends MovableObject {
     this.animate();
   }
   offset = {
-    top: 20,
+    top: 0,
     bottom: 25,
     left: 50,
     right: 50,
   };
   animate() {
     window.setStoppableInterval(() => {
-      this.moveLeft();
+      if (!this.isDeadNow) {
+        this.moveLeft();
+      }
     }, this.animationSpeed);
-    if (this.isDead()) {
-      this.playAnimation(this.IMAGES_DEAD);
-      console.log("SMALL_CHICK_KILL");
+  }
 
-      return;
+  handleDeath() {
+    console.log(
+      "[DEBUG] handleDeath() aufgerufen, Dead-Animation wird abgespielt"
+    );
+    this.currentImage = 0;
+    this.img = this.imageCache[this.IMAGES_DEAD[0]];
+    this.playAnimation(this.IMAGES_DEAD);
+    if (!this.deadAnimationTimeout) {
+      this.deadAnimationTimeout = setTimeout(() => {
+        if (!this.isRemoved) {
+          console.log("[DEBUG] ChickenSmall wird entfernt");
+          this.isRemoved = true;
+          this.removeFromEnemies();
+        }
+      }, 2000);
     }
   }
-    hitByBottle(bottle) {
+  hitByBottle(bottle) {
     console.log("[DEBUG] ChickenSmall.hitByBottle() ausgelöst", {
       energy: this.energy,
     });
@@ -53,12 +66,14 @@ class ChickenSmall extends MovableObject {
     }
   }
   hitByJump() {
-    console.log("[DEBUG] ChickenSmall.hitByJump() ausgelöst", {
+    console.log("[DEBUG] hitByJump(): ChickenSmall.hitByJump ausgelöst", {
       energy: this.energy,
+      isDeadNow: this.isDeadNow,
     });
     this.energy -= 100;
     if (this.energy <= 0 && !this.isDeadNow) {
       this.isDeadNow = true;
+      console.log("[DEBUG] ChickenSmall stirbt durch Sprung");
       this.handleDeath();
     }
   }

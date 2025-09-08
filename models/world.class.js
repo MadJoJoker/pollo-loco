@@ -153,6 +153,18 @@ class World {
           );
           enemy.hitByJump();
           break;
+        } else if (
+          typeof this.character.isAboveGround === "function" &&
+          this.character.isAboveGround() &&
+          enemy instanceof ChickenSmall &&
+          typeof enemy.hitByJump === "function" &&
+          !enemy.isDeadNow
+        ) {
+          console.log(
+            "[DEBUG] World: Jump-Collision erkannt, ChickenSmall stirbt, Charakter bleibt unverletzt"
+          );
+          enemy.hitByJump();
+          break;
         }
         this.handleEnemyCollision(enemy);
         break;
