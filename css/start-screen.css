@@ -1,0 +1,17 @@
+body{
+  min-height: 100vh;
+}
+
+#start-body {
+  background-image: url("/assets/img/10_external_img/start-screen-backgreound.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+#start-main{
+  position: absolute;
+  z-index: 1;
+  left: 70%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
