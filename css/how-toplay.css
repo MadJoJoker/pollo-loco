@@ -1,0 +1,87 @@
+
+@font-face {
+  font-family: "GringoNights";
+  src: url("/assets/fonts/gringo-nights/GringoNights.ttf") format("truetype");
+}
+body {
+  min-height: 100vh;
+  font-family: "GringoNights";
+}
+
+#how-to-play-body {
+  background-image: url("/assets/img/10_external_img/start-screen-backgreound.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+#how-to-play-main {
+  position: absolute;
+  z-index: 1;
+  left: 70%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+#how-to-play-scoreboard {
+  background-image: url("/assets/button/board.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+   width: 40%;
+  height: 40%;
+
+  position: absolute;
+  z-index: 1;
+  left: 30%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#how-to-play-scoreboard li {
+ font-size: 22px;
+ font-weight: 600;
+}
+#how-to-play-scoreboard li img {
+  width: 32px;
+  height: auto;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.scoreboard-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.scoreboard-columns::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(204, 119, 34, 0.8);
+  width: 8px;
+  height: 90%;
+  border-radius: 10px;
+  margin: 5px;
+  z-index: 2;
+}
+
+
+
+.scoreboard-columns li {
+  font-size: 32px;
+  font-weight: 100;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.scoreboard-columns li img {
+  width: 32px;
+  margin-left: 8px;
+}
