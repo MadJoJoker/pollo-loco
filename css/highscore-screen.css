@@ -1,15 +1,12 @@
 
-@font-face {
-  font-family: "GringoNights";
-  src: url("/assets/fonts/gringo-nights/GringoNights.ttf") format("truetype");
-}
+
 body {
   min-height: 100vh;
   font-family: "GringoNights";
 }
 
 #heros-body {
-  background-image: url("/assets/img/10_external_img/start-screen-backgreound.jpg");
+  background-image: url("/assets/img/10_external_img/background-dessert.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -26,13 +23,13 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 40%;
-  height: 40%;
+  width: 600px;
+  height: 500px;
 
   position: absolute;
   z-index: 1;
-  left: 30%;
-  top: 60%;
+  left: 45%;
+  top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
@@ -127,4 +124,9 @@ body {
 
 #thirdPlace:hover {
   box-shadow: 0 0 22px 8px rgba(205,127,50,0.6), 0 2px 12px rgba(0,0,0,0.13);
+}
+#start-game-btn,#how-to-play-btn,#settings-btn,#highscore-btn{
+  background-color:rgba(204, 119, 34, 0.8);
+  border-radius: 10px;
+  margin: 5px ;
 }

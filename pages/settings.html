@@ -16,11 +16,23 @@
   <title>Chicken-Tabasco</title>
   <link rel="shortcut icon" href="/assets/img/2_character_pepe/1_idle/long_idle/I-14.png" type="image/x-icon">
 <link rel="stylesheet" href="/css/settings.css">
+<link rel="stylesheet" href="/css/start-screen.css">
+
 </head>
+
+
 <body id="settings-body">
   <header id="settings-header">
    <nav id="settings"></nav>
    </header>
+   <div id="main-menu-placeholder"></div>
+   <script>
+  fetch('/pages/main-menu.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('main-menu-placeholder').innerHTML = html;
+  });
+</script>
 <div id="settings-scoreboard">
   <h1>Settings</h1>
 <div id="mute-control" style="margin: 24px 0;">
@@ -43,21 +55,6 @@
   </div>
 </div>
 
-   <section id="settings-main">
-    <div id="settings-game">
-      <button id="settings-game-btn">El Startos</button>
-    </div>
-    <div id="settings">
-      <button id="settings-btn">La Rulos</button>
-    </div>
-    <div id="settings">
-      <button id="settings-btn">Technoligia</button>
-    </div>
-    <div id="highscore">
-      <button id="highscore-btn">El Muchatcho</button>
-    </div>
-
-   </section>
 
 
 </body>

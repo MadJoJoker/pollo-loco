@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Play</title>
   <link rel="stylesheet" href="/css/how-toplay.css">
+  <link rel="stylesheet" href="/css/start-screen.css">
+
   <link rel="shortcut icon" href="/assets/img/10_external_img/background-dessert.jpg" type="image/x-icon">
 </head>
 <body>
@@ -39,21 +41,14 @@
   </div>
 </div>
 
-   <section id="how-to-play-main">
-    <div id="how-to-play-game">
-      <button id="how-to-play-game-btn">El Startos</button>
-    </div>
-    <div id="how-to-play">
-      <button id="how-to-play-btn">La Rulos</button>
-    </div>
-    <div id="settings">
-      <button id="settings-btn">Technoligia</button>
-    </div>
-    <div id="highscore">
-      <button id="highscore-btn">El Muchatcho</button>
-    </div>
-
-   </section>
+    <div id="main-menu-placeholder"></div>
+   <script>
+  fetch('/pages/main-menu.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('main-menu-placeholder').innerHTML = html;
+  });
+</script>
 
 
 </body>

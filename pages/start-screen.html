@@ -9,20 +9,26 @@
 </head>
 <body id="start-body">
   <header id="start-header">
-   <nav id="start-navbar"></nav>
+   <nav id="start-navbar">
+       <div id="main-menu-placeholder"></div>
+    </nav>
    </header>
-   <section id="start-main">
-    <div id="start-game">
-      <button id="start-game-btn">El Startos</button>
+     <div id="scoreboard">
+      <h1>Start Game</h1>
+      <button id="start-game-btn">
+      <img src="/assets/button/hat-310509_640.png" alt="scoreboard" style="height: 64px;"/>
+    </button>
     </div>
-    <div id="how-to-play">      <button id="how-to-play-btn">La Rulos</button>
-</div>
-    <div id="settings">      <button id="settings-btn">Technoligia</button>
-</div>
-    <div id="highscore">      <button id="highscore-btn">El Muchatcho</button>
-</div>
+   <script>
+  fetch('/pages/main-menu.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('main-menu-placeholder').innerHTML = html;
+        if (window.initCarousel) window.initCarousel();
 
-   </section>
-  <scrip src="/js/start-screen.js"></script>
+  });
+</script>
+<script src="/js/main-menu-carousel.js"></script>
+<script src="/js/start-screen.js"></script>
 </body>
 </html>

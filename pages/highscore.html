@@ -6,6 +6,7 @@
   <title>Highscore Heros</title>
   <link rel="shortcut icon" href="/assets/img/2_character_pepe/1_idle/long_idle/I-14.png" type="image/x-icon">
 <link rel="stylesheet" href="/css/highscore-screen.css">
+<link rel="stylesheet" href="/css/start-screen.css">
 </head>
 <body id="heros-body">
   <header id="heros-header"><!DOCTYPE html>
@@ -41,15 +42,14 @@
   </ul>
 </div>
    </div>
-   <section id="heros-main">
-    <div id="heros-game">
-      <button id="heros-game-btn">El Startos</button>
-    </div>
-    <div id="how-to-play">      <button id="how-to-play-btn">La Rulos</button>
-</div>
-    <div id="settings">      <button id="settings-btn">Technoligia</button>
-</div>
-   </section>
+    <div id="main-menu-placeholder"></div>
+   <script>
+  fetch('/pages/main-menu.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('main-menu-placeholder').innerHTML = html;
+  });
+</script>
 
 </body>
 </html>

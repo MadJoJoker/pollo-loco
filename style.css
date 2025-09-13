@@ -1,4 +1,7 @@
-
+@font-face {
+  font-family: "GringoNights";
+  src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
+}
 body {
   overflow: hidden;
 
@@ -14,10 +17,7 @@ body {
   font-family: "GringoNights";
   justify-content: center;
 }
-@font-face {
-  font-family: "GringoNights";
-  src: url("/assets/fonts/gringo-nights/GringoNights.ttf") format("truetype");
-}
+
 
 .hidden {
   display: none !important;

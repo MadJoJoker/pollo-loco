@@ -1,15 +1,12 @@
 
-@font-face {
-  font-family: "GringoNights";
-  src: url("/assets/fonts/gringo-nights/GringoNights.ttf") format("truetype");
-}
+
 body {
   min-height: 100vh;
   font-family: "GringoNights";
 }
 
 #settings-body {
-  background-image: url("/assets/img/10_external_img/start-screen-backgreound.jpg");
+  background-image: url("/assets/img/10_external_img/background-dessert.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -31,8 +28,8 @@ body {
 
   position: absolute;
   z-index: 1;
-  left: 30%;
-  top: 60%;
+  left: 45%;
+  top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
@@ -117,4 +114,9 @@ body {
   font-weight: bold;
   color: #cc7722;
   padding-left: 8px;
+}
+#start-game-btn,#how-to-play-btn,#settings-btn,#highscore-btn{
+  background-color:rgba(204, 119, 34, 0.8);
+  border-radius: 10px;
+  margin: 5px ;
 }
