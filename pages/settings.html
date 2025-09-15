@@ -25,14 +25,9 @@
   <header id="settings-header">
    <nav id="settings"></nav>
    </header>
-   <div id="main-menu-placeholder"></div>
-   <script>
-  fetch('/pages/main-menu.html')
-  .then(response => response.text())
-  .then(html => {
-    document.getElementById('main-menu-placeholder').innerHTML = html;
-  });
-</script>
+
+
+
 <div id="settings-scoreboard">
   <h1>Settings</h1>
 <div id="mute-control" style="margin: 24px 0;">
@@ -46,16 +41,32 @@
 
   muteRange.addEventListener('input', function() {
     if (muteRange.value == "1") {
-      muteStatus.textContent = "Sound aus";
+      muteStatus.textContent = "Sound off";
     } else {
-      muteStatus.textContent = "Sound an";
+      muteStatus.textContent = "Sound on";
     }
   });
 </script>
   </div>
 </div>
+ <header id="start-header">
+    <a>Impressum</a>
 
+      <nav id="start-navbar">
+        <div id="main-menu-placeholder"></div>
+      </nav>
+        <a>Datenschutz</a>
 
-
+    </header>
+   <script>
+  fetch('/pages/main-menu.html')
+  .then(response => response.text())
+  .then(html => {
+    document.getElementById('main-menu-placeholder').innerHTML = html;
+  });
+</script>
+<script src="/js/main-menu-carousel.js"></script>
+<script src="/js/start-screen.js"></script>
+<script src="/js/settings.js"></script>
 </body>
 </html>

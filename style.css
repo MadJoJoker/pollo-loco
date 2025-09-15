@@ -134,6 +134,7 @@ h1 {
   z-index: 99999;
 }
 
+
 @media only screen and (max-width: 910px) {
   h1 {
     font-size: 40px;
