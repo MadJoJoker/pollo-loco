@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "GringoNights";
+  src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
+}
+html{
+  color: rgb(27, 11, 11);
+  font-family: "GringoNights";
+  font-size: larger;
+  background-color: rgba(244, 238, 150, 0.4);
+
+}
+body {
+ min-height: 100vh;
+
+
+}
+h1,h2,h3 {
+  background-color: rgba(204, 119, 34, 0.4);
+  border-radius: 10px;
+}
+a{
+  color: rgba(204, 119, 34, 0.9);
+}
+a:hover{
+  color:rgb(27,11,11); 
+}

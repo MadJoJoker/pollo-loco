@@ -72,8 +72,8 @@ body {
 
   position: absolute;
   z-index: 1;
-  left: 45%;
-  top: 50%;
+  left: 49%;
+  top: 45%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
@@ -120,6 +120,15 @@ a:hover{
   border: rgb(244,238,150);
   border-style: solid;
   border-width: 2px;
+}
+
+h1 {
+  font-size: 65px;
+  color: rgb(27, 11, 11);
+  background-color: rgba(204, 119, 34, 0.6);
+  border-radius: 10px;
+  padding: 4px;
+  border: solid 2px rgb(244,238,150);
 }
 .carousel {
   position: absolute;

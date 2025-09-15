@@ -86,7 +86,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: rgba(255, 235, 205, 0.7);
+  background: rgb(244,238,150);
   border-radius: 12px;
   padding: 12px 24px;
   box-shadow: 0 2px 8px rgba(204, 119, 34, 0.15);
