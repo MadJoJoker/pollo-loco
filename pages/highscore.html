@@ -14,98 +14,76 @@
   </head>
   <body id="heros-body">
     <header id="heros-header">
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-          />
-          <title>Chicken-Tabasco - Heros</title>
-          <link
-            rel="shortcut icon"
-            href="/assets/img/2_character_pepe/1_idle/long_idle/I-14.png"
-            type="image/x-icon"
-          />
-          <link rel="stylesheet" href="/css/start-screen.css" />
-        </head>
-        <body id="heros-body">
-          <header id="heros-header">
-            <nav id="heros-navbar"></nav>
-          </header>
-          <div id="heros-scoreboard">
-            <h1>Heros</h1>
-            <div class="scoreboard-columns">
-              <ul>
-                <li id="firstPlace">
-                  🥇First:
-                  <div id="firstName" class="score-name">uno</div>
-                </li>
-                <li id="secondPlace">
-                  🥈Second:
-                  <div id="secondName" class="score-name">dos</div>
-                </li>
-                <li id="thirdPlace">
-                  🥉Third:
-                  <div id="thirdName" class="score-name">tres</div>
-                </li>
-                <li id="fourthPlace">
-                  Fourth:
-                  <div id="fourthName" class="score-name">cuatro</div>
-                </li>
-                <li id="fifthPlace">
-                  Fifth:
-                  <div id="fifthName" class="score-name">cinco</div>
-                </li>
-              </ul>
-              <ul>
-                <li id="sixthPlace">
-                  Sixth:
-                  <div id="sixthName" class="score-name">seis</div>
-                </li>
-                <li id="seventhPlace">
-                  Seventh:
-                  <div id="seventhName" class="score-name">siete</div>
-                </li>
-                <li id="eighthPlace">
-                  Eighth:
-                  <div id="eighthName" class="score-name">ocho</div>
-                </li>
-                <li id="ninthPlace">
-                  Ninth:
-                  <div id="ninthName" class="score-name">nueve</div>
-                </li>
-                <li id="tenthPlace">
-                  Tenth:
-                  <div id="tenthName" class="score-name">diez</div>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <header id="start-header">
-            <a>Datenschutz</a>
-
-            <nav id="start-navbar">
-              <div id="main-menu-placeholder"></div>
-            </nav>
-            <a>Impressum</a>
-          </header>
-          <script>
-            fetch("/pages/main-menu.html")
-              .then((response) => response.text())
-              .then((html) => {
-                document.getElementById("main-menu-placeholder").innerHTML =
-                  html;
-              });
-          </script>
-          <script src="/js/main-menu-carousel.js"></script>
-          <script src="/js/start-screen.js"></script>
-
-          <script src="/js/highscore-screen.js"></script>
-        </body>
-      </html>
+      <nav id="heros-navbar"></nav>
     </header>
+    <div id="heros-scoreboard">
+      <h1>Heros</h1>
+      <div class="scoreboard-columns">
+        <ul>
+          <li id="firstPlace">
+            🥇First:
+            <div id="firstName" class="score-name">uno</div>
+          </li>
+          <li id="secondPlace">
+            🥈Second:
+            <div id="secondName" class="score-name">dos</div>
+          </li>
+          <li id="thirdPlace">
+            🥉Third:
+            <div id="thirdName" class="score-name">tres</div>
+          </li>
+          <li id="fourthPlace">
+            Fourth:
+            <div id="fourthName" class="score-name">cuatro</div>
+          </li>
+          <li id="fifthPlace">
+            Fifth:
+            <div id="fifthName" class="score-name">cinco</div>
+          </li>
+        </ul>
+        <ul>
+          <li id="sixthPlace">
+            Sixth:
+            <div id="sixthName" class="score-name">seis</div>
+          </li>
+          <li id="seventhPlace">
+            Seventh:
+            <div id="seventhName" class="score-name">siete</div>
+          </li>
+          <li id="eighthPlace">
+            Eighth:
+            <div id="eighthName" class="score-name">ocho</div>
+          </li>
+          <li id="ninthPlace">
+            Ninth:
+            <div id="ninthName" class="score-name">nueve</div>
+          </li>
+          <li id="tenthPlace">
+            Tenth:
+            <div id="tenthName" class="score-name">diez</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <header id="start-header">
+      <a>Datenschutz</a>
+
+      <nav id="start-navbar">
+        <div id="main-menu-placeholder"></div>
+      </nav>
+      <a>Impressum</a>
+    </header>
+    <script>
+      fetch("/pages/main-menu.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("main-menu-placeholder").innerHTML = html;
+          if (window.initCarousel) window.initCarousel();
+        });
+    </script>
+    <script src="/js/main-menu-carousel.js"></script>
+
+    <script src="/js/highscore-screen.js"></script>
   </body>
 </html>

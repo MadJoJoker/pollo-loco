@@ -59,14 +59,13 @@
 
     </header>
    <script>
-  fetch('/pages/main-menu.html')
-  .then(response => response.text())
-  .then(html => {
-    document.getElementById('main-menu-placeholder').innerHTML = html;
-  });
+ fetch("/pages/main-menu.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("main-menu-placeholder").innerHTML = html;
+          if (window.initCarousel) window.initCarousel();
+        });
 </script>
 <script src="/js/main-menu-carousel.js"></script>
-<script src="/js/start-screen.js"></script>
-<script src="/js/settings.js"></script>
 </body>
 </html>
