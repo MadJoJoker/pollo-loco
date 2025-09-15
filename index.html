@@ -12,7 +12,13 @@
     <link rel="stylesheet" href="style.css" />
     <title>El Pollo Loco- Chicken Tabasco</title>
   </head>
+
   <body onload="init()">
+      <script>
+  if (!document.referrer.includes('start-screen.html')) {
+    window.location.href = 'pages/start-screen.html';
+  }
+</script>
     <div id="fullscreen">
       <h1>El Pollo Loco - chicken Tabasco</h1>
       <canvas id="canvas" width="720" height="480"> </canvas>
