@@ -30,27 +30,25 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
-  color: rgb(27,11,11);
+  color: rgb(27, 11, 11);
   border-radius: 10px;
   font-size: 16px, bold;
   font-weight: bold;
   font-family: "GringoNights";
 }
-#start-game-btn-scoreboard{
-    background-color: rgb(99,33,31);
-    border: rgb(27,11,11);
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 10px;
+#start-game-btn-scoreboard {
+  background-color: rgb(99, 33, 31);
+  border: rgb(27, 11, 11);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
 }
-#start-game-btn-scoreboard:hover{
-   background-color:rgba(204, 119, 34, 0.6);
-   border: rgb(244,238,150);
-   border-style: solid;
-    border-width: 2px;
+#start-game-btn-scoreboard:hover {
+  background-color: rgba(204, 119, 34, 0.6);
+  border: rgb(244, 238, 150);
+  border-style: solid;
+  border-width: 2px;
 }
-
-
 
 #main-menu-placeholder {
   position: absolute;
@@ -104,20 +102,20 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
-a{
+a {
   text-decoration: none;
-  color:rgb(99,33,31);
-  background-color: rgb(27,11,11);
+  color: rgb(99, 33, 31);
+  background-color: rgb(27, 11, 11);
   font-size: 16px, bold;
   font-weight: bold;
   font-family: "GringoNights";
   padding: 10px;
   border-radius: 10px;
 }
-a:hover{
+a:hover {
   color: rgba(204, 119, 34, 0.6);
-  background-color: rgb(99,33,31);
-  border: rgb(244,238,150);
+  background-color: rgb(99, 33, 31);
+  border: rgb(244, 238, 150);
   border-style: solid;
   border-width: 2px;
 }
@@ -128,7 +126,7 @@ h1 {
   background-color: rgba(204, 119, 34, 0.6);
   border-radius: 10px;
   padding: 4px;
-  border: solid 2px rgb(244,238,150);
+  border: solid 2px rgb(244, 238, 150);
 }
 .carousel {
   position: absolute;
@@ -153,10 +151,23 @@ h1 {
 }
 .carousel button:hover {
   cursor: pointer;
-  background-color: rgb(99,33,31 ) !important;
+  background-color: rgb(99, 33, 31) !important;
   border-color: chocolate;
-  color: rgb(244,238,150) !important;
+  color: rgb(244, 238, 150) !important;
 }
+#game-over-msg {
+  position: absolute;
+  top:30%;
+  left: 15%;
+  height: 40%;
+  width: 70% ;
+  background-image: url("/assets/img/9_intro_outro_screens/game_over/game-over.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: solid 2px rgb(244, 238, 150);
+  border-radius: 10px;
+}
+
 @keyframes carouselSlideY {
   0% {
     transform: translate(-50%, -50%) translateY(0);
