@@ -159,22 +159,22 @@ h1 {
 }
 #game-over-msg {
   position: absolute;
-  top:30%;
+  top: 30%;
   left: 15%;
   height: 40%;
-  width: 70% ;
+  width: 70%;
   background-image: url("/assets/img/9_intro_outro_screens/game_over/game-over.png");
   background-repeat: no-repeat;
   background-size: cover;
   border: solid 2px rgb(244, 238, 150);
   border-radius: 10px;
 }
-#game-over-msg-won{
+#game-over-msg-won {
   position: absolute;
-  top:30%;
+  top: 30%;
   left: 33%;
   height: 40%;
-  width: 35% ;
+  width: 35%;
   z-index: 4;
   background-image: url("/assets/button/sheriff-156649_640.png");
   background-repeat: no-repeat;
@@ -208,4 +208,21 @@ h1 {
   100% {
     transform: translate(-50%, -50%) translateY(0);
   }
+}
+#restart-btn,
+#no-restart-btn {
+  width: 50px;
+  height: auto;
+  margin: 20px;
+  vertical-align: middle;
+  padding-left: 0;
+  border: solid 2px rgb(244, 238, 150);
+  padding: 5px;
+  border-radius: 10px;
+}
+
+#restart-btn:hover,
+#no-restart-btn:hover {
+  background-color: rgb(99, 33, 31);
+  cursor: pointer;
 }

@@ -12,7 +12,12 @@
     />
   </head>
   <body id="start-body">
-    <audio id="game-over-sound" src="/assets/audio/game-over.mp3" autoplay loop></audio>
+    <audio
+      id="game-over-sound"
+      src="/assets/audio/game-over.mp3"
+      autoplay
+      loop
+    ></audio>
     <header id="start-header">
       <a onclick="location.href='/pages/impressum.html'">Impressum</a>
       <nav id="start-navbar">
@@ -21,13 +26,20 @@
       <a onclick="location.href='/pages/datenschutz.html'">Datenschutz</a>
     </header>
 
-       <h1>Try Again?</h1>
+    <h1>
+      Try Again?
+      <img
+        id="restart-btn"
+        src="/assets/button/check-btn.png"
+        alt="restart" onclick="location.href='/index.html'"
+      /><img
+        id="no-restart-btn"
+        src="/assets/button/close-btn.png"
+        alt="no-restart"
+      />
+    </h1>
     <div id="scoreboard">
-
-
-      <div id="game-over-msg">
-      </div>
-
+      <div id="game-over-msg"></div>
     </div>
 
     <script>
@@ -38,6 +50,7 @@
           if (window.initCarousel) window.initCarousel();
         });
     </script>
+    <script src="/js/game-over-restart.js"></script>
     <script src="/js/main-menu-carousel.js"></script>
   </body>
 </html>
