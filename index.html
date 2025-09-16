@@ -14,13 +14,15 @@
   </head>
 
   <body onload="init()">
+        <audio id="index-sound" src="/assets/audio/guitarre.mp3" autoplay loop ></audio>
+
       <script>
   if (!document.referrer.includes('start-screen.html')) {
     window.location.href = 'pages/start-screen.html';
   }
 </script>
     <div id="fullscreen">
-      <h1>El Pollo Loco - chicken Tabasco</h1>
+      <h1>El Pollo Loco - Chicken Tabasco</h1>
       <canvas id="canvas" width="720" height="480"> </canvas>
       <div id="canvasFullscreenBtn" class="canvas-fullscreen-btn hidden">
         <button id="canvasFullscreenButton" class="img-btn">

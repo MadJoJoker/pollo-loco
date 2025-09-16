@@ -3,7 +3,6 @@ let world;
 window.keyboard = new Keyboard();
 
 document.addEventListener("contextmenu", function (e) {
-  //Kontextmenü
   e.preventDefault();
 });
 
@@ -13,12 +12,12 @@ function init() {
 }
 
 window.addEventListener("keydown", (e) => {
-  if (e.keyCode === 39) keyboard.RIGHT = true; // Pfeil rechts
-  if (e.keyCode === 37) keyboard.LEFT = true; // Pfeil links
-  if (e.keyCode === 38) keyboard.UP = true; // Pfeil oben
-  if (e.keyCode === 40) keyboard.DOWN = true; // Pfeil unten
-  if (e.keyCode === 32) keyboard.SPACE = true; // Leertaste
-  if (e.keyCode === 68) keyboard.D = true; // D
+  if (e.keyCode === 39) keyboard.RIGHT = true;
+  if (e.keyCode === 37) keyboard.LEFT = true;
+  if (e.keyCode === 38) keyboard.UP = true;
+  if (e.keyCode === 40) keyboard.DOWN = true;
+  if (e.keyCode === 32) keyboard.SPACE = true;
+  if (e.keyCode === 68) keyboard.D = true;
 });
 window.addEventListener("keyup", (e) => {
   if (e.keyCode === 39) keyboard.RIGHT = false;
@@ -54,11 +53,9 @@ function stopAllIntervals() {
 
 function pauseGame() {
   stopAllIntervals();
-  // Optional: Overlay oder Pause-Logik
 }
 
 function playGame() {
-  // Intervalle neu starten, z.B. world.startIntervals() falls vorhanden
   if (world && typeof world.startIntervals === "function") {
     world.startIntervals();
   }
@@ -66,7 +63,6 @@ function playGame() {
 
 function stopGame() {
   stopAllIntervals();
-  // Optional: Game Over/Charakter Tod Logik
 }
 
 const pauseButton = document.getElementById("pauseButton");
