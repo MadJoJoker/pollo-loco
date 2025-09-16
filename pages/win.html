@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You won!</title>
+    <link rel="stylesheet" href="/css/start-screen.css" />
+    <link
+      rel="shortcut icon"
+      href="/assets/button/guitar-9546520_640.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body id="start-body">
+    <header id="start-header">
+      <a onclick="location.href='/pages/impressum.html'">Impressum</a>
+      <nav id="start-navbar">
+        <div id="main-menu-placeholder"></div>
+      </nav>
+      <a onclick="location.href='/pages/datenschutz.html'">Datenschutz</a>
+    </header>
+
+       <h1>You Win Town got a new. . . </h1>
+    <div id="scoreboard">
+
+
+      <div id="game-over-msg-won">
+      </div>
+
+    </div>
+
+    <script>
+      fetch("/pages/main-menu.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("main-menu-placeholder").innerHTML = html;
+          if (window.initCarousel) window.initCarousel();
+        });
+    </script>
+    <script src="/js/main-menu-carousel.js"></script>
+  </body>
+</html>

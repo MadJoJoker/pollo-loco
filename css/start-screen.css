@@ -167,6 +167,19 @@ h1 {
   border: solid 2px rgb(244, 238, 150);
   border-radius: 10px;
 }
+#game-over-msg-won{
+  position: absolute;
+  top:30%;
+  left: 33%;
+  height: 40%;
+  width: 35% ;
+  z-index: 4;
+  background-image: url("/assets/button/sheriff-156649_640.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: solid 2px rgb(244, 238, 150);
+  border-radius: 10px;
+}
 
 @keyframes carouselSlideY {
   0% {
