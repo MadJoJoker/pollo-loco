@@ -118,6 +118,12 @@ class Character extends MovableObject {
   handleDeath() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
+      if (!this._gameOverRedirected) {
+        this._gameOverRedirected = true;
+        setTimeout(function () {
+          window.location.href = "/pages/game-over.html";
+        }, 600);
+      }
       return true;
     }
     return false;

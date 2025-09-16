@@ -139,15 +139,17 @@ h1 {
 }
 .carousel button {
   position: absolute;
-  left: 20%;
-  top: 30%;
+  left: 10%;
+  top: -20%;
   transform-origin: -100px 0;
   background-image: url("/assets/img/10_external_img/bullet-7018215_640.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  min-height: 35px;
-  min-width: 85px;
+  min-height: 55px;
+  min-width: 135px;
+  border: none;
+  text-align: left;
 }
 .carousel button:hover {
   cursor: pointer;

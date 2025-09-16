@@ -36,6 +36,9 @@ if (!window.GoldenEgg) {
       this.collected = true;
       window.levelWon = true;
       console.log("Level gewonnen!");
+      setTimeout(function () {
+        window.location.href = "/pages/win.html";
+      }, 400);
     }
   }
   window.GoldenEgg = GoldenEgg;

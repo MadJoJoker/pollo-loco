@@ -27,5 +27,23 @@ window.initCarousel = function () {
     e.preventDefault();
   });
 
+  let autoplayInterval = null;
+  function startAutoplay() {
+    if (autoplayInterval) return;
+    autoplayInterval = setInterval(() => {
+      scrollCarousel(1);
+    }, 800);
+  }
+  function stopAutoplay() {
+    if (autoplayInterval) {
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+    }
+  }
+  const carouselElem = document.querySelector(".carousel");
+  carouselElem.addEventListener("mouseenter", stopAutoplay);
+  carouselElem.addEventListener("mouseleave", startAutoplay);
+  startAutoplay();
+
   updateCarousel();
 };
