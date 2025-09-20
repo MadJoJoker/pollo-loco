@@ -22,6 +22,7 @@ class ChickenSmall extends MovableObject {
     this.animationSpeed = 100;
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
+    this.deathAudio = new Audio("/assets/audio/short-chick-sound-171389.mp3");
     this.animate();
   }
   offset = {
@@ -42,6 +43,10 @@ class ChickenSmall extends MovableObject {
     console.log(
       "[DEBUG] handleDeath() aufgerufen, Dead-Animation wird abgespielt"
     );
+    if (this.deathAudio) {
+      this.deathAudio.currentTime = 0;
+      this.deathAudio.play();
+    }
     this.currentImage = 0;
     this.img = this.imageCache[this.IMAGES_DEAD[0]];
     this.playAnimation(this.IMAGES_DEAD);

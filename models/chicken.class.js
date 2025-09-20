@@ -25,6 +25,7 @@ class Chicken extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);
     this.animate();
+    this.deathAudio = new Audio("/assets/audio/chicken-noise-196746.mp3");
   }
   offset = {
     top: 20,
@@ -68,6 +69,10 @@ class Chicken extends MovableObject {
     console.log(
       "[DEBUG] handleDeath() aufgerufen, Dead-Animation wird abgespielt"
     );
+    if (this.deathAudio) {
+      this.deathAudio.currentTime = 0;
+      this.deathAudio.play();
+    }
     this.currentImage = 0;
     this.img = this.imageCache[this.IMAGES_DEAD[0]];
     this.playAnimation(this.IMAGES_DEAD);
@@ -78,7 +83,7 @@ class Chicken extends MovableObject {
           this.isRemoved = true;
           this.removeFromEnemies();
         }
-      }, 2000); 
+      }, 2000);
     }
   }
 }

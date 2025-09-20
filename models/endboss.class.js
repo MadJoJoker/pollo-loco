@@ -12,6 +12,8 @@ class Endboss extends MovableObject {
   isAttacking = false;
   isDeadNow = false;
   shouldMoveRight = false;
+  _appearSoundPlayed = false;
+  _deathSoundPlayed = false;
 
   IMAGES_WALKING = [
     "/assets/img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -63,6 +65,16 @@ class Endboss extends MovableObject {
     this.level_end_x = level_end_x;
     this.setRandomAction();
     this.startAnimation();
+    this.deathAudio = new Audio(
+      "/assets/audio/chicken-cluking-type-3-293320.mp3"
+    );
+    this.hurtAudio = new Audio(
+      "/assets/audio/chicken-laying-an-egg-330874.mp3"
+    );
+    this.attackAudio = new Audio("/assets/audio/dona-screem.mp3");
+    this.appearAudio = new Audio(
+      "/assets/audio/chicken-single-alarm-call-6056.mp3"
+    );
   }
 
   setRandomAction() {
@@ -83,6 +95,10 @@ class Endboss extends MovableObject {
   }
 
   handleDeath() {
+    if (this.deathAudio) {
+      this.deathAudio.currentTime = 0;
+      this.deathAudio.play();
+    }
     this.playAnimation(this.IMAGES_DEAD);
     if (!this.deadAnimationTimeout) {
       this.deadAnimationTimeout = setTimeout(() => {
@@ -126,6 +142,13 @@ class Endboss extends MovableObject {
 
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
+     if (this.hurtAudio && this.hurtAudio.paused) {
+        this.hurtAudio.currentTime = 0;
+        this.hurtAudio.play();
+        setTimeout(() => {
+          if (this.deathAudio) this.deathAudio.pause();
+        }, 1000);
+      }
   }
 
   handleMovement() {
@@ -170,6 +193,11 @@ class Endboss extends MovableObject {
   }
 
   handleAlert() {
+    if (!this._appearSoundPlayed && this.appearAudio) {
+      this._appearSoundPlayed = true;
+      this.appearAudio.currentTime = 0;
+      this.appearAudio.play();
+    }
     this.animationSpeed = 170;
     this.playAnimation(this.IMAGES_ALERT);
     this.animationSpeed = 110;

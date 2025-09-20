@@ -80,6 +80,11 @@ class Character extends MovableObject {
     this.loadAllImages();
     this.applyGravity();
     this.animate();
+    this.deathAudio = new Audio(
+      "/assets/audio/grandpa-dying-on-floor-272435.mp3"
+    );
+    this.hurtAudio = new Audio("/assets/audio/male-extreme-scream-123078.mp3");
+    this.walkingAudio = new Audio("/assets/audio/authentic-spurs-70398.mp3");
   }
 
   loadAllImages() {
@@ -118,11 +123,24 @@ class Character extends MovableObject {
   handleDeath() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
+      if (this.hurtAudio && !this.hurtAudio.paused) {
+        this.hurtAudio.pause();
+        this.hurtAudio.currentTime = 0;
+      }
+      if (
+        !this._deathSoundPlayed &&
+        this.deathAudio &&
+        this.deathAudio.paused
+      ) {
+        this._deathSoundPlayed = true;
+        this.deathAudio.currentTime = 0;
+        this.deathAudio.play();
+      }
       if (!this._gameOverRedirected) {
         this._gameOverRedirected = true;
         setTimeout(function () {
           window.location.href = "/pages/game-over.html";
-        }, 600);
+        }, 1000);
       }
       return true;
     }
@@ -132,26 +150,45 @@ class Character extends MovableObject {
   handleHurt() {
     if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
+      if (this.hurtAudio && this.hurtAudio.paused) {
+        this.hurtAudio.currentTime = 0;
+        this.hurtAudio.play();
+        setTimeout(() => {
+          if (this.deathAudio) this.deathAudio.pause();
+        }, 1000);
+      }
       return true;
     }
     return false;
   }
 
-  handleMovement() {
+handleMovement() {
+    let isMoving = false;
     if (this.shouldMoveRight()) {
       this.moveRight();
       this.otherDirection = false;
       this.playAnimation(this.IMAGES_WALKING);
-      return true;
+      isMoving = true;
     }
     if (this.shouldMoveLeft()) {
       this.moveLeft();
       this.otherDirection = true;
       this.playAnimation(this.IMAGES_WALKING);
-      return true;
+      isMoving = true;
     }
-    return false;
-  }
+
+    if (this.walkingAudio) {
+      this.walkingAudio.loop = true;
+      if (isMoving && this.walkingAudio.paused) {
+        this.walkingAudio.play();
+      }
+      if (!isMoving && !this.walkingAudio.paused) {
+        this.walkingAudio.pause();
+        this.walkingAudio.currentTime = 0;
+      }
+    }
+    return isMoving;
+}
 
   shouldMoveRight() {
     return this.world?.keyboard?.RIGHT && this.x < this.world.level.level_end_x;

@@ -13,6 +13,7 @@ class ThrowableObject extends MovableObject {
     this.loadImage(Bottle.IMAGES_BOTTLES_THROW[0]);
     this.throw();
     this.animateThrow();
+    this.bottleCrackAudio = new Audio("/assets/audio/bottle-crack.mp3");
   }
 
   animateThrow() {
@@ -66,6 +67,10 @@ class ThrowableObject extends MovableObject {
     this.currentImage = 0;
     const splashImages = Bottle.IMAGES_BOTTLES_SPLASH;
     this.loadImages(splashImages);
+    if (this.bottleCrackAudio) {
+      this.bottleCrackAudio.currentTime = 0;
+      this.bottleCrackAudio.play();
+    }
     this.splashInterval = window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % splashImages.length;
       let path = splashImages[this.currentImage];
