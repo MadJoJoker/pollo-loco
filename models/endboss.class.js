@@ -97,6 +97,7 @@ class Endboss extends MovableObject {
   handleDeath() {
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
+      this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
       this.deathAudio.play();
     }
     this.playAnimation(this.IMAGES_DEAD);
@@ -144,6 +145,7 @@ class Endboss extends MovableObject {
     this.playAnimation(this.IMAGES_HURT);
     if (this.hurtAudio && this.hurtAudio.paused) {
       this.hurtAudio.currentTime = 0;
+      this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
       this.hurtAudio.play();
       setTimeout(() => {
         if (this.deathAudio) this.deathAudio.pause();
@@ -171,6 +173,8 @@ class Endboss extends MovableObject {
     this.animationSpeed = 170;
     this.jump();
     this.playAnimation(this.IMAGES_ATTACK);
+    this.attackAudio.muted = localStorage.getItem("polloMute") === "1";
+
     this.attackAudio.play();
 
     this.animationSpeed = 110;
@@ -198,6 +202,7 @@ class Endboss extends MovableObject {
     if (!this._appearSoundPlayed && this.appearAudio) {
       this._appearSoundPlayed = true;
       this.appearAudio.currentTime = 0;
+      this.appearAudio.muted = localStorage.getItem("polloMute") === "1";
       this.appearAudio.play();
     }
     this.animationSpeed = 170;

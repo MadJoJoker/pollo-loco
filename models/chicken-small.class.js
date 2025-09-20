@@ -45,6 +45,7 @@ class ChickenSmall extends MovableObject {
     );
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
+      this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
       this.deathAudio.play();
     }
     this.currentImage = 0;

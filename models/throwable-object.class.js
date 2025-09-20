@@ -69,6 +69,7 @@ class ThrowableObject extends MovableObject {
     this.loadImages(splashImages);
     if (this.bottleCrackAudio) {
       this.bottleCrackAudio.currentTime = 0;
+      this.bottleCrackAudio.muted = localStorage.getItem("polloMute") === "1";
       this.bottleCrackAudio.play();
     }
     this.splashInterval = window.setStoppableInterval(() => {

@@ -134,6 +134,7 @@ class Character extends MovableObject {
       ) {
         this._deathSoundPlayed = true;
         this.deathAudio.currentTime = 0;
+        this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
         this.deathAudio.play();
       }
       if (!this._gameOverRedirected) {
@@ -152,6 +153,7 @@ class Character extends MovableObject {
       this.playAnimation(this.IMAGES_HURT);
       if (this.hurtAudio && this.hurtAudio.paused) {
         this.hurtAudio.currentTime = 0;
+        this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
         this.hurtAudio.play();
         setTimeout(() => {
           if (this.deathAudio) this.deathAudio.pause();
@@ -180,6 +182,7 @@ handleMovement() {
     if (this.walkingAudio) {
       this.walkingAudio.loop = true;
       if (isMoving && this.walkingAudio.paused) {
+        this.walkingAudio.muted = localStorage.getItem("polloMute") === "1";
         this.walkingAudio.play();
       }
       if (!isMoving && !this.walkingAudio.paused) {
