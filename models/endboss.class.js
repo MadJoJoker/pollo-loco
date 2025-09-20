@@ -142,13 +142,13 @@ class Endboss extends MovableObject {
 
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
-     if (this.hurtAudio && this.hurtAudio.paused) {
-        this.hurtAudio.currentTime = 0;
-        this.hurtAudio.play();
-        setTimeout(() => {
-          if (this.deathAudio) this.deathAudio.pause();
-        }, 1000);
-      }
+    if (this.hurtAudio && this.hurtAudio.paused) {
+      this.hurtAudio.currentTime = 0;
+      this.hurtAudio.play();
+      setTimeout(() => {
+        if (this.deathAudio) this.deathAudio.pause();
+      }, 1000);
+    }
   }
 
   handleMovement() {
@@ -171,6 +171,8 @@ class Endboss extends MovableObject {
     this.animationSpeed = 170;
     this.jump();
     this.playAnimation(this.IMAGES_ATTACK);
+    this.attackAudio.play();
+
     this.animationSpeed = 110;
   }
 
