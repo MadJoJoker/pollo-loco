@@ -47,3 +47,11 @@ window.initCarousel = function () {
 
   updateCarousel();
 };
+document.addEventListener('DOMContentLoaded', function () {
+  const noRestartBtn = document.getElementById('no-restart-btn');
+  if (noRestartBtn) {
+    noRestartBtn.addEventListener('click', function () {
+      alert('Give up is no option. Try again.');
+    });
+  }
+});
