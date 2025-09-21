@@ -30,14 +30,22 @@
       <h1>El Pollo Loco - Chicken Tabasco</h1>
       <canvas id="canvas" width="720" height="480"> </canvas>
       <div id="canvasFullscreenBtn" class="canvas-fullscreen-btn hidden">
-        <button id="canvasFullscreenButton" class="img-btn">
+
+        <div id="rightButtons" class="mobile-buttons">
+          <button id="canvasFullscreenButton" class="img-btn">
           <img
             src="/assets/button/btn-small.png"
             alt="pause"
             style="height: 24px"
           />
         </button>
-        <div id="rightButtons" class="mobile-buttons">
+         <button id="backButton" class="img-btn" onclick="window.location.href='/pages/start-screen.html'">
+            <img
+              src="/assets/button/back-btn.png"
+              alt="back"
+              style="height: 24px"
+            />
+          </button>
           <button id="pauseButton" class="img-btn">
             <img
               src="/assets/button/cowboy-1297120_640.png"
@@ -54,35 +62,7 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <div id="extrascreens" class="extrascreens hidden">
-      <div id="rotateScreen" class="rotate-screen hidden">
-        <p>
-          🔄️📱¡Por favor, gira tu tele´fono al modo horizontal! 🔄️ Please
-          rotate your phone to landscape mode! 📱🔄️
-        </p>
-      </div>
-      <div id="startscreen" class="startscreen">
-        <button id="startGame" class="img-btn">
-          <img
-            src="/assets/button/hat-310509_640.png"
-            alt="start"
-            style="height: 24px"
-          />
-        </button>
-      </div>
-      <div id="highscore" class="highscore hidden">
-        <button id="startGame">Start EL Gameos</button>
-        <button id="backButton" class="img-btn">
-          <img
-            src="/assets/button/back-btn.png"
-            alt="back"
-            style="height: 24px"
-          />
-        </button>
-      </div>
-      <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
+       <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
         <div id="leftButtons" class="mobile-buttons">
           <button id="leftButton" class="img-btn">
             <img
@@ -117,6 +97,35 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <div id="extrascreens" class="extrascreens hidden">
+      <div id="rotateScreen" class="rotate-screen hidden">
+        <p>
+          🔄️📱¡Por favor, gira tu tele´fono al modo horizontal! 🔄️ Please
+          rotate your phone to landscape mode! 📱🔄️
+        </p>
+      </div>
+      <div id="startscreen" class="startscreen">
+        <button id="startGame" class="img-btn">
+          <img
+            src="/assets/button/hat-310509_640.png"
+            alt="start"
+            style="height: 24px"
+          />
+        </button>
+      </div>
+      <div id="highscore" class="highscore hidden">
+        <button id="startGame">Start EL Gameos</button>
+        <button id="backButton" class="img-btn">
+          <img
+            src="/assets/button/back-btn.png"
+            alt="back"
+            style="height: 24px"
+          />
+        </button>
+      </div>
+
     </div>
     <script src="js/interval-helper.js"></script>
     <script src="models/drawable-object.class.js"></script>

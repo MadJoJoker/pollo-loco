@@ -137,13 +137,10 @@ document.addEventListener("webkitfullscreenchange", checkMobileButtonsBarFn);
 document.addEventListener("msfullscreenchange", checkMobileButtonsBarFn);
 
 function updateCanvasFullscreenBtnFn() {
-  const mobileBar = document.getElementById("mobileButtonsBar");
   const canvasBtn = document.getElementById("canvasFullscreenBtn");
-  if (mobileBar && canvasBtn)
-    canvasBtn.classList.toggle(
-      "hidden",
-      !mobileBar.classList.contains("hidden")
-    );
+  if (canvasBtn) {
+    canvasBtn.classList.remove("hidden");
+  }
 }
 
 function showRotateScreenFn() {
