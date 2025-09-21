@@ -12,11 +12,9 @@ window.stopAllIntervals = function () {
 };
 function getAllAudios() {
   const audios = document.getElementsByTagName("audio");
-  console.debug("[getAllAudios] Anzahl Audios gefunden:", audios.length);
   for (let i = 0; i < audios.length; i++) {
     if (audios[i].id && !window.soundIntervalIds.includes(audios[i].id)) {
       window.soundIntervalIds.push(audios[i].id);
-      console.debug(`[getAllAudios] Audio-ID hinzugefügt: ${audios[i].id}`);
     }
   }
   return audios;
@@ -26,9 +24,7 @@ function setMuteForAllAudios(mute) {
   const audios = getAllAudios();
   Array.from(audios).forEach((audio) => {
     audio.muted = mute;
-    console.debug(
-      `[setMuteForAllAudios] Audio-ID: ${audio.id}, muted: ${audio.muted}`
-    );
+
   });
 }
 
@@ -42,10 +38,7 @@ window.muteAllAudiosHelper = function () {
     muteValue = localStorage.getItem("polloMute") || "0";
   }
   setMuteForAllAudios(muteValue === "1");
-  console.debug(
-    "[muteAllAudiosHelper] setMuteForAllAudios wurde aufgerufen mit:",
-    muteValue
-  );
+
 };
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -66,5 +59,4 @@ window.toggleMuteInLocalStorage = function () {
   muteValue = muteValue === "1" ? "0" : "1";
   localStorage.setItem("polloMute", muteValue);
   setMuteForAllAudios(muteValue === "1");
-  console.debug("[toggleMuteInLocalStorage] polloMute ist jetzt:", muteValue);
 };

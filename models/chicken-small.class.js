@@ -40,9 +40,7 @@ class ChickenSmall extends MovableObject {
   }
 
   handleDeath() {
-    console.log(
-      "[DEBUG] handleDeath() aufgerufen, Dead-Animation wird abgespielt"
-    );
+
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
       this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
@@ -54,7 +52,6 @@ class ChickenSmall extends MovableObject {
     if (!this.deadAnimationTimeout) {
       this.deadAnimationTimeout = setTimeout(() => {
         if (!this.isRemoved) {
-          console.log("[DEBUG] ChickenSmall wird entfernt");
           this.isRemoved = true;
           this.removeFromEnemies();
         }
@@ -62,9 +59,7 @@ class ChickenSmall extends MovableObject {
     }
   }
   hitByBottle(bottle) {
-    console.log("[DEBUG] ChickenSmall.hitByBottle() ausgelöst", {
-      energy: this.energy,
-    });
+
     this.energy -= 100;
     if (this.energy <= 0 && !this.isDeadNow) {
       this.isDeadNow = true;
@@ -72,14 +67,10 @@ class ChickenSmall extends MovableObject {
     }
   }
   hitByJump() {
-    console.log("[DEBUG] hitByJump(): ChickenSmall.hitByJump ausgelöst", {
-      energy: this.energy,
-      isDeadNow: this.isDeadNow,
-    });
+
     this.energy -= 100;
     if (this.energy <= 0 && !this.isDeadNow) {
       this.isDeadNow = true;
-      console.log("[DEBUG] ChickenSmall stirbt durch Sprung");
       this.handleDeath();
     }
   }

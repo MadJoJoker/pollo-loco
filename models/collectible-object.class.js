@@ -23,7 +23,6 @@ class CollectibleObject extends MovableObject {
     this.img.onload = () => this.imageLoaded = true;
     this.img.onerror = () => {
       this.imageLoaded = false;
-      console.error("[DEBUG] loadImage: Fehler beim Laden des Bildes", path);
     };
   }
 

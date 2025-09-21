@@ -309,22 +309,14 @@ class Character extends MovableObject {
 
   hit() {
     const result = super.hit();
-    console.log("[DEBUG] hit(): Character.hit ausgelöst", {
-      energy: this.energy,
-      lastHit: this.lastHit,
-      function: "Character.hit",
-    });
+
     return result;
   }
 
   isHurt() {
     const result = super.isHurt();
     if (result) {
-      console.log("[DEBUG] isHurt(): Character.isHurt ausgelöst", {
-        energy: this.energy,
-        lastHit: this.lastHit,
-        function: "Character.isHurt",
-      });
+  
     }
     return result;
   }

@@ -149,9 +149,7 @@ class World {
           typeof enemy.hitByJump === "function" &&
           !enemy.isDeadNow
         ) {
-          console.log(
-            "[DEBUG] World: Jump-Collision erkannt, Chicken stirbt, Charakter bleibt unverletzt"
-          );
+     
           enemy.hitByJump();
           break;
         } else if (
@@ -161,9 +159,7 @@ class World {
           typeof enemy.hitByJump === "function" &&
           !enemy.isDeadNow
         ) {
-          console.log(
-            "[DEBUG] World: Jump-Collision erkannt, ChickenSmall stirbt, Charakter bleibt unverletzt"
-          );
+
           enemy.hitByJump();
           break;
         }
@@ -193,12 +189,9 @@ class World {
 
   handleEnemyCollision(enemy) {
     if (enemy.isDeadNow) {
-      console.log(
-        "[DEBUG] handleEnemyCollision(): Gegner ist tot, keine Verletzung"
-      );
+
       return;
     }
-    console.log("[DEBUG] handleEnemyCollision(): Verletzung wird ausgelöst");
     this.character.isHurt();
     this.character.hit();
     this.healthBar.setPercentage(this.character.energy);

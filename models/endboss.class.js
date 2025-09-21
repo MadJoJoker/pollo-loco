@@ -211,10 +211,7 @@ class Endboss extends MovableObject {
   }
 
   hitByBottle(bottle) {
-    console.log("[DEBUG] Endboss.hitByBottle() ausgelöst", {
-      energy: this.energy,
-    });
-    this.energy -= 25;
+      this.energy -= 25;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
     setTimeout(() => {

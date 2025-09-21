@@ -35,7 +35,6 @@ if (!window.GoldenEgg) {
     collect() {
       this.collected = true;
       window.levelWon = true;
-      console.log("Level gewonnen!");
       setTimeout(function () {
         window.location.href = "/pages/win.html";
       }, 400);
