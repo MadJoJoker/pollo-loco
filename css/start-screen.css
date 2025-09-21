@@ -111,7 +111,11 @@ a {
   font-family: "GringoNights";
   padding: 10px;
   border-radius: 10px;
+  border: rgb(rgb(98,32,30));
+  border-style: solid;
+  border-width: 2px;
 }
+
 a:hover {
   color: rgba(204, 119, 34, 0.6);
   background-color: rgb(99, 33, 31);
@@ -154,6 +158,9 @@ h1 {
 .carousel button:hover {
   cursor: pointer;
   background-color: rgb(99, 33, 31) !important;
+  border: rgb(244, 238, 150);
+  border-style: solid;
+  border-width: 2px;
   border-color: chocolate;
   color: rgb(244, 238, 150) !important;
 }

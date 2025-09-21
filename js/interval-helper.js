@@ -61,3 +61,10 @@ const muteRangeElem = document.getElementById("mute-range");
 if (muteRangeElem) {
   muteRangeElem.addEventListener("input", window.muteAllAudiosHelper);
 }
+window.toggleMuteInLocalStorage = function () {
+  let muteValue = localStorage.getItem("polloMute") || "0";
+  muteValue = muteValue === "1" ? "0" : "1";
+  localStorage.setItem("polloMute", muteValue);
+  setMuteForAllAudios(muteValue === "1");
+  console.debug("[toggleMuteInLocalStorage] polloMute ist jetzt:", muteValue);
+};

@@ -1,4 +1,5 @@
 class World {
+
   character = new Character();
   level;
   canvas;
@@ -321,5 +322,12 @@ class World {
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
+  }
+
+  restartCharacterIntervals() {
+    if (this.character) {
+      this.character.applyGravity();
+      this.character.animate();
+    }
   }
 }

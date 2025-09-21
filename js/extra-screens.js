@@ -8,15 +8,19 @@ const buttonIds = [
   "throwButton",
   "pauseButton",
   "muteButton",
-  "fullscreenButton",
 ];
 
-// Kontextmenü = Aus
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
-const buttonListeners = {
+document.addEventListener("keydown", function (e) {
+  if (["Tab", " ", "Enter"].includes(e.key)) {
+    e.preventDefault();
+  }
+});
+
+const buttonEventListener = {
   leftButton: {
     touchstart: function () {
       if (window.keyboard) keyboard.LEFT = true;
@@ -49,110 +53,104 @@ const buttonListeners = {
       if (window.keyboard) keyboard.D = false;
     },
   },
-  fullscreenButton: {
-    touchstart: function () {
-      if (typeof fullscreen === "function") fullscreen();
-    },
-  },
 };
 
-// Eventlistener für Fullscreen-Button auf Canvas
-window.addEventListener("resize", updateCanvasFullscreenBtn);
-updateCanvasFullscreenBtn();
+window.addEventListener("resize", updateCanvasFullscreenBtnFn);
+updateCanvasFullscreenBtnFn();
 
-document
-  .getElementById("canvasFullscreenBtn")
-  .addEventListener("click", function () {
+const canvasFullscreenBtn = document.getElementById("canvasFullscreenButton");
+if (canvasFullscreenBtn) {
+  canvasFullscreenBtn.addEventListener("click", function () {
     if (typeof fullscreen === "function") fullscreen();
   });
+  canvasFullscreenBtn.addEventListener("touchstart", function () {
+    if (typeof fullscreen === "function") fullscreen();
+  });
+}
 
-checkMobileButtonsBar();
-window.addEventListener("resize", checkMobileButtonsBar);
+checkMobileButtonsBarFn();
+window.addEventListener("resize", checkMobileButtonsBarFn);
 
-function addMobileButtonListeners() {
-  Object.keys(buttonListeners).forEach((id) => {
+function addMobileButtonEventListenerFn() {
+  Object.keys(buttonEventListener).forEach((id) => {
     const btn = document.getElementById(id);
-    if (!btn) return;
-    if (id === "fullscreenButton" && buttonListeners[id].touchstart) {
-      btn.addEventListener("touchstart", buttonListeners[id].touchstart);
-      btn.addEventListener("click", buttonListeners[id].touchstart);
-    } else {
-      btn.addEventListener("touchstart", buttonListeners[id].touchstart, { passive: true });
-      btn.addEventListener("touchend", buttonListeners[id].touchend, { passive: true });
+    if (btn) {
+      btn.addEventListener("touchstart", buttonEventListener[id].touchstart, {
+        passive: true,
+      });
+      btn.addEventListener("touchend", buttonEventListener[id].touchend, {
+        passive: true,
+      });
     }
   });
 }
 
-function removeMobileButtonListeners() {
-  Object.keys(buttonListeners).forEach((id) => {
+function removeMobileButtonEventListenerFn() {
+  Object.keys(buttonEventListener).forEach((id) => {
     const btn = document.getElementById(id);
-    if (!btn) return;
-    btn.removeEventListener("touchstart", buttonListeners[id].touchstart);
-    btn.removeEventListener("touchend", buttonListeners[id].touchend);
-    if (id === "fullscreenButton" && buttonListeners[id].touchstart) {
-      btn.removeEventListener("click", buttonListeners[id].touchstart);
+    if (btn) {
+      btn.removeEventListener("touchstart", buttonEventListener[id].touchstart);
+      btn.removeEventListener("touchend", buttonEventListener[id].touchend);
     }
   });
 }
 
-function showScreen(screenId) {
-  const screens = ["startscreen", "highscore", "mobileButtonsBar"];
-  screens.forEach((id) => {
+function hideScreensFn(ids) {
+  ids.forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.classList.add("hidden");
   });
+}
+
+function showScreenFn(screenId) {
+  hideScreensFn(["startscreen", "highscore", "mobileButtonsBar"]);
   document.getElementById("extrascreens").classList.remove("hidden");
   const screen = document.getElementById(screenId);
   if (screen) screen.classList.remove("hidden");
-
-  if (screenId === "mobileButtonsBar") {
-    addMobileButtonListeners();
-  } else {
-    removeMobileButtonListeners();
-  }
+  screenId === "mobileButtonsBar"
+    ? addMobileButtonEventListenerFn()
+    : removeMobileButtonEventListenerFn();
 }
 
-function checkMobileButtonsBar() {
-  const isFullscreen =
-    document.fullscreenElement !== null ||
-    document.webkitFullscreenElement !== null ||
-    document.msFullscreenElement !== null;
-  if (window.innerWidth < 721 || isFullscreen) {
-    showScreen("mobileButtonsBar");
+function isFullscreenFn() {
+  return (
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement
+  );
+}
+
+function checkMobileButtonsBarFn() {
+  if (window.innerWidth < 721 || isFullscreenFn()) {
+    showScreenFn("mobileButtonsBar");
   } else {
-    const screens = [
+    hideScreensFn([
       "startscreen",
       "highscore",
       "mobileButtonsBar",
       "extrascreens",
-    ];
-    screens.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.classList.add("hidden");
-    });
+    ]);
   }
 }
-document.addEventListener("fullscreenchange", checkMobileButtonsBar);
-document.addEventListener("webkitfullscreenchange", checkMobileButtonsBar);
-document.addEventListener("msfullscreenchange", checkMobileButtonsBar);
+document.addEventListener("fullscreenchange", checkMobileButtonsBarFn);
+document.addEventListener("webkitfullscreenchange", checkMobileButtonsBarFn);
+document.addEventListener("msfullscreenchange", checkMobileButtonsBarFn);
 
-function updateCanvasFullscreenBtn() {
+function updateCanvasFullscreenBtnFn() {
   const mobileBar = document.getElementById("mobileButtonsBar");
   const canvasBtn = document.getElementById("canvasFullscreenBtn");
-  if (mobileBar && canvasBtn) {
-    if (mobileBar.classList.contains("hidden")) {
-      canvasBtn.classList.remove("hidden");
-    } else {
-      canvasBtn.classList.add("hidden");
-    }
-  }
+  if (mobileBar && canvasBtn)
+    canvasBtn.classList.toggle(
+      "hidden",
+      !mobileBar.classList.contains("hidden")
+    );
 }
 
-function showRotateScreen() {
+function showRotateScreenFn() {
   document.getElementById("extrascreens").classList.remove("hidden");
   document.getElementById("rotateScreen").classList.remove("hidden");
 }
 
-function hideRotateScreen() {
+function hideRotateScreenFn() {
   document.getElementById("rotateScreen").classList.add("hidden");
 }

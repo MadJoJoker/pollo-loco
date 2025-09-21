@@ -1,6 +1,7 @@
 let canvas;
 let world;
 window.keyboard = new Keyboard();
+let isPaused = false;
 
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
@@ -52,7 +53,18 @@ function stopAllIntervals() {
 }
 
 function pauseGame() {
-  stopAllIntervals();
+  if (!isPaused) {
+    stopAllIntervals();
+    isPaused = true;
+  } else {
+    if (world && typeof world.startGameLoops === "function") {
+      world.startGameLoops();
+    }
+    if (world && typeof world.restartCharacterIntervals === "function") {
+      world.restartCharacterIntervals();
+    }
+    isPaused = false;
+  }
 }
 
 function playGame() {

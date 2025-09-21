@@ -164,7 +164,7 @@ class Character extends MovableObject {
     return false;
   }
 
-handleMovement() {
+  handleMovement() {
     let isMoving = false;
     if (this.shouldMoveRight()) {
       this.moveRight();
@@ -191,7 +191,7 @@ handleMovement() {
       }
     }
     return isMoving;
-}
+  }
 
   shouldMoveRight() {
     return this.world?.keyboard?.RIGHT && this.x < this.world.level.level_end_x;
