@@ -48,7 +48,7 @@ class DrawableObject {
   drawCharacterFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.rect(this.x + 10, this.y + 80, this.width - 25, this.height - 90);
     ctx.stroke();
   }
@@ -56,7 +56,7 @@ class DrawableObject {
   drawChickenFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.rect(this.x, this.y + 5, this.width, this.height - 15);
     ctx.stroke();
   }
@@ -64,7 +64,7 @@ class DrawableObject {
   drawChickenSmallFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.rect(this.x + 7, this.y + 5, this.width - 15, this.height - 10);
     ctx.stroke();
   }
@@ -72,7 +72,7 @@ class DrawableObject {
   drawEndbossFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.rect(this.x + 7, this.y + 60, this.width - 10, this.height - 70);
     ctx.stroke();
   }

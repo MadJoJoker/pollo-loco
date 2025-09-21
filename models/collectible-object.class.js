@@ -49,7 +49,7 @@ class CollectibleObject extends MovableObject {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "purple";
+    ctx.strokeStyle = "rgba(0,0,0,0)";
     ctx.rect(this.x + 30, this.y + 15, this.width - 50, this.height - 20);
     ctx.stroke();
 
@@ -81,7 +81,7 @@ class CollectibleObject extends MovableObject {
       ctx.save();
       ctx.beginPath();
       ctx.lineWidth = "2";
-      ctx.strokeStyle = "red";
+      ctx.strokeStyle = "rgba(0,0,0,0)";
       ctx.rect(this.x + 50, this.y + 50, this.width - 100, this.height - 100);
       ctx.stroke();
 
