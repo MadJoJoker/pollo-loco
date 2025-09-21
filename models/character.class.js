@@ -84,7 +84,8 @@ class Character extends MovableObject {
       "/assets/audio/grandpa-dying-on-floor-272435.mp3"
     );
     this.hurtAudio = new Audio("/assets/audio/male-extreme-scream-123078.mp3");
-    this.walkingAudio = new Audio("/assets/audio/authentic-spurs-70398.mp3");
+    this.walkingAudio = new Audio("/assets/audio/sand-walk-106366.mp3");
+    this.longIdleAudio = new Audio("/assets/audio/snoring-42710.mp3");
   }
 
   loadAllImages() {
@@ -181,11 +182,11 @@ class Character extends MovableObject {
 
     if (this.walkingAudio) {
       this.walkingAudio.loop = true;
-      if (isMoving && this.walkingAudio.paused) {
+      if (isMoving && !this.isAboveGround() && this.walkingAudio.paused) {
         this.walkingAudio.muted = localStorage.getItem("polloMute") === "1";
         this.walkingAudio.play();
       }
-      if (!isMoving && !this.walkingAudio.paused) {
+      if ((!isMoving || this.isAboveGround()) && !this.walkingAudio.paused) {
         this.walkingAudio.pause();
         this.walkingAudio.currentTime = 0;
       }
@@ -284,8 +285,19 @@ class Character extends MovableObject {
   playIdleAnimation(idleStartTime) {
     if (Date.now() - idleStartTime > 5000) {
       this.playAnimation(this.IMAGES_IDLE_LONG);
+      if (this.longIdleAudio) {
+        this.longIdleAudio.loop = true;
+        this.longIdleAudio.muted = localStorage.getItem("polloMute") === "1";
+        if (this.longIdleAudio.paused) {
+          this.longIdleAudio.play();
+        }
+      }
     } else {
       this.playAnimation(this.IMAGES_IDLE);
+      if (this.longIdleAudio && !this.longIdleAudio.paused) {
+        this.longIdleAudio.pause();
+        this.longIdleAudio.currentTime = 0;
+      }
     }
   }
 
