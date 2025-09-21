@@ -1,5 +1,4 @@
 class World {
-
   character = new Character();
   level;
   canvas;
@@ -107,7 +106,11 @@ class World {
       if (this.isCollection(this.character, bottle)) {
         this.character.bottles += 1;
         this.level.bottles.splice(i, 1);
-        this.bottleBar.setPercentage(this.character.bottles);
+        let percent = Math.min(
+          100,
+          Math.round((this.character.bottles / 10) * 100)
+        );
+        this.bottleBar.setPercentage(percent);
       }
     }
   }
@@ -126,8 +129,8 @@ class World {
   }
 
   getCoinPercent() {
-    let totalCoins = Coin.getTotalCoins();
     let collectedCoins = this.character.coins;
+    let totalCoins = collectedCoins + (this.level?.coins?.length || 0);
     return totalCoins > 0 ? Math.round((collectedCoins / totalCoins) * 100) : 0;
   }
 
@@ -149,7 +152,6 @@ class World {
           typeof enemy.hitByJump === "function" &&
           !enemy.isDeadNow
         ) {
-     
           enemy.hitByJump();
           break;
         } else if (
@@ -159,7 +161,6 @@ class World {
           typeof enemy.hitByJump === "function" &&
           !enemy.isDeadNow
         ) {
-
           enemy.hitByJump();
           break;
         }
@@ -189,7 +190,6 @@ class World {
 
   handleEnemyCollision(enemy) {
     if (enemy.isDeadNow) {
-
       return;
     }
     this.character.isHurt();

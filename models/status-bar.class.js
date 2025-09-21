@@ -1,4 +1,5 @@
 class StatusBar extends DrawableObject {
+  actualBottles = null;
   x = 20;
   y = 20;
   width = 150;
@@ -31,7 +32,7 @@ class StatusBar extends DrawableObject {
     "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
     "/assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
- IMAGES_ENDBOSS = [
+  IMAGES_ENDBOSS = [
     "/assets/img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
     "/assets/img/7_statusbars/2_statusbar_endboss/orange/orange20.png",
     "/assets/img/7_statusbars/2_statusbar_endboss/blue/blue40.png",
@@ -59,6 +60,9 @@ class StatusBar extends DrawableObject {
 
   setPercentage(percentage) {
     this.percentage = percentage;
+    if (arguments.length > 1 && this.IMAGES_USED === this.IMAGES_BOTTLES) {
+      this.actualBottles = arguments[1];
+    }
     let path = this.IMAGES_USED[this.resolveImageIndex()];
     this.loadImage(path);
   }
@@ -74,16 +78,7 @@ class StatusBar extends DrawableObject {
   drawText(ctx) {
     const textX = this.x + this.width - 10;
     const textY = this.y + this.height / 2 + 8;
-    if (
-      this.IMAGES_USED === this.IMAGES_BOTTLES ||
-      this.IMAGES_USED === this.IMAGES_COINS
-    ) {
-      ctx.fillText(
-        this.percentage === 0 ? "0" : String(this.percentage),
-        textX,
-        textY
-      );
-    }
+
     if (this.IMAGES_USED === this.IMAGES_HEALTH) {
       ctx.fillText(`${this.percentage}%`, textX, textY);
     }
