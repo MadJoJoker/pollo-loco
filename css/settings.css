@@ -120,3 +120,8 @@ body {
   border-radius: 10px;
   margin: 5px ;
 }
+@media only screen and (max-width: 720px) {
+  #settings-scoreboard{
+    background-image: none;
+  }
+}
