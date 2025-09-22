@@ -99,7 +99,7 @@ li {
   color: rgb(99, 33, 31);
   background-color: rgb(244, 238, 150);
 }
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 720px) and (max-height: 800px) {
   #how-to-play-scoreboard{
     background-image: none;
     position: absolute;
