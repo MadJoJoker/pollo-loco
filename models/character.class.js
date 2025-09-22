@@ -1,3 +1,8 @@
+/**
+ * Represents the main player character in the game.
+ * Handles movement, animation, actions, and interactions with the world.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
   height = 250;
   width = 180;
@@ -12,6 +17,10 @@ class Character extends MovableObject {
   throwBottles = [];
   lastHit;
   energy = 100;
+  /**
+   * Reference to the game world the character belongs to.
+   * @type {World}
+   */
   world;
 
   IMAGES_WALKING = [
@@ -74,6 +83,10 @@ class Character extends MovableObject {
 
   offset = { top: 130, bottom: 20, left: 45, right: 45 };
 
+  /**
+   * Creates a new Character instance and initializes its properties and audio.
+   * @param {World} world - The game world the character belongs to.
+   */
   constructor(world) {
     super().loadImage("/assets/img/2_character_pepe/2_walk/W-21.png");
     this.world = world;
@@ -88,6 +101,9 @@ class Character extends MovableObject {
     this.longIdleAudio = new Audio("/assets/audio/snoring-42710.mp3");
   }
 
+  /**
+   * Loads all animation images for the character.
+   */
   loadAllImages() {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -97,6 +113,9 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
   }
 
+  /**
+   * Starts the animation intervals for the character's actions and idle state.
+   */
   animate() {
     let idleStartTime = Date.now();
     let canThrowBottle = true;
@@ -110,6 +129,11 @@ class Character extends MovableObject {
     }, 300);
   }
 
+  /**
+   * Handles all possible actions for the character in the current frame.
+   * @param {boolean} canThrowBottle - Whether the character can throw a bottle.
+   * @returns {boolean} True if any action occurred, otherwise false.
+   */
   handleActions(canThrowBottle) {
     let actionHappened = false;
     if (this.handleDeath()) actionHappened = true;
@@ -121,6 +145,10 @@ class Character extends MovableObject {
     return actionHappened;
   }
 
+  /**
+   * Handles the character's death animation, sound, and game over logic.
+   * @returns {boolean} True if the character is dead, otherwise false.
+   */
   handleDeath() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
@@ -149,6 +177,10 @@ class Character extends MovableObject {
     return false;
   }
 
+  /**
+   * Handles the character's hurt animation and sound.
+   * @returns {boolean} True if the character is hurt, otherwise false.
+   */
   handleHurt() {
     if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
@@ -165,6 +197,10 @@ class Character extends MovableObject {
     return false;
   }
 
+  /**
+   * Handles the character's left/right movement and walking sound.
+   * @returns {boolean} True if the character is moving, otherwise false.
+   */
   handleMovement() {
     let isMoving = false;
     if (this.shouldMoveRight()) {
@@ -202,6 +238,10 @@ class Character extends MovableObject {
     return this.world?.keyboard?.LEFT && this.x > 0;
   }
 
+  /**
+   * Handles the character's jump action and animation.
+   * @returns {boolean} True if the character jumps, otherwise false.
+   */
   handleJump() {
     if (this.world?.keyboard?.SPACE && !this.isAboveGround()) {
       this.jump();
@@ -212,6 +252,11 @@ class Character extends MovableObject {
   }
 
   throwCooldown = false;
+  /**
+   * Handles the logic for throwing a bottle if possible.
+   * @param {boolean} canThrowBottle - Whether the character can throw a bottle.
+   * @returns {boolean} True if a bottle was thrown, otherwise false.
+   */
   handleThrow(canThrowBottle) {
     if (this.canThrowBottle(canThrowBottle)) {
       this.throwBottle();
@@ -232,6 +277,9 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * Creates and throws a new bottle object from the character's position.
+   */
   throwBottle() {
     const bottleX = this.otherDirection
       ? this.x + this.offset.left
@@ -244,12 +292,18 @@ class Character extends MovableObject {
     this.bottles -= 1;
   }
 
+  /**
+   * Updates the bottle bar UI to reflect the current number of bottles.
+   */
   updateBottleBar() {
     if (this.world?.bottleBar) {
       this.world.bottleBar.setPercentage(this.bottles);
     }
   }
 
+  /**
+   * Sets a cooldown period after throwing a bottle.
+   */
   setThrowCooldown() {
     this.throwCooldown = true;
     setTimeout(() => {
@@ -257,6 +311,10 @@ class Character extends MovableObject {
     }, 700);
   }
 
+  /**
+   * Handles the jump animation if the character is above ground.
+   * @returns {boolean} True if jump animation is played, otherwise false.
+   */
   handleJumpAnimation() {
     if (this.isAboveGround() && this.IMAGES_JUMPING) {
       this.playAnimation(this.IMAGES_JUMPING);
@@ -265,6 +323,10 @@ class Character extends MovableObject {
     return false;
   }
 
+  /**
+   * Handles the idle animation logic based on idle time.
+   * @param {number} idleStartTime - The timestamp when idle started.
+   */
   handleIdle(idleStartTime) {
     if (this.shouldIdle()) {
       this.playIdleAnimation(idleStartTime);
@@ -282,6 +344,10 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * Plays the idle or long idle animation depending on idle duration.
+   * @param {number} idleStartTime - The timestamp when idle started.
+   */
   playIdleAnimation(idleStartTime) {
     if (Date.now() - idleStartTime > 5000) {
       this.playAnimation(this.IMAGES_IDLE_LONG);
@@ -316,7 +382,6 @@ class Character extends MovableObject {
   isHurt() {
     const result = super.isHurt();
     if (result) {
-  
     }
     return result;
   }

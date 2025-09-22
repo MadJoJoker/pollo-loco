@@ -1,3 +1,7 @@
+/**
+ * Base class for all drawable objects in the game.
+ * Handles image loading, drawing, and frame drawing for different object types.
+ */
 class DrawableObject {
   img;
   imageCache = [];
@@ -7,15 +11,26 @@ class DrawableObject {
   height = 150;
   width = 100;
 
+  /**
+   * Creates a new DrawableObject instance.
+   */
   constructor() {}
 
+  /**
+   * Loads a single image for the drawable object.
+   * @param {string} path - The path to the image file.
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
-    this.img.onload = () => this.imageLoaded = true;
-    this.img.onerror = () => this.imageLoaded = false;
+    this.img.onload = () => (this.imageLoaded = true);
+    this.img.onerror = () => (this.imageLoaded = false);
   }
 
+  /**
+   * Loads multiple images for the drawable object.
+   * @param {string[]} paths - Array of image paths.
+   */
   loadImages(paths) {
     paths.forEach((path) => {
       let img = new Image();
@@ -24,12 +39,20 @@ class DrawableObject {
     });
   }
 
+  /**
+   * Draws the object on the canvas if the image is loaded.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   draw(ctx) {
     if (this.img && this.img.complete && this.imageLoaded) {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
   }
 
+  /**
+   * Draws a special frame for different object types (character, chicken, etc.).
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawFrame(ctx) {
     if (this instanceof Character) {
       this.drawCharacterFrame(ctx);
@@ -45,6 +68,10 @@ class DrawableObject {
     }
   }
 
+  /**
+   * Draws a visual frame for the character object.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawCharacterFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
@@ -53,6 +80,10 @@ class DrawableObject {
     ctx.stroke();
   }
 
+  /**
+   * Draws a visual frame for the chicken object.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawChickenFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
@@ -61,6 +92,10 @@ class DrawableObject {
     ctx.stroke();
   }
 
+  /**
+   * Draws a visual frame for the small chicken object.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawChickenSmallFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";
@@ -69,6 +104,10 @@ class DrawableObject {
     ctx.stroke();
   }
 
+  /**
+   * Draws a visual frame for the endboss object.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawEndbossFrame(ctx) {
     ctx.beginPath();
     ctx.lineWidth = "2";

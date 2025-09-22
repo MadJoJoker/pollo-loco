@@ -1,6 +1,17 @@
+/**
+ * Represents a throwable object (e.g., bottle) in the game.
+ * Handles throwing, animation, collision, splash effect, and removal from the world.
+ * @extends MovableObject
+ */
 class ThrowableObject extends MovableObject {
   offset = { top: 30, bottom: 20, left: 40, right: 40 };
 
+  /**
+   * Creates a new ThrowableObject instance and initializes its properties, images, and audio.
+   * @param {number} x - The x position to spawn the object.
+   * @param {number} y - The y position to spawn the object.
+   * @param {boolean} [toLeft=false] - Whether the object is thrown to the left.
+   */
   constructor(x, y, toLeft = false) {
     super();
     this.x = x;
@@ -16,6 +27,9 @@ class ThrowableObject extends MovableObject {
     this.bottleCrackAudio = new Audio("/assets/audio/bottle-crack.mp3");
   }
 
+  /**
+   * Starts the throw animation interval for the bottle.
+   */
   animateThrow() {
     this.animationSpeed = 60;
 
@@ -27,6 +41,11 @@ class ThrowableObject extends MovableObject {
     }, this.animationSpeed);
   }
 
+  /**
+   * Initiates the throw movement and sets up the interval for updating position and collision.
+   * @param {number} [x] - Optional new x position to start the throw from.
+   * @param {number} [y] - Optional new y position to start the throw from.
+   */
   throw(x, y) {
     if (x !== undefined && y !== undefined) {
       this.x = x;
@@ -47,6 +66,9 @@ class ThrowableObject extends MovableObject {
     }, 180);
   }
 
+  /**
+   * Checks for collision with enemies and triggers splash if a collision occurs.
+   */
   checkEnemyCollision() {
     if (this.world && this.world.level && this.world.level.enemies) {
       for (let enemy of this.world.level.enemies) {
@@ -60,6 +82,9 @@ class ThrowableObject extends MovableObject {
     }
   }
 
+  /**
+   * Handles the splash animation, sound, and removal after the bottle hits the ground or an enemy.
+   */
   showSplash() {
     this.splashing = true;
     clearInterval(this.throwMoveInterval);
@@ -83,6 +108,9 @@ class ThrowableObject extends MovableObject {
     }, 1500);
   }
 
+  /**
+   * Removes the throwable object from the world and clears all related intervals.
+   */
   remove() {
     clearInterval(this.throwMoveInterval);
     clearInterval(this.throwAnimationInterval);
@@ -99,6 +127,12 @@ class ThrowableObject extends MovableObject {
     }
   }
 
+  /**
+   * Checks for collision between two objects, considering their offset properties.
+   * @param {Object} objA - The first object to check.
+   * @param {Object} objB - The second object to check.
+   * @returns {boolean} True if the objects are colliding, otherwise false.
+   */
   isOffsetColliding(objA, objB) {
     if (!objA || !objB) {
       console.error(

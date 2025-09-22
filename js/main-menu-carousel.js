@@ -1,8 +1,14 @@
+/**
+ * Initializes the main menu carousel, sets up event listeners, and starts autoplay.
+ */
 window.initCarousel = function () {
   const buttons = document.querySelectorAll(".carousel button");
   const count = buttons.length;
   let activeIndex = 0;
 
+  /**
+   * Updates the carousel to show only the active button and set the active class.
+   */
   function updateCarousel() {
     buttons.forEach((btn, i) => {
       btn.classList.remove("active");
@@ -13,6 +19,10 @@ window.initCarousel = function () {
     });
   }
 
+  /**
+   * Scrolls the carousel by the given delta and updates the view.
+   * @param {number} delta - The number of steps to scroll (positive or negative).
+   */
   function scrollCarousel(delta) {
     activeIndex = (activeIndex + delta + count) % count;
     updateCarousel();
@@ -28,12 +38,18 @@ window.initCarousel = function () {
   });
 
   let autoplayInterval = null;
+  /**
+   * Starts the carousel autoplay interval if not already running.
+   */
   function startAutoplay() {
     if (autoplayInterval) return;
     autoplayInterval = setInterval(() => {
       scrollCarousel(1);
     }, 800);
   }
+  /**
+   * Stops the carousel autoplay interval if running.
+   */
   function stopAutoplay() {
     if (autoplayInterval) {
       clearInterval(autoplayInterval);
@@ -47,11 +63,14 @@ window.initCarousel = function () {
 
   updateCarousel();
 };
-document.addEventListener('DOMContentLoaded', function () {
-  const noRestartBtn = document.getElementById('no-restart-btn');
+/**
+ * Sets up the no-restart button alert on DOMContentLoaded.
+ */
+document.addEventListener("DOMContentLoaded", function () {
+  const noRestartBtn = document.getElementById("no-restart-btn");
   if (noRestartBtn) {
-    noRestartBtn.addEventListener('click', function () {
-      alert('Give up is no option. Try again.');
+    noRestartBtn.addEventListener("click", function () {
+      alert("Give up is no option. Try again.");
     });
   }
 });

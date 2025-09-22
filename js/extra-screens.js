@@ -71,6 +71,9 @@ if (canvasFullscreenBtn) {
 checkMobileButtonsBarFn();
 window.addEventListener("resize", checkMobileButtonsBarFn);
 
+/**
+ * Adds touch event listeners to mobile control buttons for game actions.
+ */
 function addMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
     const btn = document.getElementById(id);
@@ -85,6 +88,9 @@ function addMobileButtonEventListenerFn() {
   });
 }
 
+/**
+ * Removes touch event listeners from mobile control buttons.
+ */
 function removeMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
     const btn = document.getElementById(id);
@@ -95,6 +101,10 @@ function removeMobileButtonEventListenerFn() {
   });
 }
 
+/**
+ * Hides the screens with the given element IDs by adding the 'hidden' class.
+ * @param {string[]} ids - Array of element IDs to hide.
+ */
 function hideScreensFn(ids) {
   ids.forEach((id) => {
     const el = document.getElementById(id);
@@ -102,6 +112,10 @@ function hideScreensFn(ids) {
   });
 }
 
+/**
+ * Shows the specified screen and hides others. Manages mobile button event listeners.
+ * @param {string} screenId - The ID of the screen to show.
+ */
 function showScreenFn(screenId) {
   hideScreensFn(["startscreen", "highscore", "mobileButtonsBar"]);
   document.getElementById("extrascreens").classList.remove("hidden");
@@ -112,6 +126,10 @@ function showScreenFn(screenId) {
     : removeMobileButtonEventListenerFn();
 }
 
+/**
+ * Checks if the document is currently in fullscreen mode.
+ * @returns {boolean} True if fullscreen, otherwise false.
+ */
 function isFullscreenFn() {
   return (
     document.fullscreenElement ||
@@ -120,6 +138,9 @@ function isFullscreenFn() {
   );
 }
 
+/**
+ * Shows or hides the mobile buttons bar based on window width or fullscreen state.
+ */
 function checkMobileButtonsBarFn() {
   if (window.innerWidth < 721 || isFullscreenFn()) {
     showScreenFn("mobileButtonsBar");
@@ -136,6 +157,9 @@ document.addEventListener("fullscreenchange", checkMobileButtonsBarFn);
 document.addEventListener("webkitfullscreenchange", checkMobileButtonsBarFn);
 document.addEventListener("msfullscreenchange", checkMobileButtonsBarFn);
 
+/**
+ * Shows the canvas fullscreen button if it exists.
+ */
 function updateCanvasFullscreenBtnFn() {
   const canvasBtn = document.getElementById("canvasFullscreenBtn");
   if (canvasBtn) {
@@ -143,11 +167,17 @@ function updateCanvasFullscreenBtnFn() {
   }
 }
 
+/**
+ * Shows the rotate screen overlay for mobile devices.
+ */
 function showRotateScreenFn() {
   document.getElementById("extrascreens").classList.remove("hidden");
   document.getElementById("rotateScreen").classList.remove("hidden");
 }
 
+/**
+ * Hides the rotate screen overlay for mobile devices.
+ */
 function hideRotateScreenFn() {
   document.getElementById("rotateScreen").classList.add("hidden");
 }

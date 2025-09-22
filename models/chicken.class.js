@@ -1,3 +1,8 @@
+/**
+ * Represents a normal chicken enemy in the game.
+ * Handles movement, animation, and death logic.
+ * @extends MovableObject
+ */
 class Chicken extends MovableObject {
   height = 125;
   width = 105;
@@ -14,6 +19,9 @@ class Chicken extends MovableObject {
     "/assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png",
   ];
 
+  /**
+   * Creates a new Chicken instance and initializes its properties and animation.
+   */
   constructor() {
     super();
     this.loadImage(
@@ -33,6 +41,9 @@ class Chicken extends MovableObject {
     left: 10,
     right: 10,
   };
+  /**
+   * Animates the chicken by moving it left at a set interval if not dead.
+   */
   animate() {
     window.setStoppableInterval(() => {
       if (!this.isDeadNow) {
@@ -41,16 +52,21 @@ class Chicken extends MovableObject {
     }, this.animationSpeed);
   }
 
+  /**
+   * Handles logic when the chicken is hit by a bottle.
+   * @param {ThrowableObject} bottle - The bottle object that hit the chicken.
+   */
   hitByBottle(bottle) {
-  
     this.energy -= 100;
     if (this.energy <= 0 && !this.isDeadNow) {
       this.isDeadNow = true;
       this.handleDeath();
     }
   }
+  /**
+   * Handles logic when the chicken is hit by a jump.
+   */
   hitByJump() {
-
     this.energy -= 100;
     if (this.energy <= 0 && !this.isDeadNow) {
       this.isDeadNow = true;
@@ -58,8 +74,10 @@ class Chicken extends MovableObject {
     }
   }
 
+  /**
+   * Handles the chicken's death animation, sound, and removal from the game.
+   */
   handleDeath() {
-
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
       this.deathAudio.muted = localStorage.getItem("polloMute") === "1";

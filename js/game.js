@@ -7,6 +7,9 @@ document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
+/**
+ * Initializes the game by setting up the canvas and creating the world instance.
+ */
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
@@ -41,17 +44,29 @@ document.addEventListener("keydown", function (e) {
 });
 
 window.intervalIds = [];
+/**
+ * Sets an interval that can be stopped later using stopAllIntervals.
+ * @param {Function} fn - The function to execute at each interval.
+ * @param {number} time - The interval time in milliseconds.
+ * @returns {number} The interval ID.
+ */
 window.setStoppableInterval = function (fn, time) {
   let id = setInterval(fn, time);
   window.intervalIds.push(id);
   return id;
 };
 
+/**
+ * Stops and clears all intervals set by setStoppableInterval.
+ */
 function stopAllIntervals() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
 }
 
+/**
+ * Pauses or resumes the game by stopping or restarting intervals and updating the pause state.
+ */
 function pauseGame() {
   if (!isPaused) {
     stopAllIntervals();
@@ -67,12 +82,18 @@ function pauseGame() {
   }
 }
 
+/**
+ * Starts the game intervals if the world is initialized.
+ */
 function playGame() {
   if (world && typeof world.startIntervals === "function") {
     world.startIntervals();
   }
 }
 
+/**
+ * Stops the game by clearing all intervals.
+ */
 function stopGame() {
   stopAllIntervals();
 }

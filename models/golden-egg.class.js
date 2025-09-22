@@ -1,7 +1,17 @@
 if (!window.GoldenEgg) {
   if (typeof CollectibleObject === "undefined")
     throw new Error("CollectibleObject fehlt");
+  /**
+   * Represents the golden egg collectible in the game.
+   * Triggers level win when collected.
+   * @extends CollectibleObject
+   */
   class GoldenEgg extends CollectibleObject {
+    /**
+     * Creates a new GoldenEgg instance.
+     * @param {number} x - The x position of the golden egg.
+     * @param {number} y - The y position of the golden egg.
+     */
     constructor(x, y) {
       super();
       this.x = x;
@@ -12,6 +22,10 @@ if (!window.GoldenEgg) {
       this.img.src = "/assets/img/added-img/golden-egg.png";
       this.collected = false;
     }
+    /**
+     * Draws the golden egg and its glow effect on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+     */
     draw(ctx) {
       if (this.collected) return;
       const cx = this.x + this.width / 2,
@@ -32,6 +46,9 @@ if (!window.GoldenEgg) {
       ctx.restore();
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
+    /**
+     * Collects the golden egg, triggers level win, and redirects to win screen.
+     */
     collect() {
       this.collected = true;
       window.levelWon = true;

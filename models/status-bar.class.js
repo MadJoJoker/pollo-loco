@@ -1,3 +1,8 @@
+/**
+ * Represents a status bar (health, bottles, coins, endboss) in the game UI.
+ * Handles image selection, drawing, and percentage updates.
+ * @extends DrawableObject
+ */
 class StatusBar extends DrawableObject {
   actualBottles = null;
   x = 20;
@@ -40,6 +45,14 @@ class StatusBar extends DrawableObject {
     "/assets/img/7_statusbars/2_statusbar_endboss/green/green80.png",
     "/assets/img/7_statusbars/2_statusbar_endboss/green/green100.png",
   ];
+  /**
+   * Creates a new StatusBar instance.
+   * @param {number} [x=20] - The x position of the status bar.
+   * @param {number} [y=0] - The y position of the status bar.
+   * @param {number} [width=150] - The width of the status bar.
+   * @param {number} [height=50] - The height of the status bar.
+   * @param {string} [type="health"] - The type of status bar (health, bottle, coin, endboss).
+   */
   constructor(x = 20, y = 0, width = 150, height = 50, type = "health") {
     super();
     this.x = x;
@@ -51,6 +64,10 @@ class StatusBar extends DrawableObject {
     this.loadImage(this.IMAGES_USED[5]);
   }
 
+  /**
+   * Sets the image set to use based on the status bar type.
+   * @param {string} type - The type of status bar.
+   */
   setTypeImages(type) {
     if (type === "health") this.IMAGES_USED = this.IMAGES_HEALTH;
     if (type === "bottle") this.IMAGES_USED = this.IMAGES_BOTTLES;
@@ -58,6 +75,10 @@ class StatusBar extends DrawableObject {
     if (type === "endboss") this.IMAGES_USED = this.IMAGES_ENDBOSS;
   }
 
+  /**
+   * Sets the percentage value and updates the displayed image.
+   * @param {number} percentage - The percentage to display.
+   */
   setPercentage(percentage) {
     this.percentage = percentage;
     if (arguments.length > 1 && this.IMAGES_USED === this.IMAGES_BOTTLES) {
@@ -67,6 +88,10 @@ class StatusBar extends DrawableObject {
     this.loadImage(path);
   }
 
+  /**
+   * Draws the status bar and its text on the canvas.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     ctx.font = "24px 'GringoNights', Arial, sans-serif";
@@ -75,6 +100,10 @@ class StatusBar extends DrawableObject {
     this.drawText(ctx);
   }
 
+  /**
+   * Draws the text (percentage or label) on the status bar.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   */
   drawText(ctx) {
     const textX = this.x + this.width - 10;
     const textY = this.y + this.height / 2 + 8;
@@ -87,6 +116,10 @@ class StatusBar extends DrawableObject {
     }
   }
 
+  /**
+   * Resolves the image index to use based on the current percentage.
+   * @returns {number} The index of the image to display.
+   */
   resolveImageIndex() {
     if (this.percentage === 100) return 5;
     if (this.percentage > 70) return 4;

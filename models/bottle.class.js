@@ -1,3 +1,7 @@
+/**
+ * Represents a collectible salsa bottle in the game.
+ * @extends CollectibleObject
+ */
 class Bottle extends CollectibleObject {
   height;
   width;
@@ -23,6 +27,9 @@ class Bottle extends CollectibleObject {
     "/assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
+  /**
+   * Creates a new Bottle object with randomized x position and default properties.
+   */
   constructor() {
     super();
     this.x = 100 + Math.random() * 700;
@@ -38,6 +45,9 @@ class Bottle extends CollectibleObject {
 
   offset = { top: 30, bottom: 20, left: 40, right: 40 };
 
+  /**
+   * Animates the bottle by cycling through its images at a set interval.
+   */
   animate() {
     window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.IMAGES_USED.length;

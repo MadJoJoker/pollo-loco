@@ -1,3 +1,8 @@
+/**
+ * Represents a collectible coin in the game.
+ * Handles coin animation, placement, and arc generation.
+ * @extends CollectibleObject
+ */
 class Coin extends CollectibleObject {
   static totalCoins = 0;
 
@@ -10,6 +15,13 @@ class Coin extends CollectibleObject {
   ];
   offset = { top: 60, bottom: 60, left: 65, right: 65 };
 
+  /**
+   * Creates a new Coin instance and initializes its position and animation.
+   * If arc parameters are provided, places the coin along a parabolic arc.
+   * @param {number} [x] - The x position of the coin.
+   * @param {number} [y] - The y position of the coin.
+   * @param {Object} [arc] - Arc parameters for parabolic placement.
+   */
   constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
     super();
     if (arc) {
@@ -28,6 +40,9 @@ class Coin extends CollectibleObject {
     Coin.totalCoins++;
   }
 
+  /**
+   * Animates the coin by cycling through its images at a set interval.
+   */
   animate() {
     window.setStoppableInterval(() => {
       this.currentImage = (this.currentImage + 1) % this.IMAGES_WALKING.length;
@@ -36,6 +51,11 @@ class Coin extends CollectibleObject {
     }, this.animationSpeed);
   }
 
+  /**
+   * Generates coins placed along random parabolic arcs.
+   * @param {number} [arcs=3] - Number of arcs to generate.
+   * @returns {Coin[]} Array of Coin instances placed along arcs.
+   */
   static randomArcCoins(arcs = 3) {
     const coins = [];
     function randomArcParams() {
@@ -55,6 +75,10 @@ class Coin extends CollectibleObject {
     return coins;
   }
 
+  /**
+   * Returns the total number of Coin instances created.
+   * @returns {number} Total coins created.
+   */
   static getTotalCoins() {
     return Coin.totalCoins;
   }

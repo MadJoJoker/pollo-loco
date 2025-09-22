@@ -1,3 +1,6 @@
+/**
+ * Represents the game world, managing the main character, level, canvas, status bars, effects, and game logic.
+ */
 class World {
   character = new Character();
   level;
@@ -12,6 +15,11 @@ class World {
 
   effects = [];
 
+  /**
+   * Creates a new World instance and initializes the game canvas, context, keyboard, level, and game loops.
+   * @param {HTMLCanvasElement} canvas - The canvas element for rendering the game.
+   * @param {Keyboard} keyboard - The keyboard input handler.
+   */
   constructor(canvas, keyboard) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
@@ -22,6 +30,9 @@ class World {
     this.startGameLoops();
   }
 
+  /**
+   * Initializes the status bars for health, bottles, coins, and endboss.
+   */
   initStatusBars() {
     this.healthBar.setPercentage(100);
     this.bottleBar.setPercentage(0);
@@ -29,6 +40,9 @@ class World {
     this.endbossBar.setPercentage(100);
   }
 
+  /**
+   * Starts the main game loops for updating camera, effects, drawing, and handling collectibles and collisions.
+   */
   startGameLoops() {
     window.setStoppableInterval(() => {
       this.updateCamera();
@@ -43,16 +57,26 @@ class World {
     }, 100);
   }
 
+  /**
+   * Adds a visual effect to the world.
+   * @param {Object} effect - The effect object to add.
+   */
   addEffect(effect) {
     this.effects.push(effect);
   }
 
+  /**
+   * Updates all effects and removes those that are done.
+   */
   updateEffects() {
     this.effects = this.effects.filter((e) => {
       e.update();
       return !e.done;
     });
   }
+  /**
+   * Checks for collisions between thrown bottles and enemies.
+   */
   checkBottleEnemyCollision() {
     if (!this.character?.throwBottles || !this.level?.enemies) return;
     this.character.throwBottles.forEach((bottle) => {
@@ -82,12 +106,18 @@ class World {
     });
   }
 
+  /**
+   * Handles collection of bottles, coins, and golden eggs by the character.
+   */
   handleCollectibles() {
     this.collectBottles();
     this.collectCoins();
     this.collectGoldenEggs();
   }
 
+  /**
+   * Handles collection of golden eggs by the character.
+   */
   collectGoldenEggs() {
     if (!this.level?.goldenEggs) return;
     for (let i = this.level.goldenEggs.length - 1; i >= 0; i--) {
@@ -99,6 +129,9 @@ class World {
     }
   }
 
+  /**
+   * Handles collection of bottles by the character and updates the bottle bar.
+   */
   collectBottles() {
     if (!this.level?.bottles) return;
     for (let i = this.level.bottles.length - 1; i >= 0; i--) {
@@ -115,6 +148,9 @@ class World {
     }
   }
 
+  /**
+   * Handles collection of coins by the character and updates the coin bar.
+   */
   collectCoins() {
     if (!this.level?.coins) return;
     for (let i = this.level.coins.length - 1; i >= 0; i--) {
@@ -128,16 +164,29 @@ class World {
     }
   }
 
+  /**
+   * Calculates the percentage of collected coins.
+   * @returns {number} The percentage of coins collected.
+   */
   getCoinPercent() {
     let collectedCoins = this.character.coins;
     let totalCoins = collectedCoins + (this.level?.coins?.length || 0);
     return totalCoins > 0 ? Math.round((collectedCoins / totalCoins) * 100) : 0;
   }
 
+  /**
+   * Determines if the character is colliding with a collectible object.
+   * @param {Character} character - The main character.
+   * @param {Object} collectible - The collectible object.
+   * @returns {boolean} True if colliding, otherwise false.
+   */
   isCollection(character, collectible) {
     return this.isOffsetColliding(character, collectible);
   }
 
+  /**
+   * Checks for collisions between the character and chicken-type enemies.
+   */
   checkCharacterChickenCollision() {
     if (!this.level?.enemies || !this.character) return;
     for (let enemy of this.level.enemies) {
@@ -170,6 +219,11 @@ class World {
     }
   }
 
+  /**
+   * Determines if an enemy is of a recognized type (Chicken, ChickenSmall, Endboss).
+   * @param {Object} enemy - The enemy object.
+   * @returns {boolean} True if enemy is a recognized type, otherwise false.
+   */
   isEnemyType(enemy) {
     return (
       enemy instanceof Chicken ||
@@ -177,6 +231,11 @@ class World {
       enemy instanceof Endboss
     );
   }
+  /**
+   * Handles the logic when a bottle collides with an enemy.
+   * @param {Object} bottle - The thrown bottle object.
+   * @param {Object} enemy - The enemy object.
+   */
   handleBottleEnemyCollision(bottle, enemy) {
     if (!enemy.isHurt && !enemy.isDeadNow) {
       if (typeof enemy.hitByBottle === "function") {
@@ -188,6 +247,10 @@ class World {
     }
   }
 
+  /**
+   * Handles the logic when the character collides with an enemy.
+   * @param {Object} enemy - The enemy object.
+   */
   handleEnemyCollision(enemy) {
     if (enemy.isDeadNow) {
       return;
@@ -197,6 +260,12 @@ class World {
     this.healthBar.setPercentage(this.character.energy);
   }
 
+  /**
+   * Checks for collision between two objects, considering their offset properties.
+   * @param {Object} objA - The first object.
+   * @param {Object} objB - The second object.
+   * @returns {boolean} True if colliding, otherwise false.
+   */
   isOffsetColliding(objA, objB) {
     const a = this.getObjectBounds(objA);
     const b = this.getObjectBounds(objB);
@@ -208,6 +277,11 @@ class World {
     );
   }
 
+  /**
+   * Calculates the bounding box of an object, considering its offset.
+   * @param {Object} obj - The object to calculate bounds for.
+   * @returns {Object} The bounding box with left, right, top, and bottom properties.
+   */
   getObjectBounds(obj) {
     return {
       left: obj.x + (obj.offset?.left || 0),
@@ -217,6 +291,9 @@ class World {
     };
   }
 
+  /**
+   * Updates the camera position based on the character's position.
+   */
   updateCamera() {
     const minCameraX = 0;
     const maxCameraX = 719 * 2;
@@ -226,6 +303,9 @@ class World {
     }
   }
 
+  /**
+   * Sets the world reference for the character and all enemies in the level.
+   */
   setWorld() {
     this.character.world = this;
     if (this.level?.enemies) {
@@ -235,12 +315,18 @@ class World {
     }
   }
 
+  /**
+   * Starts a loop to check for collisions at regular intervals.
+   */
   run() {
     window.setStoppableInterval(() => {
       this.checkCollisions();
     }, 200);
   }
 
+  /**
+   * Checks for collisions between the character and non-chicken enemies.
+   */
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (enemy instanceof Chicken || enemy instanceof ChickenSmall) return;
@@ -250,6 +336,9 @@ class World {
     });
   }
 
+  /**
+   * Draws the entire game world, including level objects, effects, and status bars.
+   */
   draw() {
     this.clearCanvas();
     this.ctx.save();
@@ -260,14 +349,23 @@ class World {
     this.drawStatusBars();
   }
 
+  /**
+   * Draws all visual effects on the canvas.
+   */
   drawEffects() {
     this.effects.forEach((e) => e.draw(this.ctx));
   }
 
+  /**
+   * Clears the entire canvas.
+   */
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
+  /**
+   * Draws all objects in the level, including background, clouds, enemies, collectibles, and the character.
+   */
   drawLevelObjects() {
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
@@ -279,6 +377,9 @@ class World {
     this.addObjectsToMap(this.character.throwBottles);
   }
 
+  /**
+   * Draws all status bars (health, bottle, coin, endboss) on the canvas.
+   */
   drawStatusBars() {
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
@@ -292,10 +393,18 @@ class World {
     }
   }
 
+  /**
+   * Adds multiple objects to the map for rendering.
+   * @param {Array} objects - The objects to add.
+   */
   addObjectsToMap(objects) {
     objects.forEach((o) => this.addToMap(o));
   }
 
+  /**
+   * Adds a single object to the map for rendering, handling direction and drawing methods.
+   * @param {Object} mo - The map object to add.
+   */
   addToMap(mo) {
     if (!mo) return;
     if (mo.otherDirection) this.flipImage(mo);
@@ -305,6 +414,10 @@ class World {
     if (mo.otherDirection) this.flipImageBack(mo);
   }
 
+  /**
+   * Flips the image horizontally for objects facing the other direction.
+   * @param {Object} mo - The map object to flip.
+   */
   flipImage(mo) {
     this.ctx.save();
     this.ctx.translate(mo.width, 0);
@@ -312,11 +425,18 @@ class World {
     mo.x = mo.x * -1;
   }
 
+  /**
+   * Restores the image orientation after flipping.
+   * @param {Object} mo - The map object to restore.
+   */
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
 
+  /**
+   * Restarts the character's gravity and animation intervals.
+   */
   restartCharacterIntervals() {
     if (this.character) {
       this.character.applyGravity();

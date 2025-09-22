@@ -1,3 +1,8 @@
+/**
+ * Represents the endboss enemy in the game.
+ * Handles movement, attack, animation, and death logic.
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
   height = 400;
   width = 250;
@@ -53,6 +58,11 @@ class Endboss extends MovableObject {
   ];
   offset = { top: 90, bottom: 80, left: 50, right: 35 };
 
+  /**
+   * Creates a new Endboss instance and initializes its properties and animation.
+   * @param {number} level_end_x - The x position where the level ends.
+   * @param {Object} level - The level object the endboss belongs to.
+   */
   constructor(level_end_x, level) {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -77,6 +87,9 @@ class Endboss extends MovableObject {
     );
   }
 
+  /**
+   * Sets a random action (walking, attacking, or idle) for the endboss at intervals.
+   */
   setRandomAction() {
     window.setStoppableInterval(() => {
       const action = Math.floor(Math.random() * 3);
@@ -85,6 +98,9 @@ class Endboss extends MovableObject {
     }, 1000);
   }
 
+  /**
+   * Starts the main animation loop for the endboss, handling state and actions.
+   */
   startAnimation() {
     window.setStoppableInterval(() => {
       if (this.isRemoved) return;
@@ -94,6 +110,9 @@ class Endboss extends MovableObject {
     }, this.animationSpeed);
   }
 
+  /**
+   * Handles the endboss's death animation, sound, and removal from the game.
+   */
   handleDeath() {
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
@@ -116,6 +135,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Adds a visual effect (e.g., POW) when the endboss dies.
+   */
   addEndbossEffect() {
     if (
       this.world &&
@@ -128,6 +150,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Spawns a golden egg at the endboss's position upon death.
+   */
   spawnGoldenEgg() {
     if (
       this.world &&
@@ -141,6 +166,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the endboss's hurt animation and sound.
+   */
   handleHurt() {
     this.playAnimation(this.IMAGES_HURT);
     if (this.hurtAudio && this.hurtAudio.paused) {
@@ -153,6 +181,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the endboss's movement and action logic based on player position.
+   */
   handleMovement() {
     const inRange =
       this.world &&
@@ -169,6 +200,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the endboss's attack animation, sound, and jump.
+   */
   handleAttack() {
     this.animationSpeed = 170;
     this.jump();
@@ -180,6 +214,9 @@ class Endboss extends MovableObject {
     this.animationSpeed = 110;
   }
 
+  /**
+   * Handles the endboss's walking animation and movement.
+   */
   handleWalk() {
     this.otherDirection = false;
     this.moveLeft();
@@ -188,6 +225,9 @@ class Endboss extends MovableObject {
     this.shouldMoveRight = true;
   }
 
+  /**
+   * Handles the endboss's movement to the right.
+   */
   handleMoveRight() {
     if (this.x + 10 < 1900) {
       this.otherDirection = true;
@@ -198,6 +238,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Handles the endboss's alert animation and sound.
+   */
   handleAlert() {
     if (!this._appearSoundPlayed && this.appearAudio) {
       this._appearSoundPlayed = true;
@@ -210,8 +253,12 @@ class Endboss extends MovableObject {
     this.animationSpeed = 110;
   }
 
+  /**
+   * Handles logic when the endboss is hit by a bottle.
+   * @param {ThrowableObject} bottle - The bottle object that hit the endboss.
+   */
   hitByBottle(bottle) {
-      this.energy -= 25;
+    this.energy -= 25;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
     setTimeout(() => {
