@@ -33,12 +33,7 @@ class ChickenSmall extends MovableObject {
     this.deathAudio = new Audio("/assets/audio/short-chick-sound-171389.mp3");
     this.animate();
   }
-  offset = {
-    top: 0,
-    bottom: 25,
-    left: 60,
-    right: 60,
-  };
+offset = { top: -10, bottom: 10, left: 10, right: 10 };
   /**
    * Animates the chicken by moving it left at a set interval if not dead.
    */
@@ -68,7 +63,7 @@ class ChickenSmall extends MovableObject {
           this.isRemoved = true;
           this.removeFromEnemies();
         }
-      }, 2000);
+      }, 1000);
     }
   }
   /**

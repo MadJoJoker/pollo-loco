@@ -202,7 +202,6 @@ class World {
           !enemy.isDeadNow
         ) {
           enemy.hitByJump();
-          break;
         } else if (
           typeof this.character.isAboveGround === "function" &&
           this.character.isAboveGround() &&
@@ -211,10 +210,9 @@ class World {
           !enemy.isDeadNow
         ) {
           enemy.hitByJump();
-          break;
+        } else {
+          this.handleEnemyCollision(enemy);
         }
-        this.handleEnemyCollision(enemy);
-        break;
       }
     }
   }

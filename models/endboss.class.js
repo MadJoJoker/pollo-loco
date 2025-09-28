@@ -258,7 +258,7 @@ class Endboss extends MovableObject {
    * @param {ThrowableObject} bottle - The bottle object that hit the endboss.
    */
   hitByBottle(bottle) {
-    this.energy -= 25;
+    this.energy -= 10;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
     setTimeout(() => {

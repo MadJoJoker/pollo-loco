@@ -81,7 +81,7 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  offset = { top: 130, bottom: 20, left: 45, right: 45 };
+  offset = { top: 130, bottom: 10, left: 35, right: 55 };
 
   /**
    * Creates a new Character instance and initializes its properties and audio.

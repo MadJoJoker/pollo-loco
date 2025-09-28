@@ -72,7 +72,7 @@ class MovableObject extends DrawableObject {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "rgba(0,0,0,0)";
+    ctx.strokeStyle = "rgba(210, 31, 31, 1)";
     ctx.rect(
       this.x + this.offset.left,
       this.y + this.offset.top,

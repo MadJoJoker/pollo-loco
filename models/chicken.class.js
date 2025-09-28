@@ -92,7 +92,7 @@ class Chicken extends MovableObject {
           this.isRemoved = true;
           this.removeFromEnemies();
         }
-      }, 2000);
+      }, 1000);
     }
   }
 }

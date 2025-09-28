@@ -43,7 +43,7 @@ class Bottle extends CollectibleObject {
     this.animate();
   }
 
-  offset = { top: 30, bottom: 20, left: 40, right: 40 };
+  offset = { top: 30, bottom: 20, left: 50, right: 50 };
 
   /**
    * Animates the bottle by cycling through its images at a set interval.
