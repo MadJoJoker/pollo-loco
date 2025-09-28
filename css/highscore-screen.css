@@ -1,4 +1,11 @@
+html{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 body {
+  max-width: 1440px;
+  margin: auto;
   min-height: 100vh;
   font-family: "GringoNights";
 }
@@ -119,7 +126,7 @@ body {
   margin: 5px;
 }
 @media only screen and (max-width: 720px) {
-  #heros-scoreboard{
+  #heros-scoreboard {
     background-image: none;
   }
 }

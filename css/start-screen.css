@@ -2,8 +2,15 @@
   font-family: "GringoNights";
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
 }
-
+html{
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 body {
+  max-width: 1440px;
   min-height: 100vh;
   font-family: "GringoNights";
   overflow: hidden;
@@ -238,18 +245,15 @@ h1 {
     font-size: 50px;
     display: block;
   }
-
 }
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
   h1 {
     font-size: 35px;
     display: block;
   }
-
 }
 
 @media only screen and (max-width: 720px) and (max-height: 800px) {
-
   .carousel {
     transform: translate(-70%, -10%);
   }
@@ -265,7 +269,6 @@ h1 {
     right: 0%;
     top: 0%;
     height: 75px;
-
   }
   #start-navbar {
     padding: 10px;
@@ -273,21 +276,18 @@ h1 {
     height: 75px;
     width: 100%;
     background-image: none;
-
   }
-  #game-over-msg-won{
+  #game-over-msg-won {
     position: absolute;
     top: 40%;
     left: 33%;
     height: 40%;
     width: 35%;
     z-index: 4;
-
   }
-  #game-over-msg{
+  #game-over-msg {
     position: absolute;
     top: 40%;
     left: 15%;
-
   }
 }

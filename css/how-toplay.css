@@ -1,4 +1,11 @@
+html{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 body {
+  max-width: 1440px;
+  margin: auto;
   min-height: 100vh;
   font-family: "GringoNights";
 }
@@ -100,9 +107,9 @@ li {
   background-color: rgb(244, 238, 150);
 }
 @media only screen and (max-width: 720px) and (max-height: 800px) {
-  #how-to-play-scoreboard{
+  #how-to-play-scoreboard {
     background-image: none;
     position: absolute;
-    top:70%
+    top: 70%;
   }
 }

@@ -45,7 +45,7 @@ window.initCarousel = function () {
     if (autoplayInterval) return;
     autoplayInterval = setInterval(() => {
       scrollCarousel(1);
-    }, 800);
+    }, 2000);
   }
   /**
    * Stops the carousel autoplay interval if running.

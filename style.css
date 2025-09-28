@@ -2,9 +2,15 @@
   font-family: "GringoNights";
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
 }
+html {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 body {
+  max-width: 1440px;
+  margin: auto;
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,21 +56,19 @@ canvas {
   display: flex;
   justify-content: space-evenly !important;
   position: absolute;
-  top: 36%;
+  top: 31%;
   right: 75%;
   left: 45%;
   background: rgba(204, 119, 34, 0.6);
   border: solid 2px rgb(244, 238, 150);
   border-radius: 15px;
   z-index: 9999;
-  width: 120px;
-  height: 30px;
+  width: 220px;
+  height: 35px;
 }
 .canvasFullscreenButton {
-  height: 30px;
-  width: 30px;
-  background: none;
-  cursor: pointer;
+  width: 70px;
+  height: 55px;
 }
 
 #fullscreen {
@@ -109,9 +113,11 @@ h1 {
   padding: 0;
   margin: 0;
   cursor: pointer;
-}
+ }
+
 .img-btn img {
-  display: block;
+  height: max-content;
+  width: 50px;
 }
 .highscore {
   display: flex;
@@ -173,7 +179,7 @@ h1 {
     border-radius: 0;
     border: none;
   }
-  #canvasFullscreenBtn{
+  #canvasFullscreenBtn {
     position: absolute;
     top: 5%;
     right: 2%;

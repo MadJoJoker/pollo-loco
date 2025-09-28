@@ -3,6 +3,13 @@
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
 }
 html {
+  max-width: 1440px;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   color: rgb(27, 11, 11);
   font-family: "GringoNights";
   font-size: larger;
@@ -10,6 +17,9 @@ html {
 }
 body {
   min-height: 100vh;
+  text-align: center;
+  padding: 15px;
+  font-size: medium;
 }
 h1,
 h2,
@@ -22,6 +32,7 @@ a {
 }
 a:hover {
   color: rgb(27, 11, 11);
+  cursor: pointer;
 }
 #start-header {
   position: sticky;
