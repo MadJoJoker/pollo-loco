@@ -297,7 +297,7 @@ class Character extends MovableObject {
    */
   updateBottleBar() {
     if (this.world?.bottleBar) {
-      this.world.bottleBar.setPercentage(this.bottles);
+      this.world.bottleBar.setPercentage(this.bottles, this.bottles);
     }
   }
 

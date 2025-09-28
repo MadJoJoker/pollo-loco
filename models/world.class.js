@@ -143,7 +143,7 @@ class World {
           100,
           Math.round((this.character.bottles / 10) * 100)
         );
-        this.bottleBar.setPercentage(percent);
+        this.bottleBar.setPercentage(percent, this.character.bottles);
       }
     }
   }
