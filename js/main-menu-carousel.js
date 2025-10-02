@@ -64,9 +64,26 @@ window.initCarousel = function () {
  */
 document.addEventListener("DOMContentLoaded", function () {
   const noRestartBtn = document.getElementById("no-restart-btn");
-  if (noRestartBtn) {
+  const overlay = document.getElementById("no-restart-overlay");
+  if (noRestartBtn && overlay) {
+    overlay.style.display = "none";
+    overlay.style.top = "-200px";
+    overlay.style.opacity = "0";
+    overlay.style.animation = "none";
     noRestartBtn.addEventListener("click", function () {
-      alert("Give up is no option. Try again.");
+      overlay.style.display = "block";
+      overlay.style.animation =
+        "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
+      setTimeout(() => {
+        overlay.style.animation =
+          "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
+        setTimeout(() => {
+          overlay.style.display = "none";
+          overlay.style.top = "-200px";
+          overlay.style.opacity = "0";
+          overlay.style.animation = "none";
+        }, 700);
+      }, 3000);
     });
   }
 });
