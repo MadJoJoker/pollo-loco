@@ -44,11 +44,12 @@ class Coin extends CollectibleObject {
    * Animates the coin by cycling through its images at a set interval.
    */
   animate() {
-    window.setStoppableInterval(() => {
-      this.currentImage = (this.currentImage + 1) % this.IMAGES_WALKING.length;
-      let path = this.IMAGES_WALKING[this.currentImage];
-      this.img = this.imageCache[path];
-    }, this.animationSpeed);
+    this._unregisterGameLoop = window.registerSimpleAnimation({
+      context: this,
+      images: this.IMAGES_WALKING,
+      interval: this.animationSpeed,
+      isActive: () => true,
+    });
   }
 
   /**

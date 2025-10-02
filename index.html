@@ -30,16 +30,19 @@
       <h1>El Pollo Loco - Chicken Tabasco</h1>
       <canvas id="canvas" width="720" height="480"> </canvas>
       <div id="canvasFullscreenBtn" class="canvas-fullscreen-btn hidden">
-
         <div id="rightButtons" class="mobile-buttons">
           <button id="canvasFullscreenButton" class="img-btn">
-          <img
-            src="/assets/button/btn-small.png"
-            alt="pause"
-            style="height: 24px"
-          />
-        </button>
-         <button id="backButton" class="img-btn" onclick="window.location.href='/pages/start-screen.html'">
+            <img
+              src="/assets/button/btn-small.png"
+              alt="pause"
+              style="height: 24px"
+            />
+          </button>
+          <button
+            id="backButton"
+            class="img-btn"
+            onclick="window.location.href='/pages/start-screen.html'"
+          >
             <img
               src="/assets/button/back-btn.png"
               alt="back"
@@ -53,7 +56,11 @@
               style="height: 24px"
             />
           </button>
-          <button id="muteButton" class="img-btn" onclick="toggleMuteInLocalStorage()">
+          <button
+            id="muteButton"
+            class="img-btn"
+            onclick="toggleMuteInLocalStorage()"
+          >
             <img
               src="/assets/button/mute.png"
               alt="mute"
@@ -62,7 +69,7 @@
           </button>
         </div>
       </div>
-       <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
+      <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
         <div id="leftButtons" class="mobile-buttons">
           <button id="leftButton" class="img-btn">
             <img
@@ -125,9 +132,9 @@
           />
         </button>
       </div>
-
     </div>
     <script src="js/interval-helper.js"></script>
+    <script src="js/game-animation-utils.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/collectible-object.class.js"></script>

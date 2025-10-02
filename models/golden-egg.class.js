@@ -52,9 +52,13 @@ if (!window.GoldenEgg) {
     collect() {
       this.collected = true;
       window.levelWon = true;
-      setTimeout(function () {
-        window.location.href = "/pages/win.html";
-      }, 400);
+      const target = window.getGameTime() + 400;
+      const unregister = window.registerGameLoop((gameTime) => {
+        if (gameTime >= target) {
+          window.location.href = "/pages/win.html";
+          unregister();
+        }
+      });
     }
   }
   window.GoldenEgg = GoldenEgg;

@@ -13,6 +13,7 @@ document.addEventListener("contextmenu", function (e) {
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
+  if (window.startGameTime) window.startGameTime();
 }
 
 window.addEventListener("keydown", (e) => {
@@ -68,17 +69,10 @@ function stopAllIntervals() {
  * Pauses or resumes the game by stopping or restarting intervals and updating the pause state.
  */
 function pauseGame() {
-  if (!isPaused) {
-    stopAllIntervals();
-    isPaused = true;
+  if (window.gamePaused) {
+    if (window.resumeGameTime) window.resumeGameTime();
   } else {
-    if (world && typeof world.startGameLoops === "function") {
-      world.startGameLoops();
-    }
-    if (world && typeof world.restartCharacterIntervals === "function") {
-      world.restartCharacterIntervals();
-    }
-    isPaused = false;
+    if (window.pauseGameTime) window.pauseGameTime();
   }
 }
 

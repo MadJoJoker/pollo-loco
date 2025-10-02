@@ -91,23 +91,34 @@ class Endboss extends MovableObject {
    * Sets a random action (walking, attacking, or idle) for the endboss at intervals.
    */
   setRandomAction() {
-    window.setStoppableInterval(() => {
-      const action = Math.floor(Math.random() * 3);
-      this.isWalking = action === 1;
-      this.isAttacking = action === 2;
-    }, 1000);
+    let lastActionTick = window.getGameTime();
+    const actionInterval = 1000;
+    this._unregisterRandomAction = window.registerGameLoop((gameTime) => {
+      if (gameTime - lastActionTick >= actionInterval) {
+        const action = Math.floor(Math.random() * 3);
+        this.isWalking = action === 1;
+        this.isAttacking = action === 2;
+        lastActionTick = gameTime;
+      }
+    });
   }
 
   /**
    * Starts the main animation loop for the endboss, handling state and actions.
    */
   startAnimation() {
-    window.setStoppableInterval(() => {
+    let lastAnimTick = window.getGameTime();
+    let animInterval = this.animationSpeed;
+    this._unregisterAnimation = window.registerGameLoop((gameTime) => {
       if (this.isRemoved) return;
       if (this.isDeadNow) return this.handleDeath();
       if (this.isHurtNow) return this.handleHurt();
-      this.handleMovement();
-    }, this.animationSpeed);
+      if (gameTime - lastAnimTick >= animInterval) {
+        this.handleMovement();
+        lastAnimTick = gameTime;
+        animInterval = this.animationSpeed;
+      }
+    });
   }
 
   /**
@@ -121,17 +132,22 @@ class Endboss extends MovableObject {
     }
     this.playAnimation(this.IMAGES_DEAD);
     if (!this.deadAnimationTimeout) {
-      this.deadAnimationTimeout = setTimeout(() => {
-        if (!this.isRemoved) {
-          this.isRemoved = true;
-          this.addEndbossEffect();
-          this.removeFromEnemies();
-          if (this.world && this.world.endbossBar) {
-            this.world.endbossBar = null;
+      const target = window.getGameTime() + 1000;
+      const unregister = window.registerGameLoop((gameTime) => {
+        if (gameTime >= target) {
+          if (!this.isRemoved) {
+            this.isRemoved = true;
+            this.addEndbossEffect();
+            this.removeFromEnemies();
+            if (this.world && this.world.endbossBar) {
+              this.world.endbossBar = null;
+            }
+            this.spawnGoldenEgg();
           }
-          this.spawnGoldenEgg();
+          unregister();
         }
-      }, 1000);
+      });
+      this.deadAnimationTimeout = unregister;
     }
   }
 
@@ -175,9 +191,13 @@ class Endboss extends MovableObject {
       this.hurtAudio.currentTime = 0;
       this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
       this.hurtAudio.play();
-      setTimeout(() => {
-        if (this.deathAudio) this.deathAudio.pause();
-      }, 1000);
+      const target = window.getGameTime() + 1000;
+      const unregister = window.registerGameLoop((gameTime) => {
+        if (gameTime >= target) {
+          if (this.deathAudio) this.deathAudio.pause();
+          unregister();
+        }
+      });
     }
   }
 
@@ -261,9 +281,13 @@ class Endboss extends MovableObject {
     this.energy -= 10;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
-    setTimeout(() => {
-      this.isHurtNow = false;
-    }, 400);
+    const target = window.getGameTime() + 400;
+    const unregister = window.registerGameLoop((gameTime) => {
+      if (gameTime >= target) {
+        this.isHurtNow = false;
+        unregister();
+      }
+    });
     if (this.world && this.world.endbossBar) {
       this.world.endbossBar.setPercentage(this.energy);
     }

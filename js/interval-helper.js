@@ -1,10 +1,77 @@
+// --- Central GameTime and Pause Management ---
+window.gamePaused = false;
+window._gameStartTime = null;
+window._gameElapsed = 0;
+
+/**
+ * Starts or resets the GameTime.
+ */
+window.startGameTime = function () {
+  window._gameStartTime = Date.now();
+  window._gameElapsed = 0;
+  window.gamePaused = false;
+};
+
+/**
+ * Pauses the GameTime.
+ */
+window.pauseGameTime = function () {
+  if (!window.gamePaused && window._gameStartTime) {
+    window._gameElapsed += Date.now() - window._gameStartTime;
+    window.gamePaused = true;
+  }
+};
+
+/**
+ * Resumes the GameTime after a pause.
+ */
+window.resumeGameTime = function () {
+  if (window.gamePaused) {
+    window._gameStartTime = Date.now();
+    window.gamePaused = false;
+  }
+};
+
+/**
+ * Returns the elapsed game time in ms (pause-robust).
+ */
+window.getGameTime = function () {
+  if (!window._gameStartTime) return 0;
+  if (window.gamePaused) return window._gameElapsed;
+  return window._gameElapsed + (Date.now() - window._gameStartTime);
+};
+
+// --- Central Game Loop ---
+window._gameLoopCallbacks = [];
+window.registerGameLoop = function (fn) {
+  window._gameLoopCallbacks.push(fn);
+  return () => {
+    const idx = window._gameLoopCallbacks.indexOf(fn);
+    if (idx > -1) window._gameLoopCallbacks.splice(idx, 1);
+  };
+};
+
+function _mainGameLoop() {
+  if (!window.gamePaused) {
+    const t = window.getGameTime();
+    for (const cb of window._gameLoopCallbacks) {
+      try {
+        cb(t);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+  window.requestAnimationFrame(_mainGameLoop);
+}
+window.requestAnimationFrame(_mainGameLoop);
 window.intervalIds = [];
 window.soundIntervalIds = [];
 
 /**
  * Sets an interval that can be stopped later using stopAllIntervals.
- * @param {Function} fn - The function to execute at each interval.
- * @param {number} time - The interval time in milliseconds.
+ * @param {Function} fn - Function to execute on each interval tick.
+ * @param {number} time - Interval duration in milliseconds.
  * @returns {number} The interval ID.
  */
 window.setStoppableInterval = function (fn, time) {
@@ -35,7 +102,7 @@ function getAllAudios() {
 
 /**
  * Sets the muted property for all audio elements in the document.
- * @param {boolean} mute - Whether to mute (true) or unmute (false) all audios.
+ * @param {boolean} mute - If true, mute all audios; if false, unmute all audios.
  */
 function setMuteForAllAudios(mute) {
   const audios = getAllAudios();

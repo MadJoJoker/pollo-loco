@@ -32,13 +32,12 @@ class ThrowableObject extends MovableObject {
    */
   animateThrow() {
     this.animationSpeed = 60;
-
-    this.throwAnimationInterval = window.setStoppableInterval(() => {
-      this.currentImage =
-        (this.currentImage + 1) % Bottle.IMAGES_BOTTLES_THROW.length;
-      let path = Bottle.IMAGES_BOTTLES_THROW[this.currentImage];
-      this.img = this.imageCache[path];
-    }, this.animationSpeed);
+    this._unregisterThrowAnim = window.registerSimpleAnimation({
+      context: this,
+      images: Bottle.IMAGES_BOTTLES_THROW,
+      interval: this.animationSpeed,
+      isActive: () => !this.splashing,
+    });
   }
 
   /**
@@ -54,16 +53,21 @@ class ThrowableObject extends MovableObject {
     this.speedY = 15;
     const GAME_HEIGHT = 480;
     this.splashing = false;
-    this.throwMoveInterval = window.setStoppableInterval(() => {
-      this.x += this.toLeft ? -20 : 20;
-      this.y -= this.speedY;
-      this.speedY -= this.acceleration;
-      if (this.y >= GAME_HEIGHT - this.height && !this.splashing) {
-        this.y = GAME_HEIGHT - this.height - 75;
-        this.showSplash();
-      }
-      this.checkEnemyCollision();
-    }, 180);
+    this._unregisterThrowMove = window.registerSimpleInterval({
+      interval: 180,
+      action: () => {
+        if (this.splashing) return;
+        this.x += this.toLeft ? -20 : 20;
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+        if (this.y >= GAME_HEIGHT - this.height && !this.splashing) {
+          this.y = GAME_HEIGHT - this.height - 75;
+          this.showSplash();
+        }
+        this.checkEnemyCollision();
+      },
+      isActive: () => !this.splashing,
+    });
   }
 
   /**
@@ -87,8 +91,8 @@ class ThrowableObject extends MovableObject {
    */
   showSplash() {
     this.splashing = true;
-    clearInterval(this.throwMoveInterval);
-    clearInterval(this.throwAnimationInterval);
+    if (this._unregisterThrowMove) this._unregisterThrowMove();
+    if (this._unregisterThrowAnim) this._unregisterThrowAnim();
     this.currentImage = 0;
     const splashImages = Bottle.IMAGES_BOTTLES_SPLASH;
     this.loadImages(splashImages);
@@ -97,24 +101,29 @@ class ThrowableObject extends MovableObject {
       this.bottleCrackAudio.muted = localStorage.getItem("polloMute") === "1";
       this.bottleCrackAudio.play();
     }
-    this.splashInterval = window.setStoppableInterval(() => {
-      this.currentImage = (this.currentImage + 1) % splashImages.length;
-      let path = splashImages[this.currentImage];
-      this.img = this.imageCache[path];
-    }, 1500 / splashImages.length);
-    setTimeout(() => {
-      clearInterval(this.splashInterval);
-      this.remove();
-    }, 1500);
+    this._unregisterSplashAnim = window.registerSimpleAnimation({
+      context: this,
+      images: splashImages,
+      interval: 80,
+      isActive: () => true,
+    });
+    const splashEndTarget = window.getGameTime() + 400;
+    const unregisterSplashEnd = window.registerGameLoop((gameTime) => {
+      if (gameTime >= splashEndTarget) {
+        if (this._unregisterSplashAnim) this._unregisterSplashAnim();
+        this.remove();
+        unregisterSplashEnd();
+      }
+    });
   }
 
   /**
    * Removes the throwable object from the world and clears all related intervals.
    */
   remove() {
-    clearInterval(this.throwMoveInterval);
-    clearInterval(this.throwAnimationInterval);
-    clearInterval(this.splashInterval);
+    if (this._unregisterThrowMove) this._unregisterThrowMove();
+    if (this._unregisterThrowAnim) this._unregisterThrowAnim();
+    if (this._unregisterSplashAnim) this._unregisterSplashAnim();
     if (
       this.world &&
       this.world.character &&

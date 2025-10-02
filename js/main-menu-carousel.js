@@ -37,31 +37,27 @@ window.initCarousel = function () {
     e.preventDefault();
   });
 
-  let autoplayInterval = null;
-  /**
-   * Starts the carousel autoplay interval if not already running.
-   */
-  function startAutoplay() {
-    if (autoplayInterval) return;
-    autoplayInterval = setInterval(() => {
+  let autoplayActive = true;
+  let lastAutoplayTick = window.getGameTime();
+  const autoplayInterval = 2000;
+  const unregisterAutoplay = window.registerGameLoop((gameTime) => {
+    if (!autoplayActive) return;
+    if (gameTime - lastAutoplayTick >= autoplayInterval) {
       scrollCarousel(1);
-    }, 2000);
-  }
-  /**
-   * Stops the carousel autoplay interval if running.
-   */
-  function stopAutoplay() {
-    if (autoplayInterval) {
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
+      lastAutoplayTick = gameTime;
     }
-  }
+  });
   const carouselElem = document.querySelector(".carousel");
-  carouselElem.addEventListener("mouseenter", stopAutoplay);
-  carouselElem.addEventListener("mouseleave", startAutoplay);
-  startAutoplay();
+  carouselElem.addEventListener("mouseenter", () => {
+    autoplayActive = false;
+  });
+  carouselElem.addEventListener("mouseleave", () => {
+    autoplayActive = true;
+    lastAutoplayTick = window.getGameTime();
+  });
 
   updateCarousel();
+  return unregisterAutoplay;
 };
 /**
  * Sets up the no-restart button alert on DOMContentLoaded.

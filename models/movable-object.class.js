@@ -88,9 +88,12 @@ class MovableObject extends DrawableObject {
    * @param {string[]} images - Array of image paths for animation.
    */
   playAnimation(images) {
+    let now =
+      typeof window !== "undefined" && window.getGameTime
+        ? window.getGameTime()
+        : Date.now();
     if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
-    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
-    const now = Date.now();
+    if (!this.lastAnimationTime) this.lastAnimationTime = now;
     if (now - this.lastAnimationTime > this.animationSpeed) {
       this.currentImage = (this.currentImage + 1) % images.length;
       let path = images[this.currentImage];
@@ -200,6 +203,5 @@ class MovableObject extends DrawableObject {
    */
   jump() {
     this.speedY = 30;
-    if (this.IMAGES_JUMPING) this.playAnimation(this.IMAGES_JUMPING);
   }
 }

@@ -117,16 +117,81 @@ class Character extends MovableObject {
    * Starts the animation intervals for the character's actions and idle state.
    */
   animate() {
-    let idleStartTime = Date.now();
+    let idleStartTime = window.getGameTime();
     let canThrowBottle = true;
-    window.setStoppableInterval(() => {
-      const actionHappened = this.handleActions(canThrowBottle);
-      if (!this.world?.keyboard?.D) canThrowBottle = true;
-      if (actionHappened) idleStartTime = Date.now();
-    }, 1000 / 45);
-    window.setStoppableInterval(() => {
-      this.handleIdle(idleStartTime);
-    }, 300);
+    if (this.lastActionTick === undefined)
+      this.lastActionTick = window.getGameTime();
+    if (this.lastIdleTick === undefined)
+      this.lastIdleTick = window.getGameTime();
+    if (this.lastWalkTick === undefined)
+      this.lastWalkTick = window.getGameTime();
+    if (this.lastJumpTick === undefined)
+      this.lastJumpTick = window.getGameTime();
+    if (this.lastIdleAnimTick === undefined)
+      this.lastIdleAnimTick = window.getGameTime();
+    if (this.walkAnimFrame === undefined) this.walkAnimFrame = 0;
+    if (this.jumpAnimFrame === undefined) this.jumpAnimFrame = 0;
+    if (this.idleAnimFrame === undefined) this.idleAnimFrame = 0;
+    if (this.idleLongAnimFrame === undefined) this.idleLongAnimFrame = 0;
+    const actionInterval = 1000 / 45;
+    const idleInterval = 300;
+    const walkInterval = this.animationSpeed;
+    const jumpInterval = 80;
+    const idleAnimInterval = 120;
+    let isWalking = false;
+    let isJumping = false;
+    this._unregisterGameLoop = window.registerGameLoop((gameTime) => {
+      if (gameTime - this.lastActionTick >= actionInterval) {
+        const actionHappened = this.handleActions(canThrowBottle);
+        if (!this.world?.keyboard?.D) canThrowBottle = true;
+        if (actionHappened) idleStartTime = gameTime;
+        this.lastActionTick = gameTime;
+      }
+      if (
+        (this.shouldMoveLeft() || this.shouldMoveRight()) &&
+        !this.isAboveGround()
+      ) {
+        isWalking = true;
+        isJumping = false;
+        if (gameTime - this.lastWalkTick >= walkInterval) {
+          this.walkAnimFrame =
+            (this.walkAnimFrame + 1) % this.IMAGES_WALKING.length;
+          this.img = this.imageCache[this.IMAGES_WALKING[this.walkAnimFrame]];
+          this.lastWalkTick = gameTime;
+        }
+      } else if (this.isAboveGround()) {
+        isJumping = true;
+        isWalking = false;
+        if (gameTime - this.lastJumpTick >= jumpInterval) {
+          this.jumpAnimFrame =
+            (this.jumpAnimFrame + 1) % this.IMAGES_JUMPING.length;
+          this.img = this.imageCache[this.IMAGES_JUMPING[this.jumpAnimFrame]];
+          this.lastJumpTick = gameTime;
+        }
+      } else {
+        isWalking = false;
+        isJumping = false;
+      }
+      if (!isWalking && !isJumping && !this.isDead() && !this.isHurt()) {
+        if (gameTime - this.lastIdleTick >= idleInterval) {
+          this.handleIdle(idleStartTime, gameTime, {
+            idleAnimFrameRef: () => this.idleAnimFrame,
+            setIdleAnimFrame: (v) => {
+              this.idleAnimFrame = v;
+            },
+            idleLongAnimFrameRef: () => this.idleLongAnimFrame,
+            setIdleLongAnimFrame: (v) => {
+              this.idleLongAnimFrame = v;
+            },
+            lastIdleAnimTickRef: () => this.lastIdleAnimTick,
+            setLastIdleAnimTick: (v) => {
+              this.lastIdleAnimTick = v;
+            },
+          });
+          this.lastIdleTick = gameTime;
+        }
+      }
+    });
   }
 
   /**
@@ -168,9 +233,13 @@ class Character extends MovableObject {
       }
       if (!this._gameOverRedirected) {
         this._gameOverRedirected = true;
-        setTimeout(function () {
-          window.location.href = "/pages/game-over.html";
-        }, 1000);
+        const target = window.getGameTime() + 1000;
+        const unregister = window.registerGameLoop((gameTime) => {
+          if (gameTime >= target) {
+            window.location.href = "/pages/game-over.html";
+            unregister();
+          }
+        });
       }
       return true;
     }
@@ -188,9 +257,13 @@ class Character extends MovableObject {
         this.hurtAudio.currentTime = 0;
         this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
         this.hurtAudio.play();
-        setTimeout(() => {
-          if (this.deathAudio) this.deathAudio.pause();
-        }, 1000);
+        const target = window.getGameTime() + 1000;
+        const unregister = window.registerGameLoop((gameTime) => {
+          if (gameTime >= target) {
+            if (this.deathAudio) this.deathAudio.pause();
+            unregister();
+          }
+        });
       }
       return true;
     }
@@ -245,7 +318,6 @@ class Character extends MovableObject {
   handleJump() {
     if (this.world?.keyboard?.SPACE && !this.isAboveGround()) {
       this.jump();
-      this.playAnimation(this.IMAGES_JUMPING);
       return true;
     }
     return false;
@@ -306,9 +378,13 @@ class Character extends MovableObject {
    */
   setThrowCooldown() {
     this.throwCooldown = true;
-    setTimeout(() => {
-      this.throwCooldown = false;
-    }, 700);
+    const target = window.getGameTime() + 700;
+    const unregister = window.registerGameLoop((gameTime) => {
+      if (gameTime >= target) {
+        this.throwCooldown = false;
+        unregister();
+      }
+    });
   }
 
   /**
@@ -316,10 +392,6 @@ class Character extends MovableObject {
    * @returns {boolean} True if jump animation is played, otherwise false.
    */
   handleJumpAnimation() {
-    if (this.isAboveGround() && this.IMAGES_JUMPING) {
-      this.playAnimation(this.IMAGES_JUMPING);
-      return true;
-    }
     return false;
   }
 
@@ -327,9 +399,9 @@ class Character extends MovableObject {
    * Handles the idle animation logic based on idle time.
    * @param {number} idleStartTime - The timestamp when idle started.
    */
-  handleIdle(idleStartTime) {
+  handleIdle(idleStartTime, gameTime, animState) {
     if (this.shouldIdle()) {
-      this.playIdleAnimation(idleStartTime);
+      this.playIdleAnimation(idleStartTime, gameTime, animState);
     }
   }
 
@@ -348,9 +420,18 @@ class Character extends MovableObject {
    * Plays the idle or long idle animation depending on idle duration.
    * @param {number} idleStartTime - The timestamp when idle started.
    */
-  playIdleAnimation(idleStartTime) {
-    if (Date.now() - idleStartTime > 5000) {
-      this.playAnimation(this.IMAGES_IDLE_LONG);
+  playIdleAnimation(idleStartTime, gameTime, animState) {
+    const idleDuration = gameTime - idleStartTime;
+    const idleLong = idleDuration > 5000;
+    const animInterval = 120;
+    if (idleLong) {
+      if (gameTime - animState.lastIdleAnimTickRef() >= animInterval) {
+        let frame =
+          (animState.idleLongAnimFrameRef() + 1) % this.IMAGES_IDLE_LONG.length;
+        this.img = this.imageCache[this.IMAGES_IDLE_LONG[frame]];
+        animState.setIdleLongAnimFrame(frame);
+        animState.setLastIdleAnimTick(gameTime);
+      }
       if (this.longIdleAudio) {
         this.longIdleAudio.loop = true;
         this.longIdleAudio.muted = localStorage.getItem("polloMute") === "1";
@@ -359,7 +440,13 @@ class Character extends MovableObject {
         }
       }
     } else {
-      this.playAnimation(this.IMAGES_IDLE);
+      if (gameTime - animState.lastIdleAnimTickRef() >= animInterval) {
+        let frame =
+          (animState.idleAnimFrameRef() + 1) % this.IMAGES_IDLE.length;
+        this.img = this.imageCache[this.IMAGES_IDLE[frame]];
+        animState.setIdleAnimFrame(frame);
+        animState.setLastIdleAnimTick(gameTime);
+      }
       if (this.longIdleAudio && !this.longIdleAudio.paused) {
         this.longIdleAudio.pause();
         this.longIdleAudio.currentTime = 0;

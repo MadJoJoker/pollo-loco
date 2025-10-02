@@ -45,11 +45,11 @@ class Chicken extends MovableObject {
    * Animates the chicken by moving it left at a set interval if not dead.
    */
   animate() {
-    window.setStoppableInterval(() => {
-      if (!this.isDeadNow) {
-        this.moveLeft();
-      }
-    }, this.animationSpeed);
+    this._unregisterGameLoop = window.registerSimpleInterval({
+      interval: this.animationSpeed,
+      action: () => this.moveLeft(),
+      isActive: () => !this.isDeadNow,
+    });
   }
 
   /**
@@ -85,14 +85,25 @@ class Chicken extends MovableObject {
     }
     this.currentImage = 0;
     this.img = this.imageCache[this.IMAGES_DEAD[0]];
-    this.playAnimation(this.IMAGES_DEAD);
     if (!this.deadAnimationTimeout) {
-      this.deadAnimationTimeout = setTimeout(() => {
-        if (!this.isRemoved) {
-          this.isRemoved = true;
-          this.removeFromEnemies();
+      this.deadAnimationTimeout = window.registerSimpleAnimation({
+        context: this,
+        images: this.IMAGES_DEAD,
+        interval: 1000 / this.IMAGES_DEAD.length,
+        isActive: () => !this.isRemoved,
+        onFrame: null,
+      });
+      const target = window.getGameTime() + 1000;
+      const unregister = window.registerGameLoop((gameTime) => {
+        if (gameTime >= target) {
+          if (!this.isRemoved) {
+            this.isRemoved = true;
+            this.removeFromEnemies();
+          }
+          unregister();
+          if (this.deadAnimationTimeout) this.deadAnimationTimeout();
         }
-      }, 1000);
+      });
     }
   }
 }

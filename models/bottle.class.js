@@ -49,10 +49,11 @@ class Bottle extends CollectibleObject {
    * Animates the bottle by cycling through its images at a set interval.
    */
   animate() {
-    window.setStoppableInterval(() => {
-      this.currentImage = (this.currentImage + 1) % this.IMAGES_USED.length;
-      let path = this.IMAGES_USED[this.currentImage];
-      this.img = this.imageCache[path];
-    }, this.animationSpeed);
+    this._unregisterGameLoop = window.registerSimpleAnimation({
+      context: this,
+      images: this.IMAGES_USED,
+      interval: this.animationSpeed,
+      isActive: () => true,
+    });
   }
 }

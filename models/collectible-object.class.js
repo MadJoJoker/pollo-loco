@@ -149,8 +149,8 @@ class CollectibleObject extends MovableObject {
    */
   playAnimation(images) {
     if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
-    if (!this.lastAnimationTime) this.lastAnimationTime = Date.now();
-    const now = Date.now();
+    if (!this.lastAnimationTime) this.lastAnimationTime = window.getGameTime();
+    const now = window.getGameTime();
     if (now - this.lastAnimationTime > this.animationSpeed) {
       this.currentImage = (this.currentImage + 1) % images.length;
       let path = images[this.currentImage];
@@ -173,11 +173,15 @@ class CollectibleObject extends MovableObject {
     this.draw(ctx);
     ctx.restore();
 
-    setTimeout(() => {
-      ctx.save();
-      this.draw(ctx);
-      ctx.restore();
-    }, duration);
+    const target = window.getGameTime() + duration;
+    const unregister = window.registerGameLoop((gameTime) => {
+      if (gameTime >= target) {
+        ctx.save();
+        this.draw(ctx);
+        ctx.restore();
+        unregister();
+      }
+    });
   }
 
   /**
@@ -207,7 +211,7 @@ class CollectibleObject extends MovableObject {
    * @returns {boolean} True if collectable, otherwise false.
    */
   isCollactable() {
-    let timepassed = (Date.now() - this.lastHit) / 1000;
+    let timepassed = (window.getGameTime() - this.lastHit) / 1000;
     return timepassed < 1;
   }
 }

@@ -21,11 +21,15 @@ class Cloud extends MovableObject {
    * Animates the cloud by moving it left and resetting its position when off-screen.
    */
   animate() {
-    window.setStoppableInterval(() => {
-      this.x -= 0.18;
-      if (this.x < -this.width) {
-        this.x = 600 + Math.random() * 200;
-      }
-    }, 1000 / 60);
+    this._unregisterGameLoop = window.registerSimpleInterval({
+      interval: 1000 / 60,
+      action: () => {
+        this.x -= 0.18;
+        if (this.x < -this.width) {
+          this.x = 600 + Math.random() * 200;
+        }
+      },
+      isActive: () => true,
+    });
   }
 }
