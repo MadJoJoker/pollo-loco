@@ -95,9 +95,9 @@ class Endboss extends MovableObject {
     const actionInterval = 1000;
     this._unregisterRandomAction = window.registerGameLoop((gameTime) => {
       if (gameTime - lastActionTick >= actionInterval) {
-        const action = Math.floor(Math.random() * 3);
-        this.isWalking = action === 1;
-        this.isAttacking = action === 2;
+        const action = Math.floor(Math.random() * 2);
+        this.isWalking = true;
+        this.isAttacking = action === 1;
         lastActionTick = gameTime;
       }
     });
@@ -211,7 +211,8 @@ class Endboss extends MovableObject {
       this.world.character.x >= this.level_end_x - 710;
     if (inRange && this.isAttacking) {
       this.handleAttack();
-    } else if (inRange && this.isWalking) {
+    }
+    if (inRange && this.isWalking) {
       this.handleWalk();
     } else if (this.shouldMoveRight) {
       this.handleMoveRight();
@@ -278,13 +279,16 @@ class Endboss extends MovableObject {
    * @param {ThrowableObject} bottle - The bottle object that hit the endboss.
    */
   hitByBottle(bottle) {
-    this.energy -= 10;
+    this.energy -= 15;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
     const target = window.getGameTime() + 400;
     const unregister = window.registerGameLoop((gameTime) => {
       if (gameTime >= target) {
         this.isHurtNow = false;
+        if (typeof this.setRandomAction === "function") {
+          this.setRandomAction();
+        }
         unregister();
       }
     });
