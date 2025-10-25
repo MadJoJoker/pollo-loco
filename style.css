@@ -59,14 +59,14 @@ canvas {
   justify-content: space-evenly !important;
   position: absolute;
   top: clamp(8px, 20vh, 180px);
-  right: clamp(8px, 25vw, 320px);
+  right: clamp(8px, 25vw, 420px);
   background: rgba(204, 119, 34, 0.6);
   border: solid clamp(1px, 0.2vw, 4px) rgb(244, 238, 150);
   border-radius: clamp(8px, 1.2vw, 14px);
   z-index: 9999;
-  width: clamp(180px, 22vw, 380px);
+  width: clamp(180px, 30vw, 420px);
   height: clamp(40px, 6vh, 64px);
-  padding: clamp(6px, 0.6vw, 12px);
+  padding: clamp(16px, 10vw, 24px);
   box-sizing: border-box;
 }
 .canvas-fullscreen-btn .img-btn {
