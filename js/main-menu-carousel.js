@@ -11,12 +11,18 @@ window.initCarousel = function () {
    */
   function updateCarousel() {
     buttons.forEach((btn, i) => {
-      btn.classList.remove("active");
-      btn.style.display = i === activeIndex ? "block" : "none";
-      if (i === activeIndex) {
-        btn.classList.add("active");
-      }
+      btn.classList.toggle("active", i === activeIndex);
+      btn.style.display = "inline-flex";
     });
+
+    const activeBtn = buttons[activeIndex];
+    if (activeBtn && typeof activeBtn.scrollIntoView === "function") {
+      activeBtn.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
   }
 
   /**
