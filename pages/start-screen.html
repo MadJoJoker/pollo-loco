@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chicken-Tabasco</title>
     <link
@@ -10,47 +11,50 @@
       type="image/x-icon"
     />
 
-    <link rel="stylesheet" href="/css/start-screen.css" />
+    <link rel="stylesheet" href="../css/start-screen.css" />
   </head>
   <body id="start-body">
     <audio
       id="start-screen-sound"
-      src="/assets/audio/start-screen-sound.mp3"
+      src="../assets/audio/start-screen-sound.mp3"
       autoplay
       loop
     ></audio>
     <header id="start-header">
-      <a onclick="location.href='/pages/impressum.html'">Impressum</a>
+      <a href="impressum.html" data-link="impressum.html">Impressum</a>
       <nav id="start-navbar">
         <div id="main-menu-placeholder"></div>
       </nav>
-      <a onclick="location.href='/pages/datenschutz.html'">Datenschutz</a>
+      <a href="datenschutz.html" data-link="datenschutz.html">Datenschutz</a>
     </header>
     <h1 style="text-align: center">El Pollo Loco - Chicken Tabasco</h1>
 
     <div id="scoreboard">
       <h1>Start Game</h1>
-      <button
+      <a
         id="start-game-btn-scoreboard"
-        onclick="location.href='/index.html'"
+        href="../index.html"
+        data-link="../index.html"
+        class="img-btn"
       >
         <img
           src="/assets/button/hat-310509_640.png"
           alt="scoreboard"
           style="height: 64px"
         />
-      </button>
+      </a>
     </div>
+    <script src="../js/spa-router.js"></script>
     <script>
-      fetch("/pages/main-menu.html")
+      fetch("main-menu.html")
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("main-menu-placeholder").innerHTML = html;
           if (window.initCarousel) window.initCarousel();
         });
     </script>
-    <script src="/js/interval-helper.js"></script>
+    <script src="../js/interval-helper.js"></script>
 
-    <script src="/js/main-menu-carousel.js"></script>
+    <script src="../js/main-menu-carousel.js"></script>
   </body>
 </html>

@@ -96,7 +96,7 @@ body {
   bottom: 0%;
   left: 0%;
   height: 150px;
-  width:97%;
+  width: 97%;
   padding: 0px 40px;
 }
 #start-navbar {
@@ -135,16 +135,8 @@ h1 {
   padding: 4px;
   border: solid 2px rgb(244, 238, 150);
 }
-.carousel {
-  position: absolute;
-  transform: translate(-90%, -160%);
-
-  width: 100px;
-  height: 35px;
-  pointer-events: pointer;
-  z-index: 10;
-}
-.carousel button {
+.carousel button,
+.carousel a {
   position: absolute;
   left: 10%;
   top: -20%;
@@ -157,6 +149,16 @@ h1 {
   min-width: 135px;
   border: none;
   text-align: left;
+}
+.carousel button:hover,
+.carousel a:hover {
+  cursor: pointer;
+  background-color: rgb(99, 33, 31) !important;
+  border: rgb(244, 238, 150);
+  border-style: solid;
+  border-width: 2px;
+  border-color: chocolate;
+  color: rgb(244, 238, 150) !important;
 }
 .carousel button:hover {
   cursor: pointer;
@@ -190,7 +192,8 @@ h1 {
   scroll-behavior: smooth;
 }
 
-.carousel--main-menu button {
+.carousel--main-menu button,
+.carousel--main-menu a {
   /* undo absolute positioning from generic .carousel button rules */
   position: relative;
   left: auto;
@@ -214,12 +217,14 @@ h1 {
   color: rgb(27, 11, 11);
 }
 
-.carousel--main-menu button:not(.active) {
+.carousel--main-menu button:not(.active),
+.carousel--main-menu a:not(.active) {
   opacity: 0.85;
   transform: scale(1);
 }
 
-.carousel--main-menu button.active {
+.carousel--main-menu button.active,
+.carousel--main-menu a.active {
   /* Previously applied on hover: now applied to the selected (active) item */
   transform: scale(1); /* no scale for active; hover will scale */
   z-index: 2;
@@ -236,7 +241,8 @@ h1 {
 }
 
 /* Hover should now show the emphazised/active-like visual (scale + shadow) */
-.carousel--main-menu button:hover {
+.carousel--main-menu button:hover,
+.carousel--main-menu a:hover {
   transform: scale(1.18);
   z-index: 3;
   opacity: 1;

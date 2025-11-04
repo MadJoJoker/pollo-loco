@@ -135,10 +135,24 @@ window.addEventListener("DOMContentLoaded", function () {
   setMuteForAllAudios((muteValue || "0") === "1");
 });
 
-const muteRangeElem = document.getElementById("mute-range");
-if (muteRangeElem) {
-  muteRangeElem.addEventListener("input", window.muteAllAudiosHelper);
-}
+// Use event delegation so elements added dynamically (via SPA) are handled.
+document.addEventListener("input", function (e) {
+  var t = e.target || e.srcElement;
+  if (t && t.id === "mute-range") {
+    window.muteAllAudiosHelper();
+  }
+});
+
+// Also respond to SPA renders to initialize state for newly injected pages
+document.addEventListener("spa:render", function (e) {
+  // Re-apply mute state to any new audio elements and sync the range control
+  var muteValue = localStorage.getItem("polloMute");
+  var muteRange = document.getElementById("mute-range");
+  if (muteValue !== null && muteRange) {
+    muteRange.value = muteValue;
+  }
+  setMuteForAllAudios((muteValue || "0") === "1");
+});
 /**
  * Toggles the mute state in localStorage and updates all audio elements accordingly.
  */
