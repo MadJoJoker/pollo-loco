@@ -70,9 +70,23 @@ function stopAllIntervals() {
  */
 function pauseGame() {
   if (window.gamePaused) {
+    // Resume game time and restart world intervals
     if (window.resumeGameTime) window.resumeGameTime();
+    if (window.stopAllIntervals) {
+      // ensure any previous intervals are cleared before restarting
+      window.stopAllIntervals();
+    }
+    if (world && typeof world.startIntervals === "function") {
+      world.startIntervals();
+    } else if (world && typeof world.startGameLoops === "function") {
+      // fallback: start the main loops again
+      world.startGameLoops();
+      if (typeof world.run === "function") world.run();
+    }
   } else {
+    // Pause game time and stop all interval-based loops (collision, drawing, etc.)
     if (window.pauseGameTime) window.pauseGameTime();
+    if (window.stopAllIntervals) window.stopAllIntervals();
   }
 }
 

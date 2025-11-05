@@ -58,6 +58,22 @@ class World {
   }
 
   /**
+   * Public method to (re)start the world's interval-based loops.
+   * Useful after a global pause that clears stoppable intervals.
+   */
+  startIntervals() {
+    // Re-start main rendering / update loops and collision loops.
+    // These use window.setStoppableInterval so they can be cleared by window.stopAllIntervals().
+    this.startGameLoops();
+    // Ensure collision-only loop is running as well (run uses setStoppableInterval)
+    try {
+      this.run();
+    } catch (e) {
+      // if run() is not defined or errors, ignore — startGameLoops covers main loops
+    }
+  }
+
+  /**
    * Adds a visual effect to the world.
    * @param {Object} effect - The effect object to add.
    */
