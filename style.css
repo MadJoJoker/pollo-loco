@@ -201,10 +201,13 @@ h1 {
   }
 }
 
-@media only screen and (max-height: 480px) {
+@media (max-height: 480px) {
   canvas {
     height: 100vh;
     max-height: 100vh;
+  }
+  .mobile-buttons-bar{
+    background-color: rgba(0, 0, 0, 0)
   }
 }
 
@@ -225,4 +228,3 @@ h1 {
     display: none !important;
   }
 }
-
