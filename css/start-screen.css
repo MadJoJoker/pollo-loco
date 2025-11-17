@@ -524,9 +524,11 @@ h1 {
     height: 75px;
   }
   #start-navbar {
+    display: flex;
+    justify-content: center;
     padding: 10px;
     z-index: 2;
-    height: 75px;
+    height: 55px;
     width: 100%;
     background-image: none;
   }
