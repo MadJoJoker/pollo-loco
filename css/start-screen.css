@@ -125,6 +125,14 @@ body {
 .menu-overlay.overlay-hidden {
   pointer-events: none;
 }
+.menu-overlay.overlay-hidden .menu-drawer,
+.menu-overlay.overlay-hidden .menu-drawer * {
+  pointer-events: none;
+}
+.menu-overlay.overlay-visible .menu-drawer,
+.menu-overlay.overlay-visible .menu-drawer * {
+  pointer-events: auto;
+}
 
 .close-menu {
   position: absolute;
@@ -188,8 +196,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: 1000px;
-  height: 700px;
+  width: 550px;
+  height: 500px;
   position: absolute;
   z-index: 1;
   left: 49%;
@@ -214,12 +222,7 @@ body {
   padding: 0px 20px;
   height: 120px;
 }
-#start-navbar {
-  padding: 25px;
-  z-index: 2;
-  height: 15%;
-  width: 100%;
-}
+
 a {
   text-decoration: none;
   color: rgb(99, 33, 31);
