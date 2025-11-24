@@ -177,7 +177,29 @@ h1 {
   width: 10.5rem;
 }
 
-@media only screen and (max-width: 910px) {
+@media (orientation: portrait) {
+  #rotateScreen {
+    display: flex !important;
+  }
+  #fullscreen {
+    display: none !important;
+  }
+}
+
+@media (orientation: landscape) {
+  #rotateScreen {
+    display: none !important;
+  }
+  #fullscreen {
+    display: flex;
+  }
+
+  .mobile-buttons-bar {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+@media (orientation: landscape) and (max-width: 910px) {
   h1 {
     font-size: 40px;
     display: block;
@@ -189,7 +211,8 @@ h1 {
   }
 }
 
-@media only screen and (max-width: 720px) {
+/* Very small landscape screens */
+@media (orientation: landscape) and (max-width: 720px) {
   h1 {
     display: none;
   }
@@ -201,30 +224,20 @@ h1 {
   }
 }
 
-@media (max-height: 480px) {
+/* Short landscape screens (phones in landscape) */
+@media (orientation: landscape) and (max-height: 500px) {
   canvas {
     height: 100vh;
     max-height: 100vh;
+    border-radius: 0;
   }
-  .mobile-buttons-bar{
-    background-color: rgba(0, 0, 0, 0)
-  }
-}
 
-@media (orientation: landscape) {
-  #rotateScreen {
-    display: none !important;
+  h1 {
+    display: none;
   }
-  #fullscreen {
-    display: flex;
-  }
-}
 
-@media (orientation: portrait) {
-  #rotateScreen {
-    display: flex !important;
-  }
-  #fullscreen {
-    display: none !important;
+  .canvas-fullscreen-btn {
+    top: 1rem;
+    right: 1rem;
   }
 }
