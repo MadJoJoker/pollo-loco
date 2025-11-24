@@ -57,8 +57,9 @@ canvas {
   display: flex;
   justify-content: space-evenly !important;
   position: absolute;
-  top: clamp(8px, 20vh, 180px);
-  right: clamp(8px, 25vw, 420px);
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
   background: rgba(204, 119, 34, 0.6);
   border: solid clamp(1px, 0.2vw, 4px) rgb(244, 238, 150);
   border-radius: clamp(8px, 1.2vw, 14px);
@@ -70,7 +71,7 @@ canvas {
 }
 .canvas-fullscreen-btn .img-btn {
   font-family: "GringoNights";
-  font-size: 0.9rem;
+  font-size: 0.75rem;
 }
 .canvasFullscreenButton {
   width: 4.5rem;
@@ -82,7 +83,7 @@ canvas {
 }
 
 #fullscreen:fullscreen .canvas-fullscreen-btn {
-  top: 2%;
+  top: 8%;
   right: 2%;
 }
 
@@ -121,15 +122,17 @@ h1 {
   margin: 0;
   cursor: pointer;
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 3.5rem; /* hit area */
-  height: 3.5rem; /* hit area */
+  width: auto;
+  height: auto;
+  gap: 0.25rem;
 }
 
 .img-btn img {
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   display: block;
 }
 .highscore {
@@ -170,12 +173,6 @@ h1 {
   font-size: 2em;
   z-index: 99999;
 }
-#canvasFullscreenBtn {
-  position: absolute;
-  top: 2.5rem;
-  right: 1rem;
-  width: 10.5rem;
-}
 
 @media (orientation: portrait) {
   #rotateScreen {
@@ -203,11 +200,6 @@ h1 {
   h1 {
     font-size: 40px;
     display: block;
-  }
-  .canvas-fullscreen-btn {
-    top: 6rem;
-    right: 1rem;
-    width: 12rem;
   }
 }
 
@@ -239,5 +231,19 @@ h1 {
   .canvas-fullscreen-btn {
     top: 1rem;
     right: 1rem;
+  }
+  .mobile-buttons-bar {
+    position: absolute;
+    left: 0.25;
+    right: 0;
+    bottom: 0;
+  }
+
+  .canvas-fullscreen-btn .img-btn {
+    font-size: 0 !important;
+  }
+
+  #fullscreen .canvas-fullscreen-btn {
+    padding: 8px;
   }
 }
