@@ -363,14 +363,14 @@ body {
   }
 }
 
-@media only screen and (max-width: 720px) and (max-height: 800px) {
+@media only screen and (max-width: 720px), (max-height: 720px) {
   #settings-scoreboard {
     background-image: url("/assets/button/board.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 300px;
-    height: 230px;
+    width: 500px;
+    height: 530px;
     position: absolute;
     z-index: 1;
     left: 49%;
@@ -380,6 +380,22 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+  }
+
+  #mute-control {
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px 12px;
+    margin: 8px auto;
+    font-size: 0.8rem;
+  }
+
+  #mute-range {
+    width: 50px;
+  }
+
+  #mute-status {
+    font-size: 0.75rem;
   }
 
   #start-header {
@@ -416,5 +432,90 @@ body {
 
   .carousel {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 500px), (max-height: 500px) {
+  #settings-scoreboard {
+    width: 300px;
+    height: 330px;
+  }
+
+  h1 {
+    font-size: 16px;
+    margin: 8px 0;
+    padding: 4px;
+  }
+
+  #mute-control {
+    gap: 4px;
+    padding: 4px 8px;
+    margin: 6px auto;
+    font-size: 0.7rem;
+  }
+
+  #mute-range {
+    width: 40px;
+  }
+
+  #mute-status {
+    font-size: 0.65rem;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #settings-scoreboard {
+    height: 280px;
+  }
+
+  h1 {
+    font-size: 14px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  #mute-control {
+    flex-direction: row;
+    gap: 4px;
+    padding: 4px 8px;
+    margin: 4px auto;
+    font-size: 0.65rem;
+  }
+
+  #mute-range {
+    width: 40px;
+  }
+
+  #mute-status {
+    font-size: 0.6rem;
+  }
+}
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  #settings-scoreboard {
+    width: 250px;
+    height: 230px;
+  }
+
+  h1 {
+    font-size: 14px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  #mute-control {
+    flex-direction: row;
+    gap: 3px;
+    padding: 3px 6px;
+    margin: 4px auto;
+    font-size: 0.6rem;
+    border-radius: 8px;
+  }
+
+  #mute-range {
+    width: 30px;
+  }
+
+  #mute-status {
+    font-size: 0.55rem;
   }
 }
