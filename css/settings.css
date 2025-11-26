@@ -33,13 +33,15 @@ body {
 
   position: absolute;
   z-index: 1;
-  left: 45%;
+  left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
 }
 #settings-scoreboard li {
   font-size: 22px;
@@ -373,8 +375,8 @@ body {
     height: 530px;
     position: absolute;
     z-index: 1;
-    left: 49%;
-    top: 70%;
+    left: 50%;
+    top: 55%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
