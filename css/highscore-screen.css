@@ -40,6 +40,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
 }
 #heros-scoreboard li {
   display: flex;
@@ -55,6 +57,13 @@ body {
   gap: 0;
   position: relative;
   padding: 5px;
+}
+
+.scoreboard-columns ul {
+  padding-inline-start: 0;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
 }
 
 .scoreboard-columns li {
@@ -349,31 +358,31 @@ body {
 }
 
 @media only screen and (max-width: 1290px) and (max-height: 800px) {
-  h1 {
-    font-size: 50px;
+  #heros-scoreboard h1 {
+    font-size: 55px;
     display: block;
   }
 }
 
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
-  h1 {
+  #heros-scoreboard h1 {
     font-size: 35px;
     display: block;
   }
 }
 
-@media only screen and (max-width: 720px) and (max-height: 800px) {
+@media only screen and (max-width: 720px), (max-height: 720px) {
   #heros-scoreboard {
     background-image: url("/assets/button/board.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 300px;
-    height: 230px;
+    width: 500px;
+    height: 530px;
     position: absolute;
     z-index: 1;
-    left: 49%;
-    top: 70%;
+    left: 50%;
+    top: 55%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
@@ -399,8 +408,10 @@ body {
     background-image: none;
   }
 
-  h1 {
-    font-size: 18px;
+  #heros-scoreboard h1 {
+    font-size: 48px;
+    margin: 8px 0;
+    padding: 4px;
   }
 
   .headline {
@@ -413,6 +424,10 @@ body {
     text-align: center;
   }
 
+  .scoreboard-columns {
+    width: 80%;
+  }
+
   .scoreboard-columns li {
     font-size: 18px;
     padding: 2px 16px;
@@ -420,5 +435,98 @@ body {
 
   .carousel {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: landscape),
+  (max-height: 500px) and (orientation: landscape) {
+  #heros-scoreboard {
+    width: 300px;
+    height: 330px;
+  }
+
+  #heros-scoreboard h1 {
+    font-size: 16px;
+    margin: 6px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    width: 75%;
+  }
+
+  .scoreboard-columns li {
+    font-size: 14px;
+    padding: 2px 12px;
+    margin-bottom: 4px;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: portrait) {
+  #heros-scoreboard {
+    width: 400px;
+    height: 530px;
+    top: 50%;
+  }
+
+  #heros-scoreboard h1 {
+    font-size: 18px;
+    margin: 8px 0;
+    padding: 4px;
+  }
+
+  .scoreboard-columns {
+    width: 80%;
+  }
+
+  .scoreboard-columns li {
+    font-size: 16px;
+    padding: 2px 16px;
+    margin-bottom: 6px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #heros-scoreboard {
+    height: 280px;
+  }
+
+  #heros-scoreboard h1 {
+    font-size: 32px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    width: 70%;
+  }
+
+  #heros-scoreboard .scoreboard-columns li {
+    font-size: 12px;
+    padding: 2px 10px;
+    margin-bottom: 3px;
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  #heros-scoreboard {
+    width: 250px;
+    height: 230px;
+  }
+
+  #heros-scoreboard h1 {
+    font-size: 22px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    width: 75%;
+  }
+
+  #heros-scoreboard .scoreboard-columns li {
+    font-size: 14px;
+    padding: 2px 4px;
+    margin-bottom: 2px;
   }
 }
