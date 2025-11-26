@@ -33,18 +33,21 @@ body {
 
   position: absolute;
   z-index: 1;
-  left: 45%;
+  left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
 }
 #how-to-play-scoreboard li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   font-size: 22px;
   font-weight: 600;
   width: 200px;
@@ -52,18 +55,31 @@ body {
 #how-to-play-scoreboard li img {
   width: 32px;
   height: auto;
-  margin-left: 16px;
+  margin-left: 0;
   vertical-align: middle;
-  padding-left: 0;
 }
 .scoreboard-columns {
   margin-top: -30px;
   margin-left: -20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 30px;
   position: relative;
-  justify-items: center;
+}
+
+.scoreboard-columns ul {
+  padding-inline-start: 0;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.scoreboard-columns ul:first-child {
+  justify-self: start;
+}
+
+.scoreboard-columns ul:last-child {
+  justify-self: end;
 }
 
 .scoreboard-columns::before {
@@ -71,14 +87,14 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: 48%;
   width: 2px;
   background: rgba(204, 119, 34, 0.8);
-  width: 8px;
+  width: 4px;
   height: 90%;
   border-radius: 10px;
   margin: 5px;
-  z-index: 2;
+  z-index: 0;
 }
 
 .scoreboard-columns li {
@@ -87,6 +103,8 @@ body {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .scoreboard-columns li img {
@@ -338,23 +356,23 @@ li {
 
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
   h1 {
-    font-size: 35px;
+    font-size: 55px;
     display: block;
   }
 }
 
-@media only screen and (max-width: 720px) and (max-height: 800px) {
+@media only screen and (max-width: 720px), (max-height: 720px) {
   #how-to-play-scoreboard {
     background-image: url("/assets/button/board.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-    width: 300px;
-    height: 230px;
+    width: 500px;
+    height: 530px;
     position: absolute;
     z-index: 1;
-    left: 49%;
-    top: 70%;
+    left: 50%;
+    top: 55%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
@@ -381,7 +399,9 @@ li {
   }
 
   h1 {
-    font-size: 18px;
+    font-size: 47px;
+    margin: 28px 0;
+    padding: 4px;
   }
 
   .headline {
@@ -394,11 +414,169 @@ li {
     text-align: center;
   }
 
+  .scoreboard-columns {
+    margin-top: -15px;
+    margin-left: 0;
+    gap: 8px;
+  }
+
   .scoreboard-columns li {
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  #how-to-play-scoreboard li {
+    font-size: 18px;
+    width: 180px;
+  }
+
+  #how-to-play-scoreboard li img {
+    width: 28px;
   }
 
   .carousel {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: landscape),
+  (max-height: 500px) and (orientation: landscape) {
+  #how-to-play-scoreboard {
+    width: 300px;
+    height: 330px;
+  }
+
+  h1 {
+    font-size: 16px;
+    margin: 6px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    margin-top: -10px;
+    margin-left: 0;
+    gap: 6px;
+  }
+
+  .scoreboard-columns li {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  #how-to-play-scoreboard li {
+    font-size: 14px;
+    width: 140px;
+  }
+
+  #how-to-play-scoreboard li img {
+    width: 22px;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: portrait) {
+  #how-to-play-scoreboard {
+    width: 400px;
+    height: 530px;
+    top: 50%;
+  }
+
+  h1 {
+    font-size: 34px;
+    margin: 18px;
+    padding: 4px;
+  }
+
+  .scoreboard-columns {
+    margin-top: -15px;
+    margin-left: 0;
+    gap: 8px;
+  }
+
+  .scoreboard-columns li {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  #how-to-play-scoreboard li {
+    font-size: 16px;
+    width: 150px;
+  }
+
+  #how-to-play-scoreboard li img {
+    width: 26px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #how-to-play-scoreboard {
+    height: 380px;
+    width: 320px;
+  }
+
+  h1 {
+    font-size: 38px;
+    margin: 16px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    margin-top: -8px;
+    margin-left: 0;
+    gap: 4px;
+  }
+
+  .scoreboard-columns::before {
+    display: none;
+  }
+
+  .scoreboard-columns li {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  #how-to-play-scoreboard li {
+    font-size: 12px;
+    width: 120px;
+  }
+
+  #how-to-play-scoreboard li img {
+    width: 20px;
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  #how-to-play-scoreboard {
+    width: 320px;
+    height: 300px;
+  }
+
+  h1 {
+    font-size: 34px;
+    margin: 14px 0;
+    padding: 2px;
+  }
+
+  .scoreboard-columns {
+    margin-top: -6px;
+    margin-left: 0;
+    gap: 3px;
+  }
+
+  .scoreboard-columns::before {
+    display: none;
+  }
+
+  .scoreboard-columns li {
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+
+  #how-to-play-scoreboard li {
+    font-size: 10px;
+    width: 100px;
+  }
+
+  #how-to-play-scoreboard li img {
+    width: 18px;
   }
 }
