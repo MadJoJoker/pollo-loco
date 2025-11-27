@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game Over</title>
-    <link rel="stylesheet" href="/css/start-screen.css" />
+    <link rel="stylesheet" href="/css/game-over.css" />
     <link
       rel="shortcut icon"
       href="/assets/button/guitar-9546520_640.png"
@@ -59,21 +59,20 @@
       </div>
     </div>
 
-    <h1>
-      Try Again?
-      <img
-        id="restart-btn"
-        src="/assets/button/check-btn.png"
-        alt="restart"
-        onclick="location.href='/index.html'"
-      /><img
-        id="no-restart-btn"
-        src="/assets/button/close-btn.png"
-        alt="no-restart"
-      />
-    </h1>
-
-    <div id="scoreboard">
+    <div id="scoreboard-gameover">
+      <h1>
+        Try Again?
+        <img
+          id="restart-btn"
+          src="/assets/button/check-btn.png"
+          alt="restart"
+          onclick="location.href='/index.html'"
+        /><img
+          id="no-restart-btn"
+          src="/assets/button/close-btn.png"
+          alt="no-restart"
+        />
+      </h1>
       <div id="game-over-msg"></div>
     </div>
     <div id="no-restart-overlay" class="overlay-hidden">

@@ -191,7 +191,8 @@ body {
   overflow: auto;
 }
 
-#scoreboard {
+/* Scoreboard Game Over */
+#scoreboard-gameover {
   background-image: url("/assets/button/board.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -210,7 +211,11 @@ body {
   transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
 }
 
-#scoreboard h1 {
+#scoreboard-gameover h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   font-size: 65px;
   color: rgb(27, 11, 11);
   background-color: rgba(204, 119, 34, 0.6);
@@ -222,11 +227,64 @@ body {
   transition: font-size 0.3s ease, margin 0.3s ease, padding 0.3s ease;
 }
 
-#scoreboard img {
+#scoreboard-gameover img {
   max-width: 90%;
   max-height: 60%;
   object-fit: contain;
   transition: max-width 0.3s ease, max-height 0.3s ease;
+}
+
+/* Game Over Message */
+#game-over-msg {
+  width: 100%;
+  height: auto;
+  max-width: 90%;
+  max-height: 60%;
+  background-image: url("/assets/img/9_intro_outro_screens/game_over/game-over.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  border: solid 2px rgb(244, 238, 150);
+  border-radius: 10px;
+  aspect-ratio: 16/9;
+  transition: max-width 0.3s ease, max-height 0.3s ease;
+}
+
+/* Restart Buttons */
+#restart-btn,
+#no-restart-btn {
+  width: 50px;
+  height: auto;
+  margin: 10px 5px;
+  vertical-align: middle;
+  padding: 5px;
+  border: solid 2px rgb(244, 238, 150);
+  border-radius: 10px;
+  background-color: transparent;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#restart-btn:hover,
+#no-restart-btn:hover {
+  background-color: rgb(99, 33, 31);
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+#no-restart-overlay {
+  position: fixed;
+  top: 15%;
+  right: 42%;
+  width: 350px;
+  padding: 30px;
+  background: rgb(97, 31, 29);
+  border: rgb(204, 119, 34) solid 4px;
+  border-radius: 10px;
+  color: rgb(243, 238, 150);
+  font-size: 1.3em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  transition: right 0.5s cubic-bezier(0.77, 0, 0.18, 1);
 }
 
 #start-header {
@@ -460,27 +518,81 @@ h1 {
 .big-img-height {
   height: 64px;
 }
+
+.close-menu {
+  position: absolute;
+  right: 38px;
+  top: 2px;
+  border: none;
+  background: transparent;
+  color: rgb(244, 238, 150);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.menu-drawer .carousel,
+#overlay-carousel-container .carousel {
+  display: flex !important;
+  transform: none !important;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.menu-drawer .carousel--main-menu {
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.menu-drawer .carousel {
+  flex: 1 1 auto;
+  min-height: 120px;
+  overflow: auto;
+}
+
+.overlay-visible {
+  right: 0;
+}
+
+.overlay-hidden {
+  right: -400px;
+}
+
+/* Responsive Media Queries */
 @media only screen and (max-width: 1290px) and (max-height: 800px) {
-  h1 {
-    font-size: 50px;
-    display: block;
-  }
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 50px;
   }
 }
+
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
-  h1 {
-    font-size: 35px;
-    display: block;
-  }
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 35px;
   }
 }
 
 @media only screen and (max-width: 720px), (max-height: 720px) {
-  #scoreboard {
+  #scoreboard-gameover {
     background-image: url("/assets/button/board.png");
     background-position: center;
     background-repeat: no-repeat;
@@ -516,118 +628,162 @@ h1 {
     background-image: none;
   }
 
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 48px;
     margin: 8px 0;
     padding: 4px;
   }
 
-  #scoreboard img {
+  #scoreboard-gameover img {
     max-width: 85%;
     max-height: 50%;
   }
 
-  #start-game-btn-scoreboard {
-    height: 34px;
-    width: 42px;
+  #restart-btn,
+  #no-restart-btn {
+    width: 40px;
+    margin: 8px 4px;
   }
 
-  .big-img-height {
-    height: 32px;
+  #game-over-msg {
+    position: absolute;
+    top: 40%;
+    left: 15%;
   }
 
   h1 {
     font-size: 22px;
   }
-
-  .headline {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    width: 80%;
-    text-align: center;
-  }
-
-  .carousel {
-    transform: translate(-70%, -10%);
-    display: none;
-  }
 }
 
 @media only screen and (max-width: 500px) and (orientation: landscape),
   (max-height: 500px) and (orientation: landscape) {
-  #scoreboard {
+  #scoreboard-gameover {
     width: 300px;
     height: 330px;
     top: 55%;
   }
 
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 16px;
     margin: 6px 0;
     padding: 2px;
   }
 
-  #scoreboard img {
+  #scoreboard-gameover img {
     max-width: 80%;
     max-height: 45%;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 30px;
+    margin: 5px 3px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 30%;
+    left: 18%;
+    height: 35%;
+    width: 65%;
   }
 }
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
-  #scoreboard {
+  #scoreboard-gameover {
     width: 400px;
     height: 530px;
     top: 50%;
   }
 
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 18px;
     margin: 8px 0;
     padding: 4px;
   }
 
-  #scoreboard img {
+  #scoreboard-gameover img {
     max-width: 85%;
     max-height: 55%;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 35px;
+    margin: 6px 4px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 35%;
+    left: 12%;
+    height: 40%;
+    width: 75%;
   }
 }
 
 @media (orientation: landscape) and (max-height: 500px) {
-  #scoreboard {
+  #scoreboard-gameover {
     height: 280px;
     top: 55%;
   }
 
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 32px;
     margin: 4px 0;
     padding: 2px;
   }
 
-  #scoreboard img {
+  #scoreboard-gameover img {
     max-width: 80%;
     max-height: 45%;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 32px;
+    margin: 4px 3px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 28%;
+    left: 15%;
+    height: 32%;
+    width: 70%;
   }
 }
 
 @media only screen and (max-width: 400px), (max-height: 400px) {
-  #scoreboard {
+  #scoreboard-gameover {
     width: 250px;
     height: 230px;
     top: 65%;
   }
 
-  #scoreboard h1 {
+  #scoreboard-gameover h1 {
     font-size: 20px;
     margin: 4px 0;
     padding: 2px;
   }
 
-  #scoreboard img {
+  #scoreboard-gameover img {
     max-width: 80%;
     max-height: 40%;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 28px;
+    margin: 4px 2px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 32%;
+    left: 15%;
+    height: 30%;
+    width: 70%;
   }
 }
