@@ -191,7 +191,8 @@ body {
   overflow: auto;
 }
 
-#scoreboard {
+#scoreboard,
+#scoreboard-win {
   background-image: url("/assets/button/board.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -207,7 +208,30 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
 }
+
+#scoreboard h1,
+#scoreboard-win h1 {
+  font-size: 65px;
+  color: rgb(27, 11, 11);
+  background-color: rgba(204, 119, 34, 0.6);
+  border-radius: 10px;
+  padding: 4px;
+  border: solid 2px rgb(244, 238, 150);
+  margin: 10px 0;
+  text-align: center;
+  transition: font-size 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+}
+
+#scoreboard img,
+#scoreboard-win img {
+  max-width: 90%;
+  max-height: 60%;
+  object-fit: contain;
+  transition: max-width 0.3s ease, max-height 0.3s ease;
+}
+
 #start-header {
   display: flex;
   justify-content: center;
@@ -377,17 +401,15 @@ h1 {
   border-radius: 10px;
 }
 #game-over-msg-won {
-  position: absolute;
-  top: 30%;
-  left: 33%;
-  height: 40%;
-  width: 35%;
-  z-index: 4;
+  width: 180px;
+  height: 200px;
   background-image: url("/assets/button/sheriff-156649_640.png");
   background-repeat: no-repeat;
   background-size: contain;
+  background-position: center;
   border: solid 2px rgb(244, 238, 150);
   border-radius: 10px;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 @keyframes overlaySlideIn {
@@ -503,20 +525,40 @@ h1 {
     font-size: 50px;
     display: block;
   }
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 50px;
+  }
 }
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
   h1 {
     font-size: 35px;
     display: block;
   }
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 35px;
+  }
 }
 
 @media only screen and (max-width: 720px), (max-height: 720px) {
-  .carousel {
-    transform: translate(-70%, -10%);
-  }
-  #scoreboard {
-    background-image: none;
+  #scoreboard,
+  #scoreboard-win {
+    background-image: url("/assets/button/board.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 500px;
+    height: 530px;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   #start-header {
@@ -526,6 +568,7 @@ h1 {
     top: 0%;
     height: 75px;
   }
+
   #start-navbar {
     display: flex;
     justify-content: center;
@@ -535,49 +578,44 @@ h1 {
     width: 100%;
     background-image: none;
   }
-  #game-over-msg-won {
-    position: absolute;
-    top: 40%;
-    left: 33%;
-    height: 40%;
-    width: 35%;
-    z-index: 4;
+
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 48px;
+    margin: 8px 0;
+    padding: 4px;
   }
+
+  #scoreboard img,
+  #scoreboard-win img {
+    max-width: 85%;
+    max-height: 50%;
+  }
+
+  #game-over-msg-won {
+    width: 180px;
+    height: 200px;
+  }
+
   #game-over-msg {
     position: absolute;
     top: 40%;
     left: 15%;
   }
-  @media (max-height: 800px) {
-  }
 
-  #scoreboard {
-    background-image: url("/assets/button/board.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 300px;
-    height: 230px;
-    position: absolute;
-    z-index: 1;
-    left: 49%;
-    top: 70%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
   #start-game-btn-scoreboard {
     height: 34px;
     width: 42px;
   }
+
   .big-img-height {
     height: 32px;
   }
+
   h1 {
     font-size: 22px;
   }
+
   .headline {
     position: absolute;
     top: 30%;
@@ -587,7 +625,149 @@ h1 {
     width: 80%;
     text-align: center;
   }
+
   .carousel {
+    transform: translate(-70%, -10%);
     display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: landscape),
+  (max-height: 500px) and (orientation: landscape) {
+  #scoreboard,
+  #scoreboard-win {
+    width: 300px;
+    height: 330px;
+    top: 55%;
+  }
+
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 16px;
+    margin: 6px 0;
+    padding: 2px;
+  }
+
+  #scoreboard img,
+  #scoreboard-win img {
+    max-width: 80%;
+    max-height: 45%;
+  }
+
+  #game-over-msg-won {
+    width: 100px;
+    height: 110px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 30%;
+    left: 18%;
+    height: 35%;
+    width: 65%;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: portrait) {
+  #scoreboard,
+  #scoreboard-win {
+    width: 400px;
+    height: 530px;
+    top: 50%;
+  }
+
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 18px;
+    margin: 8px 0;
+    padding: 4px;
+  }
+
+  #scoreboard img,
+  #scoreboard-win img {
+    max-width: 85%;
+    max-height: 55%;
+  }
+
+  #game-over-msg-won {
+    width: 140px;
+    height: 150px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 35%;
+    left: 12%;
+    height: 40%;
+    width: 75%;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #scoreboard,
+  #scoreboard-win {
+    height: 280px;
+    top: 55%;
+  }
+
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 32px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  #scoreboard img,
+  #scoreboard-win img {
+    max-width: 80%;
+    max-height: 45%;
+  }
+
+  #game-over-msg-won {
+    width: 100px;
+    height: 110px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 28%;
+    left: 15%;
+    height: 32%;
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  #scoreboard,
+  #scoreboard-win {
+    width: 250px;
+    height: 230px;
+    top: 65%;
+  }
+
+  #scoreboard h1,
+  #scoreboard-win h1 {
+    font-size: 20px;
+    margin: 4px 0;
+    padding: 2px;
+  }
+
+  #scoreboard img,
+  #scoreboard-win img {
+    max-width: 80%;
+    max-height: 40%;
+  }
+
+  #game-over-msg-won {
+    width: 80px;
+    height: 90px;
+  }
+
+  #game-over-msg {
+    position: absolute;
+    top: 32%;
+    left: 15%;
+    height: 30%;
+    width: 70%;
   }
 }
