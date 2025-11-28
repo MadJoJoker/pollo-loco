@@ -49,6 +49,9 @@ body {
   border-style: solid;
   border-width: 2px;
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #start-game-btn-scoreboard:hover {
   background-color: rgba(204, 119, 34, 0.6);
