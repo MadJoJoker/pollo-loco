@@ -4,27 +4,27 @@ html {
   align-items: center;
 }
 body {
-  max-width: 1440px;
+  max-width: var(--max-width);
   margin: auto;
   min-height: 100vh;
-  font-family: "GringoNights";
+  font-family: var(--font-family);
 }
 
 #settings-body {
-  background-image: url("/assets/img/10_external_img/background-dessert.jpg");
+  background-image: var(--bg-desert);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 #settings-main {
   position: absolute;
-  z-index: 1;
+  z-index: var(--z-index-base);
   left: 70%;
   top: 60%;
   transform: translate(-50%, -50%);
 }
 #settings-scoreboard {
-  background-image: url("/assets/button/board.png");
+  background-image: var(--bg-board);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -32,16 +32,18 @@ body {
   height: 500px;
 
   position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 50%;
+  z-index: var(--z-index-base);
+  left: var(--position-center);
+  top: var(--position-center);
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+  transition: width var(--transition-standard),
+    height var(--transition-standard), top var(--transition-standard),
+    left var(--transition-standard);
 }
 #settings-scoreboard li {
   font-size: 22px;
@@ -65,13 +67,13 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: rgba(204, 119, 34, 0.8);
-  width: 8px;
+  left: var(--position-center);
+  width: var(--border-width);
+  background: var(--color-accent-light);
+  width: var(--spacing-sm);
   height: 90%;
-  border-radius: 10px;
-  margin: 5px;
+  border-radius: var(--border-radius);
+  margin: var(--spacing-md);
   z-index: 2;
 }
 
@@ -95,7 +97,7 @@ body {
   border-radius: 12px;
   padding: 12px 24px;
   box-shadow: 0 2px 8px rgba(204, 119, 34, 0.15);
-  font-family: "GringoNights", Arial, sans-serif;
+  font-family: var(--font-family), Arial, sans-serif;
   font-size: 1.2rem;
   width: fit-content;
   margin: 24px auto;
@@ -124,13 +126,13 @@ body {
 #how-to-play-btn,
 #settings-btn,
 #highscore-btn {
-  background-color: rgba(204, 119, 34, 0.8);
-  border-radius: 10px;
-  margin: 5px;
+  background-color: var(--color-accent-light);
+  border-radius: var(--border-radius);
+  margin: var(--spacing-md);
 }
 
 .nav-icon {
-  height: 34px;
+  height: var(--nav-icon-size);
   width: auto;
   display: inline-block;
   vertical-align: middle;
@@ -142,7 +144,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9998;
+  z-index: var(--z-index-overlay);
   pointer-events: none;
   width: 100%;
   height: 100%;
@@ -151,31 +153,31 @@ body {
 .menu-overlay .menu-overlay-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  opacity: 0;
-  transition: opacity 220ms ease;
+  background: var(--color-black-overlay);
+  opacity: var(--opacity-hidden);
+  transition: var(--transition-opacity);
 }
 
 .menu-overlay .menu-drawer {
   position: relative;
-  background: rgb(97, 31, 29);
-  color: rgb(244, 238, 150);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  width: clamp(480px, 80vw, 1100px);
+  background: var(--color-bg-dark);
+  color: var(--color-text-light);
+  box-shadow: var(--shadow-heavy);
+  width: var(--clamp-drawer-width);
   max-width: 95vw;
   min-height: 200px;
   transform: none;
-  opacity: 0;
-  transition: transform 220ms ease, opacity 200ms ease;
-  padding: 18px;
+  opacity: var(--opacity-hidden);
+  transition: var(--transition-combined);
+  padding: var(--spacing-xl);
   overflow: hidden;
   box-sizing: border-box;
   max-height: 92vh;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  border: solid 2px rgb(244, 238, 150);
+  border-radius: var(--border-radius);
+  border: var(--border-solid);
 }
 
 .menu-overlay.overlay-visible {
@@ -183,12 +185,12 @@ body {
 }
 
 .menu-overlay.overlay-visible .menu-overlay-backdrop {
-  opacity: 1;
+  opacity: var(--opacity-visible);
 }
 
 .menu-overlay.overlay-visible .menu-drawer {
   transform: none;
-  opacity: 1;
+  opacity: var(--opacity-visible);
 }
 
 .menu-overlay.overlay-hidden {

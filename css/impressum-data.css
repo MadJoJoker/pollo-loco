@@ -3,17 +3,17 @@
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
 }
 html {
-  max-width: 1440px;
+  max-width: var(--max-width);
   margin: auto;
-  padding: 10px;
+  padding: var(--spacing-md);
   display: flex;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  color: rgb(27, 11, 11);
-  font-family: "GringoNights";
+  color: var(--color-primary);
+  font-family: var(--font-family);
   font-size: larger;
-  background-color: rgba(244, 238, 150, 0.4);
+  background-color: var(--color-bg-light-transparent);
 }
 body {
   min-height: 100vh;
@@ -24,25 +24,25 @@ body {
 h1,
 h2,
 h3 {
-  background-color: rgba(204, 119, 34, 0.4);
-  border-radius: 10px;
+  background-color: var(--color-accent-lighter);
+  border-radius: var(--border-radius);
 }
 a {
   color: rgba(204, 119, 34, 0.9);
 }
 a:hover {
-  color: rgb(27, 11, 11);
+  color: var(--color-primary);
   cursor: pointer;
 }
 #start-header {
   position: sticky;
-  z-index: 1;
+  z-index: var(--z-index-base);
   left: 0;
   top: 0;
   right: 0;
-  background-color: rgba(99, 33, 31, 0.8);
-  border-bottom: solid 2px rgb(155, 52, 46);
-  border-radius: 10px;
+  background-color: var(--color-bg-dark-transparent);
+  border-bottom: var(--border-solid-tertiary);
+  border-radius: var(--border-radius);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -53,7 +53,7 @@ a:hover {
   left: 45%;
   top: 0%;
   transform-origin: -100px 0;
-  background-image: url("/assets/img/10_external_img/bullet-7018215_640.png");
+  background-image: var(--bg-bullet);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -61,13 +61,13 @@ a:hover {
   min-width: 135px;
   border: none;
   text-align: left;
-  background-color: transparent;
-  font-family: "GringoNights";
+  background-color: var(--color-transparent);
+  font-family: var(--font-family);
 }
 .carousel button:hover {
   cursor: pointer;
-  color: rgb(99, 33, 31) !important;
+  color: var(--color-secondary) !important;
   border-color: chocolate;
-  background-color: rgb(244, 238, 150) !important;
-  border-radius: 10px;
+  background-color: var(--color-bg-light) !important;
+  border-radius: var(--border-radius);
 }

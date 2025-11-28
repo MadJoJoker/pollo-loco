@@ -1,0 +1,112 @@
+/* ============================================
+   CSS Root Variables - Pollo Loco Game
+   Zentrale Definition aller wiederverwendbaren
+   Design-Variablen für konsistentes Styling
+   ============================================ */
+
+:root {
+  /* === Farben === */
+  --color-primary: rgb(27, 11, 11);
+  --color-secondary: rgb(99, 33, 31);
+  --color-tertiary: rgb(155, 52, 46);
+  --color-accent: rgba(204, 119, 34, 0.6);
+  --color-accent-solid: rgb(204, 119, 34);
+  --color-accent-light: rgba(204, 119, 34, 0.8);
+  --color-accent-lighter: rgba(204, 119, 34, 0.4);
+  --color-accent-dark: rgba(204, 119, 34, 0.3);
+  --color-accent-transparent: rgba(204, 119, 34, 0.15);
+  --color-border: rgb(244, 238, 150);
+  --color-text-light: rgb(244, 238, 150);
+  --color-bg-dark: rgb(97, 31, 29);
+  --color-bg-dark-transparent: rgba(99, 33, 31, 0.8);
+  --color-bg-light: rgb(244, 238, 150);
+  --color-bg-light-transparent: rgba(244, 238, 150, 0.4);
+  --color-black: rgb(0, 0, 0);
+  --color-black-overlay: rgba(0, 0, 0, 0.45);
+  --color-black-screen: rgba(0, 0, 0, 0.85);
+  --color-transparent: transparent;
+
+  /* === Border Styles === */
+  --border-radius: 10px;
+  --border-radius-small: 8px;
+  --border-radius-medium: 12px;
+  --border-radius-large: 14px;
+  --border-radius-xlarge: 16px;
+  --border-radius-canvas: 25px;
+  --border-width: 2px;
+  --border-width-thin: 1px;
+  --border-width-thick: 5px;
+  --border-solid: solid 2px var(--color-border);
+  --border-solid-primary: solid 2px var(--color-primary);
+  --border-solid-tertiary: solid 2px var(--color-tertiary);
+
+  /* === Transitions === */
+  --transition-standard: 0.3s ease;
+  --transition-fast: 0.2s ease;
+  --transition-opacity: opacity 220ms ease;
+  --transition-transform: transform 220ms ease;
+  --transition-combined: transform 220ms ease, opacity 200ms ease;
+  --transition-box-shadow: box-shadow 0.3s;
+
+  /* === Schriftarten === */
+  --font-family: "GringoNights";
+  --font-size-small: 16px;
+  --font-size-medium: 22px;
+  --font-size-large: 32px;
+  --font-size-xlarge: 65px;
+  --font-weight-normal: 100;
+  --font-weight-medium: 400;
+  --font-weight-bold: 600;
+
+  /* === Spacing === */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 10px;
+  --spacing-lg: 16px;
+  --spacing-xl: 18px;
+  --spacing-xxl: 24px;
+  --spacing-xxxl: 50px;
+
+  /* === Z-Index === */
+  --z-index-base: 1;
+  --z-index-nav: 10;
+  --z-index-mobile-buttons: 7999;
+  --z-index-overlay: 9998;
+  --z-index-modal: 9999;
+  --z-index-rotate-screen: 99999;
+
+  /* === Sizes === */
+  --max-width: 1440px;
+  --nav-icon-size: 34px;
+  --button-icon-size: 32px;
+
+  /* === Box Shadows === */
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 8px 10px rgba(0, 0, 0, 0.4);
+  --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-accent: 0 2px 8px rgba(204, 119, 34, 0.15);
+
+  /* === Background Images === */
+  --bg-desert: url("/assets/img/10_external_img/background-dessert.jpg");
+  --bg-start-screen: url("/assets/img/10_external_img/start-screen-backgreound.jpg");
+  --bg-bullet: url("/assets/img/10_external_img/bullet-7018215_640.png");
+  --bg-board: url("/assets/button/board.png");
+  --font-path: url("/assets/fonts/banderos/Bandero.otf");
+
+  /* === Clamp Values === */
+  --clamp-border: clamp(1px, 0.2vw, 4px);
+  --clamp-border-radius: clamp(8px, 1.2vw, 14px);
+  --clamp-width: clamp(180px, 30vw, 420px);
+  --clamp-height: clamp(40px, 6vh, 64px);
+  --clamp-padding: clamp(16px, 10vw, 24px);
+  --clamp-font-size: clamp(14px, 1.6vw, 18px);
+  --clamp-drawer-width: clamp(480px, 80vw, 1100px);
+
+  /* === Opacity Values === */
+  --opacity-hidden: 0;
+  --opacity-visible: 1;
+
+  /* === Positions === */
+  --position-center: 50%;
+}
