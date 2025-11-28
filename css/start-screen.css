@@ -96,16 +96,16 @@ body {
   position: relative;
   background: rgb(97, 31, 29);
   color: rgb(244, 238, 150);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.4);
   width: clamp(480px, 80vw, 1100px);
   max-width: 95vw;
   transform: none;
   opacity: 0;
   transition: transform 220ms ease, opacity 200ms ease;
-  padding: 18px;
+  padding: 50px;
   overflow: hidden;
   box-sizing: border-box;
-  max-height: 92vh;
+  max-height: 85vh;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
@@ -161,11 +161,11 @@ body {
 #overlay-carousel-container .carousel {
   display: flex !important;
   transform: none !important;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.8rem;
   justify-content: center;
-  align-items: center;
-  overflow-x: auto;
+  align-items: stretch;
+  overflow-x: hidden;
 }
 
 /* When carousel is inside the overlay drawer, let it use available space
@@ -174,21 +174,24 @@ body {
   position: relative !important;
   top: auto !important;
   transform: none !important;
-  width: auto !important;
+  width: 100% !important;
   height: auto !important;
   display: flex !important;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 0.8rem;
   justify-content: center;
-  align-items: center;
-  overflow-x: auto;
+  align-items: stretch;
+  overflow-x: hidden;
 }
 
 /* allow the carousel to grow and scroll internally without creating outer scrollbars */
 .menu-drawer .carousel {
   flex: 1 1 auto;
-  min-height: 120px;
-  overflow: auto;
+  min-height: 0;
+  max-height: calc(85vh - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
 }
 
 #scoreboard {
@@ -548,11 +551,6 @@ h1 {
     font-size: 20px;
     width: 80%;
     text-align: center;
-  }
-
-  .carousel {
-    transform: translate(-70%, -10%);
-    display: none;
   }
 }
 
