@@ -215,49 +215,54 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  font-size: 65px;
+  gap: 6px;
+  font-size: 40px;
   color: rgb(27, 11, 11);
   background-color: rgba(204, 119, 34, 0.6);
   border-radius: 10px;
   padding: 4px;
   border: solid 2px rgb(244, 238, 150);
-  margin: 10px 0;
+  margin: 6px 0;
   text-align: center;
   transition: font-size 0.3s ease, margin 0.3s ease, padding 0.3s ease;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
 #scoreboard-gameover img {
-  max-width: 90%;
-  max-height: 60%;
+  max-width: 100%;
+  max-height: 40%;
   object-fit: contain;
   transition: max-width 0.3s ease, max-height 0.3s ease;
 }
 
 /* Game Over Message */
 #game-over-msg {
-  width: 100%;
-  height: auto;
-  max-width: 90%;
-  max-height: 60%;
+  width: 65%;
+  height: 20%;
   background-image: url("/assets/img/9_intro_outro_screens/game_over/game-over.png");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: center;
   border: solid 2px rgb(244, 238, 150);
   border-radius: 10px;
-  aspect-ratio: 16/9;
-  transition: max-width 0.3s ease, max-height 0.3s ease;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 /* Restart Buttons */
 #restart-btn,
 #no-restart-btn {
-  width: 50px;
+  width: 52px;
   height: auto;
-  margin: 10px 5px;
+  margin: 0;
   vertical-align: middle;
-  padding: 5px;
+  padding: 4px;
   border: solid 2px rgb(244, 238, 150);
   border-radius: 10px;
   background-color: transparent;
@@ -272,19 +277,26 @@ body {
 }
 
 #no-restart-overlay {
-  position: fixed;
-  top: 15%;
-  right: 42%;
-  width: 350px;
-  padding: 30px;
+  position: absolute;
+  top: 90%;
+  left: 2.5%;
+  transform: translateY(-50%);
+  width: 95%;
+  height: auto;
+  padding: 30px 40px;
   background: rgb(97, 31, 29);
   border: rgb(204, 119, 34) solid 4px;
   border-radius: 10px;
   color: rgb(243, 238, 150);
   font-size: 1.3em;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-  transition: right 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  text-align: center;
+  display: block;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease, transform 0.3s ease, font-size 0.3s ease,
+    padding 0.3s ease;
 }
 
 #start-header {
@@ -581,13 +593,43 @@ h1 {
 /* Responsive Media Queries */
 @media only screen and (max-width: 1290px) and (max-height: 800px) {
   #scoreboard-gameover h1 {
-    font-size: 50px;
+    font-size: 36px;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 48px;
+  }
+
+  #game-over-msg {
+    width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 1.2em;
+    padding: 18px 28px;
   }
 }
 
 @media only screen and (max-width: 1100px) and (max-height: 800px) {
   #scoreboard-gameover h1 {
-    font-size: 35px;
+    font-size: 32px;
+  }
+
+  #restart-btn,
+  #no-restart-btn {
+    width: 44px;
+  }
+
+  #game-over-msg {
+    width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 1.15em;
+    padding: 16px 26px;
   }
 }
 
@@ -629,26 +671,30 @@ h1 {
   }
 
   #scoreboard-gameover h1 {
-    font-size: 48px;
-    margin: 8px 0;
+    font-size: 36px;
+    margin: 6px 0;
     padding: 4px;
+    gap: 6px;
   }
 
   #scoreboard-gameover img {
-    max-width: 85%;
-    max-height: 50%;
+    max-width: 100%;
+    max-height: 40%;
   }
 
   #restart-btn,
   #no-restart-btn {
-    width: 40px;
-    margin: 8px 4px;
+    width: 48px;
   }
 
   #game-over-msg {
-    position: absolute;
-    top: 40%;
-    left: 15%;
+    width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 1.1em;
+    padding: 16px 24px;
   }
 
   h1 {
@@ -665,28 +711,30 @@ h1 {
   }
 
   #scoreboard-gameover h1 {
-    font-size: 16px;
-    margin: 6px 0;
+    font-size: 22px;
+    margin: 4px 0;
     padding: 2px;
+    gap: 4px;
   }
 
   #scoreboard-gameover img {
-    max-width: 80%;
-    max-height: 45%;
+    max-width: 100%;
+    max-height: 40%;
   }
 
   #restart-btn,
   #no-restart-btn {
-    width: 30px;
-    margin: 5px 3px;
+    width: 29px;
   }
 
   #game-over-msg {
-    position: absolute;
-    top: 30%;
-    left: 18%;
-    height: 35%;
     width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 0.85em;
+    padding: 12px 16px;
   }
 }
 
@@ -698,28 +746,30 @@ h1 {
   }
 
   #scoreboard-gameover h1 {
-    font-size: 18px;
-    margin: 8px 0;
+    font-size: 38px;
+    margin: 6px 0;
     padding: 4px;
+    gap: 6px;
   }
 
   #scoreboard-gameover img {
-    max-width: 85%;
-    max-height: 55%;
+    max-width: 100%;
+    max-height: 40%;
   }
 
   #restart-btn,
   #no-restart-btn {
-    width: 35px;
-    margin: 6px 4px;
+    width: 50px;
   }
 
   #game-over-msg {
-    position: absolute;
-    top: 35%;
-    left: 12%;
-    height: 40%;
-    width: 75%;
+    width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 1.05em;
+    padding: 15px 22px;
   }
 }
 
@@ -730,28 +780,30 @@ h1 {
   }
 
   #scoreboard-gameover h1 {
-    font-size: 32px;
-    margin: 4px 0;
+    font-size: 20px;
+    margin: 3px 0;
     padding: 2px;
+    gap: 3px;
   }
 
   #scoreboard-gameover img {
-    max-width: 80%;
-    max-height: 45%;
+    max-width: 100%;
+    max-height: 40%;
   }
 
   #restart-btn,
   #no-restart-btn {
-    width: 32px;
-    margin: 4px 3px;
+    width: 27px;
   }
 
   #game-over-msg {
-    position: absolute;
-    top: 28%;
-    left: 15%;
-    height: 32%;
-    width: 70%;
+    width: 65%;
+    height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 0.8em;
+    padding: 10px 14px;
   }
 }
 
@@ -763,27 +815,34 @@ h1 {
   }
 
   #scoreboard-gameover h1 {
-    font-size: 20px;
-    margin: 4px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    font-size: 18px;
+    margin: 3px 0;
     padding: 2px;
+    gap: 3px;
   }
 
   #scoreboard-gameover img {
-    max-width: 80%;
+    max-width: 100%;
     max-height: 40%;
   }
 
   #restart-btn,
   #no-restart-btn {
-    width: 28px;
-    margin: 4px 2px;
+    width: 24px;
   }
 
   #game-over-msg {
-    position: absolute;
-    top: 32%;
-    left: 15%;
-    height: 30%;
-    width: 70%;
+    max-width: 65%;
+    max-height: 20%;
+  }
+
+  #no-restart-overlay {
+    font-size: 0.75em;
+    padding: 8px 12px;
   }
 }
