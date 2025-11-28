@@ -85,7 +85,7 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      function loadCarousel() {
         fetch("main-menu.html")
           .then((response) => response.text())
           .then((html) => {
@@ -98,7 +98,10 @@
           .catch((err) => {
             console.error("Failed to load main-menu.html", err);
           });
-      });
+      }
+
+      document.addEventListener("DOMContentLoaded", loadCarousel);
+      document.addEventListener("spa:render", loadCarousel);
     </script>
     <script src="/js/interval-helper.js"></script>
     <script src="/js/main-menu-carousel.js"></script>
