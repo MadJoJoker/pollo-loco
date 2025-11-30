@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Datenschutz</title>
     <link rel="stylesheet" href="/css/root.css" />
+    <link rel="stylesheet" href="/css/shared-components.css" />
     <link rel="stylesheet" href="/css/impressum-data.css" />
     <link
       rel="shortcut icon"
@@ -14,24 +15,95 @@
   </head>
   <body>
     <header id="start-header">
-      <a onclick="location.href='/pages/impressum.html'">Impressum</a>
+      <a href="impressum.html" data-link="impressum.html">Impressum</a>
       <nav id="start-navbar">
-        <div id="main-menu-placeholder"></div>
+        <a
+          id="revolver-btn"
+          href="#"
+          aria-controls="menu-overlay"
+          aria-expanded="false"
+        >
+          <img
+            src="/assets/img/10_external_img/revolver-menu.png"
+            alt="menu"
+            class="nav-icon"
+          />
+        </a>
       </nav>
-      <a onclick="location.href='/pages/datenschutz.html'">Datenschutz</a>
+      <a href="datenschutz.html" data-link="datenschutz.html">Datenschutz</a>
     </header>
+
+    <div id="page-main"></div>
+
+    <div
+      id="menu-overlay"
+      class="menu-overlay overlay-hidden"
+      aria-hidden="true"
+    >
+      <div class="menu-overlay-backdrop" id="menu-backdrop"></div>
+      <div
+        class="menu-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="menu-title"
+      >
+        <button id="close-menu" class="close-menu" aria-label="Close menu">
+          ✕
+        </button>
+        <h2 id="menu-title" class="visually-hidden">Main Menu</h2>
+        <div id="overlay-carousel-container"></div>
+      </div>
+    </div>
+
     <script>
       function loadCarousel() {
         fetch("/pages/main-menu.html")
           .then((response) => response.text())
           .then((html) => {
-            document.getElementById("main-menu-placeholder").innerHTML = html;
+            const container = document.getElementById(
+              "overlay-carousel-container"
+            );
+            if (container) container.innerHTML = html;
             if (window.initCarousel) window.initCarousel();
+          })
+          .catch((err) => {
+            console.error("Failed to load main-menu.html", err);
           });
       }
 
       loadCarousel();
       document.addEventListener("spa:render", loadCarousel);
+
+      const revolverBtn = document.getElementById("revolver-btn");
+      const menuOverlay = document.getElementById("menu-overlay");
+      const closeMenuBtn = document.getElementById("close-menu");
+      const menuBackdrop = document.getElementById("menu-backdrop");
+
+      function openMenu() {
+        menuOverlay.classList.remove("overlay-hidden");
+        menuOverlay.classList.add("overlay-visible");
+        menuOverlay.setAttribute("aria-hidden", "false");
+        revolverBtn.setAttribute("aria-expanded", "true");
+      }
+
+      function closeMenu() {
+        menuOverlay.classList.remove("overlay-visible");
+        menuOverlay.classList.add("overlay-hidden");
+        menuOverlay.setAttribute("aria-hidden", "true");
+        revolverBtn.setAttribute("aria-expanded", "false");
+      }
+
+      revolverBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openMenu();
+      });
+
+      closeMenuBtn.addEventListener("click", closeMenu);
+      menuBackdrop.addEventListener("click", closeMenu);
+
+      menuOverlay.addEventListener("click", (e) => {
+        if (e.target === menuOverlay) closeMenu();
+      });
     </script>
     <script src="/js/main-menu-carousel.js"></script>
   </body>

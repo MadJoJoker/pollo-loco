@@ -1,12 +1,13 @@
-@font-face {
-  font-family: "GringoNights";
-  src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
-}
+/* ============================================
+   Impressum/Datenschutz CSS - Pollo Loco Game
+   Nur Impressum/Datenschutz-spezifische Styles
+   Gemeinsame Komponenten in shared-components.css
+   ============================================ */
+
 html {
   max-width: var(--max-width);
   margin: auto;
   padding: var(--spacing-md);
-  display: flex;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -15,25 +16,31 @@ html {
   font-size: larger;
   background-color: var(--color-bg-light-transparent);
 }
+
 body {
   min-height: 100vh;
   text-align: center;
   padding: 15px;
   font-size: medium;
 }
+
 h1,
 h2,
 h3 {
   background-color: var(--color-accent-lighter);
   border-radius: var(--border-radius);
 }
+
 a {
   color: rgba(204, 119, 34, 0.9);
 }
+
 a:hover {
   color: var(--color-primary);
   cursor: pointer;
 }
+
+/* Header-Anpassung für Impressum/Datenschutz */
 #start-header {
   position: sticky;
   z-index: var(--z-index-base);
@@ -48,26 +55,16 @@ a:hover {
   align-items: center;
   min-height: 60px;
 }
+
+/* Carousel-Button Anpassung für diese Seiten */
 .carousel button {
   position: absolute;
   left: 45%;
   top: 0%;
-  transform-origin: -100px 0;
-  background-image: var(--bg-bullet);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  min-height: 55px;
-  min-width: 135px;
-  border: none;
-  text-align: left;
   background-color: var(--color-transparent);
-  font-family: var(--font-family);
 }
+
 .carousel button:hover {
-  cursor: pointer;
   color: var(--color-secondary) !important;
-  border-color: chocolate;
   background-color: var(--color-bg-light) !important;
-  border-radius: var(--border-radius);
 }

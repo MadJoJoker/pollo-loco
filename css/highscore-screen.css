@@ -1,14 +1,8 @@
-html {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-body {
-  max-width: var(--max-width);
-  margin: auto;
-  min-height: 100vh;
-  font-family: var(--font-family);
-}
+/* ============================================
+   Highscore Screen CSS - Pollo Loco Game
+   Nur Highscore-spezifische Styles
+   Gemeinsame Komponenten in shared-components.css
+   ============================================ */
 
 #heros-body {
   background-image: var(--bg-desert);
@@ -16,6 +10,7 @@ body {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
+
 #heros-main {
   position: absolute;
   z-index: var(--z-index-base);
@@ -133,232 +128,10 @@ body {
 #settings-btn,
 #highscore-btn {
   background-color: var(--color-accent-light);
-  border-radius: var(--border-radius);
   margin: var(--spacing-md);
 }
 
-.nav-icon {
-  height: var(--nav-icon-size);
-  width: auto;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-index-overlay);
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-}
-
-.menu-overlay .menu-overlay-backdrop {
-  position: absolute;
-  inset: 0;
-  background: var(--color-black-overlay);
-  opacity: var(--opacity-hidden);
-  transition: var(--transition-opacity);
-}
-
-.menu-overlay .menu-drawer {
-  position: relative;
-  background: var(--color-bg-dark);
-  color: var(--color-text-light);
-  box-shadow: var(--shadow-heavy);
-  width: var(--clamp-drawer-width);
-  max-width: 95vw;
-  min-height: 200px;
-  transform: none;
-  opacity: var(--opacity-hidden);
-  transition: var(--transition-combined);
-  padding: var(--spacing-xl);
-  overflow: hidden;
-  box-sizing: border-box;
-  max-height: 92vh;
-  pointer-events: auto;
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--border-radius);
-  border: var(--border-solid);
-}
-
-.menu-overlay.overlay-visible {
-  pointer-events: auto;
-}
-
-.menu-overlay.overlay-visible .menu-overlay-backdrop {
-  opacity: var(--opacity-visible);
-}
-
-.menu-overlay.overlay-visible .menu-drawer {
-  transform: none;
-  opacity: var(--opacity-visible);
-}
-
-.menu-overlay.overlay-hidden {
-  pointer-events: none;
-}
-
-.menu-overlay.overlay-hidden .menu-drawer,
-.menu-overlay.overlay-hidden .menu-drawer * {
-  pointer-events: none;
-}
-
-.menu-overlay.overlay-visible .menu-drawer,
-.menu-overlay.overlay-visible .menu-drawer * {
-  pointer-events: auto;
-}
-
-.close-menu {
-  position: absolute;
-  right: 38px;
-  top: 2px;
-  border: none;
-  background: transparent;
-  color: rgb(244, 238, 150);
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-}
-
-.menu-drawer .carousel,
-#overlay-carousel-container .carousel {
-  display: flex !important;
-  transform: none !important;
-  flex-wrap: nowrap;
-  gap: 0.8rem;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-}
-
-.menu-drawer .carousel--main-menu {
-  position: relative !important;
-  top: auto !important;
-  transform: none !important;
-  width: auto !important;
-  height: auto !important;
-  display: flex !important;
-  flex-wrap: nowrap;
-  gap: 0.8rem;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-}
-
-.menu-drawer .carousel {
-  flex: 1 1 auto;
-  min-height: 120px;
-  overflow: auto;
-}
-
-.carousel button,
-.carousel a {
-  position: absolute;
-  left: 10%;
-  top: -20%;
-  transform-origin: -100px 0;
-  background-image: url("/assets/img/10_external_img/bullet-7018215_640.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  min-height: 55px;
-  min-width: 135px;
-  text-align: left;
-}
-
-.carousel button:hover,
-.carousel a:hover {
-  cursor: pointer;
-  background-color: rgb(99, 33, 31) !important;
-  border: rgb(244, 238, 150);
-  border-style: solid;
-  border-width: 2px;
-  border-color: chocolate;
-  color: rgb(244, 238, 150) !important;
-}
-
-.carousel--main-menu {
-  position: absolute;
-  top: 25%;
-  transform: none;
-  width: 600%;
-  height: 80%;
-  pointer-events: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(204, 119, 34, 0.6) transparent;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.8rem;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-.carousel--main-menu button,
-.carousel--main-menu a {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  transform-origin: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: 10px 18px;
-  min-width: 140px;
-  min-height: 60px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
-  box-shadow: none;
-  border: none;
-  background-color: transparent;
-  color: rgb(27, 11, 11);
-}
-
-.carousel--main-menu button:not(.active),
-.carousel--main-menu a:not(.active) {
-  opacity: 0.85;
-  transform: scale(1);
-}
-
-.carousel--main-menu button.active,
-.carousel--main-menu a.active {
-  transform: scale(1);
-  z-index: 2;
-  opacity: 1;
-  box-shadow: none;
-  background-color: rgb(99, 33, 31) !important;
-  border: rgb(244, 238, 150);
-  border-style: solid;
-  border-width: 2px;
-  border-color: chocolate;
-  color: rgb(244, 238, 150) !important;
-}
-
-.carousel--main-menu button:hover,
-.carousel--main-menu a:hover {
-  z-index: 3;
-  opacity: 1;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-
+/* Responsive Media Queries */
 @media only screen and (max-width: 1290px) and (max-height: 800px) {
   #heros-scoreboard h1 {
     font-size: 55px;
