@@ -1,8 +1,4 @@
-/**
- * Represents the main player character in the game.
- * Handles movement, animation, actions, and interactions with the world.
- * @extends MovableObject
- */
+/** Main player character handling movement, animation, actions, and world interactions. */
 class Character extends MovableObject {
   height = 250;
   width = 180;
@@ -17,10 +13,6 @@ class Character extends MovableObject {
   throwBottles = [];
   lastHit;
   energy = 100;
-  /**
-   * Reference to the game world the character belongs to.
-   * @type {World}
-   */
   world;
 
   IMAGES_WALKING = [
@@ -83,10 +75,6 @@ class Character extends MovableObject {
 
   offset = { top: 130, bottom: 10, left: 35, right: 55 };
 
-  /**
-   * Creates a new Character instance and initializes its properties and audio.
-   * @param {World} world - The game world the character belongs to.
-   */
   constructor(world) {
     super().loadImage("/assets/img/2_character_pepe/2_walk/W-21.png");
     this.world = world;
@@ -101,9 +89,7 @@ class Character extends MovableObject {
     this.longIdleAudio = new Audio("/assets/audio/snoring-42710.mp3");
   }
 
-  /**
-   * Loads all animation images for the character.
-   */
+  /** Loads all animation images. */
   loadAllImages() {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -113,26 +99,19 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
   }
 
-  /**
-   * Starts the animation intervals for the character's actions and idle state.
-   */
+  /** Starts animation intervals. */
   animate() {
     let idleStartTime = window.getGameTime();
     let canThrowBottle = true;
-    if (this.lastActionTick === undefined)
-      this.lastActionTick = window.getGameTime();
-    if (this.lastIdleTick === undefined)
-      this.lastIdleTick = window.getGameTime();
-    if (this.lastWalkTick === undefined)
-      this.lastWalkTick = window.getGameTime();
-    if (this.lastJumpTick === undefined)
-      this.lastJumpTick = window.getGameTime();
-    if (this.lastIdleAnimTick === undefined)
-      this.lastIdleAnimTick = window.getGameTime();
-    if (this.walkAnimFrame === undefined) this.walkAnimFrame = 0;
-    if (this.jumpAnimFrame === undefined) this.jumpAnimFrame = 0;
-    if (this.idleAnimFrame === undefined) this.idleAnimFrame = 0;
-    if (this.idleLongAnimFrame === undefined) this.idleLongAnimFrame = 0;
+    this.lastActionTick ??= window.getGameTime();
+    this.lastIdleTick ??= window.getGameTime();
+    this.lastWalkTick ??= window.getGameTime();
+    this.lastJumpTick ??= window.getGameTime();
+    this.lastIdleAnimTick ??= window.getGameTime();
+    this.walkAnimFrame ??= 0;
+    this.jumpAnimFrame ??= 0;
+    this.idleAnimFrame ??= 0;
+    this.idleLongAnimFrame ??= 0;
     const actionInterval = 1000 / 45;
     const idleInterval = 300;
     const walkInterval = this.animationSpeed;
@@ -194,11 +173,7 @@ class Character extends MovableObject {
     });
   }
 
-  /**
-   * Handles all possible actions for the character in the current frame.
-   * @param {boolean} canThrowBottle - Whether the character can throw a bottle.
-   * @returns {boolean} True if any action occurred, otherwise false.
-   */
+  /** Handles all character actions. */
   handleActions(canThrowBottle) {
     let actionHappened = false;
     if (this.handleDeath()) actionHappened = true;
@@ -210,10 +185,7 @@ class Character extends MovableObject {
     return actionHappened;
   }
 
-  /**
-   * Handles the character's death animation, sound, and game over logic.
-   * @returns {boolean} True if the character is dead, otherwise false.
-   */
+  /** Handles death animation, sound, and game over. */
   handleDeath() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);
@@ -221,11 +193,7 @@ class Character extends MovableObject {
         this.hurtAudio.pause();
         this.hurtAudio.currentTime = 0;
       }
-      if (
-        !this._deathSoundPlayed &&
-        this.deathAudio &&
-        this.deathAudio.paused
-      ) {
+      if (!this._deathSoundPlayed && this.deathAudio?.paused) {
         this._deathSoundPlayed = true;
         this.deathAudio.currentTime = 0;
         this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
@@ -246,21 +214,17 @@ class Character extends MovableObject {
     return false;
   }
 
-  /**
-   * Handles the character's hurt animation and sound.
-   * @returns {boolean} True if the character is hurt, otherwise false.
-   */
+  /** Handles hurt animation and sound. */
   handleHurt() {
     if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
-      if (this.hurtAudio && this.hurtAudio.paused) {
+      if (this.hurtAudio?.paused) {
         this.hurtAudio.currentTime = 0;
         this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
         this.hurtAudio.play();
-        const target = window.getGameTime() + 1000;
         const unregister = window.registerGameLoop((gameTime) => {
-          if (gameTime >= target) {
-            if (this.deathAudio) this.deathAudio.pause();
+          if (gameTime >= window.getGameTime() + 1000) {
+            this.deathAudio?.pause();
             unregister();
           }
         });
@@ -270,10 +234,7 @@ class Character extends MovableObject {
     return false;
   }
 
-  /**
-   * Handles the character's left/right movement and walking sound.
-   * @returns {boolean} True if the character is moving, otherwise false.
-   */
+  /** Handles left/right movement and walking sound. */
   handleMovement() {
     let isMoving = false;
     if (this.shouldMoveRight()) {
@@ -311,10 +272,7 @@ class Character extends MovableObject {
     return this.world?.keyboard?.LEFT && this.x > 0;
   }
 
-  /**
-   * Handles the character's jump action and animation.
-   * @returns {boolean} True if the character jumps, otherwise false.
-   */
+  /** Handles jump action. */
   handleJump() {
     if (this.world?.keyboard?.SPACE && !this.isAboveGround()) {
       this.jump();
@@ -324,11 +282,7 @@ class Character extends MovableObject {
   }
 
   throwCooldown = false;
-  /**
-   * Handles the logic for throwing a bottle if possible.
-   * @param {boolean} canThrowBottle - Whether the character can throw a bottle.
-   * @returns {boolean} True if a bottle was thrown, otherwise false.
-   */
+  /** Handles bottle throwing. */
   handleThrow(canThrowBottle) {
     if (this.canThrowBottle(canThrowBottle)) {
       this.throwBottle();
@@ -349,9 +303,7 @@ class Character extends MovableObject {
     );
   }
 
-  /**
-   * Creates and throws a new bottle object from the character's position.
-   */
+  /** Creates and throws bottle. */
   throwBottle() {
     const bottleX = this.otherDirection
       ? this.x + this.offset.left
@@ -364,18 +316,14 @@ class Character extends MovableObject {
     this.bottles -= 1;
   }
 
-  /**
-   * Updates the bottle bar UI to reflect the current number of bottles.
-   */
+  /** Updates bottle bar UI. */
   updateBottleBar() {
     if (this.world?.bottleBar) {
       this.world.bottleBar.setPercentage(this.bottles, this.bottles);
     }
   }
 
-  /**
-   * Sets a cooldown period after throwing a bottle.
-   */
+  /** Sets throw cooldown. */
   setThrowCooldown() {
     this.throwCooldown = true;
     const target = window.getGameTime() + 700;
@@ -387,18 +335,12 @@ class Character extends MovableObject {
     });
   }
 
-  /**
-   * Handles the jump animation if the character is above ground.
-   * @returns {boolean} True if jump animation is played, otherwise false.
-   */
+  /** Handles jump animation (placeholder). */
   handleJumpAnimation() {
     return false;
   }
 
-  /**
-   * Handles the idle animation logic based on idle time.
-   * @param {number} idleStartTime - The timestamp when idle started.
-   */
+  /** Handles idle animation. */
   handleIdle(idleStartTime, gameTime, animState) {
     if (this.shouldIdle()) {
       this.playIdleAnimation(idleStartTime, gameTime, animState);
@@ -406,23 +348,20 @@ class Character extends MovableObject {
   }
 
   shouldIdle() {
+    const kb = this.world?.keyboard;
     return (
       !this.isDead() &&
       !this.isHurt() &&
-      !this.world?.keyboard?.RIGHT &&
-      !this.world?.keyboard?.LEFT &&
-      !this.world?.keyboard?.SPACE &&
+      !kb?.RIGHT &&
+      !kb?.LEFT &&
+      !kb?.SPACE &&
       !this.isAboveGround()
     );
   }
 
-  /**
-   * Plays the idle or long idle animation depending on idle duration.
-   * @param {number} idleStartTime - The timestamp when idle started.
-   */
+  /** Plays idle or long idle animation. */
   playIdleAnimation(idleStartTime, gameTime, animState) {
-    const idleDuration = gameTime - idleStartTime;
-    const idleLong = idleDuration > 5000;
+    const idleLong = gameTime - idleStartTime > 5000;
     const animInterval = 120;
     if (idleLong) {
       if (gameTime - animState.lastIdleAnimTickRef() >= animInterval) {
@@ -435,9 +374,7 @@ class Character extends MovableObject {
       if (this.longIdleAudio) {
         this.longIdleAudio.loop = true;
         this.longIdleAudio.muted = localStorage.getItem("polloMute") === "1";
-        if (this.longIdleAudio.paused) {
-          this.longIdleAudio.play();
-        }
+        if (this.longIdleAudio.paused) this.longIdleAudio.play();
       }
     } else {
       if (gameTime - animState.lastIdleAnimTickRef() >= animInterval) {
@@ -458,18 +395,5 @@ class Character extends MovableObject {
     super.moveRight();
     const stopX = this.world.level.level_end_x - 180;
     if (this.x > stopX) this.x = stopX;
-  }
-
-  hit() {
-    const result = super.hit();
-
-    return result;
-  }
-
-  isHurt() {
-    const result = super.isHurt();
-    if (result) {
-    }
-    return result;
   }
 }
