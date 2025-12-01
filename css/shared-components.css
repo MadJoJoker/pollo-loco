@@ -81,8 +81,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(204, 119, 34, 0.3);
-  border-radius: 10px;
+  background-color: var(--color-accent-dark);
+  border-radius: var(--border-radius);
   position: absolute;
   z-index: 2;
   bottom: 0%;
@@ -99,7 +99,7 @@ body {
   transform: translate(-50%, -50%);
   width: 140px;
   height: 100%;
-  z-index: 10;
+  z-index: var(--z-index-nav);
 }
 
 /* === Navigation Icons === */
@@ -113,34 +113,34 @@ body {
 /* === Links === */
 a {
   text-decoration: none;
-  color: rgb(99, 33, 31);
-  background-color: rgb(27, 11, 11);
-  font-size: 16px;
+  color: var(--color-secondary);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-small);
   font-weight: bold;
   font-family: var(--font-family);
-  padding: 8px;
-  border-radius: 10px;
-  border: rgb(98, 32, 30);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: var(--color-secondary);
   border-style: solid;
-  border-width: 2px;
+  border-width: var(--border-width);
 }
 
 a:hover {
-  color: rgba(204, 119, 34, 0.6);
-  background-color: rgb(99, 33, 31);
-  border: rgb(244, 238, 150);
+  color: var(--color-accent);
+  background-color: var(--color-secondary);
+  border: var(--color-border);
   border-style: solid;
-  border-width: 2px;
+  border-width: var(--border-width);
 }
 
 /* === Headings === */
 h1 {
-  font-size: 65px;
-  color: rgb(27, 11, 11);
-  background-color: rgba(204, 119, 34, 0.6);
-  border-radius: 10px;
-  padding: 4px;
-  border: solid 2px rgb(244, 238, 150);
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  background-color: var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
 }
 
 /* === Menu Overlay & Drawer === */
@@ -253,12 +253,12 @@ h1 {
 .carousel button:hover,
 .carousel a:hover {
   cursor: pointer;
-  background-color: rgb(99, 33, 31) !important;
-  border: rgb(244, 238, 150);
+  background-color: var(--color-secondary) !important;
+  border: var(--color-border);
   border-style: solid;
-  border-width: 2px;
+  border-width: var(--border-width);
   border-color: chocolate;
-  color: rgb(244, 238, 150) !important;
+  color: var(--color-text-light) !important;
 }
 
 /* === Main Menu Carousel === */
@@ -270,7 +270,7 @@ h1 {
   height: 80%;
   pointer-events: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(204, 119, 34, 0.6) transparent;
+  scrollbar-color: var(--color-accent) transparent;
   display: flex;
   flex-wrap: nowrap;
   gap: 0.8rem;
@@ -288,6 +288,7 @@ h1 {
   top: auto;
   transform: none;
   transform-origin: center;
+  background-image: none;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -300,8 +301,8 @@ h1 {
   transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
   box-shadow: none;
   border: none;
-  background-color: transparent;
-  color: rgb(27, 11, 11);
+  background-color: var(--color-transparent);
+  color: var(--color-primary);
 }
 
 .carousel--main-menu button:not(.active),
@@ -316,16 +317,23 @@ h1 {
   z-index: 2;
   opacity: 1;
   box-shadow: none;
-  background-color: rgb(99, 33, 31) !important;
-  border: rgb(244, 238, 150);
+  background-color: var(--color-secondary) !important;
+  border: var(--color-border);
   border-style: solid;
-  border-width: 2px;
+  border-width: var(--border-width);
   border-color: chocolate;
-  color: rgb(244, 238, 150) !important;
+  color: var(--color-text-light) !important;
 }
 
 .carousel--main-menu button:hover,
 .carousel--main-menu a:hover {
+  cursor: pointer;
+  background-color: var(--color-secondary) !important;
+  border: var(--color-border);
+  border-style: solid;
+  border-width: var(--border-width);
+  border-color: chocolate;
+  color: var(--color-text-light) !important;
   z-index: 3;
   opacity: 1;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
@@ -441,5 +449,16 @@ h1 {
   }
   100% {
     transform: translate(-50%, -50%) translateY(0);
+  }
+}
+
+/* === Media Queries === */
+@media only screen and (max-width: 720px), (max-height: 720px) {
+  #start-header {
+    position: absolute;
+    z-index: 2;
+    right: 0%;
+    top: 0%;
+    height: 75px;
   }
 }

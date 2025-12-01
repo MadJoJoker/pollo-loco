@@ -8,7 +8,7 @@
   background-image: var(--bg-desert);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
 }
 
 #settings-main {
@@ -22,7 +22,7 @@
   background-image: var(--bg-board);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   width: 600px;
   height: 500px;
 
@@ -87,11 +87,11 @@
 #mute-control {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: rgb(244, 238, 150);
-  border-radius: 12px;
-  padding: 12px 24px;
-  box-shadow: 0 2px 8px rgba(204, 119, 34, 0.15);
+  gap: var(--spacing-lg);
+  background: var(--color-bg-light);
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-md) var(--spacing-xxl);
+  box-shadow: var(--shadow-accent);
   font-family: var(--font-family), Arial, sans-serif;
   font-size: 1.2rem;
   width: fit-content;
@@ -100,29 +100,22 @@
 
 #mute-control label {
   font-weight: bold;
-  color: #cc7722;
+  color: var(--color-accent-solid);
 }
 
 #mute-range {
-  accent-color: #cc7722;
+  accent-color: var(--color-accent-solid);
   width: 80px;
   height: 4px;
-  border-radius: 8px;
-  background: #fff8e1;
+  border-radius: var(--border-radius-small);
+  background: var(--color-bg-light);
   cursor: pointer;
 }
 
 #mute-status {
   font-weight: bold;
-  color: #cc7722;
+  color: var(--color-accent-solid);
   padding-left: 8px;
-}
-#start-game-btn,
-#how-to-play-btn,
-#settings-btn,
-#highscore-btn {
-  background-color: var(--color-accent-light);
-  margin: var(--spacing-md);
 }
 
 /* Responsive Media Queries */
@@ -175,22 +168,18 @@
     font-size: 0.75rem;
   }
 
-  #start-header {
-    position: absolute;
-    z-index: 2;
-    right: 0%;
-    top: 0%;
-    height: 75px;
-  }
-
   #start-navbar {
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: var(--spacing-md);
     z-index: 2;
     height: 55px;
     width: 100%;
     background-image: none;
+  }
+
+  #settings-scoreboard h1 {
+    font-size: 22px;
   }
 
   h1 {
@@ -221,8 +210,8 @@
   }
 
   #mute-control {
-    gap: 4px;
-    padding: 4px 8px;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
     margin: 6px auto;
     font-size: 0.7rem;
   }
@@ -249,9 +238,9 @@
 
   #mute-control {
     flex-direction: row;
-    gap: 4px;
-    padding: 4px 8px;
-    margin: 4px auto;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: var(--spacing-xs) auto;
     font-size: 0.65rem;
   }
 

@@ -10,26 +10,6 @@
   max-height: 85vh;
 }
 
-.menu-drawer .carousel,
-#overlay-carousel-container .carousel {
-  flex-wrap: wrap;
-  overflow-x: hidden;
-}
-
-.menu-drawer .carousel--main-menu {
-  width: 100% !important;
-  flex-wrap: wrap;
-  overflow-x: hidden;
-}
-
-.menu-drawer .carousel {
-  min-height: 0;
-  max-height: calc(85vh - 100px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 10px;
-}
-
 #scoreboard {
   background-image: var(--bg-board);
   background-position: center;
@@ -119,14 +99,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-
-  #start-header {
-    position: absolute;
-    z-index: 2;
-    right: 0%;
-    top: 0%;
-    height: 75px;
   }
 
   #start-navbar {

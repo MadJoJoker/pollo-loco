@@ -1,4 +1,3 @@
-
 (function (window, document) {
   if (window.__spa_router_installed) return;
   window.__spa_router_installed = true;
@@ -32,7 +31,6 @@
     return false;
   }
 
-
   function executeScripts(fromDoc, targetRoot) {
     var scripts = Array.prototype.slice.call(
       fromDoc.querySelectorAll("script")
@@ -43,7 +41,6 @@
       if (s.type) inline.type = s.type;
       inline.text = s.textContent || s.innerText || "";
       targetRoot.appendChild(inline);
-
     }
 
     function loadExternalScript(s) {
@@ -106,12 +103,25 @@
     var headStyles = Array.prototype.slice.call(
       (fromDoc.head && fromDoc.head.querySelectorAll("style")) || []
     );
+
+    // Remove old page-specific stylesheets and old shared-components (keep only root.css)
+    var existingLinks = document.querySelectorAll('link[rel="stylesheet"]');
+    existingLinks.forEach(function (link) {
+      var href = link.getAttribute("href");
+      if (href && !href.includes("root.css")) {
+        link.remove();
+      }
+    });
+
     var promises = [];
 
     headLinks.forEach(function (lnk) {
       var href = lnk.getAttribute("href");
       if (!href) return;
-      if (styleAlreadyLoaded(href)) return;
+
+      // Skip root.css if already loaded (never changes)
+      if (href.includes("root.css") && styleAlreadyLoaded(href)) return;
+
       promises.push(
         new Promise(function (resolve) {
           var link = document.createElement("link");
@@ -155,6 +165,17 @@
 
     return ensureStyles(newDoc)
       .then(function () {
+        // Copy all body attributes (including id, class, etc.)
+        var attrs = newBody.attributes;
+        // Remove all existing attributes first
+        while (document.body.attributes.length > 0) {
+          document.body.removeAttribute(document.body.attributes[0].name);
+        }
+        // Copy new attributes
+        for (var i = 0; i < attrs.length; i++) {
+          document.body.setAttribute(attrs[i].name, attrs[i].value);
+        }
+
         document.body.innerHTML = newBody.innerHTML;
 
         return executeScripts(newDoc, document.body)
@@ -170,16 +191,14 @@
             if (typeof window.init === "function") {
               try {
                 window.init();
-              } catch (e) {
-              }
+              } catch (e) {}
             }
             currentPath = next;
             try {
               document.dispatchEvent(
                 new CustomEvent("spa:render", { detail: { path: next } })
               );
-            } catch (e) {
-            }
+            } catch (e) {}
             return true;
           })
           .catch(function (err) {
@@ -228,8 +247,7 @@
         window.location.href = href;
         return;
       }
-    } catch (e) {
-    }
+    } catch (e) {}
 
     e.preventDefault();
     fetchAndRender(href, false);

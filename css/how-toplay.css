@@ -22,7 +22,7 @@
   background-image: var(--bg-board);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   width: 600px;
   height: 500px;
 
@@ -107,13 +107,6 @@
 .scoreboard-columns li img {
   width: 32px;
 }
-#start-game-btn,
-#how-to-play-btn,
-#settings-btn,
-#highscore-btn {
-  background-color: var(--color-accent-light);
-  margin: var(--spacing-md);
-}
 
 li {
   border: var(--border-solid-tertiary);
@@ -154,14 +147,6 @@ li {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-
-  #start-header {
-    position: absolute;
-    z-index: 2;
-    right: 0%;
-    top: 0%;
-    height: 75px;
   }
 
   #start-navbar {

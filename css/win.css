@@ -25,12 +25,12 @@
 }
 
 #scoreboard-win h1 {
-  font-size: 65px;
-  color: rgb(27, 11, 11);
-  background-color: rgba(204, 119, 34, 0.6);
-  border-radius: 10px;
-  padding: 4px;
-  border: solid 2px rgb(244, 238, 150);
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  background-color: var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
   margin: 10px 0;
   text-align: center;
   transition: font-size 0.3s ease, margin 0.3s ease, padding 0.3s ease;
@@ -51,8 +51,8 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  border: solid 2px rgb(244, 238, 150);
-  border-radius: 10px;
+  border: var(--border-solid);
+  border-radius: var(--border-radius);
   transition: width 0.3s ease, height 0.3s ease;
 }
 
@@ -86,14 +86,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-  }
-
-  #start-header {
-    position: absolute;
-    z-index: 2;
-    right: 0%;
-    top: 0%;
-    height: 75px;
   }
 
   #start-navbar {

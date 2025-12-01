@@ -22,6 +22,7 @@ body {
   text-align: center;
   padding: 15px;
   font-size: medium;
+  overflow: auto !important;
 }
 
 h1,
@@ -31,13 +32,54 @@ h3 {
   border-radius: var(--border-radius);
 }
 
-a {
-  color: rgba(204, 119, 34, 0.9);
+/* Content-Links (im Text) - einfaches Styling */
+/* Exkludiere Navbar und Carousel/Overlay-Links */
+body
+  a:not(#start-header a):not(.carousel a):not(.carousel-link):not(
+    [role="button"]
+  ) {
+  color: var(--color-accent-solid);
+  text-decoration: underline;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: inherit;
+  display: inline;
+  transition: color 0.2s ease;
 }
 
-a:hover {
-  color: var(--color-primary);
-  cursor: pointer;
+body
+  a:not(#start-header a):not(.carousel a):not(.carousel-link):not(
+    [role="button"]
+  ):hover {
+  color: var(--color-secondary);
+  background: none !important;
+  border: none !important;
+  text-decoration: underline;
+}
+
+/* Navbar-Links behalten das shared-components Styling */
+#start-header a {
+  text-decoration: none;
+  color: var(--color-secondary);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: var(--color-secondary);
+  border-style: solid;
+  border-width: var(--border-width);
+  display: inline-block;
+}
+
+#start-header a:hover {
+  color: var(--color-accent);
+  background-color: var(--color-secondary);
+  border: var(--color-border);
+  border-style: solid;
+  border-width: var(--border-width);
 }
 
 /* Header-Anpassung für Impressum/Datenschutz */
@@ -62,9 +104,4 @@ a:hover {
   left: 45%;
   top: 0%;
   background-color: var(--color-transparent);
-}
-
-.carousel button:hover {
-  color: var(--color-secondary) !important;
-  background-color: var(--color-bg-light) !important;
 }

@@ -67,8 +67,8 @@
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
-  border: solid 2px rgb(244, 238, 150);
-  border-radius: 10px;
+  border: var(--border-solid);
+  border-radius: var(--border-radius);
   transition: width 0.3s ease, height 0.3s ease;
 }
 
@@ -79,16 +79,16 @@
   height: auto;
   margin: 0;
   vertical-align: middle;
-  padding: 4px;
-  border: solid 2px rgb(244, 238, 150);
-  border-radius: 10px;
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
+  border-radius: var(--border-radius);
   background-color: transparent;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #restart-btn:hover,
 #no-restart-btn:hover {
-  background-color: rgb(99, 33, 31);
+  background-color: var(--color-secondary);
   cursor: pointer;
   transform: scale(1.1);
 }
@@ -101,14 +101,14 @@
   width: 95%;
   height: auto;
   padding: 30px 40px;
-  background: rgb(97, 31, 29);
-  border: rgb(204, 119, 34) solid 4px;
-  border-radius: 10px;
-  color: rgb(243, 238, 150);
+  background: var(--color-bg-dark);
+  border: var(--color-accent-solid) solid 4px;
+  border-radius: var(--border-radius);
+  color: var(--color-text-light);
   font-size: 1.3em;
   line-height: 1.6;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: var(--z-index-nav);
   text-align: center;
   display: block;
   box-sizing: border-box;
@@ -178,18 +178,10 @@
     flex-direction: column;
   }
 
-  #start-header {
-    position: absolute;
-    z-index: 2;
-    right: 0%;
-    top: 0%;
-    height: 75px;
-  }
-
   #start-navbar {
     display: flex;
     justify-content: center;
-    padding: 10px;
+    padding: var(--spacing-md);
     z-index: 2;
     height: 55px;
     width: 100%;
@@ -199,7 +191,7 @@
   #scoreboard-gameover h1 {
     font-size: 36px;
     margin: 6px 0;
-    padding: 4px;
+    padding: var(--spacing-xs);
     gap: 6px;
   }
 
