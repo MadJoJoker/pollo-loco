@@ -87,6 +87,22 @@ function pauseGame() {
     // Pause game time and stop all interval-based loops (collision, drawing, etc.)
     if (window.pauseGameTime) window.pauseGameTime();
     if (window.stopAllIntervals) window.stopAllIntervals();
+    // Reset all keyboard inputs to prevent character from staying in motion/air
+    resetKeyboardInputs();
+  }
+}
+
+/**
+ * Resets all keyboard inputs to false to prevent stuck movement during pause.
+ */
+function resetKeyboardInputs() {
+  if (window.keyboard) {
+    window.keyboard.LEFT = false;
+    window.keyboard.RIGHT = false;
+    window.keyboard.UP = false;
+    window.keyboard.DOWN = false;
+    window.keyboard.SPACE = false;
+    window.keyboard.D = false;
   }
 }
 

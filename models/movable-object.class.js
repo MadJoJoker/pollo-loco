@@ -106,12 +106,17 @@ class MovableObject extends DrawableObject {
    * Applies gravity to the object, updating its vertical position over time.
    */
   applyGravity() {
-    window.setStoppableInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
+    let lastGravityTick = window.getGameTime();
+    const gravityInterval = 1000 / 25;
+    this._unregisterGravity = window.registerGameLoop((gameTime) => {
+      if (gameTime - lastGravityTick >= gravityInterval) {
+        if (this.isAboveGround() || this.speedY > 0) {
+          this.y -= this.speedY;
+          this.speedY -= this.acceleration;
+        }
+        lastGravityTick = gameTime;
       }
-    }, 1000 / 25);
+    });
   }
 
   /**
