@@ -5,11 +5,21 @@
   var routes = {};
   var currentPath = location.pathname;
 
+  /**
+   * Parses an HTML string into a Document object.
+   * @param {string} htmlText - The HTML string to parse.
+   * @returns {Document} The parsed HTML document.
+   */
   function parseHTML(htmlText) {
     var parser = new DOMParser();
     return parser.parseFromString(htmlText, "text/html");
   }
 
+  /**
+   * Checks if a script with the given src is already loaded.
+   * @param {string} src - The script source URL to check.
+   * @returns {boolean} True if the script is already loaded, false otherwise.
+   */
   function scriptAlreadyLoaded(src) {
     if (!src) return false;
     try {
@@ -31,11 +41,21 @@
     return false;
   }
 
+  /**
+   * Executes all scripts from a parsed document in the target root element.
+   * @param {Document} fromDoc - The document containing scripts to execute.
+   * @param {HTMLElement} targetRoot - The target element to append scripts to.
+   * @returns {Promise} A promise that resolves when all scripts are executed.
+   */
   function executeScripts(fromDoc, targetRoot) {
     var scripts = Array.prototype.slice.call(
       fromDoc.querySelectorAll("script")
     );
 
+    /**
+     * Executes an inline script element.
+     * @param {HTMLScriptElement} s - The script element to execute.
+     */
     function runInlineScript(s) {
       var inline = document.createElement("script");
       if (s.type) inline.type = s.type;
@@ -43,6 +63,11 @@
       targetRoot.appendChild(inline);
     }
 
+    /**
+     * Loads an external script element asynchronously.
+     * @param {HTMLScriptElement} s - The script element to load.
+     * @returns {Promise} A promise that resolves when the script is loaded.
+     */
     function loadExternalScript(s) {
       return new Promise(function (resolve, reject) {
         var src = s.getAttribute("src");
@@ -74,6 +99,11 @@
     }, Promise.resolve());
   }
 
+  /**
+   * Checks if a stylesheet with the given href is already loaded.
+   * @param {string} href - The stylesheet URL to check.
+   * @returns {boolean} True if the stylesheet is already loaded, false otherwise.
+   */
   function styleAlreadyLoaded(href) {
     if (!href) return false;
     try {
@@ -94,6 +124,11 @@
     return false;
   }
 
+  /**
+   * Ensures all stylesheets from the new document are loaded, removing old page-specific styles.
+   * @param {Document} fromDoc - The document containing stylesheets to load.
+   * @returns {Promise} A promise that resolves when all stylesheets are loaded.
+   */
   function ensureStyles(fromDoc) {
     var headLinks = Array.prototype.slice.call(
       (fromDoc.head &&
@@ -148,6 +183,11 @@
     return Promise.all(promises);
   }
 
+  /**
+   * Replaces the current body content with content from the new document.
+   * @param {Document} newDoc - The new document containing the body to replace.
+   * @returns {Promise<boolean>} A promise that resolves with true if successful, false otherwise.
+   */
   function replaceBody(newDoc) {
     var newBody = newDoc.body;
     if (!newBody) return Promise.resolve(false);
@@ -212,6 +252,12 @@
       });
   }
 
+  /**
+   * Fetches a page and renders it in the SPA.
+   * @param {string} path - The path to fetch.
+   * @param {boolean} replace - If true, replaces history state instead of pushing.
+   * @returns {Promise} A promise that resolves when the page is rendered.
+   */
   function fetchAndRender(path, replace) {
     return fetch(path, { cache: "no-cache" })
       .then(function (res) {
@@ -233,6 +279,10 @@
       });
   }
 
+  /**
+   * Handles click events on links with data-link attribute for SPA navigation.
+   * @param {MouseEvent} e - The click event.
+   */
   function onLinkClick(e) {
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -253,6 +303,10 @@
     fetchAndRender(href, false);
   }
 
+  /**
+   * Handles browser back/forward navigation.
+   * @param {PopStateEvent} e - The popstate event.
+   */
   function onPopState(e) {
     var state = e.state || {};
     var path = state.path || location.pathname;
