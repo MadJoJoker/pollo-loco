@@ -28,6 +28,18 @@ body {
 .hidden {
   display: none !important;
 }
+
+/* Remove focus outline from all buttons and interactive elements */
+button:focus,
+button:active,
+a:focus,
+a:active,
+input:focus,
+input:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 canvas {
   z-index: var(--z-index-base);
   background-color: var(--color-black);
@@ -47,6 +59,17 @@ canvas {
 #fullscreen:fullscreen {
   width: 100vw;
   height: 100vh;
+}
+
+/* Hide browser's "Press ESC to exit fullscreen" message */
+#fullscreen:fullscreen::backdrop {
+  background-color: transparent;
+}
+
+/* Hide fullscreen overlay message (browser-specific) */
+::-webkit-full-page-media,
+::-webkit-media-controls-panel {
+  display: none !important;
 }
 #fullscreen:fullscreen canvas {
   width: 100vw;

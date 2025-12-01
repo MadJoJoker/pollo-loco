@@ -16,6 +16,16 @@ function fullscreen() {
 }
 
 /**
+ * Removes focus from all buttons after click to prevent focus outline.
+ */
+document.addEventListener("click", function (e) {
+  if (e.target.tagName === "BUTTON" || e.target.closest("button")) {
+    const button = e.target.tagName === "BUTTON" ? e.target : e.target.closest("button");
+    setTimeout(() => button.blur(), 0);
+  }
+});
+
+/**
  * Requests fullscreen mode for the given element, handling browser compatibility.
  * @param {HTMLElement} fullscreen - The element to display in fullscreen.
  */
