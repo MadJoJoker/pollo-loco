@@ -53,7 +53,7 @@
   --font-size-small: 16px;
   --font-size-medium: 22px;
   --font-size-large: 32px;
-  --font-size-xlarge: 65px;
+  --font-size-xlarge: 45px;
   --font-weight-normal: 100;
   --font-weight-medium: 400;
   --font-weight-bold: 600;
@@ -98,6 +98,13 @@
   --clamp-border: clamp(1px, 0.2vw, 4px);
   --clamp-border-radius: clamp(8px, 1.2vw, 14px);
   --clamp-width: clamp(180px, 30vw, 420px);
+
+  /* === Responsive Breakpoints === */
+  --breakpoint-xs: 400px;
+  --breakpoint-sm: 500px;
+  --breakpoint-md: 720px;
+  --breakpoint-lg: 1100px;
+  --breakpoint-xl: 1290px;
   --clamp-height: clamp(40px, 6vh, 64px);
   --clamp-padding: clamp(16px, 10vw, 24px);
   --clamp-font-size: clamp(14px, 1.6vw, 18px);

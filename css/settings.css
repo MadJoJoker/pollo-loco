@@ -41,14 +41,14 @@
     left var(--transition-standard);
 }
 #settings-scoreboard li {
-  font-size: 22px;
-  font-weight: 600;
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
 }
 #settings-scoreboard li img {
-  width: 32px;
+  width: var(--button-icon-size);
   height: auto;
   vertical-align: middle;
-  margin-left: 8px;
+  margin-left: var(--spacing-sm);
 }
 .scoreboard-columns {
   display: grid;
@@ -73,9 +73,9 @@
 }
 
 .scoreboard-columns li {
-  font-size: 32px;
-  font-weight: 100;
-  margin-bottom: 16px;
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-normal);
+  margin-bottom: var(--spacing-lg);
   display: flex;
   align-items: center;
 }
@@ -116,168 +116,4 @@
   font-weight: bold;
   color: var(--color-accent-solid);
   padding-left: 8px;
-}
-
-/* Responsive Media Queries */
-@media only screen and (max-width: 1290px) and (max-height: 800px) {
-  h1 {
-    font-size: 50px;
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 1100px) and (max-height: 800px) {
-  h1 {
-    font-size: 35px;
-    display: block;
-  }
-}
-
-@media only screen and (max-width: 720px), (max-height: 720px) {
-  #settings-scoreboard {
-    background-image: url("/assets/button/board.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 500px;
-    height: 530px;
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #mute-control {
-    flex-direction: row;
-    gap: 6px;
-    padding: 6px 12px;
-    margin: 8px auto;
-    font-size: 0.8rem;
-  }
-
-  #mute-range {
-    width: 50px;
-  }
-
-  #mute-status {
-    font-size: 0.75rem;
-  }
-
-  #start-navbar {
-    display: flex;
-    justify-content: center;
-    padding: var(--spacing-md);
-    z-index: 2;
-    height: 55px;
-    width: 100%;
-    background-image: none;
-  }
-
-  #settings-scoreboard h1 {
-    font-size: 22px;
-  }
-
-  h1 {
-    font-size: 18px;
-  }
-
-  .headline {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    width: 80%;
-    text-align: center;
-  }
-}
-
-@media only screen and (max-width: 500px), (max-height: 500px) {
-  #settings-scoreboard {
-    width: 300px;
-    height: 330px;
-  }
-
-  h1 {
-    font-size: 16px;
-    margin: 8px 0;
-    padding: 4px;
-  }
-
-  #mute-control {
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    margin: 6px auto;
-    font-size: 0.7rem;
-  }
-
-  #mute-range {
-    width: 40px;
-  }
-
-  #mute-status {
-    font-size: 0.65rem;
-  }
-}
-
-@media (orientation: landscape) and (max-height: 500px) {
-  #settings-scoreboard {
-    height: 280px;
-  }
-
-  h1 {
-    font-size: 14px;
-    margin: 4px 0;
-    padding: 2px;
-  }
-
-  #mute-control {
-    flex-direction: row;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    margin: var(--spacing-xs) auto;
-    font-size: 0.65rem;
-  }
-
-  #mute-range {
-    width: 40px;
-  }
-
-  #mute-status {
-    font-size: 0.6rem;
-  }
-}
-@media only screen and (max-width: 400px), (max-height: 400px) {
-  #settings-scoreboard {
-    width: 250px;
-    height: 230px;
-  }
-
-  h1 {
-    font-size: 14px;
-    margin: 4px 0;
-    padding: 2px;
-  }
-
-  #mute-control {
-    flex-direction: row;
-    gap: 3px;
-    padding: 3px 6px;
-    margin: 4px auto;
-    font-size: 0.6rem;
-    border-radius: 8px;
-  }
-
-  #mute-range {
-    width: 30px;
-  }
-
-  #mute-status {
-    font-size: 0.55rem;
-  }
 }

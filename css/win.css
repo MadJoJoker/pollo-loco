@@ -21,7 +21,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+  transition: width var(--transition-standard),
+    height var(--transition-standard), top var(--transition-standard),
+    left var(--transition-standard);
 }
 
 #scoreboard-win h1 {
@@ -31,16 +33,18 @@
   border-radius: var(--border-radius);
   padding: var(--spacing-xs);
   border: var(--border-solid);
-  margin: 10px 0;
+  margin: var(--spacing-md) 0;
   text-align: center;
-  transition: font-size 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+  transition: font-size var(--transition-standard),
+    margin var(--transition-standard), padding var(--transition-standard);
 }
 
 #scoreboard-win img {
   max-width: 90%;
   max-height: 60%;
   object-fit: contain;
-  transition: max-width 0.3s ease, max-height 0.3s ease;
+  transition: max-width var(--transition-standard),
+    max-height var(--transition-standard);
 }
 
 /* Game Over Message Won (Sheriff Badge) */
@@ -53,164 +57,6 @@
   background-position: center;
   border: var(--border-solid);
   border-radius: var(--border-radius);
-  transition: width 0.3s ease, height 0.3s ease;
-}
-
-/* Responsive Media Queries */
-@media only screen and (max-width: 1290px) and (max-height: 800px) {
-  #scoreboard-win h1 {
-    font-size: 50px;
-  }
-}
-
-@media only screen and (max-width: 1100px) and (max-height: 800px) {
-  #scoreboard-win h1 {
-    font-size: 35px;
-  }
-}
-
-@media only screen and (max-width: 720px), (max-height: 720px) {
-  #scoreboard-win {
-    background-image: url("/assets/button/board.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 500px;
-    height: 530px;
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #start-navbar {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    z-index: 2;
-    height: 55px;
-    width: 100%;
-    background-image: none;
-  }
-
-  #scoreboard-win h1 {
-    font-size: 48px;
-    margin: 8px 0;
-    padding: 4px;
-  }
-
-  #scoreboard-win img {
-    max-width: 85%;
-    max-height: 50%;
-  }
-
-  #game-over-msg-won {
-    width: 180px;
-    height: 200px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-}
-
-@media only screen and (max-width: 500px) and (orientation: landscape),
-  (max-height: 500px) and (orientation: landscape) {
-  #scoreboard-win {
-    width: 300px;
-    height: 330px;
-    top: 55%;
-  }
-
-  #scoreboard-win h1 {
-    font-size: 16px;
-    margin: 6px 0;
-    padding: 2px;
-  }
-
-  #scoreboard-win img {
-    max-width: 80%;
-    max-height: 45%;
-  }
-
-  #game-over-msg-won {
-    width: 100px;
-    height: 110px;
-  }
-}
-
-@media only screen and (max-width: 500px) and (orientation: portrait) {
-  #scoreboard-win {
-    width: 400px;
-    height: 530px;
-    top: 50%;
-  }
-
-  #scoreboard-win h1 {
-    font-size: 18px;
-    margin: 8px 0;
-    padding: 4px;
-  }
-
-  #scoreboard-win img {
-    max-width: 85%;
-    max-height: 55%;
-  }
-
-  #game-over-msg-won {
-    width: 140px;
-    height: 150px;
-  }
-}
-
-@media (orientation: landscape) and (max-height: 500px) {
-  #scoreboard-win {
-    height: 280px;
-    top: 55%;
-  }
-
-  #scoreboard-win h1 {
-    font-size: 32px;
-    margin: 4px 0;
-    padding: 2px;
-  }
-
-  #scoreboard-win img {
-    max-width: 80%;
-    max-height: 45%;
-  }
-
-  #game-over-msg-won {
-    width: 100px;
-    height: 110px;
-  }
-}
-
-@media only screen and (max-width: 400px), (max-height: 400px) {
-  #scoreboard-win {
-    width: 250px;
-    height: 230px;
-    top: 65%;
-  }
-
-  #scoreboard-win h1 {
-    font-size: 20px;
-    margin: 4px 0;
-    padding: 2px;
-  }
-
-  #scoreboard-win img {
-    max-width: 80%;
-    max-height: 40%;
-  }
-
-  #game-over-msg-won {
-    width: 80px;
-    height: 90px;
-  }
+  transition: width var(--transition-standard),
+    height var(--transition-standard);
 }
