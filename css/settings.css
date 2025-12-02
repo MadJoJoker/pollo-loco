@@ -1,9 +1,3 @@
-/* ============================================
-   Settings CSS - Pollo Loco Game
-   Nur Settings-spezifische Styles
-   Gemeinsame Komponenten in shared-components.css
-   ============================================ */
-
 #settings-scoreboard li {
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);

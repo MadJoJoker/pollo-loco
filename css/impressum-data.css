@@ -1,9 +1,3 @@
-/* ============================================
-   Impressum/Datenschutz CSS - Pollo Loco Game
-   Nur Impressum/Datenschutz-spezifische Styles
-   Gemeinsame Komponenten in shared-components.css
-   ============================================ */
-
 html {
   max-width: var(--max-width);
   margin: auto;
@@ -32,8 +26,6 @@ h3 {
   border-radius: var(--border-radius);
 }
 
-/* Content-Links (im Text) - einfaches Styling */
-/* Exkludiere Navbar und Carousel/Overlay-Links */
 body
   a:not(#start-header a):not(.carousel a):not(.carousel-link):not(
     [role="button"]
@@ -58,7 +50,6 @@ body
   text-decoration: underline;
 }
 
-/* Navbar-Links behalten das shared-components Styling */
 #start-header a {
   text-decoration: none;
   color: var(--color-secondary);
@@ -82,7 +73,6 @@ body
   border-width: var(--border-width);
 }
 
-/* Header-Anpassung für Impressum/Datenschutz */
 #start-header {
   position: sticky;
   z-index: var(--z-index-base);
@@ -98,7 +88,6 @@ body
   min-height: 60px;
 }
 
-/* Carousel-Button Anpassung für diese Seiten */
 .carousel button {
   position: absolute;
   left: 45%;

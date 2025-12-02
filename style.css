@@ -29,7 +29,6 @@ body {
   display: none !important;
 }
 
-/* Remove focus outline from all buttons and interactive elements */
 button:focus,
 button:active,
 a:focus,
@@ -61,12 +60,10 @@ canvas {
   height: 100vh;
 }
 
-/* Hide browser's "Press ESC to exit fullscreen" message */
 #fullscreen:fullscreen::backdrop {
   background-color: transparent;
 }
 
-/* Hide fullscreen overlay message (browser-specific) */
 ::-webkit-full-page-media,
 ::-webkit-media-controls-panel {
   display: none !important;
@@ -226,7 +223,6 @@ h1 {
   }
 }
 
-/* Very small landscape screens */
 @media (orientation: landscape) and (max-width: 720px) {
   h1 {
     display: none;
@@ -239,7 +235,6 @@ h1 {
   }
 }
 
-/* Short landscape screens (phones in landscape) */
 @media (orientation: landscape) and (max-height: 500px) {
   canvas {
     height: 100vh;

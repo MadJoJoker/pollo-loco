@@ -1,10 +1,3 @@
-/* ============================================
-   Start Screen CSS - Pollo Loco Game
-   Nur Start-Screen-spezifische Styles
-   Gemeinsame Komponenten in shared-components.css
-   ============================================ */
-
-/* Start-Screen spezifische Drawer-Anpassungen */
 .menu-overlay .menu-drawer {
   padding: var(--spacing-xxxl);
   max-height: 85vh;

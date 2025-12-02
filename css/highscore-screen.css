@@ -1,9 +1,3 @@
-/* ============================================
-   Highscore Screen CSS - Pollo Loco Game
-   Nur Highscore-spezifische Styles
-   Gemeinsame Komponenten in shared-components.css
-   ============================================ */
-
 #heros-scoreboard li {
   display: flex;
   justify-content: center;

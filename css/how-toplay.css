@@ -1,9 +1,3 @@
-/* ============================================
-   How-to-Play CSS - Pollo Loco Game
-   Nur How-to-Play-spezifische Styles
-   Gemeinsame Komponenten in shared-components.css
-   ============================================ */
-
 #how-to-play-scoreboard li {
   display: flex;
   justify-content: space-between;

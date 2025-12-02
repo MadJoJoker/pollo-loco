@@ -1,15 +1,8 @@
-/* ============================================
-   Shared Components CSS - Pollo Loco Game
-   Zentrale Komponenten für alle Seiten
-   ============================================ */
-
-/* === Font Definition === */
 @font-face {
   font-family: "GringoNights";
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
 }
 
-/* === Base Layout === */
 html {
   margin: auto;
   padding: var(--spacing-md);
@@ -25,8 +18,6 @@ body {
   overflow: hidden;
 }
 
-/* === Body Backgrounds === */
-/* Einheitliche Body-Gestaltung für alle Seiten */
 .body,
 #start-body,
 #heros-body,
@@ -38,18 +29,14 @@ body {
   background-size: 100% 100%;
 }
 
-/* Spezielle Background-Größe für Settings */
 #settings-body {
   background-size: cover;
 }
 
-/* Spezieller Background für How-to-Play */
 #how-to-play-body {
   background-image: var(--bg-start-screen);
 }
 
-/* === Main Container === */
-/* Einheitliche Main-Gestaltung für alle Seiten */
 .main,
 #start-main,
 #heros-main,
@@ -62,14 +49,11 @@ body {
   transform: translate(-50%, -50%);
 }
 
-/* Spezielle Positionierung für Start-Screen */
 #start-main {
   left: var(--position-center);
   top: var(--position-center);
 }
 
-/* === Scoreboard Container === */
-/* Einheitliche Scoreboard-Gestaltung für alle Seiten */
 .scoreboard,
 #scoreboard,
 #heros-scoreboard,
@@ -97,7 +81,6 @@ body {
     left var(--transition-standard);
 }
 
-/* Spezielle Positionierung für Game-Over und Win */
 #scoreboard,
 #scoreboard-win,
 #scoreboard-gameover {
@@ -106,14 +89,11 @@ body {
   top: 45%;
 }
 
-/* Spezieller Background für Win-Screen */
 #scoreboard-win {
   background-image: url("/assets/button/board.png");
   z-index: 1;
 }
 
-/* === Scoreboard h1 === */
-/* Einheitliche h1-Gestaltung für alle Scoreboards */
 .scoreboard h1,
 #scoreboard h1,
 #heros-scoreboard h1,
@@ -133,7 +113,6 @@ body {
     margin var(--transition-standard), padding var(--transition-standard);
 }
 
-/* Spezielle h1-Anpassung für Game-Over */
 #scoreboard-gameover h1 {
   display: flex;
   flex-direction: column;
@@ -143,7 +122,6 @@ body {
   margin: var(--spacing-sm) 0;
 }
 
-/* === Navigation Buttons === */
 #start-game-btn,
 #how-to-play-btn,
 #settings-btn,
@@ -177,7 +155,6 @@ body {
   border-width: var(--border-width);
 }
 
-/* === Header === */
 #start-header {
   display: flex;
   justify-content: center;
@@ -193,7 +170,6 @@ body {
   height: 120px;
 }
 
-/* === Main Menu Placeholder === */
 #main-menu-placeholder {
   position: absolute;
   top: 30%;
@@ -203,7 +179,6 @@ body {
   z-index: var(--z-index-nav);
 }
 
-/* === Navigation Icons === */
 .nav-icon {
   height: var(--nav-icon-size);
   width: auto;
@@ -211,7 +186,6 @@ body {
   vertical-align: middle;
 }
 
-/* === Links === */
 a {
   text-decoration: none;
   color: var(--color-secondary);
@@ -234,7 +208,6 @@ a:hover {
   border-width: var(--border-width);
 }
 
-/* === Headings === */
 h1 {
   font-size: var(--font-size-xlarge);
   color: var(--color-primary);
@@ -244,7 +217,6 @@ h1 {
   border: var(--border-solid);
 }
 
-/* === Menu Overlay & Drawer === */
 .menu-overlay {
   position: fixed;
   inset: 0;
@@ -313,7 +285,6 @@ h1 {
   pointer-events: auto;
 }
 
-/* === Close Menu Button === */
 .close-menu {
   position: absolute;
   right: 38px;
@@ -325,7 +296,6 @@ h1 {
   cursor: pointer;
 }
 
-/* === Visually Hidden === */
 .visually-hidden {
   position: absolute !important;
   height: 1px;
@@ -335,7 +305,6 @@ h1 {
   white-space: nowrap;
 }
 
-/* === Carousel Base === */
 .carousel button,
 .carousel a {
   position: absolute;
@@ -362,7 +331,6 @@ h1 {
   color: var(--color-text-light) !important;
 }
 
-/* === Main Menu Carousel === */
 .carousel--main-menu {
   position: absolute;
   top: 25%;
@@ -440,7 +408,6 @@ h1 {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* === Carousel in Drawer/Overlay === */
 .menu-drawer .carousel,
 #overlay-carousel-container .carousel {
   display: flex !important;
@@ -472,7 +439,6 @@ h1 {
   overflow: auto;
 }
 
-/* === Utility Classes === */
 .overlay-visible {
   right: 0;
 }
@@ -489,7 +455,6 @@ h1 {
   height: 64px;
 }
 
-/* === Animations === */
 @keyframes overlaySlideIn {
   0% {
     top: -200px;
@@ -553,7 +518,6 @@ h1 {
   }
 }
 
-/* === Media Queries === */
 @media only screen and (max-width: 720px), (max-height: 720px) {
   #start-header {
     position: absolute;
