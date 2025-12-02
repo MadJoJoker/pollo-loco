@@ -3,7 +3,6 @@
     font-size: 50px;
     display: block;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -12,26 +11,21 @@
   #scoreboard-win h1 {
     font-size: 50px;
   }
-
   #scoreboard-gameover h1 {
     font-size: 36px;
   }
-
   #restart-btn,
   #no-restart-btn {
     width: 48px;
   }
-
   #game-over-msg {
     width: 65%;
     height: 20%;
   }
-
   #no-restart-overlay {
     font-size: 1.2em;
     padding: 18px 28px;
   }
-
   .big-img-height {
     height: 48px;
   }
@@ -42,7 +36,6 @@
     font-size: 35px;
     display: block;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -51,28 +44,33 @@
   #scoreboard-win h1 {
     font-size: 35px;
   }
-
   #scoreboard-gameover h1 {
     font-size: 32px;
   }
-
   #restart-btn,
   #no-restart-btn {
     width: 44px;
   }
-
   #game-over-msg {
     width: 65%;
     height: 20%;
   }
-
   #no-restart-overlay {
     font-size: 1.15em;
     padding: 16px 26px;
   }
-
   .big-img-height {
     height: 40px;
+  }
+}
+
+@media only screen and (max-width: 720px), (max-height: 720px) {
+  #start-header {
+    position: absolute;
+    z-index: 2;
+    right: 0%;
+    top: 0%;
+    height: 75px;
   }
 }
 
@@ -83,16 +81,13 @@
   #heros-scoreboard,
   #scoreboard-gameover,
   #scoreboard-win {
-    background-image: url("/assets/button/board.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background: url("/assets/button/board.png") center/contain no-repeat;
     width: 500px;
     height: 530px;
     position: absolute;
     z-index: 1;
     left: 50%;
-    top: 55%;
+    top: 70%;
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
@@ -102,7 +97,6 @@
       height var(--transition-standard), top var(--transition-standard),
       left var(--transition-standard);
   }
-
   #start-navbar {
     display: flex;
     justify-content: center;
@@ -112,11 +106,9 @@
     width: 100%;
     background-image: none;
   }
-
   h1 {
     font-size: var(--font-size-large);
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -129,7 +121,6 @@
     transition: font-size var(--transition-standard),
       margin var(--transition-standard), padding var(--transition-standard);
   }
-
   #scoreboard img,
   #settings-scoreboard img,
   #how-to-play-scoreboard img,
@@ -141,7 +132,6 @@
     transition: max-width var(--transition-standard),
       max-height var(--transition-standard);
   }
-
   #start-game-btn-scoreboard,
   #restart-btn,
   #no-restart-btn {
@@ -150,38 +140,32 @@
     transition: width var(--transition-standard),
       height var(--transition-standard);
   }
-
   .big-img-height {
     height: 32px;
     transition: height var(--transition-standard);
   }
-
   #game-over-msg {
     width: 65%;
     height: 20%;
     transition: width var(--transition-standard),
       height var(--transition-standard);
   }
-
   #no-restart-overlay {
     font-size: 1.1em;
     padding: 16px 24px;
     transition: font-size var(--transition-standard),
       padding var(--transition-standard);
   }
-
   #game-over-msg-won {
-    width: 180px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     transition: width var(--transition-standard),
       height var(--transition-standard);
   }
-
   #settings-scoreboard h1 {
     font-size: var(--font-size-medium);
     transition: font-size var(--transition-standard);
   }
-
   #mute-control {
     flex-direction: row;
     gap: var(--spacing-sm);
@@ -191,28 +175,15 @@
     transition: font-size var(--transition-standard),
       padding var(--transition-standard), margin var(--transition-standard);
   }
-
   #mute-range {
     width: 50px;
     transition: width var(--transition-standard);
   }
-
   #mute-status {
     font-size: 0.75rem;
     transition: font-size var(--transition-standard);
   }
 
-  .headline {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    width: 80%;
-    text-align: center;
-    transition: font-size var(--transition-standard),
-      top var(--transition-standard);
-  }
 }
 
 @media only screen and (max-width: 500px) and (orientation: landscape),
@@ -227,7 +198,6 @@
     height: 330px;
     top: 55%;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -238,13 +208,11 @@
     margin: var(--spacing-sm) 0;
     padding: 2px;
   }
-
   h1 {
     font-size: var(--font-size-small);
     margin: var(--spacing-sm) 0;
     padding: var(--spacing-xs);
   }
-
   #scoreboard img,
   #settings-scoreboard img,
   #how-to-play-scoreboard img,
@@ -254,18 +222,15 @@
     max-width: 80%;
     max-height: 45%;
   }
-
   #mute-control {
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
     margin: 6px auto;
     font-size: 0.7rem;
   }
-
   #mute-range {
     width: 40px;
   }
-
   #mute-status {
     font-size: 0.65rem;
   }
@@ -280,9 +245,8 @@
   #scoreboard-win {
     width: 400px;
     height: 530px;
-    top: 50%;
+    top: 70%;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -293,7 +257,6 @@
     margin: var(--spacing-sm) 0;
     padding: var(--spacing-xs);
   }
-
   #scoreboard img,
   #settings-scoreboard img,
   #how-to-play-scoreboard img,
@@ -310,7 +273,6 @@
     width: 300px;
     height: 330px;
   }
-
   #mute-control {
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
@@ -319,12 +281,10 @@
     transition: font-size var(--transition-standard),
       padding var(--transition-standard), margin var(--transition-standard);
   }
-
   #mute-range {
     width: 40px;
     transition: width var(--transition-standard);
   }
-
   #mute-status {
     font-size: 0.65rem;
     transition: font-size var(--transition-standard);
@@ -341,7 +301,6 @@
     height: 280px;
     top: 55%;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -352,13 +311,11 @@
     margin: var(--spacing-xs) 0;
     padding: 2px;
   }
-
   h1 {
     font-size: 14px;
     margin: var(--spacing-xs) 0;
     padding: 2px;
   }
-
   #scoreboard img,
   #settings-scoreboard img,
   #how-to-play-scoreboard img,
@@ -368,7 +325,6 @@
     max-width: 80%;
     max-height: 45%;
   }
-
   #mute-control {
     flex-direction: row;
     gap: var(--spacing-xs);
@@ -378,12 +334,10 @@
     transition: font-size var(--transition-standard),
       padding var(--transition-standard), margin var(--transition-standard);
   }
-
   #mute-range {
     width: 40px;
     transition: width var(--transition-standard);
   }
-
   #mute-status {
     font-size: 0.6rem;
     transition: font-size var(--transition-standard);
@@ -401,7 +355,6 @@
     height: 230px;
     top: 65%;
   }
-
   #scoreboard h1,
   #settings-scoreboard h1,
   #how-to-play-scoreboard h1,
@@ -412,13 +365,11 @@
     margin: var(--spacing-xs) 0;
     padding: 2px;
   }
-
   h1 {
     font-size: 14px;
     margin: var(--spacing-xs) 0;
     padding: 2px;
   }
-
   #scoreboard img,
   #settings-scoreboard img,
   #how-to-play-scoreboard img,
@@ -428,7 +379,6 @@
     max-width: 80%;
     max-height: 40%;
   }
-
   #mute-control {
     flex-direction: row;
     gap: 3px;
@@ -439,12 +389,10 @@
     transition: font-size var(--transition-standard),
       padding var(--transition-standard), margin var(--transition-standard);
   }
-
   #mute-range {
     width: 30px;
     transition: width var(--transition-standard);
   }
-
   #mute-status {
     font-size: 0.55rem;
     transition: font-size var(--transition-standard);

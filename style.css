@@ -77,7 +77,7 @@ canvas {
   display: flex;
   justify-content: space-evenly !important;
   position: absolute;
-  top: 40%;
+  top: 30%;
   left: var(--position-center);
   transform: translateX(-50%);
   background: var(--color-accent);
@@ -263,5 +263,6 @@ h1 {
 
   #fullscreen .canvas-fullscreen-btn {
     padding: 8px;
+    top:10%;
   }
 }
