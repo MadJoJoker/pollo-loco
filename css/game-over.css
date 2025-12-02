@@ -5,44 +5,6 @@
    ============================================ */
 
 /* Scoreboard Game Over */
-#scoreboard-gameover {
-  background-image: var(--bg-board);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 550px;
-  height: 500px;
-  position: absolute;
-  z-index: var(--z-index-base);
-  left: 49%;
-  top: 45%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: width var(--transition-standard),
-    height var(--transition-standard), top var(--transition-standard),
-    left var(--transition-standard);
-}
-
-#scoreboard-gameover h1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: 40px;
-  color: var(--color-primary);
-  background-color: var(--color-accent);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-xs);
-  border: var(--border-solid);
-  margin: var(--spacing-sm) 0;
-  text-align: center;
-  transition: font-size var(--transition-standard),
-    margin var(--transition-standard), padding var(--transition-standard);
-}
-
 .button-container {
   display: flex;
   flex-direction: row;
@@ -69,7 +31,8 @@
   background-position: center;
   border: var(--border-solid);
   border-radius: var(--border-radius);
-  transition: width var(--transition-standard), height var(--transition-standard);
+  transition: width var(--transition-standard),
+    height var(--transition-standard);
 }
 
 /* Restart Buttons */
@@ -83,7 +46,8 @@
   border: var(--border-solid);
   border-radius: var(--border-radius);
   background-color: transparent;
-  transition: background-color var(--transition-standard), transform var(--transition-fast);
+  transition: background-color var(--transition-standard),
+    transform var(--transition-fast);
 }
 
 #restart-btn:hover,
@@ -112,7 +76,7 @@
   text-align: center;
   display: block;
   box-sizing: border-box;
-  transition: opacity var(--transition-standard), transform var(--transition-standard),
-    font-size var(--transition-standard), padding var(--transition-standard);
+  transition: opacity var(--transition-standard),
+    transform var(--transition-standard), font-size var(--transition-standard),
+    padding var(--transition-standard);
 }
-

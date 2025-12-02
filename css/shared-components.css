@@ -26,20 +26,121 @@ body {
 }
 
 /* === Body Backgrounds === */
-#start-body {
+/* Einheitliche Body-Gestaltung für alle Seiten */
+.body,
+#start-body,
+#heros-body,
+#settings-body,
+#how-to-play-body {
   background-image: var(--bg-desert);
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 
+/* Spezielle Background-Größe für Settings */
+#settings-body {
+  background-size: cover;
+}
+
+/* Spezieller Background für How-to-Play */
+#how-to-play-body {
+  background-image: var(--bg-start-screen);
+}
+
 /* === Main Container === */
+/* Einheitliche Main-Gestaltung für alle Seiten */
+.main,
+#start-main,
+#heros-main,
+#settings-main,
+#how-to-play-main {
+  position: absolute;
+  z-index: var(--z-index-base);
+  left: 70%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+/* Spezielle Positionierung für Start-Screen */
 #start-main {
+  left: var(--position-center);
+  top: var(--position-center);
+}
+
+/* === Scoreboard Container === */
+/* Einheitliche Scoreboard-Gestaltung für alle Seiten */
+.scoreboard,
+#scoreboard,
+#heros-scoreboard,
+#settings-scoreboard,
+#how-to-play-scoreboard,
+#scoreboard-win,
+#scoreboard-gameover {
+  background-image: var(--bg-board);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 600px;
+  height: 500px;
   position: absolute;
   z-index: var(--z-index-base);
   left: var(--position-center);
   top: var(--position-center);
   transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: width var(--transition-standard),
+    height var(--transition-standard), top var(--transition-standard),
+    left var(--transition-standard);
+}
+
+/* Spezielle Positionierung für Game-Over und Win */
+#scoreboard,
+#scoreboard-win,
+#scoreboard-gameover {
+  width: 550px;
+  left: 49%;
+  top: 45%;
+}
+
+/* Spezieller Background für Win-Screen */
+#scoreboard-win {
+  background-image: url("/assets/button/board.png");
+  z-index: 1;
+}
+
+/* === Scoreboard h1 === */
+/* Einheitliche h1-Gestaltung für alle Scoreboards */
+.scoreboard h1,
+#scoreboard h1,
+#heros-scoreboard h1,
+#settings-scoreboard h1,
+#how-to-play-scoreboard h1,
+#scoreboard-win h1,
+#scoreboard-gameover h1 {
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  background-color: var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
+  margin: var(--spacing-md) 0;
+  text-align: center;
+  transition: font-size var(--transition-standard),
+    margin var(--transition-standard), padding var(--transition-standard);
+}
+
+/* Spezielle h1-Anpassung für Game-Over */
+#scoreboard-gameover h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 40px;
+  margin: var(--spacing-sm) 0;
 }
 
 /* === Navigation Buttons === */

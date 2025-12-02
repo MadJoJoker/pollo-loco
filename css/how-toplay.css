@@ -4,42 +4,6 @@
    Gemeinsame Komponenten in shared-components.css
    ============================================ */
 
-#how-to-play-body {
-  background-image: var(--bg-start-screen);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
-
-#how-to-play-main {
-  position: absolute;
-  z-index: var(--z-index-base);
-  left: 70%;
-  top: 60%;
-  transform: translate(-50%, -50%);
-}
-#how-to-play-scoreboard {
-  background-image: var(--bg-board);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 600px;
-  height: 500px;
-
-  position: absolute;
-  z-index: var(--z-index-base);
-  left: var(--position-center);
-  top: var(--position-center);
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  transition: width var(--transition-standard),
-    height var(--transition-standard), top var(--transition-standard),
-    left var(--transition-standard);
-}
 #how-to-play-scoreboard li {
   display: flex;
   justify-content: space-between;

@@ -10,40 +10,6 @@
   max-height: 85vh;
 }
 
-#scoreboard {
-  background-image: var(--bg-board);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 550px;
-  height: 500px;
-  position: absolute;
-  z-index: var(--z-index-base);
-  left: 49%;
-  top: 45%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  transition: width var(--transition-standard),
-    height var(--transition-standard), top var(--transition-standard),
-    left var(--transition-standard);
-}
-
-#scoreboard h1 {
-  font-size: var(--font-size-xlarge);
-  color: var(--color-primary);
-  background-color: var(--color-accent);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-xs);
-  border: var(--border-solid);
-  margin: var(--spacing-md) 0;
-  text-align: center;
-  transition: font-size var(--transition-standard),
-    margin var(--transition-standard), padding var(--transition-standard);
-}
-
 #scoreboard img {
   max-width: 90%;
   max-height: 60%;
