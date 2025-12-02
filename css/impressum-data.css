@@ -94,3 +94,35 @@ body
   top: 0%;
   background-color: var(--color-transparent);
 }
+
+.content-container {
+  margin-top: 20px;
+  padding: var(--spacing-md);
+}
+
+@media only screen and (max-width: 720px), (max-height: 720px) {
+  .content-container {
+    margin-top: 95px;
+    padding: var(--spacing-sm);
+  }
+
+  #start-header {
+    height: 75px;
+    min-height: 75px;
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: landscape),
+  (max-height: 500px) and (orientation: landscape) {
+  .content-container {
+    margin-top: 85px;
+    padding: var(--spacing-xs);
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  .content-container {
+    margin-top: 90px;
+    padding: var(--spacing-xs);
+  }
+}
