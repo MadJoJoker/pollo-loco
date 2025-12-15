@@ -195,6 +195,9 @@ h1 {
 }
 
 @media (orientation: portrait) {
+  #extrascreens {
+    display: flex !important;
+  }
   #rotateScreen {
     display: flex !important;
   }

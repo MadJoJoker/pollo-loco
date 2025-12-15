@@ -124,7 +124,7 @@ class StatusBar extends DrawableObject {
       ctx.fillText(`${bottleCount}`, textX, textY);
     }
     if (this.IMAGES_USED === this.IMAGES_ENDBOSS) {
-      ctx.fillText(`Dona`, textX, textY);
+      ctx.fillText( textX, textY);
     }
   }
 
