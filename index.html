@@ -23,7 +23,16 @@
     ></audio>
 
     <script>
-      if (!document.referrer.includes("start-screen.html")) {
+      const allowedReferrers = [
+        "start-screen.html",
+        "game-over.html",
+        "win.html",
+      ];
+      const hasValidReferrer = allowedReferrers.some((page) =>
+        document.referrer.includes(page)
+      );
+
+      if (!hasValidReferrer) {
         window.location.href = "pages/start-screen.html";
       }
     </script>

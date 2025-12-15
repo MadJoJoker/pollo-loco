@@ -122,6 +122,16 @@ function stopGame() {
   stopAllIntervals();
 }
 
+/**
+ * Restarts the game by stopping all intervals and reinitializing the world.
+ */
+function restartGame() {
+  stopAllIntervals();
+  canvas = document.getElementById("canvas");
+  world = new World(canvas, keyboard);
+  if (window.startGameTime) window.startGameTime();
+}
+
 const pauseButton = document.getElementById("pauseButton");
 const playButton = document.getElementById("playButton");
 if (pauseButton) pauseButton.addEventListener("click", pauseGame);
