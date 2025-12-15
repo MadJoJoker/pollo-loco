@@ -183,7 +183,6 @@
     font-size: 0.75rem;
     transition: font-size var(--transition-standard);
   }
-
 }
 
 @media only screen and (max-width: 500px) and (orientation: landscape),
@@ -344,6 +343,26 @@
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .menu-drawer .carousel--main-menu,
+  #overlay-carousel-container .carousel--main-menu {
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    overflow-x: visible;
+    overflow-y: auto;
+  }
+
+  .carousel--main-menu button,
+  .carousel--main-menu a {
+    min-width: 140px;
+    width: 140px;
+    min-height: 60px;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1rem;
+  }
+}
+
 @media only screen and (max-width: 400px), (max-height: 400px) {
   #scoreboard,
   #settings-scoreboard,
@@ -396,5 +415,24 @@
   #mute-status {
     font-size: 0.55rem;
     transition: font-size var(--transition-standard);
+  }
+
+  .carousel--main-menu button,
+  .carousel--main-menu a {
+    min-width: 120px;
+    width: 120px;
+    min-height: 50px;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .carousel--main-menu button,
+  .carousel--main-menu a {
+    min-width: 100px;
+    width: 100px;
+    min-height: 45px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.8rem;
   }
 }
