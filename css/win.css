@@ -1,9 +1,62 @@
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+}
+
 #scoreboard-win img {
   max-width: 90%;
   max-height: 60%;
   object-fit: contain;
   transition: max-width var(--transition-standard),
     max-height var(--transition-standard);
+}
+
+#restart-btn,
+#no-restart-btn {
+  width: 52px;
+  height: auto;
+  margin: 0;
+  vertical-align: middle;
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  transition: background-color var(--transition-standard),
+    transform var(--transition-fast);
+}
+
+#restart-btn:hover,
+#no-restart-btn:hover {
+  background-color: var(--color-secondary);
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+#no-restart-overlay {
+  position: absolute;
+  top: 90%;
+  left: 2.5%;
+  transform: translateY(-50%);
+  width: 95%;
+  height: auto;
+  padding: 30px 40px;
+  background: var(--color-bg-dark);
+  border: var(--color-accent-solid) solid var(--spacing-xs);
+  border-radius: var(--border-radius);
+  color: var(--color-text-light);
+  font-size: 1.3em;
+  line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: var(--z-index-nav);
+  text-align: center;
+  display: block;
+  box-sizing: border-box;
+  transition: opacity var(--transition-standard),
+    transform var(--transition-standard), font-size var(--transition-standard),
+    padding var(--transition-standard);
 }
 
 #game-over-msg-won {

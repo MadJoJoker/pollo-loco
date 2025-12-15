@@ -63,8 +63,23 @@
     </div>
 
     <div id="scoreboard-win">
-      <h1>You win</h1>
+      <h1>
+        You win!
+        <div class="button-container">
+          <a id="restart-btn" href="../index.html" class="img-btn">
+            <img src="/assets/button/check-btn.png" alt="restart" />
+          </a>
+          <img
+            id="no-restart-btn"
+            src="/assets/button/close-btn.png"
+            alt="no-restart"
+          />
+        </div>
+      </h1>
       <div id="game-over-msg-won"></div>
+      <div id="no-restart-overlay" class="overlay-hidden">
+        Give up is no option. Try again.
+      </div>
     </div>
 
     <script>
