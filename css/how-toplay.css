@@ -150,14 +150,14 @@ li {
     width: 2px;
   }
   .scoreboard-columns li {
-    font-size: 12px;
+    font-size: 16px;
     margin-bottom: 6px;
   }
   .scoreboard-columns li img {
-    width: 14px;
+    width: 20px;
   }
   #how-to-play-scoreboard li {
-    font-size: 11px;
+    font-size: 16px;
     width: 100px;
     gap: 2px;
   }
@@ -203,14 +203,14 @@ li {
     width: 2px;
   }
   .scoreboard-columns li {
-    font-size: 11px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
   .scoreboard-columns li img {
-    width: 12px;
+    width: 18px;
   }
   #how-to-play-scoreboard li {
-    font-size: 10px;
+    font-size: 16px;
     width: 90px;
     gap: 2px;
   }
@@ -231,14 +231,14 @@ li {
     width: 2px;
   }
   .scoreboard-columns li {
-    font-size: 10px;
+    font-size: 16px;
     margin-bottom: 4px;
   }
   .scoreboard-columns li img {
-    width: 10px;
+    width: 18px;
   }
   #how-to-play-scoreboard li {
-    font-size: 9px;
+    font-size: 16px;
     width: 80px;
     gap: 2px;
   }
