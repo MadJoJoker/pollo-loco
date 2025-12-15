@@ -351,6 +351,7 @@ h1 {
   box-shadow: none;
   border: none;
   color: var(--color-primary);
+  cursor: pointer;
 
   &:not(.active) {
     opacity: 0.85;
@@ -368,7 +369,6 @@ h1 {
   }
 
   &:hover {
-    cursor: pointer;
     background-color: var(--color-secondary) !important;
     border: var(--border-width) solid chocolate;
     color: var(--color-text-light) !important;
