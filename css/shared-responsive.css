@@ -370,9 +370,9 @@
   #heros-scoreboard,
   #scoreboard-gameover,
   #scoreboard-win {
-    width: 250px;
-    height: 230px;
-    top: 65%;
+    width: 320px;
+    height: 430px;
+    top: 55%;
   }
   #scoreboard h1,
   #settings-scoreboard h1,
