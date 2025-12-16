@@ -140,9 +140,14 @@ function isFullscreenFn() {
 
 /**
  * Shows or hides the mobile buttons bar based on window width or fullscreen state.
+ * Supports tablets up to 1280px width (common for iPad Pro and Android tablets).
  */
 function checkMobileButtonsBarFn() {
-  if (window.innerWidth < 721 || isFullscreenFn()) {
+  const isTouchDevice =
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  const isTabletOrMobile = window.innerWidth < 1280 && isTouchDevice;
+
+  if (isTabletOrMobile || isFullscreenFn()) {
     showScreenFn("mobileButtonsBar");
   } else {
     hideScreensFn([

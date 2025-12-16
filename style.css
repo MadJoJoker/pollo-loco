@@ -127,6 +127,10 @@ h1 {
   background-color: var(--color-accent);
   border-radius: var(--border-radius);
   z-index: var(--z-index-mobile-buttons);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .mobile-buttons {
@@ -134,6 +138,8 @@ h1 {
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .img-btn {
   background: none;
@@ -148,12 +154,21 @@ h1 {
   width: auto;
   height: auto;
   gap: 0.25rem;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  touch-action: manipulation;
 }
 
 .img-btn img {
   width: 2rem;
   height: 2rem;
   display: block;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  pointer-events: none;
 }
 .highscore {
   display: flex;
