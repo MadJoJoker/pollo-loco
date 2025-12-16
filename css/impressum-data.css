@@ -35,7 +35,7 @@ body
   a:not(#start-header a):not(.carousel a):not(.carousel-link):not(
     [role="button"]
   ) {
-  color: var(--color-accent-solid);
+  color: rgb(140, 70, 15);
   text-decoration: underline;
   background: none !important;
   border: none !important;
@@ -49,7 +49,7 @@ body
   a:not(#start-header a):not(.carousel a):not(.carousel-link):not(
     [role="button"]
   ):hover {
-  color: var(--color-secondary);
+  color: rgb(70, 20, 18);
   background: none !important;
   border: none !important;
   text-decoration: underline;
@@ -57,22 +57,22 @@ body
 
 #start-header a {
   text-decoration: none;
-  color: var(--color-secondary);
+  color: rgb(255, 200, 100);
   background-color: var(--color-primary);
   font-size: var(--font-size-small);
   font-weight: bold;
   font-family: var(--font-family);
   padding: var(--spacing-sm);
   border-radius: var(--border-radius);
-  border: var(--color-secondary);
+  border: rgb(255, 200, 100);
   border-style: solid;
   border-width: var(--border-width);
   display: inline-block;
 }
 
 #start-header a:hover {
-  color: var(--color-accent);
-  background-color: var(--color-secondary);
+  color: rgb(255, 220, 120);
+  background-color: rgb(60, 20, 18);
   border: var(--color-border);
   border-style: solid;
   border-width: var(--border-width);

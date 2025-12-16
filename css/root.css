@@ -1,10 +1,10 @@
 :root {
   --color-primary: rgb(27, 11, 11);
-  --color-secondary: rgb(99, 33, 31);
+  --color-secondary: rgb(85, 25, 23);
   --color-tertiary: rgb(155, 52, 46);
-  --color-accent: rgba(204, 119, 34, 0.6);
-  --color-accent-solid: rgb(204, 119, 34);
-  --color-accent-light: rgba(204, 119, 34, 0.8);
+  --color-accent: rgba(204, 119, 34, 0.95);
+  --color-accent-solid: rgb(184, 95, 20);
+  --color-accent-light: rgba(204, 119, 34, 0.95);
   --color-accent-lighter: rgba(204, 119, 34, 0.4);
   --color-accent-dark: rgba(204, 119, 34, 0.3);
   --color-accent-transparent: rgba(204, 119, 34, 0.15);

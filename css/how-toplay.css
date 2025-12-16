@@ -69,7 +69,7 @@
 li {
   border: var(--border-solid-tertiary);
   border-radius: var(--border-radius);
-  color: var(--color-secondary);
+  color: rgb(70, 20, 18);
   background-color: var(--color-bg-light);
 }
 

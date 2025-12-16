@@ -102,8 +102,8 @@ body {
 #scoreboard-win h1,
 #scoreboard-gameover h1 {
   font-size: var(--font-size-xlarge);
-  color: var(--color-primary);
-  background-color: var(--color-accent);
+  color: rgb(20, 8, 8);
+  background-color: rgb(255, 200, 100);
   border-radius: var(--border-radius);
   padding: var(--spacing-xs);
   border: var(--border-solid);
@@ -184,18 +184,18 @@ body {
 
 a {
   text-decoration: none;
-  color: var(--color-secondary);
+  color: rgb(255, 200, 100);
   background-color: var(--color-primary);
   font-size: var(--font-size-small);
   font-weight: bold;
   font-family: var(--font-family);
   padding: var(--spacing-sm);
   border-radius: var(--border-radius);
-  border: var(--border-width) solid var(--color-secondary);
+  border: var(--border-width) solid rgb(255, 200, 100);
 
   &:hover {
-    color: var(--color-accent);
-    background-color: var(--color-secondary);
+    color: rgb(255, 220, 120);
+    background-color: rgb(60, 20, 18);
     border-color: var(--color-border);
   }
 }
@@ -276,13 +276,52 @@ h1 {
 
 .close-menu {
   position: absolute;
-  right: 38px;
-  top: 2px;
+  right: 20px;
+  top: 10px;
   border: none;
-  background: var(--color-transparent);
+  background: rgba(155, 52, 46, 0.3);
   color: var(--color-text-light);
-  font-size: 1.4rem;
-  cursor: pointer;
+  font-size: 1.8rem;
+  cursor: pointer !important;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  * {
+    pointer-events: none !important;
+    user-select: none;
+  }
+
+  &:hover {
+    background: rgb(204, 119, 34) !important;
+    color: rgb(27, 11, 11);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(204, 119, 34, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 .visually-hidden {

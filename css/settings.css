@@ -58,11 +58,11 @@
 
 #mute-control label {
   font-weight: bold;
-  color: var(--color-accent-solid);
+  color: rgb(140, 70, 15);
 }
 
 #mute-range {
-  accent-color: var(--color-accent-solid);
+  accent-color: rgb(140, 70, 15);
   width: 80px;
   height: 4px;
   border-radius: var(--border-radius-small);
@@ -72,6 +72,6 @@
 
 #mute-status {
   font-weight: bold;
-  color: var(--color-accent-solid);
+  color: rgb(140, 70, 15);
   padding-left: 8px;
 }
