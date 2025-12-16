@@ -100,13 +100,8 @@ const bottles = [
   new Bottle(),
   new Bottle(),
   new Bottle(),
-  new Bottle(),
-  new Bottle(),
-  new Bottle(),
-  new Bottle(),
-  new Bottle(),
-  new Bottle(),
- 
+
+
 ];
 const coins = Coin.randomArcCoins(3);
 

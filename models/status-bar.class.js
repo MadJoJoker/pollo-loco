@@ -80,15 +80,15 @@ class StatusBar extends DrawableObject {
    * @param {number} percentage - The percentage to display.
    */
   setPercentage(percentage) {
-    if (arguments.length > 1 && this.IMAGES_USED === this.IMAGES_BOTTLES) {
-      this.actualBottles = arguments[1];
-      this.percentage = Math.min(
-        100,
-        Math.round((this.actualBottles / 10) * 100)
-      );
-    } else {
-      this.percentage = percentage;
+    if (arguments.length > 1) {
+      if (this.IMAGES_USED === this.IMAGES_BOTTLES) {
+        this.actualBottles = arguments[1];
+      }
+      if (this.IMAGES_USED === this.IMAGES_COINS) {
+        this.actualCoins = arguments[1];
+      }
     }
+    this.percentage = percentage;
     let path = this.IMAGES_USED[this.resolveImageIndex()];
     this.loadImage(path);
   }
@@ -123,8 +123,15 @@ class StatusBar extends DrawableObject {
           : this.percentage;
       ctx.fillText(`${bottleCount}`, textX, textY);
     }
+    if (this.IMAGES_USED === this.IMAGES_COINS) {
+      let coinCount =
+        typeof this.actualCoins === "number"
+          ? this.actualCoins
+          : this.percentage;
+      ctx.fillText(`${coinCount}`, textX, textY);
+    }
     if (this.IMAGES_USED === this.IMAGES_ENDBOSS) {
-      ctx.fillText( textX, textY);
+      ctx.fillText(textX, textY);
     }
   }
 

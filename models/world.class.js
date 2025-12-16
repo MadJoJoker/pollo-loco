@@ -117,13 +117,20 @@ class World {
       if (this.isCollection(this.character, bottle)) {
         this.character.bottles += 1;
         this.level.bottles.splice(i, 1);
-        let percent = Math.min(
-          100,
-          Math.round((this.character.bottles / 10) * 100)
-        );
+        let percent = this.getBottlePercent();
         this.bottleBar.setPercentage(percent, this.character.bottles);
       }
     }
+  }
+
+  /** Calculates percentage of collected bottles. */
+  getBottlePercent() {
+    let collectedBottles = this.character.bottles;
+    let remainingBottles = this.level?.bottles?.length || 0;
+    let totalBottles = collectedBottles + remainingBottles;
+    return totalBottles > 0
+      ? Math.round((collectedBottles / totalBottles) * 100)
+      : 100;
   }
 
   /** Collects coins and updates coin bar. */
@@ -135,7 +142,7 @@ class World {
         this.character.coins += 1;
         this.level.coins.splice(i, 1);
         let percent = this.getCoinPercent();
-        this.coinBar.setPercentage(percent);
+        this.coinBar.setPercentage(percent, this.character.coins);
       }
     }
   }
@@ -143,8 +150,11 @@ class World {
   /** Calculates percentage of collected coins. */
   getCoinPercent() {
     let collectedCoins = this.character.coins;
-    let totalCoins = collectedCoins + (this.level?.coins?.length || 0);
-    return totalCoins > 0 ? Math.round((collectedCoins / totalCoins) * 100) : 0;
+    let remainingCoins = this.level?.coins?.length || 0;
+    let totalCoins = collectedCoins + remainingCoins;
+    return totalCoins > 0
+      ? Math.round((collectedCoins / totalCoins) * 100)
+      : 100;
   }
 
   /** Checks if character is colliding with collectible. */
@@ -162,6 +172,7 @@ class World {
       ) {
         if (this.isJumpHit(enemy)) {
           enemy.hitByJump();
+          this.character.lastJumpHitTime = window.getGameTime();
         } else {
           this.handleEnemyCollision(enemy);
         }
@@ -178,14 +189,25 @@ class World {
     );
   }
 
-  /** Checks if character hits enemy by jumping. */
+  /** Checks if character hits enemy by jumping from above. */
   isJumpHit(enemy) {
+    const isFalling = this.character.speedY < 0;
+    const characterBottom = this.character.y + this.character.height;
+    const enemyTop = enemy.y;
+    const isComingFromAbove = characterBottom < enemyTop + enemy.height * 0.6;
+    const currentTime = window.getGameTime();
+    const jumpCooldown = 500;
+    const canHitAgain =
+      currentTime - this.character.lastJumpHitTime > jumpCooldown;
+
     return (
       typeof this.character.isAboveGround === "function" &&
       this.character.isAboveGround() &&
-      (enemy instanceof Chicken || enemy instanceof ChickenSmall) &&
+      isFalling &&
+      isComingFromAbove &&
       typeof enemy.hitByJump === "function" &&
-      !enemy.isDeadNow
+      !enemy.isDeadNow &&
+      canHitAgain
     );
   }
 
@@ -204,8 +226,17 @@ class World {
   /** Handles character-enemy collision. */
   handleEnemyCollision(enemy) {
     if (enemy.isDeadNow) return;
+
+    const currentTime = window.getGameTime();
+    const enemyHitCooldown = 1000;
+    const canTakeDamage =
+      currentTime - this.character.lastEnemyHitTime > enemyHitCooldown;
+
+    if (!canTakeDamage) return;
+
     this.character.isHurt();
     this.character.hit();
+    this.character.lastEnemyHitTime = currentTime;
     this.healthBar.setPercentage(this.character.energy);
   }
 

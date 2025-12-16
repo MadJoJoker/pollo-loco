@@ -8,6 +8,8 @@ class Character extends MovableObject {
   animationSpeed = 70;
   damage = 10;
   lastAttack = 0;
+  lastJumpHitTime = 0;
+  lastEnemyHitTime = 0;
   bottles = 0;
   coins = 0;
   throwBottles = [];

@@ -4,11 +4,13 @@
  * @extends MovableObject
  */
 class Endboss extends MovableObject {
-  height = 400;
-  width = 250;
-  y = 60;
+  height = 350;
+  width = 200;
+  y = 100;
   x;
   energy = 100;
+  jumpHits = 0;
+  maxJumpHits = 5;
   isRemoved = false;
   isHurtNow = false;
   deadAnimationTimeout = null;
@@ -279,7 +281,7 @@ class Endboss extends MovableObject {
    * @param {ThrowableObject} bottle - The bottle object that hit the endboss.
    */
   hitByBottle(bottle) {
-    this.energy -= 15;
+    this.energy -= 5;
     this.isHurtNow = true;
     this.playAnimation(this.IMAGES_HURT);
     const target = window.getGameTime() + 400;
@@ -298,6 +300,50 @@ class Endboss extends MovableObject {
     if (this.energy <= 0) {
       this.isDeadNow = true;
       this.playAnimation(this.IMAGES_DEAD);
+    }
+  }
+
+  /**
+   * Handles logic when the endboss is hit by jumping from above.
+   * Requires 5 hits to kill the endboss.
+   */
+  hitByJump() {
+    this.jumpHits++;
+    const damagePerHit = 100 / this.maxJumpHits;
+    this.energy -= damagePerHit;
+
+    this.isHurtNow = true;
+    this.playAnimation(this.IMAGES_HURT);
+
+    if (this.hurtAudio) {
+      this.hurtAudio.currentTime = 0;
+      this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
+      this.hurtAudio.play();
+    }
+
+    const target = window.getGameTime() + 400;
+    const unregister = window.registerGameLoop((gameTime) => {
+      if (gameTime >= target) {
+        this.isHurtNow = false;
+        if (typeof this.setRandomAction === "function") {
+          this.setRandomAction();
+        }
+        unregister();
+      }
+    });
+
+    if (this.world && this.world.endbossBar) {
+      this.world.endbossBar.setPercentage(this.energy);
+    }
+
+    if (this.jumpHits >= this.maxJumpHits || this.energy <= 0) {
+      this.isDeadNow = true;
+      this.playAnimation(this.IMAGES_DEAD);
+      if (this.deathAudio) {
+        this.deathAudio.currentTime = 0;
+        this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
+        this.deathAudio.play();
+      }
     }
   }
 }
