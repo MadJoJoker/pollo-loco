@@ -5,7 +5,7 @@ class Character extends MovableObject {
   y = 180;
   x = 10;
   speed = 10;
-  animationSpeed = 50;
+  animationSpeed = 70;
   damage = 10;
   lastAttack = 0;
   bottles = 0;
@@ -117,8 +117,8 @@ class Character extends MovableObject {
     const walkInterval = this.animationSpeed;
     const jumpInterval = 80;
     const idleAnimInterval = 120;
-    let isWalking = false;
-    let isJumping = false;
+    let wasWalking = false;
+    let wasJumping = false;
     this._unregisterGameLoop = window.registerGameLoop((gameTime) => {
       if (gameTime - this.lastActionTick >= actionInterval) {
         const actionHappened = this.handleActions(canThrowBottle);
@@ -126,12 +126,18 @@ class Character extends MovableObject {
         if (actionHappened) idleStartTime = gameTime;
         this.lastActionTick = gameTime;
       }
+      let isWalking = false;
+      let isJumping = false;
       if (
         (this.shouldMoveLeft() || this.shouldMoveRight()) &&
         !this.isAboveGround()
       ) {
+        if (!wasWalking) {
+          this.walkAnimFrame = 0;
+          this.img = this.imageCache[this.IMAGES_WALKING[0]];
+          this.lastWalkTick = gameTime;
+        }
         isWalking = true;
-        isJumping = false;
         if (gameTime - this.lastWalkTick >= walkInterval) {
           this.walkAnimFrame =
             (this.walkAnimFrame + 1) % this.IMAGES_WALKING.length;
@@ -140,17 +146,15 @@ class Character extends MovableObject {
         }
       } else if (this.isAboveGround()) {
         isJumping = true;
-        isWalking = false;
         if (gameTime - this.lastJumpTick >= jumpInterval) {
           this.jumpAnimFrame =
             (this.jumpAnimFrame + 1) % this.IMAGES_JUMPING.length;
           this.img = this.imageCache[this.IMAGES_JUMPING[this.jumpAnimFrame]];
           this.lastJumpTick = gameTime;
         }
-      } else {
-        isWalking = false;
-        isJumping = false;
       }
+      wasWalking = isWalking;
+      wasJumping = isJumping;
       if (!isWalking && !isJumping && !this.isDead() && !this.isHurt()) {
         if (gameTime - this.lastIdleTick >= idleInterval) {
           this.handleIdle(idleStartTime, gameTime, {
@@ -240,13 +244,11 @@ class Character extends MovableObject {
     if (this.shouldMoveRight()) {
       this.moveRight();
       this.otherDirection = false;
-      this.playAnimation(this.IMAGES_WALKING);
       isMoving = true;
     }
     if (this.shouldMoveLeft()) {
       this.moveLeft();
       this.otherDirection = true;
-      this.playAnimation(this.IMAGES_WALKING);
       isMoving = true;
     }
 
