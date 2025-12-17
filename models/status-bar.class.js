@@ -131,7 +131,7 @@ class StatusBar extends DrawableObject {
       ctx.fillText(`${coinCount}`, textX, textY);
     }
     if (this.IMAGES_USED === this.IMAGES_ENDBOSS) {
-      ctx.fillText(textX, textY);
+      ctx.fillText(`${this.percentage}%`, textX, textY);
     }
   }
 
