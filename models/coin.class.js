@@ -13,7 +13,7 @@ class Coin extends CollectibleObject {
     "/assets/img/8_coin/coin_1.png",
     "/assets/img/8_coin/coin_2.png",
   ];
-  offset = { top: 60, bottom: 60, left: 65, right: 65 };
+  offset = { top: 50, bottom: 50, left: 55, right: 55 };
 
   /**
    * Creates a new Coin instance and initializes its position and animation.
