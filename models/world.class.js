@@ -195,10 +195,6 @@ class World {
     const characterBottom = this.character.y + this.character.height;
     const enemyTop = enemy.y;
     const isComingFromAbove = characterBottom < enemyTop + enemy.height * 0.6;
-    const currentTime = window.getGameTime();
-    const jumpCooldown = 500;
-    const canHitAgain =
-      currentTime - this.character.lastJumpHitTime > jumpCooldown;
 
     return (
       typeof this.character.isAboveGround === "function" &&
@@ -206,8 +202,7 @@ class World {
       isFalling &&
       isComingFromAbove &&
       typeof enemy.hitByJump === "function" &&
-      !enemy.isDeadNow &&
-      canHitAgain
+      !enemy.isDeadNow
     );
   }
 
