@@ -46,9 +46,12 @@ window.initCarousel = function () {
   let autoplayActive = true;
   let autoplayInterval = 2000;
   let unregisterAutoplay = null;
-  
+
   // Only use game loop if available (interval-helper.js loaded)
-  if (typeof window.getGameTime === 'function' && typeof window.registerGameLoop === 'function') {
+  if (
+    typeof window.getGameTime === "function" &&
+    typeof window.registerGameLoop === "function"
+  ) {
     let lastAutoplayTick = window.getGameTime();
     unregisterAutoplay = window.registerGameLoop((gameTime) => {
       if (!autoplayActive) return;
@@ -72,7 +75,7 @@ window.initCarousel = function () {
         scrollCarousel(1);
       }
     }, autoplayInterval);
-    
+
     const carouselElem = document.querySelector(".carousel");
     carouselElem.addEventListener("mouseenter", () => {
       autoplayActive = false;
@@ -80,7 +83,7 @@ window.initCarousel = function () {
     carouselElem.addEventListener("mouseleave", () => {
       autoplayActive = true;
     });
-    
+
     unregisterAutoplay = () => clearInterval(intervalId);
   }
 
