@@ -79,30 +79,43 @@
   const menuBackdrop = document.getElementById("menu-backdrop");
 
   function openMenu() {
-    menuOverlay.classList.remove("overlay-hidden");
-    menuOverlay.classList.add("overlay-visible");
-    menuOverlay.setAttribute("aria-hidden", "false");
-    revolverBtn.setAttribute("aria-expanded", "true");
+    if (menuOverlay && revolverBtn) {
+      menuOverlay.classList.remove("overlay-hidden");
+      menuOverlay.classList.add("overlay-visible");
+      menuOverlay.setAttribute("aria-hidden", "false");
+      revolverBtn.setAttribute("aria-expanded", "true");
+    }
   }
 
   function closeMenu() {
-    menuOverlay.classList.remove("overlay-visible");
-    menuOverlay.classList.add("overlay-hidden");
-    menuOverlay.setAttribute("aria-hidden", "true");
-    revolverBtn.setAttribute("aria-expanded", "false");
+    if (menuOverlay && revolverBtn) {
+      menuOverlay.classList.remove("overlay-visible");
+      menuOverlay.classList.add("overlay-hidden");
+      menuOverlay.setAttribute("aria-hidden", "true");
+      revolverBtn.setAttribute("aria-expanded", "false");
+    }
   }
 
-  revolverBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    openMenu();
-  });
+  if (revolverBtn) {
+    revolverBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openMenu();
+    });
+  }
 
-  closeMenuBtn.addEventListener("click", closeMenu);
-  menuBackdrop.addEventListener("click", closeMenu);
+  if (closeMenuBtn) {
+    closeMenuBtn.addEventListener("click", closeMenu);
+  }
 
-  menuOverlay.addEventListener("click", (e) => {
-    if (e.target === menuOverlay) closeMenu();
-  });
+  if (menuBackdrop) {
+    menuBackdrop.addEventListener("click", closeMenu);
+  }
+
+  if (menuOverlay) {
+    menuOverlay.addEventListener("click", (e) => {
+      if (e.target === menuOverlay) closeMenu();
+    });
+  }
 </script>
 <script src="/js/main-menu-carousel.js"></script>
 
