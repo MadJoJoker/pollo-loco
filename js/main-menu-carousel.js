@@ -44,23 +44,45 @@ window.initCarousel = function () {
   });
 
   let autoplayActive = true;
-  let lastAutoplayTick = window.getGameTime();
-  const autoplayInterval = 2000;
-  const unregisterAutoplay = window.registerGameLoop((gameTime) => {
-    if (!autoplayActive) return;
-    if (gameTime - lastAutoplayTick >= autoplayInterval) {
-      scrollCarousel(1);
-      lastAutoplayTick = gameTime;
-    }
-  });
-  const carouselElem = document.querySelector(".carousel");
-  carouselElem.addEventListener("mouseenter", () => {
-    autoplayActive = false;
-  });
-  carouselElem.addEventListener("mouseleave", () => {
-    autoplayActive = true;
-    lastAutoplayTick = window.getGameTime();
-  });
+  let autoplayInterval = 2000;
+  let unregisterAutoplay = null;
+  
+  // Only use game loop if available (interval-helper.js loaded)
+  if (typeof window.getGameTime === 'function' && typeof window.registerGameLoop === 'function') {
+    let lastAutoplayTick = window.getGameTime();
+    unregisterAutoplay = window.registerGameLoop((gameTime) => {
+      if (!autoplayActive) return;
+      if (gameTime - lastAutoplayTick >= autoplayInterval) {
+        scrollCarousel(1);
+        lastAutoplayTick = gameTime;
+      }
+    });
+    const carouselElem = document.querySelector(".carousel");
+    carouselElem.addEventListener("mouseenter", () => {
+      autoplayActive = false;
+    });
+    carouselElem.addEventListener("mouseleave", () => {
+      autoplayActive = true;
+      lastAutoplayTick = window.getGameTime();
+    });
+  } else {
+    // Fallback to setInterval if game loop not available
+    let intervalId = setInterval(() => {
+      if (autoplayActive) {
+        scrollCarousel(1);
+      }
+    }, autoplayInterval);
+    
+    const carouselElem = document.querySelector(".carousel");
+    carouselElem.addEventListener("mouseenter", () => {
+      autoplayActive = false;
+    });
+    carouselElem.addEventListener("mouseleave", () => {
+      autoplayActive = true;
+    });
+    
+    unregisterAutoplay = () => clearInterval(intervalId);
+  }
 
   updateCarousel();
   return unregisterAutoplay;

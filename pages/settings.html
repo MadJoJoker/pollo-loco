@@ -37,16 +37,20 @@
         <span id="mute-status">Sound Off</span>
       </div>
       <script>
-        const muteRange = document.getElementById("mute-range");
-        const muteStatus = document.getElementById("mute-status");
+        (function() {
+          const muteRange = document.getElementById("mute-range");
+          const muteStatus = document.getElementById("mute-status");
 
-        muteRange.addEventListener("input", function () {
-          if (muteRange.value == "1") {
-            muteStatus.textContent = "Sound off";
-          } else {
-            muteStatus.textContent = "Sound on";
+          if (muteRange) {
+            muteRange.addEventListener("input", function () {
+              if (muteRange.value == "1") {
+                muteStatus.textContent = "Sound off";
+              } else {
+                muteStatus.textContent = "Sound on";
+              }
+            });
           }
-        });
+        })();
       </script>
     </div>
 
