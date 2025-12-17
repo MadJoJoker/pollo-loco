@@ -29,12 +29,14 @@ ul {
   line-height: 1.8;
   letter-spacing: 0.3px;
   margin-bottom: var(--spacing-lg);
-  text-align: left;
+  text-align: center;
+  padding: 0 var(--spacing-sm);
 }
 
 ul {
   list-style: none;
-  padding-left: 0;
+  padding-left: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
 }
 
 h1 {
@@ -186,9 +188,10 @@ body
 .content-container {
   max-width: var(--max-width);
   margin: 20px auto 0;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   width: 100%;
   box-sizing: border-box;
+  text-align: center;
 }
 
 @media only screen and (max-width: 720px), (max-height: 720px) {
