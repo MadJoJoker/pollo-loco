@@ -23,7 +23,6 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/2_walk/W-23.png",
     "/assets/img/2_character_pepe/2_walk/W-24.png",
     "/assets/img/2_character_pepe/2_walk/W-25.png",
-    "/assets/img/2_character_pepe/2_walk/W-26.png",
   ];
   IMAGES_JUMPING = [
     "/assets/img/2_character_pepe/3_jump/J-31.png",
@@ -135,8 +134,6 @@ class Character extends MovableObject {
         !this.isAboveGround()
       ) {
         if (!wasWalking) {
-          this.walkAnimFrame = 0;
-          this.img = this.imageCache[this.IMAGES_WALKING[0]];
           this.lastWalkTick = gameTime;
         }
         isWalking = true;
