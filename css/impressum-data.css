@@ -1,10 +1,7 @@
 html {
-  max-width: var(--max-width);
-  margin: auto;
-  padding: var(--spacing-md);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   color: var(--color-primary);
   font-family: var(--font-family);
   font-size: larger;
@@ -12,11 +9,14 @@ html {
 }
 
 body {
+  width: 100%;
   min-height: 100vh;
   text-align: center;
-  padding: 15px;
+  padding: 0;
   font-size: medium;
   overflow: auto !important;
+  margin: 0;
+  background-color: var(--color-bg-light-transparent);
 }
 
 ul {
@@ -28,7 +28,26 @@ h1,
 h2,
 h3 {
   background-color: var(--color-accent-lighter);
-  border-radius: var(--border-radius);
+  border-radius: 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+}
+
+h1 > *,
+h2 > *,
+h3 > *,
+h1::before,
+h2::before,
+h3::before {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: block;
 }
 
 body
@@ -84,13 +103,25 @@ body
   left: 0;
   top: 0;
   right: 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   background-color: var(--color-bg-dark-transparent);
   border-bottom: var(--border-solid-tertiary);
-  border-radius: var(--border-radius);
+  border-radius: 0;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   min-height: 60px;
+  padding: 0 var(--spacing-md);
+}
+
+#start-header > a,
+#start-header > nav {
+  max-width: calc(var(--max-width) / 3);
 }
 
 .carousel button {
@@ -101,8 +132,11 @@ body
 }
 
 .content-container {
-  margin-top: 20px;
+  max-width: var(--max-width);
+  margin: 20px auto 0;
   padding: var(--spacing-md);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media only screen and (max-width: 720px), (max-height: 720px) {
