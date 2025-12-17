@@ -65,8 +65,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: 600px;
-  height: 500px;
+  width: 720px;
+  height: 650px;
   position: absolute;
   z-index: var(--z-index-base);
   left: var(--position-center);
@@ -76,6 +76,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 60px 50px 40px;
+  box-sizing: border-box;
   transition: width var(--transition-standard),
     height var(--transition-standard), top var(--transition-standard),
     left var(--transition-standard);
@@ -153,7 +155,7 @@ body {
 
 #start-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   background-color: var(--color-accent-dark);
   border-radius: var(--border-radius);

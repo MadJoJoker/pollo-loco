@@ -19,6 +19,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   position: relative;
+  width: 80%;
+  max-width: 80%;
 }
 
 .scoreboard-columns ul {
@@ -71,6 +73,9 @@ li {
   border-radius: var(--border-radius);
   color: rgb(70, 20, 18);
   background-color: var(--color-bg-light);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 1290px) and (max-height: 800px) {
