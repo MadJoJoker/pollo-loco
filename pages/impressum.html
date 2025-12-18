@@ -73,49 +73,55 @@
   loadCarousel();
   document.addEventListener("spa:render", loadCarousel);
 
-  const revolverBtn = document.getElementById("revolver-btn");
-  const menuOverlay = document.getElementById("menu-overlay");
-  const closeMenuBtn = document.getElementById("close-menu");
-  const menuBackdrop = document.getElementById("menu-backdrop");
+  function initMenuEventListeners() {
+    const revolverBtn = document.getElementById("revolver-btn");
+    const menuOverlay = document.getElementById("menu-overlay");
+    const closeMenuBtn = document.getElementById("close-menu");
+    const menuBackdrop = document.getElementById("menu-backdrop");
 
-  function openMenu() {
-    if (menuOverlay && revolverBtn) {
-      menuOverlay.classList.remove("overlay-hidden");
-      menuOverlay.classList.add("overlay-visible");
-      menuOverlay.setAttribute("aria-hidden", "false");
-      revolverBtn.setAttribute("aria-expanded", "true");
+    function openMenu() {
+      if (menuOverlay && revolverBtn) {
+        menuOverlay.classList.remove("overlay-hidden");
+        menuOverlay.classList.add("overlay-visible");
+        menuOverlay.setAttribute("aria-hidden", "false");
+        revolverBtn.setAttribute("aria-expanded", "true");
+      }
+    }
+
+    function closeMenu() {
+      if (menuOverlay && revolverBtn) {
+        menuOverlay.classList.remove("overlay-visible");
+        menuOverlay.classList.add("overlay-hidden");
+        menuOverlay.setAttribute("aria-hidden", "true");
+        revolverBtn.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    if (revolverBtn) {
+      revolverBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openMenu();
+      });
+    }
+
+    if (closeMenuBtn) {
+      closeMenuBtn.addEventListener("click", closeMenu);
+    }
+
+    if (menuBackdrop) {
+      menuBackdrop.addEventListener("click", closeMenu);
+    }
+
+    if (menuOverlay) {
+      menuOverlay.addEventListener("click", (e) => {
+        if (e.target === menuOverlay) closeMenu();
+      });
     }
   }
 
-  function closeMenu() {
-    if (menuOverlay && revolverBtn) {
-      menuOverlay.classList.remove("overlay-visible");
-      menuOverlay.classList.add("overlay-hidden");
-      menuOverlay.setAttribute("aria-hidden", "true");
-      revolverBtn.setAttribute("aria-expanded", "false");
-    }
-  }
-
-  if (revolverBtn) {
-    revolverBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      openMenu();
-    });
-  }
-
-  if (closeMenuBtn) {
-    closeMenuBtn.addEventListener("click", closeMenu);
-  }
-
-  if (menuBackdrop) {
-    menuBackdrop.addEventListener("click", closeMenu);
-  }
-
-  if (menuOverlay) {
-    menuOverlay.addEventListener("click", (e) => {
-      if (e.target === menuOverlay) closeMenu();
-    });
-  }
+  // Initialisiere EventListener beim ersten Laden und bei jedem SPA-Seitenwechsel
+  initMenuEventListeners();
+  document.addEventListener("spa:render", initMenuEventListeners);
 </script>
 <script src="/js/main-menu-carousel.js"></script>
 
