@@ -11,6 +11,8 @@ class World {
   coinBar = new StatusBar(10, 30, 100, 40, "coin");
   endbossBar = new StatusBar(600, 0, 100, 40, "endboss");
   effects = [];
+  maxBottles = 0;
+  maxCoins = 0;
 
   constructor(canvas, keyboard) {
     this.canvas = canvas;
@@ -24,6 +26,8 @@ class World {
 
   /** Initializes status bars. */
   initStatusBars() {
+    this.maxBottles = this.level?.bottles?.length || 0;
+    this.maxCoins = this.level?.coins?.length || 0;
     this.healthBar.setPercentage(100);
     this.bottleBar.setPercentage(0);
     this.coinBar.setPercentage(0);
@@ -126,11 +130,9 @@ class World {
   /** Calculates percentage of collected bottles. */
   getBottlePercent() {
     let collectedBottles = this.character.bottles;
-    let remainingBottles = this.level?.bottles?.length || 0;
-    let totalBottles = collectedBottles + remainingBottles;
-    return totalBottles > 0
-      ? Math.round((collectedBottles / totalBottles) * 100)
-      : 100;
+    return this.maxBottles > 0
+      ? Math.round((collectedBottles / this.maxBottles) * 100)
+      : 0;
   }
 
   /** Collects coins and updates coin bar. */
@@ -150,11 +152,9 @@ class World {
   /** Calculates percentage of collected coins. */
   getCoinPercent() {
     let collectedCoins = this.character.coins;
-    let remainingCoins = this.level?.coins?.length || 0;
-    let totalCoins = collectedCoins + remainingCoins;
-    return totalCoins > 0
-      ? Math.round((collectedCoins / totalCoins) * 100)
-      : 100;
+    return this.maxCoins > 0
+      ? Math.round((collectedCoins / this.maxCoins) * 100)
+      : 0;
   }
 
   /** Checks if character is colliding with collectible. */

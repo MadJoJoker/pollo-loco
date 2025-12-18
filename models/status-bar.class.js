@@ -137,14 +137,16 @@ class StatusBar extends DrawableObject {
 
   /**
    * Resolves the image index to use based on the current percentage.
-   * @returns {number} The index of the image to display.
+   * Maps to image states: 0%, 20%, 40%, 60%, 80%, 100%
+   * @returns {number} The index of the image to display (0-5).
    */
   resolveImageIndex() {
-    if (this.percentage === 100) return 5;
-    if (this.percentage > 70) return 4;
-    if (this.percentage > 50) return 3;
-    if (this.percentage > 25) return 2;
-    if (this.percentage > 5) return 1;
-    return 0;
+    if (this.percentage === 100) return 5; // 100%
+    if (this.percentage >= 80) return 4; // 80%
+    if (this.percentage >= 60) return 3; // 60%
+    if (this.percentage >= 40) return 2; // 40%
+    if (this.percentage >= 20) return 1; // 20%
+    if (this.percentage > 0) return 1; // 20%
+    return 0; // 0%
   }
 }

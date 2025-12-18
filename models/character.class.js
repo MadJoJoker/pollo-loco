@@ -320,7 +320,8 @@ class Character extends MovableObject {
   /** Updates bottle bar UI. */
   updateBottleBar() {
     if (this.world?.bottleBar) {
-      this.world.bottleBar.setPercentage(this.bottles, this.bottles);
+      let percent = this.world.getBottlePercent();
+      this.world.bottleBar.setPercentage(percent, this.bottles);
     }
   }
 

@@ -55,17 +55,17 @@ class Coin extends CollectibleObject {
   /**
    * Generates coins placed along random parabolic arcs.
    * @param {number} [arcs=3] - Number of arcs to generate.
+   * @param {number} [coinsPerArc=5] - Fixed number of coins per arc.
    * @returns {Coin[]} Array of Coin instances placed along arcs.
    */
-  static randomArcCoins(arcs = 3) {
+  static randomArcCoins(arcs = 3, coinsPerArc = 5) {
     const coins = [];
     function randomArcParams() {
       const startX = 50 + Math.random() * 3500;
       const endX = startX + 400 + Math.random() * 400;
       const peakY = 50 + Math.random() * 40;
       const baseY = 140 + Math.random() * 40;
-      const count = 1 + Math.floor(Math.random() * 5);
-      return { startX, endX, peakY, baseY, count };
+      return { startX, endX, peakY, baseY, count: coinsPerArc };
     }
     for (let arc = 0; arc < arcs; arc++) {
       const params = randomArcParams();
