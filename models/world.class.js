@@ -260,7 +260,7 @@ class World {
   /** Updates camera position based on character. */
   updateCamera() {
     const minCameraX = 0;
-    const maxCameraX = 719 * 2;
+    const maxCameraX = 719 * 5;
     if (this.character && typeof this.character.x === "number") {
       let targetX = this.character.x - 120;
       this.camera_x = Math.max(minCameraX, Math.min(targetX, maxCameraX));
@@ -332,10 +332,15 @@ class World {
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
-    if (
-      this.level?.level_end_x &&
-      this.character.x > this.level.level_end_x - 900
-    ) {
+
+    // Show endboss healthbar when activated or character in range
+    const endboss = this.level?.enemies?.find((e) => e instanceof Endboss);
+    const shouldShowEndbossBar =
+      (this.level?.level_end_x &&
+        this.character.x > this.level.level_end_x - 1400) ||
+      (endboss && endboss.isActivated);
+
+    if (shouldShowEndbossBar) {
       this.addToMap(this.endbossBar);
     }
   }

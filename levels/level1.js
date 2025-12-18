@@ -15,6 +15,27 @@ const backgroundObjects = [
     0,
     0
   ),
+  new BackgroundObject(
+    "assets/img/5_background/layers/air.png",
+    719 * 3,
+    0,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "assets/img/5_background/layers/air.png",
+    719 * 4,
+    0,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "assets/img/5_background/layers/air.png",
+    719 * 5,
+    0,
+    0,
+    0
+  ),
   //SChicht 3
   new BackgroundObject(
     "/assets/img/5_background/layers/3_third_layer/1.png",
@@ -39,6 +60,27 @@ const backgroundObjects = [
     0,
     0
   ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/3_third_layer/2.png",
+    719 * 3,
+    0,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/3_third_layer/1.png",
+    719 * 4,
+    0,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/3_third_layer/2.png",
+    719 * 5,
+    0,
+    0,
+    0
+  ),
   //SChicht 2
   new BackgroundObject(
     "/assets/img/5_background/layers/2_second_layer/1.png",
@@ -57,6 +99,27 @@ const backgroundObjects = [
   new BackgroundObject(
     "/assets/img/5_background/layers/2_second_layer/1.png",
     719 * 2,
+    30,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/2_second_layer/2.png",
+    719 * 3,
+    30,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/2_second_layer/1.png",
+    719 * 4,
+    30,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/2_second_layer/2.png",
+    719 * 5,
     30,
     0,
     0
@@ -85,22 +148,66 @@ const backgroundObjects = [
     0,
     0
   ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/1_first_layer/2.png",
+    719 * 3,
+    80,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/1_first_layer/1.png",
+    719 * 4,
+    80,
+    0,
+    0
+  ),
+  new BackgroundObject(
+    "/assets/img/5_background/layers/1_first_layer/2.png",
+    719 * 5,
+    80,
+    0,
+    0
+  ),
 ];
 const enemies = [
   new Chicken(),
   new Chicken(),
   new Chicken(),
-  new ChickenSmall(),
-  new ChickenSmall(),
-  new ChickenSmall(),
   new Chicken(),
   new Chicken(),
   new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
   new ChickenSmall(),
   new ChickenSmall(),
   new ChickenSmall(),
 ];
-const clouds = [new Cloud(), new Cloud(), new Cloud()];
+const clouds = [
+  new Cloud(),
+  new Cloud(),
+  new Cloud(),
+  new Cloud(),
+  new Cloud(),
+  new Cloud(),
+];
 const bottles = [
   new Bottle(),
   new Bottle(),
@@ -114,8 +221,20 @@ const bottles = [
   new Bottle(),
   new Bottle(),
   new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
 ];
-const coins = Coin.randomArcCoins(3);
+const coins = Coin.randomArcCoins(6);
 
 const level1 = new Level(enemies, clouds, backgroundObjects, bottles, coins);
 

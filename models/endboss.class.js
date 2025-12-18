@@ -19,6 +19,7 @@ class Endboss extends MovableObject {
   isAttacking = false;
   isDeadNow = false;
   shouldMoveRight = false;
+  isActivated = false;
   _appearSoundPlayed = false;
   _deathSoundPlayed = false;
 
@@ -72,7 +73,7 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
-    this.x = 1900;
+    this.x = level_end_x - 500;
     this.level = level;
     this.level_end_x = level_end_x;
     this.setRandomAction();
@@ -210,15 +211,20 @@ class Endboss extends MovableObject {
     const inRange =
       this.world &&
       this.world.character &&
-      this.world.character.x >= this.level_end_x - 710;
-    if (inRange && this.isAttacking) {
+      this.world.character.x >= this.level_end_x - 1400;
+
+    // Activate endboss permanently once character comes into range
+    if (inRange && !this.isActivated) {
+      this.isActivated = true;
+    }
+
+    // Execute actions when endboss is activated
+    if (this.isActivated && this.isAttacking) {
       this.handleAttack();
     }
-    if (inRange && this.isWalking) {
-      this.handleWalk();
-    } else if (this.shouldMoveRight) {
-      this.handleMoveRight();
-    } else if (inRange) {
+    if (this.isActivated && this.isWalking) {
+      this.handleWalkTowardsCharacter();
+    } else if (this.isActivated && !this.isWalking && !this.isAttacking) {
       this.handleAlert();
     }
   }
@@ -238,24 +244,55 @@ class Endboss extends MovableObject {
   }
 
   /**
+   * Handles the endboss's walking animation and movement towards the character.
+   */
+  handleWalkTowardsCharacter() {
+    if (!this.world || !this.world.character) return;
+
+    const characterX = this.world.character.x;
+    const distanceToCharacter = characterX - this.x;
+    const minX = 0;
+    const maxX = this.level_end_x;
+
+    // Move towards character across entire level
+    if (distanceToCharacter < -50 && this.x > minX) {
+      // Character is left of endboss - move left
+      this.otherDirection = false;
+      this.moveLeft();
+      this.playAnimation(this.IMAGES_WALKING);
+      this.x -= 18;
+    } else if (distanceToCharacter > 50 && this.x < maxX) {
+      // Character is right of endboss - move right
+      this.otherDirection = true;
+      this.moveRight();
+      this.playAnimation(this.IMAGES_WALKING);
+      this.x += 18;
+    }
+  }
+
+  /**
    * Handles the endboss's walking animation and movement.
    */
   handleWalk() {
-    this.otherDirection = false;
-    this.moveLeft();
-    this.playAnimation(this.IMAGES_WALKING);
-    this.x -= 10;
-    this.shouldMoveRight = true;
+    const minX = this.level_end_x - 1200;
+    if (this.x > minX) {
+      this.otherDirection = false;
+      this.moveLeft();
+      this.playAnimation(this.IMAGES_WALKING);
+      this.x -= 18;
+      this.shouldMoveRight = true;
+    }
   }
 
   /**
    * Handles the endboss's movement to the right.
    */
   handleMoveRight() {
-    if (this.x + 10 < 1900) {
+    const maxX = this.level_end_x - 500;
+    if (this.x + 18 < maxX) {
       this.otherDirection = true;
       this.moveRight();
-      this.x += 10;
+      this.x += 18;
     } else {
       this.shouldMoveRight = false;
     }
