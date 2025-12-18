@@ -72,7 +72,24 @@ class MovableObject extends DrawableObject {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = "2";
-    ctx.strokeStyle = "rgba(0,0,0,0)";
+    
+    // Unterschiedliche Farben für verschiedene Objekttypen
+    if (this instanceof Character) {
+      ctx.strokeStyle = "rgba(0, 255, 0, 0.8)"; // Grün für Character
+    } else if (this instanceof Endboss) {
+      ctx.strokeStyle = "rgba(255, 0, 0, 0.8)"; // Rot für Endboss
+    } else if (this instanceof Chicken) {
+      ctx.strokeStyle = "rgba(255, 165, 0, 0.8)"; // Orange für Chicken
+    } else if (this instanceof ChickenSmall) {
+      ctx.strokeStyle = "rgba(255, 255, 0, 0.8)"; // Gelb für ChickenSmall
+    } else if (this instanceof Bottle) {
+      ctx.strokeStyle = "rgba(0, 0, 255, 0.8)"; // Blau für Bottle
+    } else if (this instanceof Coin) {
+      ctx.strokeStyle = "rgba(255, 215, 0, 0.8)"; // Gold für Coin
+    } else {
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.8)"; // Weiß für andere
+    }
+    
     ctx.rect(
       this.x + this.offset.left,
       this.y + this.offset.top,

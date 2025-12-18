@@ -36,7 +36,7 @@ class Chicken extends MovableObject {
     this.deathAudio = new Audio("/assets/audio/chicken-noise-196746.mp3");
   }
   offset = {
-    top: 20,
+    top: 10,
     bottom: 10,
     left: 10,
     right: 10,

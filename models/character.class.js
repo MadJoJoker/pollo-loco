@@ -23,6 +23,7 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/2_walk/W-23.png",
     "/assets/img/2_character_pepe/2_walk/W-24.png",
     "/assets/img/2_character_pepe/2_walk/W-25.png",
+    "/assets/img/2_character_pepe/2_walk/W-26.png",
   ];
   IMAGES_JUMPING = [
     "/assets/img/2_character_pepe/3_jump/J-31.png",
@@ -74,7 +75,7 @@ class Character extends MovableObject {
     "/assets/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  offset = { top: 130, bottom: 10, left: 35, right: 55 };
+  offset = { top: 100, bottom: 10, left: 35, right: 45 };
 
   constructor(world) {
     super().loadImage("/assets/img/2_character_pepe/2_walk/W-21.png");
