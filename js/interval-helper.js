@@ -132,7 +132,20 @@ window.addEventListener("DOMContentLoaded", function () {
   if (muteValue !== null && muteRange) {
     muteRange.value = muteValue;
   }
+
+  // Setze Mute-Status für alle Audios
   setMuteForAllAudios((muteValue || "0") === "1");
+
+  // Starte index-sound Audio wenn nicht gemutet
+  const indexSound = document.getElementById("index-sound");
+  if (indexSound) {
+    indexSound.muted = (muteValue || "0") === "1";
+    indexSound.play().catch((err) => {
+      console.log("Audio autoplay prevented by browser:", err);
+    });
+  }
+
+  window.updateMuteButtonVisuals();
 });
 
 // Use event delegation so elements added dynamically (via SPA) are handled.
@@ -152,7 +165,32 @@ document.addEventListener("spa:render", function (e) {
     muteRange.value = muteValue;
   }
   setMuteForAllAudios((muteValue || "0") === "1");
+  window.updateMuteButtonVisuals();
 });
+/**
+ * Updates the visual appearance of the mute button based on the current mute state.
+ */
+window.updateMuteButtonVisuals = function () {
+  const muteButton = document.getElementById("muteButton");
+  if (!muteButton) return;
+
+  const muteValue = localStorage.getItem("polloMute") || "0";
+  const isMuted = muteValue === "1";
+  const img = muteButton.querySelector("img");
+  const textNode = muteButton.childNodes[muteButton.childNodes.length - 1];
+
+  if (img) {
+    img.src = isMuted
+      ? "/assets/img/10_external_img/mute.png"
+      : "/assets/img/10_external_img/sound-on.png";
+    img.alt = isMuted ? "muted" : "sound on";
+  }
+
+  if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+    textNode.textContent = isMuted ? " Unmute" : " Mute";
+  }
+};
+
 /**
  * Toggles the mute state in localStorage and updates all audio elements accordingly.
  */
@@ -161,4 +199,5 @@ window.toggleMuteInLocalStorage = function () {
   muteValue = muteValue === "1" ? "0" : "1";
   localStorage.setItem("polloMute", muteValue);
   setMuteForAllAudios(muteValue === "1");
+  window.updateMuteButtonVisuals();
 };
