@@ -63,8 +63,6 @@ class MovableObject extends DrawableObject {
     }
   }
 
-
-
   /**
    * Plays an animation by cycling through the given images.
    * @param {string[]} images - Array of image paths for animation.

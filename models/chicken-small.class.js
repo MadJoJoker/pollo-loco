@@ -43,7 +43,7 @@ class ChickenSmall extends MovableObject {
       action: () => this.moveLeft(),
       isActive: () => !this.isDeadNow,
     });
-    
+
     this._unregisterWalkAnimation = window.registerSimpleInterval({
       interval: 150,
       action: () => this.playAnimation(this.IMAGES_WALKING),
