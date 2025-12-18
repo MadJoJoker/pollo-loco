@@ -32,7 +32,7 @@ class Bottle extends CollectibleObject {
    */
   constructor() {
     super();
-    this.x = 100 + Math.random() * 700;
+    this.x = 100 + Math.random() * 4000;
     this.y = 350;
     this.width = 100;
     this.height = 100;

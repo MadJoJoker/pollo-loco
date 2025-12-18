@@ -22,7 +22,7 @@ class Coin extends CollectibleObject {
    * @param {number} [y] - The y position of the coin.
    * @param {Object} [arc] - Arc parameters for parabolic placement.
    */
-  constructor(x = 200 + Math.random() * 1500, y = 210, arc = null) {
+  constructor(x = 200 + Math.random() * 3800, y = 210, arc = null) {
     super();
     if (arc) {
       const { startX, endX, peakY, baseY, count, index } = arc;
@@ -60,7 +60,7 @@ class Coin extends CollectibleObject {
   static randomArcCoins(arcs = 3) {
     const coins = [];
     function randomArcParams() {
-      const startX = 50 + Math.random() * 1000;
+      const startX = 50 + Math.random() * 3500;
       const endX = startX + 400 + Math.random() * 400;
       const peakY = 50 + Math.random() * 40;
       const baseY = 140 + Math.random() * 40;
