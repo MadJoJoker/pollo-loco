@@ -11,6 +11,7 @@ class Endboss extends MovableObject {
   energy = 100;
   jumpHits = 0;
   maxJumpHits = 5;
+  lastJumpHitTime = 0;
   isRemoved = false;
   isHurtNow = false;
   deadAnimationTimeout = null;
@@ -59,7 +60,7 @@ class Endboss extends MovableObject {
     "/assets/img/4_enemie_boss_chicken/5_dead/G25.png",
     "/assets/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
-  offset = { top: 90, bottom: 80, left: 50, right: 35 };
+  offset = { top: 150, bottom: 80, left: 50, right: 35 };
 
   /**
    * Creates a new Endboss instance and initializes its properties and animation.
@@ -345,6 +346,9 @@ class Endboss extends MovableObject {
    * Requires 5 hits to kill the endboss.
    */
   hitByJump() {
+    // Setze Cooldown-Timer
+    this.lastJumpHitTime = window.getGameTime();
+
     this.jumpHits++;
     const damagePerHit = 100 / this.maxJumpHits;
     this.energy -= damagePerHit;

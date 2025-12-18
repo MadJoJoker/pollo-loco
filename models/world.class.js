@@ -46,7 +46,7 @@ class World {
       this.handleCollectibles();
       this.checkCharacterChickenCollision();
       this.checkBottleEnemyCollision();
-    }, 100);
+    }, 50);
   }
 
   /** (Re)starts interval-based loops after pause. */
@@ -196,14 +196,24 @@ class World {
     const enemyTop = enemy.y;
     const isComingFromAbove = characterBottom < enemyTop + enemy.height * 0.6;
 
-    return (
+    const basicHitConditions =
       typeof this.character.isAboveGround === "function" &&
       this.character.isAboveGround() &&
       isFalling &&
       isComingFromAbove &&
       typeof enemy.hitByJump === "function" &&
-      !enemy.isDeadNow
-    );
+      !enemy.isDeadNow;
+
+    // Endboss hat Cooldown (1x pro Jump), andere Enemies nicht (Multi-Kill möglich)
+    if (enemy instanceof Endboss) {
+      const cooldownActive =
+        enemy.lastJumpHitTime &&
+        window.getGameTime() - enemy.lastJumpHitTime < 1000;
+      return basicHitConditions && !cooldownActive;
+    }
+
+    // Chicken & ChickenSmall: Kein Cooldown, Multi-Kill möglich
+    return basicHitConditions;
   }
 
   /** Handles bottle-enemy collision. */
