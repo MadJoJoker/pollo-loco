@@ -121,6 +121,7 @@ class Character extends MovableObject {
     const idleAnimInterval = 120;
     let wasWalking = false;
     let wasJumping = false;
+    let currentAnimState = "idle"; // Track current animation state
     this._unregisterGameLoop = window.registerGameLoop((gameTime) => {
       if (gameTime - this.lastActionTick >= actionInterval) {
         const actionHappened = this.handleActions(canThrowBottle);
@@ -128,34 +129,56 @@ class Character extends MovableObject {
         if (actionHappened) idleStartTime = gameTime;
         this.lastActionTick = gameTime;
       }
+
+      // Prüfe Dead/Hurt zuerst (höchste Priorität)
+      if (this.isDead() || this.isHurt()) {
+        if (currentAnimState !== "dead-hurt") {
+          currentAnimState = "dead-hurt";
+        }
+        return; // playAnimation() wird in handleDeath/handleHurt aufgerufen
+      }
+
       let isWalking = false;
       let isJumping = false;
-      if (
+
+      // Jump Animation (höhere Priorität als Walk)
+      if (this.isAboveGround()) {
+        isJumping = true;
+        if (!wasJumping) {
+          // Reset jump animation beim Start des Sprungs
+          this.jumpAnimFrame = 0;
+          this.lastJumpTick = gameTime;
+          currentAnimState = "jumping";
+        }
+        // Jump-Animation basierend auf speedY (Sprungphase)
+        this.updateJumpAnimation(gameTime, jumpInterval);
+      }
+      // Walk Animation (nur wenn auf dem Boden)
+      else if (
         (this.shouldMoveLeft() || this.shouldMoveRight()) &&
         !this.isAboveGround()
       ) {
-        if (!wasWalking) {
-          this.lastWalkTick = gameTime;
-        }
         isWalking = true;
+        if (!wasWalking || currentAnimState !== "walking") {
+          // Reset walk animation beim Start des Laufens
+          this.walkAnimFrame = 0;
+          this.lastWalkTick = gameTime;
+          currentAnimState = "walking";
+        }
         if (gameTime - this.lastWalkTick >= walkInterval) {
           this.walkAnimFrame =
             (this.walkAnimFrame + 1) % this.IMAGES_WALKING.length;
           this.img = this.imageCache[this.IMAGES_WALKING[this.walkAnimFrame]];
           this.lastWalkTick = gameTime;
         }
-      } else if (this.isAboveGround()) {
-        isJumping = true;
-        if (gameTime - this.lastJumpTick >= jumpInterval) {
-          this.jumpAnimFrame =
-            (this.jumpAnimFrame + 1) % this.IMAGES_JUMPING.length;
-          this.img = this.imageCache[this.IMAGES_JUMPING[this.jumpAnimFrame]];
-          this.lastJumpTick = gameTime;
-        }
       }
-      wasWalking = isWalking;
-      wasJumping = isJumping;
-      if (!isWalking && !isJumping && !this.isDead() && !this.isHurt()) {
+      // Idle Animation
+      else if (!isWalking && !isJumping && !this.isDead() && !this.isHurt()) {
+        if (currentAnimState !== "idle") {
+          this.idleAnimFrame = 0;
+          this.idleLongAnimFrame = 0;
+          currentAnimState = "idle";
+        }
         if (gameTime - this.lastIdleTick >= idleInterval) {
           this.handleIdle(idleStartTime, gameTime, {
             idleAnimFrameRef: () => this.idleAnimFrame,
@@ -174,7 +197,45 @@ class Character extends MovableObject {
           this.lastIdleTick = gameTime;
         }
       }
+
+      wasWalking = isWalking;
+      wasJumping = isJumping;
     });
+  }
+
+  /** Updates jump animation based on jump phase (speedY). */
+  updateJumpAnimation(gameTime, jumpInterval) {
+    if (gameTime - this.lastJumpTick >= jumpInterval) {
+      // Berechne Jump-Frame basierend auf speedY
+      const maxSpeedY = 50; // Angepasst an tatsächlichen Jump-speedY
+      const totalFrames = this.IMAGES_JUMPING.length; // 9 frames
+      // J-31 bis J-34: Aufwärts (4 Frames, Index 0-3)
+      // J-35 bis J-39: Abwärts (5 Frames, Index 4-8)
+
+      if (this.speedY > 0) {
+        // Aufwärtsphase: Frames 0-3 (J-31 bis J-34)
+        const upFrames = 4;
+        // Invertiere den Progress: hoher speedY = Frame 0, niedriger speedY = Frame 3
+        const progress = 1 - Math.min(this.speedY / maxSpeedY, 1);
+        this.jumpAnimFrame = Math.floor(progress * upFrames);
+        // Sicherstellen, dass wir nicht über Index 3 hinausgehen
+        this.jumpAnimFrame = Math.min(this.jumpAnimFrame, 3);
+      } else {
+        // Abwärtsphase: Frames 4-8 (J-35 bis J-39)
+        const downFrames = 5;
+        const downStartFrame = 4;
+        const progress = Math.min(Math.abs(this.speedY) / maxSpeedY, 1);
+        this.jumpAnimFrame = downStartFrame + Math.floor(progress * downFrames);
+        // Sicherstellen, dass wir nicht über Index 8 hinausgehen
+        this.jumpAnimFrame = Math.min(this.jumpAnimFrame, 8);
+      }
+
+      // Sicherstellen, dass Frame im gültigen Bereich ist
+      this.jumpAnimFrame = Math.max(this.jumpAnimFrame, 0);
+
+      this.img = this.imageCache[this.IMAGES_JUMPING[this.jumpAnimFrame]];
+      this.lastJumpTick = gameTime;
+    }
   }
 
   /** Handles all character actions. */

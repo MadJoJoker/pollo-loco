@@ -72,7 +72,7 @@ class MovableObject extends DrawableObject {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = "2";
-    
+
     // Unterschiedliche Farben für verschiedene Objekttypen
     if (this instanceof Character) {
       ctx.strokeStyle = "rgba(0, 255, 0, 0.8)"; // Grün für Character
@@ -89,7 +89,7 @@ class MovableObject extends DrawableObject {
     } else {
       ctx.strokeStyle = "rgba(255, 255, 255, 0.8)"; // Weiß für andere
     }
-    
+
     ctx.rect(
       this.x + this.offset.left,
       this.y + this.offset.top,
@@ -209,7 +209,8 @@ class MovableObject extends DrawableObject {
    */
   moveRight() {
     this.x += this.speed;
-    if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
+    // Animation wird in der jeweiligen Klasse verwaltet (Character, Chicken, etc.)
+    // if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
   }
 
   /**
@@ -217,7 +218,8 @@ class MovableObject extends DrawableObject {
    */
   moveLeft() {
     this.x -= this.speed;
-    if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
+    // Animation wird in der jeweiligen Klasse verwaltet (Character, Chicken, etc.)
+    // if (this.IMAGES_WALKING) this.playAnimation(this.IMAGES_WALKING);
   }
 
   /**
