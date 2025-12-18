@@ -93,6 +93,12 @@ const enemies = [
   new ChickenSmall(),
   new ChickenSmall(),
   new ChickenSmall(),
+  new Chicken(),
+  new Chicken(),
+  new Chicken(),
+  new ChickenSmall(),
+  new ChickenSmall(),
+  new ChickenSmall(),
 ];
 const clouds = [new Cloud(), new Cloud(), new Cloud()];
 const bottles = [
@@ -100,8 +106,14 @@ const bottles = [
   new Bottle(),
   new Bottle(),
   new Bottle(),
-
-
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
+  new Bottle(),
 ];
 const coins = Coin.randomArcCoins(3);
 
