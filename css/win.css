@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: row;
   gap: clamp(6px, 1vw, var(--spacing-sm));
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
 }
 
 #scoreboard-win img {
   max-width: clamp(75%, 90%, 95%);
-  max-height: clamp(50%, 60%, 70%);
   object-fit: contain;
   transition: max-width var(--transition-standard),
     max-height var(--transition-standard);
@@ -77,4 +76,11 @@
   transition: width var(--transition-standard),
     height var(--transition-standard);
   box-sizing: border-box;
+}
+h1 {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
 }

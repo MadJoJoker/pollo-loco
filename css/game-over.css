@@ -9,7 +9,6 @@
 
 #scoreboard-gameover img {
   max-width: clamp(80%, 100%, 100%);
-  max-height: clamp(35%, 40%, 45%);
   object-fit: contain;
   transition: max-width var(--transition-standard),
     max-height var(--transition-standard);
@@ -23,7 +22,7 @@
   max-width: 90%;
   background-image: url("/assets/img/9_intro_outro_screens/game_over/game-over.png");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   border: var(--border-solid);
   border-radius: var(--border-radius);
@@ -35,16 +34,19 @@
 #restart-btn,
 #no-restart-btn {
   width: clamp(44px, 6vw, 52px);
-  height: auto;
+  height: clamp(44px, 6vw, 52px);
   margin: 0;
+  padding: 0;
   vertical-align: middle;
-  padding: clamp(4px, 0.6vh, var(--spacing-xs));
   border: var(--border-solid);
   border-radius: var(--border-radius);
   background-color: transparent;
   transition: background-color var(--transition-standard),
     transform var(--transition-fast);
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #restart-btn:hover,

@@ -28,6 +28,7 @@
   #restart-btn,
   #no-restart-btn {
     width: clamp(40px, 5vw, 48px);
+    height: clamp(40px, 5vw, 48px);
   }
   #game-over-msg {
     width: 65%;
@@ -76,6 +77,7 @@
   #restart-btn,
   #no-restart-btn {
     width: clamp(38px, 4.5vw, 44px);
+    height: clamp(38px, 4.5vw, 44px);
   }
   #game-over-msg {
     width: 65%;
@@ -158,15 +160,15 @@
   #scoreboard-gameover img,
   #scoreboard-win img {
     max-width: 85%;
-    max-height: 50%;
+    max-height: 85%;
     transition: max-width var(--transition-standard),
       max-height var(--transition-standard);
   }
   #start-game-btn-scoreboard,
   #restart-btn,
   #no-restart-btn {
-    height: clamp(30px, 4vh, 34px);
     width: clamp(36px, 5vw, 42px);
+    height: clamp(36px, 5vw, 42px);
     transition: width var(--transition-standard),
       height var(--transition-standard);
   }
@@ -582,8 +584,8 @@
   #heros-scoreboard img,
   #scoreboard-gameover img,
   #scoreboard-win img {
-    max-width: 88%;
-    max-height: 50%;
+    max-width: 75%;
+    max-height: 750%;
   }
 
   .big-img-height {
