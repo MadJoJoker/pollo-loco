@@ -4,18 +4,26 @@
 }
 
 html {
-  margin: auto;
-  padding: var(--spacing-md);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  max-width: var(--max-width);
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
   min-height: 100vh;
   font-family: var(--font-family);
   overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .body,
@@ -65,30 +73,31 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: 720px;
-  height: 650px;
+  width: min(720px, 90vw);
+  height: min(650px, 75vh);
   position: absolute;
   z-index: var(--z-index-base);
-  left: var(--position-center);
-  top: var(--position-center);
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 60px 50px 40px;
+  padding: clamp(20px, 5vh, 60px) clamp(20px, 4vw, 50px) clamp(15px, 4vh, 40px);
   box-sizing: border-box;
   transition: width var(--transition-standard),
     height var(--transition-standard), top var(--transition-standard),
-    left var(--transition-standard);
+    left var(--transition-standard), padding var(--transition-standard);
 }
 
 #scoreboard,
 #scoreboard-win,
 #scoreboard-gameover {
-  width: 550px;
-  left: 49%;
-  top: 45%;
+  width: min(550px, 85vw);
+  height: min(600px, 70vh);
+  left: 50%;
+  top: 50%;
 }
 
 #scoreboard-win {
@@ -103,16 +112,18 @@ body {
 #how-to-play-scoreboard h1,
 #scoreboard-win h1,
 #scoreboard-gameover h1 {
-  font-size: var(--font-size-xlarge);
+  font-size: clamp(20px, 4vw, var(--font-size-xlarge));
   color: rgb(20, 8, 8);
   background-color: rgb(255, 200, 100);
   border-radius: var(--border-radius);
-  padding: var(--spacing-xs);
+  padding: clamp(4px, 0.5vh, var(--spacing-xs));
   border: var(--border-solid);
-  margin: var(--spacing-md) 0;
+  margin: clamp(8px, 1.5vh, var(--spacing-md)) 0;
   text-align: center;
   transition: font-size var(--transition-standard),
     margin var(--transition-standard), padding var(--transition-standard);
+  max-width: 95%;
+  word-wrap: break-word;
 }
 
 #scoreboard-gameover h1 {
@@ -120,8 +131,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
-  font-size: 40px;
-  margin: var(--spacing-sm) 0;
+  font-size: clamp(28px, 3.5vw, 40px);
+  margin: clamp(6px, 1vh, var(--spacing-sm)) 0;
 }
 
 #start-game-btn,
@@ -164,8 +175,11 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0 20px;
-  height: 120px;
+  padding: 0 clamp(10px, 2vw, 20px);
+  height: clamp(80px, 12vh, 120px);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 #main-menu-placeholder {
@@ -178,22 +192,25 @@ body {
 }
 
 .nav-icon {
-  height: var(--nav-icon-size);
+  height: clamp(28px, 4vh, var(--nav-icon-size));
   width: auto;
   display: inline-block;
   vertical-align: middle;
+  object-fit: contain;
 }
 
 a {
   text-decoration: none;
   color: rgb(255, 200, 100);
   background-color: var(--color-primary);
-  font-size: var(--font-size-small);
+  font-size: clamp(14px, 1.8vw, var(--font-size-small));
   font-weight: bold;
   font-family: var(--font-family);
-  padding: var(--spacing-sm);
+  padding: clamp(6px, 1vh, var(--spacing-sm));
   border-radius: var(--border-radius);
   border: var(--border-width) solid rgb(255, 200, 100);
+  white-space: nowrap;
+  box-sizing: border-box;
 
   &:hover {
     color: rgb(255, 220, 120);
@@ -383,9 +400,10 @@ h1 {
   transform: none;
   transform-origin: center;
   background: var(--color-transparent) center/contain no-repeat;
-  padding: var(--spacing-md) var(--spacing-xl);
-  min-width: 140px;
-  min-height: 60px;
+  padding: clamp(8px, 1.5vh, var(--spacing-md))
+    clamp(14px, 2vw, var(--spacing-xl));
+  min-width: clamp(120px, 18vw, 140px);
+  min-height: clamp(50px, 7vh, 60px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -394,6 +412,8 @@ h1 {
   border: none;
   color: var(--color-primary);
   cursor: pointer;
+  font-size: clamp(14px, 1.8vw, 16px);
+  box-sizing: border-box;
 
   &:not(.active) {
     opacity: 0.85;
@@ -464,7 +484,9 @@ h1 {
 }
 
 .big-img-height {
-  height: 64px;
+  height: clamp(32px, 5vh, 64px);
+  width: auto;
+  object-fit: contain;
 }
 
 @keyframes overlaySlideIn {

@@ -1,17 +1,20 @@
 #heros-scoreboard li {
   display: flex;
   justify-content: center;
-  font-size: var(--font-size-medium);
+  align-items: center;
+  font-size: clamp(18px, 2.5vw, var(--font-size-medium));
   font-weight: var(--font-weight-medium);
+  padding: clamp(6px, 1vh, 10px) clamp(16px, 3vw, 32px);
 }
 
 .scoreboard-columns {
   display: grid;
   grid-template-columns: 1fr;
-  width: 70%;
-  gap: 0;
+  width: clamp(75%, 82%, 88%);
+  gap: clamp(0px, 1vh, 4px);
   position: relative;
-  padding: var(--spacing-xs);
+  padding: clamp(4px, 0.8vh, var(--spacing-xs));
+  box-sizing: border-box;
 }
 
 .scoreboard-columns ul {
@@ -22,11 +25,17 @@
 }
 
 .scoreboard-columns li {
-  font-size: var(--font-size-large);
+  font-size: clamp(16px, 2.5vw, 27.5px);
   font-weight: var(--font-weight-normal);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: clamp(4px, 0.8vh, var(--spacing-sm));
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(4px, 0.8vw, 8px);
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding: clamp(6px, 1vh, 10px) clamp(10px, 1.8vw, 20px);
 }
 
 #firstPlace {
@@ -37,7 +46,7 @@
   color: #bfa100;
   font-weight: bold;
   text-shadow: 0 1px 2px #fffbe5, 0 0 8px gold;
-  padding: 2px 32px;
+  padding: clamp(6px, 1vh, 10px) clamp(10px, 1.8vw, 24px);
   transition: var(--transition-box-shadow);
 }
 
@@ -55,7 +64,7 @@
   color: #888;
   font-weight: bold;
   text-shadow: 0 1px 2px #f8f8f8, 0 0 8px silver;
-  padding: 2px 32px;
+  padding: clamp(6px, 1vh, 10px) clamp(10px, 1.8vw, 24px);
   transition: var(--transition-box-shadow);
 }
 
@@ -73,11 +82,106 @@
   color: #a0522d;
   font-weight: bold;
   text-shadow: 0 1px 2px #fff4e0, 0 0 8px #cd7f32;
-  padding: 2px 32px;
+  padding: clamp(6px, 1vh, 10px) clamp(10px, 1.8vw, 24px);
   transition: var(--transition-box-shadow);
 }
 
 #thirdPlace:hover {
   box-shadow: 0 0 22px 8px rgba(205, 127, 50, 0.6),
     0 2px 12px rgba(0, 0, 0, 0.13);
+}
+.score-name {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Medium screens */
+@media only screen and (max-width: 720px) {
+  .scoreboard-columns {
+    width: clamp(78%, 84%, 88%);
+  }
+
+  .scoreboard-columns li {
+    font-size: clamp(14px, 2.2vw, 20px);
+    padding: clamp(5px, 0.9vh, 8px) clamp(8px, 1.5vw, 14px);
+  }
+
+  #firstPlace,
+  #secondPlace,
+  #thirdPlace {
+    padding: clamp(5px, 0.9vh, 8px) clamp(8px, 1.5vw, 14px);
+  }
+}
+
+/* Large screens - more padding */
+@media only screen and (min-width: 1100px) {
+  .scoreboard-columns li {
+    padding: clamp(12px, 1.5vh, 16px) clamp(20px, 3vw, 40px);
+  }
+
+  #firstPlace,
+  #secondPlace,
+  #thirdPlace {
+    padding: clamp(12px, 1.5vh, 16px) clamp(20px, 3vw, 40px);
+  }
+}
+
+/* Responsive adjustments for small screens */
+@media only screen and (max-width: 500px), (max-height: 600px) {
+  .scoreboard-columns {
+    width: clamp(80%, 85%, 88%);
+    gap: clamp(0px, 0.5vh, 2px);
+  }
+
+  .scoreboard-columns li {
+    font-size: clamp(13px, 2vw, 16px);
+    padding: clamp(4px, 0.7vh, 7px) clamp(6px, 1.2vw, 10px);
+    margin-bottom: clamp(3px, 0.6vh, 6px);
+  }
+
+  #firstPlace,
+  #secondPlace,
+  #thirdPlace {
+    padding: clamp(4px, 0.7vh, 7px) clamp(6px, 1.2vw, 10px);
+  }
+
+  #heros-scoreboard li {
+    font-size: clamp(14px, 2vw, 18px);
+    padding: clamp(4px, 0.8vh, 8px) clamp(8px, 1.5vw, 16px);
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 500px) {
+  .scoreboard-columns {
+    width: 85%;
+  }
+
+  .scoreboard-columns li {
+    font-size: clamp(11px, 1.8vw, 13px);
+    padding: clamp(3px, 0.5vh, 5px) clamp(4px, 1vw, 6px);
+    gap: clamp(2px, 0.4vw, 4px);
+  }
+
+  #firstPlace,
+  #secondPlace,
+  #thirdPlace {
+    padding: clamp(3px, 0.5vh, 5px) clamp(4px, 1vw, 6px);
+  }
+}
+
+@media only screen and (max-height: 400px) {
+  .scoreboard-columns li {
+    font-size: clamp(10px, 1.6vw, 12px);
+    padding: 2px 4px;
+    margin-bottom: 2px;
+  }
+
+  #firstPlace,
+  #secondPlace,
+  #thirdPlace {
+    padding: 2px 4px;
+  }
 }

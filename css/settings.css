@@ -1,12 +1,14 @@
 #settings-scoreboard li {
-  font-size: var(--font-size-medium);
+  font-size: clamp(18px, 2.5vw, var(--font-size-medium));
   font-weight: var(--font-weight-bold);
+  padding: clamp(4px, 0.8vh, var(--spacing-xs))
+    clamp(6px, 1vw, var(--spacing-sm));
 }
 #settings-scoreboard li img {
-  width: var(--button-icon-size);
+  width: clamp(24px, 3vw, var(--button-icon-size));
   height: auto;
   vertical-align: middle;
-  margin-left: var(--spacing-sm);
+  margin-left: clamp(6px, 1vw, var(--spacing-sm));
 }
 .scoreboard-columns {
   display: grid;
@@ -45,15 +47,18 @@
 #mute-control {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: clamp(10px, 2vw, var(--spacing-lg));
   background: var(--color-bg-light);
   border-radius: var(--border-radius-medium);
-  padding: var(--spacing-md) var(--spacing-xxl);
+  padding: clamp(8px, 1.5vh, var(--spacing-md))
+    clamp(16px, 3vw, var(--spacing-xxl));
   box-shadow: var(--shadow-accent);
   font-family: var(--font-family), Arial, sans-serif;
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
   width: fit-content;
-  margin: 24px auto;
+  max-width: 90%;
+  margin: clamp(12px, 2.5vh, 24px) auto;
+  box-sizing: border-box;
 }
 
 #mute-control label {
@@ -63,8 +68,8 @@
 
 #mute-range {
   accent-color: rgb(140, 70, 15);
-  width: 80px;
-  height: 4px;
+  width: clamp(60px, 10vw, 80px);
+  height: clamp(3px, 0.5vh, 4px);
   border-radius: var(--border-radius-small);
   background: var(--color-bg-light);
   cursor: pointer;
@@ -73,5 +78,6 @@
 #mute-status {
   font-weight: bold;
   color: rgb(140, 70, 15);
-  padding-left: 8px;
+  padding-left: clamp(6px, 1vw, 8px);
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
 }

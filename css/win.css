@@ -1,31 +1,35 @@
 .button-container {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-sm);
+  gap: clamp(6px, 1vw, var(--spacing-sm));
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 #scoreboard-win img {
-  max-width: 90%;
-  max-height: 60%;
+  max-width: clamp(75%, 90%, 95%);
+  max-height: clamp(50%, 60%, 70%);
   object-fit: contain;
   transition: max-width var(--transition-standard),
     max-height var(--transition-standard);
+  display: block;
+  margin: 0 auto;
 }
 
 #restart-btn,
 #no-restart-btn {
-  width: 52px;
+  width: clamp(44px, 6vw, 52px);
   height: auto;
   margin: 0;
   vertical-align: middle;
-  padding: var(--spacing-xs);
+  padding: clamp(4px, 0.6vh, var(--spacing-xs));
   border: var(--border-solid);
   border-radius: var(--border-radius);
   background-color: transparent;
   transition: background-color var(--transition-standard),
     transform var(--transition-fast);
+  box-sizing: border-box;
 }
 
 #restart-btn:hover,
@@ -41,13 +45,14 @@
   left: 2.5%;
   transform: translateY(-50%);
   width: 95%;
+  max-width: 95%;
   height: auto;
-  padding: 30px 40px;
+  padding: clamp(18px, 3vh, 30px) clamp(24px, 4vw, 40px);
   background: var(--color-bg-dark);
   border: var(--color-accent-solid) solid var(--spacing-xs);
   border-radius: var(--border-radius);
   color: var(--color-text-light);
-  font-size: 1.3em;
+  font-size: clamp(1em, 1.8vw, 1.3em);
   line-height: 1.6;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   z-index: var(--z-index-nav);
@@ -60,8 +65,9 @@
 }
 
 #game-over-msg-won {
-  width: 180px;
-  height: 200px;
+  width: clamp(120px, 18vw, 180px);
+  height: clamp(140px, 20vh, 200px);
+  max-width: 90%;
   background-image: url("/assets/button/sheriff-156649_640.png");
   background-repeat: no-repeat;
   background-size: contain;
@@ -70,4 +76,5 @@
   border-radius: var(--border-radius);
   transition: width var(--transition-standard),
     height var(--transition-standard);
+  box-sizing: border-box;
 }
