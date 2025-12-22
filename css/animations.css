@@ -1,0 +1,62 @@
+/* CSS Animations & Keyframes */
+
+@keyframes overlaySlideIn {
+  0% {
+    top: -200px;
+    opacity: 0;
+    transform: scale(0.95) rotate(-2deg);
+  }
+  60% {
+    top: 18%;
+    opacity: 1;
+    transform: scale(1.03) rotate(1deg);
+  }
+  80% {
+    top: 13%;
+    opacity: 1;
+    transform: scale(0.98) rotate(-1deg);
+  }
+  100% {
+    top: 15%;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes overlaySlideOut {
+  from {
+    top: 15%;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    top: 110%;
+    opacity: 0;
+    transform: scale(0.95) rotate(2deg);
+  }
+}
+
+@keyframes carouselSlideY {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  10% {
+    transform: translate(-50%, -50%) translateY(10px);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateY(25px);
+  }
+  40% {
+    transform: translate(-50%, -50%) translateY(35px);
+  }
+  55% {
+    transform: translate(-50%, -50%) translateY(10px);
+  }
+  70% {
+    transform: translate(-50%, -50%) translateY(-15px);
+  }
+  85% {
+    transform: translate(-50%, -50%) translateY(5px);
+  }
+}

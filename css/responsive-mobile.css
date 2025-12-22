@@ -1,0 +1,406 @@
+/* Mobile & Small Screen Responsive Styles (< 600px) */
+
+@media only screen and (max-width: 500px) and (orientation: landscape),
+  (max-height: 500px) and (orientation: landscape) {
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: min(420px, 90vw);
+    height: min(380px, 58vh);
+    top: 70%;
+    left: 50%;
+    padding: clamp(5px, 1.2vh, 10px) clamp(7px, 1.6vw, 14px);
+  }
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(14px, 2.5vw, 16px);
+    margin: clamp(4px, 0.8vh, var(--spacing-sm)) 0;
+    padding: clamp(2px, 0.4vh, 2px);
+  }
+  h1 {
+    font-size: clamp(14px, 2.2vw, var(--font-size-small));
+    margin: clamp(4px, 0.8vh, var(--spacing-sm)) 0;
+    padding: var(--spacing-xs);
+  }
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 90%;
+    max-height: 55%;
+  }
+  #mute-control {
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: clamp(4px, 1vh, 6px) auto;
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+  }
+  #mute-range {
+    width: clamp(32px, 5vw, 40px);
+  }
+  #mute-status {
+    font-size: clamp(0.55rem, 0.9vw, 0.65rem);
+  }
+  .headline {
+    top: clamp(20%, 24vh, 28%);
+    font-size: clamp(13px, 2.3vw, 15px);
+    width: clamp(80%, 85%, 90%);
+  }
+}
+
+@media only screen and (max-width: 500px) and (orientation: portrait) {
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: min(420px, 94vw);
+    height: min(560px, 75vh);
+    top: 65%;
+    left: 50%;
+    padding: clamp(10px, 2vh, 18px) clamp(10px, 2vw, 18px);
+  }
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(16px, 3vw, 18px);
+    margin: clamp(6px, 1vh, var(--spacing-sm)) 0;
+    padding: var(--spacing-xs);
+  }
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 92%;
+    max-height: 92%;
+  }
+  .headline {
+    top: clamp(34%, 38vh, 42%);
+    font-size: clamp(20px, 3.5vw, 22px);
+    width: clamp(85%, 90%, 95%);
+  }
+}
+
+@media only screen and (max-width: 500px), (max-height: 500px) {
+  #settings-scoreboard {
+    width: min(300px, 85vw);
+    height: min(330px, 75vh);
+  }
+  #mute-control {
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: clamp(4px, 1vh, 6px) auto;
+    font-size: clamp(0.6rem, 1vw, 0.7rem);
+    transition: font-size var(--transition-standard),
+      padding var(--transition-standard), margin var(--transition-standard);
+  }
+  #mute-range {
+    width: clamp(32px, 5vw, 40px);
+    transition: width var(--transition-standard);
+  }
+  #mute-status {
+    font-size: clamp(0.55rem, 0.9vw, 0.65rem);
+    transition: font-size var(--transition-standard);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    height: min(310px, 56vh);
+    top: 72%;
+    left: 50%;
+    padding: clamp(4px, 1vh, 8px) clamp(7px, 1.6vw, 14px);
+  }
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(20px, 3vw, var(--font-size-large));
+    margin: var(--spacing-xs) 0;
+    padding: 2px;
+  }
+  h1 {
+    font-size: clamp(12px, 2vw, 14px);
+    margin: var(--spacing-xs) 0;
+    padding: 2px;
+  }
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 92%;
+    max-height: 58%;
+  }
+  #mute-control {
+    flex-direction: row;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin: var(--spacing-xs) auto;
+    font-size: clamp(0.55rem, 0.9vw, 0.65rem);
+    transition: font-size var(--transition-standard),
+      padding var(--transition-standard), margin var(--transition-standard);
+  }
+  #mute-range {
+    width: clamp(30px, 4.5vw, 40px);
+    transition: width var(--transition-standard);
+  }
+  #mute-status {
+    font-size: clamp(0.5rem, 0.8vw, 0.6rem);
+    transition: font-size var(--transition-standard);
+  }
+  .headline {
+    top: clamp(20%, 24vh, 28%);
+    font-size: clamp(12px, 2.2vw, 15px);
+    width: clamp(75%, 82%, 88%);
+  }
+}
+
+@media only screen and (max-width: 400px), (max-height: 400px) {
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: min(380px, 94vw);
+    height: min(400px, 60vh);
+    top: 70%;
+    left: 50%;
+    padding: clamp(5px, 1.2vh, 10px) clamp(7px, 1.8vw, 12px);
+  }
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(16px, 3vw, 20px);
+    margin: var(--spacing-xs) 0;
+    padding: clamp(2px, 0.4vh, 2px);
+  }
+  h1 {
+    font-size: clamp(16px, 2.8vw, 18px);
+    margin: var(--spacing-xs) 0;
+    padding: 2px;
+  }
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 92%;
+    max-height: 95%;
+  }
+  #mute-control {
+    flex-direction: row;
+    gap: clamp(2px, 0.5vw, 3px);
+    padding: clamp(2px, 0.5vh, 3px) var(--spacing-sm);
+    margin: var(--spacing-xs) auto;
+    font-size: clamp(0.55rem, 0.9vw, 0.6rem);
+    border-radius: var(--spacing-sm);
+    transition: font-size var(--transition-standard),
+      padding var(--transition-standard), margin var(--transition-standard);
+  }
+  #mute-range {
+    width: clamp(26px, 4vw, 30px);
+    transition: width var(--transition-standard);
+  }
+  #mute-status {
+    font-size: clamp(0.5rem, 0.8vw, 0.55rem);
+    transition: font-size var(--transition-standard);
+  }
+  .headline {
+    top: clamp(20%, 24vh, 28%);
+    font-size: clamp(13px, 2.3vw, 15px);
+    width: clamp(82%, 88%, 92%);
+  }
+  .carousel--main-menu button,
+  .carousel--main-menu a {
+    min-width: clamp(100px, 18vw, 120px);
+    width: clamp(100px, 18vw, 120px);
+    min-height: clamp(44px, 7vh, 50px);
+    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .carousel--main-menu button,
+  .carousel--main-menu a {
+    min-width: 100px;
+    width: 100px;
+    min-height: 45px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-height: 600px) and (min-height: 321px) {
+  .headline {
+    top: clamp(28%, 22vh, 36%);
+    font-size: clamp(13px, 2.8vw, 16px);
+  }
+
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: min(320px, 88vw);
+    height: min(280px, 48vh);
+    top: 68%;
+    padding: clamp(5px, 1.2vh, 8px) clamp(7px, 1.8vw, 12px);
+  }
+
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(12px, 2.8vw, 15px);
+    padding: 2px;
+    margin: 3px 0;
+  }
+
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 75%;
+    max-height: 750%;
+  }
+
+  .big-img-height {
+    height: clamp(22px, 3.5vh, 28px);
+  }
+}
+
+@media only screen and (max-height: 320px) {
+  #start-header {
+    height: clamp(35px, 12vh, 45px);
+    padding: 0 clamp(4px, 1vw, 8px);
+  }
+
+  #start-header a {
+    font-size: clamp(9px, 2vw, 11px);
+    padding: 3px 5px;
+  }
+
+  .headline {
+    top: clamp(22%, 25vh, 28%);
+    font-size: clamp(11px, 2.5vw, 13px);
+    width: clamp(75%, 80%, 85%);
+  }
+
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: min(280px, 85vw);
+    height: min(200px, 60vh);
+    top: 60%;
+    padding: clamp(4px, 1vh, 6px) clamp(6px, 1.5vw, 10px);
+  }
+
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(11px, 2.5vw, 13px);
+    padding: 1px;
+    margin: 2px 0;
+  }
+
+  #scoreboard img,
+  #settings-scoreboard img,
+  #how-to-play-scoreboard img,
+  #heros-scoreboard img,
+  #scoreboard-gameover img,
+  #scoreboard-win img {
+    max-width: 85%;
+    max-height: 45%;
+  }
+
+  .big-img-height {
+    height: clamp(20px, 3vh, 24px);
+  }
+
+  #start-game-btn-scoreboard,
+  #restart-btn,
+  #no-restart-btn {
+    height: clamp(20px, 3vh, 24px);
+    width: clamp(24px, 4vw, 28px);
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  #scoreboard,
+  #settings-scoreboard,
+  #how-to-play-scoreboard,
+  #heros-scoreboard,
+  #scoreboard-gameover,
+  #scoreboard-win {
+    width: 95vw;
+    height: 85vh;
+    top: 62%;
+    padding: clamp(6px, 1.5vh, 10px) clamp(8px, 2vw, 12px);
+  }
+
+  #scoreboard h1,
+  #settings-scoreboard h1,
+  #how-to-play-scoreboard h1,
+  #heros-scoreboard h1,
+  #scoreboard-gameover h1,
+  #scoreboard-win h1 {
+    font-size: clamp(14px, 3.5vw, 16px);
+    padding: 2px;
+    margin: 4px 0;
+  }
+
+  .headline {
+    top: clamp(30%, 35vh, 40%);
+    font-size: clamp(12px, 3vw, 14px);
+  }
+
+  #start-header {
+    height: clamp(60px, 10vh, 70px);
+    padding: 0 5px;
+  }
+
+  #start-header a {
+    font-size: clamp(10px, 2vw, 12px);
+    padding: 4px 6px;
+  }
+}

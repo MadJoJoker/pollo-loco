@@ -1,0 +1,166 @@
+/* Layout Styles - Base HTML & Body + Scoreboard Layout */
+
+@font-face {
+  font-family: "GringoNights";
+  src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  min-height: 100vh;
+  font-family: var(--font-family);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body,
+#start-body,
+#heros-body,
+#settings-body,
+#how-to-play-body {
+  background-image: var(--bg-desert);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+#settings-body {
+  background-size: cover;
+}
+
+#how-to-play-body {
+  background-image: var(--bg-start-screen);
+}
+
+.main,
+#start-main,
+#heros-main,
+#settings-main,
+#how-to-play-main {
+  position: absolute;
+  z-index: var(--z-index-base);
+  left: 70%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+}
+
+#start-main {
+  left: var(--position-center);
+  top: var(--position-center);
+}
+
+.scoreboard,
+#scoreboard,
+#heros-scoreboard,
+#settings-scoreboard,
+#how-to-play-scoreboard,
+#scoreboard-win,
+#scoreboard-gameover {
+  background-image: var(--bg-board);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: min(720px, 90vw);
+  height: min(650px, 75vh);
+  position: absolute;
+  z-index: var(--z-index-base);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: clamp(20px, 5vh, 60px) clamp(20px, 4vw, 50px) clamp(15px, 4vh, 40px);
+  box-sizing: border-box;
+  transition: width var(--transition-standard),
+    height var(--transition-standard), top var(--transition-standard),
+    left var(--transition-standard), padding var(--transition-standard);
+}
+
+#scoreboard,
+#scoreboard-win,
+#scoreboard-gameover {
+  width: min(550px, 85vw);
+  height: min(600px, 70vh);
+  left: 50%;
+  top: 50%;
+}
+
+#scoreboard-win {
+  background-image: url("/assets/button/board.png");
+  z-index: 1;
+}
+
+.scoreboard h1,
+#scoreboard h1,
+#heros-scoreboard h1,
+#settings-scoreboard h1,
+#how-to-play-scoreboard h1,
+#scoreboard-win h1,
+#scoreboard-gameover h1 {
+  font-size: clamp(20px, 4vw, var(--font-size-xlarge));
+  color: rgb(20, 8, 8);
+  background-color: rgb(255, 200, 100);
+  border-radius: var(--border-radius);
+  padding: clamp(4px, 0.5vh, var(--spacing-xs));
+  border: var(--border-solid);
+  margin: clamp(8px, 1.5vh, var(--spacing-md)) 0;
+  text-align: center;
+  transition: font-size var(--transition-standard),
+    margin var(--transition-standard), padding var(--transition-standard);
+  max-width: 95%;
+  word-wrap: break-word;
+}
+
+#scoreboard-gameover h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: clamp(28px, 3.5vw, 40px);
+  margin: clamp(6px, 1vh, var(--spacing-sm)) 0;
+}
+
+h1 {
+  font-size: var(--font-size-xlarge);
+  color: var(--color-primary);
+  background-color: var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs);
+  border: var(--border-solid);
+}
+
+.small-img-height {
+  height: 24px;
+}
+
+.big-img-height {
+  height: clamp(32px, 5vh, 64px);
+  width: auto;
+  object-fit: contain;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

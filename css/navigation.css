@@ -1,0 +1,85 @@
+/* Navigation & Button Styles */
+
+#start-game-btn,
+#how-to-play-btn,
+#settings-btn,
+#highscore-btn {
+  background-image: var(--bg-bullet);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--color-transparent);
+  color: var(--color-primary);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  font-family: var(--font-family);
+}
+
+#start-game-btn-scoreboard {
+  background-color: var(--color-secondary);
+  border: var(--border-width) solid var(--color-primary);
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-border);
+  }
+}
+
+#start-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--color-accent-dark);
+  border-radius: var(--border-radius);
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 clamp(10px, 2vw, 20px);
+  height: clamp(80px, 12vh, 120px);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#main-menu-placeholder {
+  position: absolute;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 100%;
+  z-index: var(--z-index-nav);
+}
+
+.nav-icon {
+  height: clamp(28px, 4vh, var(--nav-icon-size));
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(255, 200, 100);
+  background-color: var(--color-primary);
+  font-size: clamp(14px, 1.8vw, var(--font-size-small));
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: clamp(6px, 1vh, var(--spacing-sm));
+  border-radius: var(--border-radius);
+  border: var(--border-width) solid rgb(255, 200, 100);
+  white-space: nowrap;
+  box-sizing: border-box;
+
+  &:hover {
+    color: rgb(255, 220, 120);
+    background-color: rgb(60, 20, 18);
+    border-color: var(--color-border);
+  }
+}

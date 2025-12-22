@@ -181,7 +181,7 @@ body
 
 .content-container {
   max-width: var(--max-width);
-  margin:auto auto 0;
+  margin:auto auto 0!important;
   padding: var(--spacing-sm);
   width: 100%;
   box-sizing: border-box;

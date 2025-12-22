@@ -1,0 +1,119 @@
+/* Carousel Component Styles */
+
+.carousel button,
+.carousel a {
+  position: absolute;
+  left: 10%;
+  top: -20%;
+  transform-origin: -100px 0;
+  background: url("/assets/img/10_external_img/bullet-7018215_640.png")
+    center/cover no-repeat;
+  min-height: 55px;
+  min-width: 135px;
+  text-align: left;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--color-secondary) !important;
+    border: var(--border-width) solid chocolate;
+    color: var(--color-text-light) !important;
+  }
+}
+
+.carousel--main-menu {
+  position: absolute;
+  top: 25%;
+  transform: none;
+  width: 600%;
+  height: 80%;
+  pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) transparent;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.carousel--main-menu button,
+.carousel--main-menu a {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  transform-origin: center;
+  background: var(--color-transparent) center/contain no-repeat;
+  padding: clamp(8px, 1.5vh, var(--spacing-md))
+    clamp(14px, 2vw, var(--spacing-xl));
+  min-width: clamp(120px, 18vw, 140px);
+  min-height: clamp(50px, 7vh, 60px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
+  box-shadow: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: clamp(14px, 1.8vw, 16px);
+  box-sizing: border-box;
+
+  &:not(.active) {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  &.active {
+    transform: scale(1);
+    z-index: 2;
+    opacity: 1;
+    box-shadow: none;
+    background-color: var(--color-secondary) !important;
+    border: var(--border-width) solid chocolate;
+    color: var(--color-text-light) !important;
+  }
+
+  &:hover {
+    background-color: var(--color-secondary) !important;
+    border: var(--border-width) solid chocolate;
+    color: var(--color-text-light) !important;
+    z-index: 3;
+    opacity: 1;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.menu-drawer .carousel,
+#overlay-carousel-container .carousel {
+  display: flex !important;
+  transform: none !important;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.menu-drawer .carousel--main-menu {
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.menu-drawer .carousel {
+  flex: 1 1 auto;
+  min-height: 120px;
+  overflow: auto;
+}

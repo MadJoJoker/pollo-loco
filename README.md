@@ -60,16 +60,21 @@ pollo-loco/
 │   ├── root.css               # 🎨 CSS Custom Properties (113 lines)
 │   │                          # - 20+ colors, spacing, borders, transitions
 │   │                          # - Z-index scale, shadows, fonts, backgrounds
-│   ├── shared-components.css  # 🧩 Shared UI Components (465 lines)
-│   │                          # - Navigation, overlays, carousels, buttons
-│   │                          # - Scoreboards, animations, media queries
+│   ├── layout.css             # 🧩 Layout: Grundstruktur, Scoreboard, Body
+│   ├── navigation.css         # Navigation & Buttons
+│   ├── carousel.css           # Karussell-Komponenten
+│   ├── overlay.css            # Overlays & Modals
+│   ├── animations.css         # Keyframe-Animationen
+│   ├── responsive-tablet.css  # Responsive Styles (Tablet & Medium)
+│   ├── responsive-mobile.css  # Responsive Styles (Mobile & Small)
+│   ├── responsive-desktop.css # Responsive Styles (Desktop & Large)
 │   ├── start-screen.css       # Start screen specific styles
-│   ├── game-over.css          # Game over (367 lines, reduced from 853)
+│   ├── game-over.css          # Game over styles
 │   ├── win.css                # Win screen styles
-│   ├── settings.css           # Settings page (283 lines) + mute range slider
+│   ├── settings.css           # Settings page + mute range slider
 │   ├── highscore-screen.css   # Highscore leaderboard
 │   ├── how-toplay.css         # Controls & instructions
-│   ├── impressum-data.css     # Legal pages (112 lines) + scroll fix
+│   ├── impressum-data.css     # Legal pages + scroll fix
 │   └── overlay-highscore.css  # Highscore name input overlay
 │
 ├── js/                        # UI Logic & Utilities (7 files)
@@ -136,12 +141,12 @@ pollo-loco/
    - Transitions: `--transition-standard`, `--transition-fast`, `--transition-combined`
    - Shadows: `--shadow-box`, `--shadow-text`
 
-2. **Shared Components (`shared-components.css` - 465 lines)**
+2. **Modulare Komponenten (layout.css, navigation.css, carousel.css, overlay.css, animations.css, responsive-\*.css)**
 
-   - Eliminates duplicate code across 7 page CSS files
-   - Contains: Navigation, overlays, carousels, buttons, scoreboards
-   - Unified hover effects and animations
-   - Responsive media queries for all shared elements
+   - Eliminieren doppelten Code durch Aufteilung in logische Module
+   - Enthalten: Layout, Navigation, Overlays, Karussell, Animationen, Responsive-Design
+   - Einheitliche Hover-Effekte und Animationen
+   - Media Queries jetzt in eigene Dateien für bessere Wartbarkeit
 
 3. **DRY Principle**
    - All hardcoded colors → CSS variables
@@ -188,8 +193,8 @@ DrawableObject (base: image loading, drawing)
 
 ### CSS Refactoring
 
-- ✅ **65% reduction**: 3500 lines → 1350 lines across 9 CSS files
-- ✅ **Created `shared-components.css`**: Unified 7 page-specific CSS files
+- ✅ **65% reduction**: 3500 lines → 1350 lines durch Modularisierung in 15+ CSS-Dateien
+- ✅ **Komplette Aufteilung**: shared-components.css ersetzt durch layout.css, navigation.css, carousel.css, overlay.css, animations.css, responsive-tablet.css, responsive-mobile.css, responsive-desktop.css
 - ✅ **50+ hardcoded values** replaced with CSS custom properties
 - ✅ **Fixed SPA navigation**: Dynamic CSS loading, body attribute preservation
 - ✅ **Unified design**: Consistent hover effects, backgrounds, scoreboards

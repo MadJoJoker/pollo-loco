@@ -1,0 +1,125 @@
+/* Overlay & Modal Styles */
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-index-overlay);
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+
+  .menu-overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--color-black-overlay);
+    opacity: var(--opacity-hidden);
+    transition: var(--transition-opacity);
+  }
+
+  .menu-drawer {
+    position: relative;
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-heavy);
+    width: var(--clamp-drawer-width);
+    max-width: 95vw;
+    max-height: 92vh;
+    transform: none;
+    opacity: var(--opacity-hidden);
+    transition: var(--transition-combined);
+    padding: var(--spacing-xl);
+    overflow: hidden;
+    box-sizing: border-box;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    border: var(--border-solid);
+    border-radius: var(--border-radius);
+  }
+
+  &.overlay-visible {
+    pointer-events: auto;
+
+    .menu-overlay-backdrop {
+      opacity: var(--opacity-visible);
+    }
+    .menu-drawer {
+      transform: none;
+      opacity: var(--opacity-visible);
+    }
+    .menu-drawer,
+    .menu-drawer * {
+      pointer-events: auto;
+    }
+  }
+
+  &.overlay-hidden {
+    pointer-events: none;
+    .menu-drawer,
+    .menu-drawer * {
+      pointer-events: none;
+    }
+  }
+}
+
+.close-menu {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  border: none;
+  background: rgba(155, 52, 46, 0.3);
+  color: var(--color-text-light);
+  font-size: 1.8rem;
+  cursor: pointer !important;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto !important;
+  z-index: 10000;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  * {
+    pointer-events: none !important;
+    user-select: none;
+  }
+
+  &:hover {
+    background: rgb(204, 119, 34) !important;
+    color: rgb(27, 11, 11);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(204, 119, 34, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.overlay-visible {
+  right: 0;
+}
+
+.overlay-hidden {
+  right: -400px;
+}
