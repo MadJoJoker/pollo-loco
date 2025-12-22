@@ -216,7 +216,7 @@
     transition: font-size var(--transition-standard);
   }
   .headline {
-    top: clamp(34%, 38vh, 42%);
+    top: clamp(34%, 38vh, 33%);
     font-size: clamp(26px, 4vw, 38px);
     width: clamp(85%, 90%, 95%);
   }
@@ -551,7 +551,7 @@
 /* Extra small screens - prevent overflow */
 @media only screen and (max-height: 600px) and (min-height: 321px) {
   .headline {
-    top: clamp(18%, 22vh, 26%);
+    top: clamp(28%, 22vh, 36%);
     font-size: clamp(13px, 2.8vw, 16px);
   }
 
