@@ -189,8 +189,8 @@
       padding var(--transition-standard);
   }
   #game-over-msg-won {
-    width: clamp(70px, 10vw, 80px);
-    height: clamp(70px, 10vh, 80px);
+    width: clamp(170px, 10vw, 180px);
+    height: clamp(80px, 10vh, 120px);
     transition: width var(--transition-standard),
       height var(--transition-standard);
   }
