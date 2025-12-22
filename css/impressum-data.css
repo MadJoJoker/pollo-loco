@@ -43,6 +43,8 @@ ul {
   padding: 0 var(--spacing-sm);
 }
 
+
+
 ul {
   list-style: none;
   padding-left: var(--spacing-sm);
@@ -179,7 +181,7 @@ body
 
 .content-container {
   max-width: var(--max-width);
-  margin: 20px auto 0;
+  margin:auto auto 0;
   padding: var(--spacing-sm);
   width: 100%;
   box-sizing: border-box;
