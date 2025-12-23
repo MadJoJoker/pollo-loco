@@ -16,7 +16,6 @@
 
   <body onload="init()">
     <audio id="index-sound" src="/assets/audio/guitarre.mp3" loop></audio>
-
     <script>
       const allowedReferrers = [
         "start-screen.html",
@@ -31,7 +30,6 @@
       const hasValidReferrer = allowedReferrers.some((page) =>
         document.referrer.includes(page)
       );
-
       if (!hasValidReferrer) {
         window.location.href = "pages/start-screen.html";
       }
@@ -123,8 +121,7 @@
     <div id="extrascreens" class="extrascreens hidden">
       <div id="rotateScreen" class="rotate-screen hidden">
         <p>
-          🔄️📱¡Por favor, gira tu tele´fono al modo horizontal! 🔄️ Please
-          rotate your phone to landscape mode! 📱🔄️
+          🔄️📱🔄️ Please rotate your phone to landscape mode! 📱🔄️ GAME PAUSED
         </p>
       </div>
       <div id="startscreen" class="startscreen">
@@ -147,6 +144,7 @@
         </button>
       </div>
     </div>
+    <!-- SCRIPTS AM SEITENENDE FÜR KORREKTE LADE-REIHENFOLGE -->
     <script src="js/interval-helper.js"></script>
     <script src="js/game-animation-utils.js"></script>
     <script src="models/drawable-object.class.js"></script>

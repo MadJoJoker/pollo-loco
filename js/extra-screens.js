@@ -1,3 +1,15 @@
+function handleOrientationChange() {
+  if (window.matchMedia("(orientation: portrait)").matches) {
+    showRotateScreenFn();
+  } else {
+    hideRotateScreenFn();
+  }
+}
+
+window.addEventListener("orientationchange", handleOrientationChange);
+window.addEventListener("resize", handleOrientationChange);
+// Initial prüfen
+handleOrientationChange();
 const buttonIds = [
   "startGame",
   "highscoreButton",
@@ -175,14 +187,20 @@ function updateCanvasFullscreenBtnFn() {
 /**
  * Shows the rotate screen overlay for mobile devices.
  */
+
 function showRotateScreenFn() {
   document.getElementById("extrascreens").classList.remove("hidden");
   document.getElementById("rotateScreen").classList.remove("hidden");
+  if (typeof window.pauseGameTime === "function") window.pauseGameTime();
+  window.gamePaused = true;
 }
 
 /**
  * Hides the rotate screen overlay for mobile devices.
  */
+
 function hideRotateScreenFn() {
   document.getElementById("rotateScreen").classList.add("hidden");
+  if (typeof window.resumeGameTime === "function") window.resumeGameTime();
+  window.gamePaused = false;
 }
