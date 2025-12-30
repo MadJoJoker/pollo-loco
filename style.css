@@ -135,9 +135,9 @@ h1 {
 
 .mobile-buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 20%;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
