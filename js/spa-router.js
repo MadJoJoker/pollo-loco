@@ -259,6 +259,40 @@
    * @returns {Promise} A promise that resolves when the page is rendered.
    */
   function fetchAndRender(path, replace) {
+    // Wenn win.html oder game-over.html, öffne Overlay und lade Inhalt
+    if (path.includes("win.html") || path.includes("game-over.html")) {
+      fetch(path, { cache: "no-cache" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Fetch failed: " + res.status);
+          return res.text();
+        })
+        .then(function (htmlText) {
+          // Parse das geladene HTML
+          var parsed = parseHTML(htmlText);
+          let overlay = document.getElementById("extrascreens");
+          if (!overlay) {
+            overlay = document.createElement("div");
+            overlay.id = "extrascreens";
+            document.body.appendChild(overlay);
+          }
+          overlay.classList.remove("hidden");
+          // Nur den Body-Inhalt ins Overlay einfügen
+          overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
+          // Stylesheets und Inline-Styles nachladen
+          ensureStyles(parsed);
+          // Skripte ausführen (inline und extern)
+          executeScripts(parsed, overlay);
+        })
+        .catch(function (err) {
+          console.warn(
+            "SPA: fetch failed, falling back to full navigation",
+            err
+          );
+          window.location.href = path;
+        });
+      return Promise.resolve();
+    }
+    // Standardverhalten für andere Seiten
     return fetch(path, { cache: "no-cache" })
       .then(function (res) {
         if (!res.ok) throw new Error("Fetch failed: " + res.status);
