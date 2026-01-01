@@ -55,11 +55,7 @@ function _mainGameLoop() {
   if (!window.gamePaused) {
     const t = window.getGameTime();
     for (const cb of window._gameLoopCallbacks) {
-      try {
-        cb(t);
-      } catch (e) {
-        console.error(e);
-      }
+      cb(t);
     }
   }
   window.requestAnimationFrame(_mainGameLoop);
@@ -140,9 +136,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const indexSound = document.getElementById("index-sound");
   if (indexSound) {
     indexSound.muted = (muteValue || "0") === "1";
-    indexSound.play().catch((err) => {
-      console.log("Audio autoplay prevented by browser:", err);
-    });
+    indexSound.play().catch(() => {});
   }
 
   window.updateMuteButtonVisuals();

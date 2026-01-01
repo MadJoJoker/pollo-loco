@@ -22,21 +22,16 @@
    */
   function scriptAlreadyLoaded(src) {
     if (!src) return false;
-    try {
-      var a = document.createElement("a");
-      a.href = src;
-      src = a.href;
-    } catch (e) {}
+    var a = document.createElement("a");
+    a.href = src;
+    src = a.href;
     var scripts = document.querySelectorAll("script[src]");
     for (var i = 0; i < scripts.length; i++) {
       var s = scripts[i];
-      try {
-        var a2 = document.createElement("a");
-        a2.href = s.getAttribute("src");
-        if (a2.href === src) return true;
-      } catch (e) {
-        if (s.getAttribute("src") === src) return true;
-      }
+      var a2 = document.createElement("a");
+      a2.href = s.getAttribute("src");
+      if (a2.href === src) return true;
+      if (s.getAttribute("src") === src) return true;
     }
     return false;
   }
@@ -51,52 +46,45 @@
     var scripts = Array.prototype.slice.call(
       fromDoc.querySelectorAll("script")
     );
+    return runAllScripts(scripts, targetRoot);
+  }
 
-    /**
-     * Executes an inline script element.
-     * @param {HTMLScriptElement} s - The script element to execute.
-     */
-    function runInlineScript(s) {
-      var inline = document.createElement("script");
-      if (s.type) inline.type = s.type;
-      inline.text = s.textContent || s.innerText || "";
-      targetRoot.appendChild(inline);
-    }
-
-    /**
-     * Loads an external script element asynchronously.
-     * @param {HTMLScriptElement} s - The script element to load.
-     * @returns {Promise} A promise that resolves when the script is loaded.
-     */
-    function loadExternalScript(s) {
-      return new Promise(function (resolve, reject) {
-        var src = s.getAttribute("src");
-        if (!src) return resolve();
-        if (scriptAlreadyLoaded(src)) return resolve();
-        var ext = document.createElement("script");
-        if (s.type) ext.type = s.type;
-        ext.src = src;
-        ext.onload = function () {
-          resolve();
-        };
-        ext.onerror = function () {
-          console.warn("Failed to load script", src);
-          resolve();
-        };
-        (document.head || document.documentElement).appendChild(ext);
-      });
-    }
-
+  function runAllScripts(scripts, targetRoot) {
     return scripts.reduce(function (p, s) {
       return p.then(function () {
         if (s.src) {
-          return loadExternalScript(s);
+          return loadExternalScript(s, targetRoot);
         } else {
-          runInlineScript(s);
+          runInlineScript(s, targetRoot);
           return Promise.resolve();
         }
       });
     }, Promise.resolve());
+  }
+
+  function runInlineScript(s, targetRoot) {
+    var inline = document.createElement("script");
+    if (s.type) inline.type = s.type;
+    inline.text = s.textContent || s.innerText || "";
+    targetRoot.appendChild(inline);
+  }
+
+  function loadExternalScript(s, targetRoot) {
+    return new Promise(function (resolve) {
+      var src = s.getAttribute("src");
+      if (!src) return resolve();
+      if (scriptAlreadyLoaded(src)) return resolve();
+      var ext = document.createElement("script");
+      if (s.type) ext.type = s.type;
+      ext.src = src;
+      ext.onload = function () {
+        resolve();
+      };
+      ext.onerror = function () {
+        resolve();
+      };
+      (document.head || document.documentElement).appendChild(ext);
+    });
   }
 
   /**
@@ -106,20 +94,15 @@
    */
   function styleAlreadyLoaded(href) {
     if (!href) return false;
-    try {
-      var a = document.createElement("a");
-      a.href = href;
-      href = a.href;
-    } catch (e) {}
+    var a = document.createElement("a");
+    a.href = href;
+    href = a.href;
     var links = document.querySelectorAll('link[rel="stylesheet"]');
     for (var i = 0; i < links.length; i++) {
-      try {
-        var a2 = document.createElement("a");
-        a2.href = links[i].getAttribute("href");
-        if (a2.href === href) return true;
-      } catch (e) {
-        if (links[i].getAttribute("href") === href) return true;
-      }
+      var a2 = document.createElement("a");
+      a2.href = links[i].getAttribute("href");
+      if (a2.href === href) return true;
+      if (links[i].getAttribute("href") === href) return true;
     }
     return false;
   }
@@ -138,8 +121,13 @@
     var headStyles = Array.prototype.slice.call(
       (fromDoc.head && fromDoc.head.querySelectorAll("style")) || []
     );
+    removeOldStyles();
+    var promises = headLinks.map(loadStylesheet);
+    headStyles.forEach(addInlineStyle);
+    return Promise.all(promises);
+  }
 
-    // Remove old page-specific stylesheets and old shared-components (keep only root.css)
+  function removeOldStyles() {
     var existingLinks = document.querySelectorAll('link[rel="stylesheet"]');
     existingLinks.forEach(function (link) {
       var href = link.getAttribute("href");
@@ -147,42 +135,32 @@
         link.remove();
       }
     });
-
-    var promises = [];
-
-    headLinks.forEach(function (lnk) {
-      var href = lnk.getAttribute("href");
-      if (!href) return;
-
-      // Skip root.css if already loaded (never changes)
-      if (href.includes("root.css") && styleAlreadyLoaded(href)) return;
-
-      promises.push(
-        new Promise(function (resolve) {
-          var link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = href;
-          link.onload = function () {
-            resolve();
-          };
-          link.onerror = function () {
-            console.warn("Failed to load stylesheet", href);
-            resolve();
-          };
-          (document.head || document.documentElement).appendChild(link);
-        })
-      );
-    });
-
-    headStyles.forEach(function (st) {
-      var style = document.createElement("style");
-      if (st.textContent) style.textContent = st.textContent;
-      (document.head || document.documentElement).appendChild(style);
-    });
-
-    return Promise.all(promises);
   }
 
+  function loadStylesheet(lnk) {
+    var href = lnk.getAttribute("href");
+    if (!href) return Promise.resolve();
+    if (href.includes("root.css") && styleAlreadyLoaded(href))
+      return Promise.resolve();
+    return new Promise(function (resolve) {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      link.onload = function () {
+        resolve();
+      };
+      link.onerror = function () {
+        resolve();
+      };
+      (document.head || document.documentElement).appendChild(link);
+    });
+  }
+
+  function addInlineStyle(st) {
+    var style = document.createElement("style");
+    if (st.textContent) style.textContent = st.textContent;
+    (document.head || document.documentElement).appendChild(style);
+  }
   /**
    * Replaces the current body content with content from the new document.
    * @param {Document} newDoc - The new document containing the body to replace.
@@ -191,67 +169,49 @@
   function replaceBody(newDoc) {
     var newBody = newDoc.body;
     if (!newBody) return Promise.resolve(false);
+    destroyCurrentRoute();
+    return ensureStyles(newDoc).then(function () {
+      copyBodyAttributes(newBody);
+      document.body.innerHTML = newBody.innerHTML;
+      return executeScripts(newDoc, document.body).then(function () {
+        afterBodyReplace();
+        return true;
+      });
+    });
+  }
 
+  function destroyCurrentRoute() {
     if (
       routes[currentPath] &&
       typeof routes[currentPath].destroy === "function"
     ) {
-      try {
-        routes[currentPath].destroy();
-      } catch (e) {
-        console.error(e);
-      }
+      routes[currentPath].destroy();
     }
-
-    return ensureStyles(newDoc)
-      .then(function () {
-        // Copy all body attributes (including id, class, etc.)
-        var attrs = newBody.attributes;
-        // Remove all existing attributes first
-        while (document.body.attributes.length > 0) {
-          document.body.removeAttribute(document.body.attributes[0].name);
-        }
-        // Copy new attributes
-        for (var i = 0; i < attrs.length; i++) {
-          document.body.setAttribute(attrs[i].name, attrs[i].value);
-        }
-
-        document.body.innerHTML = newBody.innerHTML;
-
-        return executeScripts(newDoc, document.body)
-          .then(function () {
-            var next = location.pathname;
-            if (routes[next] && typeof routes[next].init === "function") {
-              try {
-                routes[next].init();
-              } catch (e) {
-                console.error(e);
-              }
-            }
-            if (typeof window.init === "function") {
-              try {
-                window.init();
-              } catch (e) {}
-            }
-            currentPath = next;
-            try {
-              document.dispatchEvent(
-                new CustomEvent("spa:render", { detail: { path: next } })
-              );
-            } catch (e) {}
-            return true;
-          })
-          .catch(function (err) {
-            console.error("Error executing scripts from fetched document", err);
-            return false;
-          });
-      })
-      .catch(function (err) {
-        console.error("Error loading styles from fetched document", err);
-        return false;
-      });
   }
 
+  function copyBodyAttributes(newBody) {
+    var attrs = newBody.attributes;
+    while (document.body.attributes.length > 0) {
+      document.body.removeAttribute(document.body.attributes[0].name);
+    }
+    for (var i = 0; i < attrs.length; i++) {
+      document.body.setAttribute(attrs[i].name, attrs[i].value);
+    }
+  }
+
+  function afterBodyReplace() {
+    var next = location.pathname;
+    if (routes[next] && typeof routes[next].init === "function") {
+      routes[next].init();
+    }
+    if (typeof window.init === "function") {
+      window.init();
+    }
+    currentPath = next;
+    document.dispatchEvent(
+      new CustomEvent("spa:render", { detail: { path: next } })
+    );
+  }
   /**
    * Fetches a page and renders it in the SPA.
    * @param {string} path - The path to fetch.

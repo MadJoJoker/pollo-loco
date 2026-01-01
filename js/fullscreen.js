@@ -33,22 +33,16 @@ document.addEventListener("click", function (e) {
  * @param {HTMLElement} fullscreen - The element to display in fullscreen.
  */
 function enterFullscreen(fullscreen) {
-  try {
-    const result = fullscreen.requestFullscreen
-      ? fullscreen.requestFullscreen()
-      : fullscreen.msRequestFullscreen
-      ? fullscreen.msRequestFullscreen()
-      : fullscreen.webkitRequestFullscreen
-      ? fullscreen.webkitRequestFullscreen()
-      : null;
+  const result = fullscreen.requestFullscreen
+    ? fullscreen.requestFullscreen()
+    : fullscreen.msRequestFullscreen
+    ? fullscreen.msRequestFullscreen()
+    : fullscreen.webkitRequestFullscreen
+    ? fullscreen.webkitRequestFullscreen()
+    : null;
 
-    if (result && typeof result.catch === "function") {
-      result.catch(() => {
-        // Fullscreen request ignored - requires user gesture
-      });
-    }
-  } catch (error) {
-    // Fullscreen API not available or blocked
+  if (result && typeof result.catch === "function") {
+    result.catch(() => {});
   }
 }
 

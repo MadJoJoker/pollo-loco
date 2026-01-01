@@ -52,9 +52,7 @@ class World {
   /** (Re)starts interval-based loops after pause. */
   startIntervals() {
     this.startGameLoops();
-    try {
-      this.run();
-    } catch (e) {}
+    this.run();
   }
 
   /** Adds visual effect. */
