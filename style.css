@@ -102,7 +102,6 @@ canvas {
 
 #fullscreen:fullscreen .canvas-fullscreen-btn {
   top: 8%;
-  right: 2%;
 }
 
 h1 {
@@ -151,6 +150,8 @@ h1 {
   justify-content: center;
   width: auto;
   height: auto;
+  min-width: 45px;
+  min-height: 45px;
   gap: 0.25rem;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
