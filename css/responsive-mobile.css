@@ -259,8 +259,7 @@
   #heros-scoreboard,
   #scoreboard-gameover,
   #scoreboard-win {
-    width: min(320px, 88vw);
-    height: min(280px, 48vh);
+
     top: 68%;
     padding: clamp(5px, 1.2vh, 8px) clamp(7px, 1.8vw, 12px);
   }
