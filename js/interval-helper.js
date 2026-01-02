@@ -136,7 +136,12 @@ window.addEventListener("DOMContentLoaded", function () {
   const indexSound = document.getElementById("index-sound");
   if (indexSound) {
     indexSound.muted = (muteValue || "0") === "1";
-    indexSound.play().catch(() => {});
+    indexSound.play().catch((err) => {
+      throw new Error(
+        "Audio playback failed: index-sound could not be played. " +
+          (err && err.message ? err.message : "")
+      );
+    });
   }
 
   window.updateMuteButtonVisuals();

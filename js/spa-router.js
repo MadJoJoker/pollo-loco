@@ -244,11 +244,10 @@
           executeScripts(parsed, overlay);
         })
         .catch(function (err) {
-          console.warn(
-            "SPA: fetch failed, falling back to full navigation",
-            err
+          throw new Error(
+            "SPA: fetch failed, falling back to full navigation. " +
+              (err && err.message ? err.message : "")
           );
-          window.location.href = path;
         });
       return Promise.resolve();
     }
@@ -268,8 +267,10 @@
         });
       })
       .catch(function (err) {
-        console.warn("SPA: fetch failed, falling back to full navigation", err);
-        window.location.href = path;
+        throw new Error(
+          "SPA: fetch failed, falling back to full navigation. " +
+            (err && err.message ? err.message : "")
+        );
       });
   }
 

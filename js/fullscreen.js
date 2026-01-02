@@ -40,10 +40,6 @@ function enterFullscreen(fullscreen) {
     : fullscreen.webkitRequestFullscreen
     ? fullscreen.webkitRequestFullscreen()
     : null;
-
-  if (result && typeof result.catch === "function") {
-    result.catch(() => {});
-  }
 }
 
 /**

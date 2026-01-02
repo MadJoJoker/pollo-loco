@@ -1,6 +1,6 @@
 if (!window.GoldenEgg) {
   if (typeof CollectibleObject === "undefined")
-    throw new Error("CollectibleObject fehlt");
+    throw new Error("CollectibleObject missing");
   /**
    * Represents the golden egg collectible in the game.
    * Triggers level win when collected.
