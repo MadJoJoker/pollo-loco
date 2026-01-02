@@ -157,7 +157,7 @@ function isFullscreenFn() {
 function checkMobileButtonsBarFn() {
   const isTouchDevice =
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  const isTabletOrMobile = window.innerWidth < 1280 && isTouchDevice;
+  const isTabletOrMobile = window.innerWidth < 1440 && isTouchDevice;
 
   if (isTabletOrMobile || isFullscreenFn()) {
     showScreenFn("mobileButtonsBar");
