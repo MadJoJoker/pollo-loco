@@ -75,7 +75,6 @@ canvas {
 }
 #fullscreen .canvas-fullscreen-btn {
   display: flex;
-  justify-content: space-evenly !important;
   position: absolute;
   top: 30%;
   left: var(--position-center);
@@ -84,7 +83,6 @@ canvas {
   border: solid var(--clamp-border) var(--color-border);
   border-radius: var(--clamp-border-radius);
   z-index: var(--z-index-modal);
-  width: var(--clamp-width);
   height: var(--clamp-height);
   padding: var(--clamp-padding);
   box-sizing: border-box;
