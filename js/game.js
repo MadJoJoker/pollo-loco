@@ -154,12 +154,32 @@ function _resumeGame() {
     world.startGameLoops();
     if (typeof world.run === "function") world.run();
   }
+  hideTacoTimeOverlay();
 }
 
 function _pauseGame() {
   if (window.pauseGameTime) window.pauseGameTime();
   if (window.stopAllIntervals) window.stopAllIntervals();
   resetKeyboardInputs();
+  showTacoTimeOverlay();
+}
+
+// Taco Time Overlay anzeigen
+function showTacoTimeOverlay() {
+  const overlay = document.getElementById("tacoTimeOverlay");
+  if (!overlay) return;
+  overlay.style.display = "flex";
+  overlay.classList.remove("hide");
+}
+
+// Taco Time Overlay ausblenden (mit Animation)
+function hideTacoTimeOverlay() {
+  const overlay = document.getElementById("tacoTimeOverlay");
+  if (!overlay) return;
+  overlay.classList.add("hide");
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 500); // Animationsdauer wie in CSS
 }
 
 /**
