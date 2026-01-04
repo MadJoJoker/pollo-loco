@@ -10,10 +10,74 @@ document.addEventListener("contextmenu", function (e) {
 /**
  * Initializes the game by setting up the canvas and creating the world instance.
  */
+
 function init() {
   canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
-  _startGameTimeIfAvailable();
+  showCountdownAndStartGame();
+}
+
+function showCountdownAndStartGame() {
+  let countdown = 3;
+  const ctx = canvas.getContext("2d");
+  const charImg = new window.Image();
+  charImg.src = "assets/img/2_character_pepe/1_idle/idle/I-1.png";
+  const chickenImg = new window.Image();
+  chickenImg.src = "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
+  function drawAll() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawCountdown(ctx, countdown, charImg, chickenImg);
+  }
+  drawAll();
+  let countdownInterval = setInterval(() => {
+    countdown--;
+    drawAll();
+    if (countdown < 0) {
+      clearInterval(countdownInterval);
+      world = new World(canvas, keyboard);
+      _startGameTimeIfAvailable();
+    }
+  }, 1000);
+}
+
+function drawCountdown(ctx, number, charImg, chickenImg) {
+  ctx.save();
+  drawCountdownBg(ctx);
+  drawCountdownImgs(ctx, charImg, chickenImg);
+  ctx.font = "bold 120px GringoNights, Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = "#1b0b0b";
+  ctx.fillStyle = "#f4ee96";
+  let text = number > 0 ? number : "GO!";
+  ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  ctx.shadowColor = "#b85f14";
+  ctx.shadowBlur = 30;
+  ctx.globalAlpha = 0.7;
+  ctx.restore();
+}
+
+function drawCountdownBg(ctx) {
+  let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  grad.addColorStop(0, "#f4ee96");
+  grad.addColorStop(0.5, "#cc7722");
+  grad.addColorStop(1, "#611f1d");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function drawCountdownImgs(ctx, charImg, chickenImg) {
+  if (charImg.complete)
+    ctx.drawImage(charImg, 40, canvas.height - 180, 120, 140);
+  if (chickenImg.complete)
+    ctx.drawImage(
+      chickenImg,
+      canvas.width - 160,
+      canvas.height - 150,
+      110,
+      110
+    );
 }
 
 function _startGameTimeIfAvailable() {
