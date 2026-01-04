@@ -1,3 +1,13 @@
+/* Button-Text standardmäßig ausblenden, nur bei Hover/Fokus anzeigen */
+.img-btn .btn-text {
+  display: none;
+  transition: opacity 0.2s;
+}
+.img-btn:hover .btn-text,
+.img-btn:focus .btn-text {
+  display: block;
+  opacity: 1;
+}
 @font-face {
   font-family: "GringoNights";
   src: url("/assets/fonts/banderos/Bandero.otf") format("truetype");

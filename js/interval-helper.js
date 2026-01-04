@@ -184,7 +184,7 @@ window.updateMuteButtonVisuals = function () {
   const muteValue = localStorage.getItem("polloMute") || "0";
   const isMuted = muteValue === "1";
   const img = muteButton.querySelector("img");
-  const textNode = muteButton.childNodes[muteButton.childNodes.length - 1];
+  const label = document.getElementById("muteBtnLabel");
 
   if (img) {
     img.src = isMuted
@@ -193,8 +193,8 @@ window.updateMuteButtonVisuals = function () {
     img.alt = isMuted ? "muted" : "sound on";
   }
 
-  if (textNode && textNode.nodeType === Node.TEXT_NODE) {
-    textNode.textContent = isMuted ? " Unmute" : " Mute";
+  if (label) {
+    label.textContent = isMuted ? "Unmute" : "Mute";
   }
 };
 
