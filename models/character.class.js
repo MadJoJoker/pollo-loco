@@ -269,7 +269,11 @@ class Character extends MovableObject {
         const target = window.getGameTime() + 1000;
         const unregister = window.registerGameLoop((gameTime) => {
           if (gameTime >= target) {
-            window.location.href = "/pages/game-over.html";
+            if (window.SPA && typeof window.SPA.navigate === "function") {
+              window.SPA.navigate("/pages/game-over.html");
+            } else {
+              console.log("Overlay für game-over.html funktioniert nicht");
+            }
             unregister();
           }
         });

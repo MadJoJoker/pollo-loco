@@ -5,16 +5,16 @@
 function fullscreen() {
   let fullscreenEl = document.getElementById("fullscreen");
   if (!fullscreenEl) return;
+  if (_isFullscreen(fullscreenEl)) exitFullscreen();
+  else enterFullscreen(fullscreenEl);
+}
 
-  if (
-    document.fullscreenElement === fullscreenEl ||
-    document.webkitFullscreenElement === fullscreenEl ||
-    document.msFullscreenElement === fullscreenEl
-  ) {
-    exitFullscreen();
-  } else {
-    enterFullscreen(fullscreenEl);
-  }
+function _isFullscreen(el) {
+  return (
+    document.fullscreenElement === el ||
+    document.webkitFullscreenElement === el ||
+    document.msFullscreenElement === el
+  );
 }
 
 /**
@@ -33,13 +33,10 @@ document.addEventListener("click", function (e) {
  * @param {HTMLElement} fullscreen - The element to display in fullscreen.
  */
 function enterFullscreen(fullscreen) {
-  const result = fullscreen.requestFullscreen
-    ? fullscreen.requestFullscreen()
-    : fullscreen.msRequestFullscreen
-    ? fullscreen.msRequestFullscreen()
-    : fullscreen.webkitRequestFullscreen
-    ? fullscreen.webkitRequestFullscreen()
-    : null;
+  if (fullscreen.requestFullscreen) fullscreen.requestFullscreen();
+  else if (fullscreen.msRequestFullscreen) fullscreen.msRequestFullscreen();
+  else if (fullscreen.webkitRequestFullscreen)
+    fullscreen.webkitRequestFullscreen();
 }
 
 /**

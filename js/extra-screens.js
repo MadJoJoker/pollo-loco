@@ -88,16 +88,20 @@ window.addEventListener("resize", checkMobileButtonsBarFn);
  */
 function addMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.addEventListener("touchstart", buttonEventListener[id].touchstart, {
-        passive: true,
-      });
-      btn.addEventListener("touchend", buttonEventListener[id].touchend, {
-        passive: true,
-      });
-    }
+    addTouchListenersToBtn(id);
   });
+}
+
+function addTouchListenersToBtn(id) {
+  const btn = document.getElementById(id);
+  if (btn) {
+    btn.addEventListener("touchstart", buttonEventListener[id].touchstart, {
+      passive: true,
+    });
+    btn.addEventListener("touchend", buttonEventListener[id].touchend, {
+      passive: true,
+    });
+  }
 }
 
 /**
@@ -105,12 +109,16 @@ function addMobileButtonEventListenerFn() {
  */
 function removeMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.removeEventListener("touchstart", buttonEventListener[id].touchstart);
-      btn.removeEventListener("touchend", buttonEventListener[id].touchend);
-    }
+    removeTouchListenersFromBtn(id);
   });
+}
+
+function removeTouchListenersFromBtn(id) {
+  const btn = document.getElementById(id);
+  if (btn) {
+    btn.removeEventListener("touchstart", buttonEventListener[id].touchstart);
+    btn.removeEventListener("touchend", buttonEventListener[id].touchend);
+  }
 }
 
 /**
@@ -118,10 +126,12 @@ function removeMobileButtonEventListenerFn() {
  * @param {string[]} ids - Array of element IDs to hide.
  */
 function hideScreensFn(ids) {
-  ids.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add("hidden");
-  });
+  ids.forEach(hideScreenById);
+}
+
+function hideScreenById(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add("hidden");
 }
 
 /**
@@ -130,12 +140,19 @@ function hideScreensFn(ids) {
  */
 function showScreenFn(screenId) {
   hideScreensFn(["startscreen", "highscore", "mobileButtonsBar"]);
+  showExtrascreens();
+  showScreenById(screenId);
+  if (screenId === "mobileButtonsBar") addMobileButtonEventListenerFn();
+  else removeMobileButtonEventListenerFn();
+}
+
+function showExtrascreens() {
   document.getElementById("extrascreens").classList.remove("hidden");
+}
+
+function showScreenById(screenId) {
   const screen = document.getElementById(screenId);
   if (screen) screen.classList.remove("hidden");
-  screenId === "mobileButtonsBar"
-    ? addMobileButtonEventListenerFn()
-    : removeMobileButtonEventListenerFn();
 }
 
 /**
@@ -158,17 +175,17 @@ function checkMobileButtonsBarFn() {
   const isTouchDevice =
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
   const isTabletOrMobile = window.innerWidth < 1440 && isTouchDevice;
+  if (isTabletOrMobile || isFullscreenFn()) showScreenFn("mobileButtonsBar");
+  else hideAllScreens();
+}
 
-  if (isTabletOrMobile || isFullscreenFn()) {
-    showScreenFn("mobileButtonsBar");
-  } else {
-    hideScreensFn([
-      "startscreen",
-      "highscore",
-      "mobileButtonsBar",
-      "extrascreens",
-    ]);
-  }
+function hideAllScreens() {
+  hideScreensFn([
+    "startscreen",
+    "highscore",
+    "mobileButtonsBar",
+    "extrascreens",
+  ]);
 }
 document.addEventListener("fullscreenchange", checkMobileButtonsBarFn);
 document.addEventListener("webkitfullscreenchange", checkMobileButtonsBarFn);
@@ -179,9 +196,7 @@ document.addEventListener("msfullscreenchange", checkMobileButtonsBarFn);
  */
 function updateCanvasFullscreenBtnFn() {
   const canvasBtn = document.getElementById("canvasFullscreenBtn");
-  if (canvasBtn) {
-    canvasBtn.classList.remove("hidden");
-  }
+  if (canvasBtn) canvasBtn.classList.remove("hidden");
 }
 
 /**
@@ -189,8 +204,8 @@ function updateCanvasFullscreenBtnFn() {
  */
 
 function showRotateScreenFn() {
-  document.getElementById("extrascreens").classList.remove("hidden");
-  document.getElementById("rotateScreen").classList.remove("hidden");
+  showExtrascreens();
+  showScreenById("rotateScreen");
   if (typeof window.pauseGameTime === "function") window.pauseGameTime();
   window.gamePaused = true;
 }
@@ -200,7 +215,7 @@ function showRotateScreenFn() {
  */
 
 function hideRotateScreenFn() {
-  document.getElementById("rotateScreen").classList.add("hidden");
+  hideScreenById("rotateScreen");
   if (typeof window.resumeGameTime === "function") window.resumeGameTime();
   window.gamePaused = false;
 }

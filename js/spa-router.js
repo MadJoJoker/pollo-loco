@@ -5,14 +5,43 @@
   var routes = {};
   var currentPath = location.pathname;
 
+  function showOverlayPage(path) {
+    return fetchOverlayHtml(path).then(insertOverlayHtml);
+  }
+  function fetchOverlayHtml(path) {
+    return fetch(path, { cache: "no-cache" })
+      .then(checkResponse)
+      .then((res) => res.text());
+  }
+  function checkResponse(res) {
+    if (!res.ok) throw new Error("Fetch failed: " + res.status);
+    return res;
+  }
+  function insertOverlayHtml(htmlText) {
+    var parsed = parseHTML(htmlText);
+    let overlay = getOrCreateOverlay();
+    overlay.classList.remove("hidden");
+    overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
+    return Promise.all([ensureStyles(parsed), executeScripts(parsed, overlay)]);
+  }
+
+  function getOrCreateOverlay() {
+    let overlay = document.getElementById("extrascreens");
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.id = "extrascreens";
+      document.body.appendChild(overlay);
+    }
+    return overlay;
+  }
+
   /**
    * Parses an HTML string into a Document object.
    * @param {string} htmlText - The HTML string to parse.
    * @returns {Document} The parsed HTML document.
    */
   function parseHTML(htmlText) {
-    var parser = new DOMParser();
-    return parser.parseFromString(htmlText, "text/html");
+    return new DOMParser().parseFromString(htmlText, "text/html");
   }
 
   /**
@@ -22,18 +51,15 @@
    */
   function scriptAlreadyLoaded(src) {
     if (!src) return false;
+    src = normalizeUrl(src);
+    return Array.from(document.querySelectorAll("script[src]")).some((s) => {
+      return normalizeUrl(s.getAttribute("src")) === src;
+    });
+  }
+  function normalizeUrl(url) {
     var a = document.createElement("a");
-    a.href = src;
-    src = a.href;
-    var scripts = document.querySelectorAll("script[src]");
-    for (var i = 0; i < scripts.length; i++) {
-      var s = scripts[i];
-      var a2 = document.createElement("a");
-      a2.href = s.getAttribute("src");
-      if (a2.href === src) return true;
-      if (s.getAttribute("src") === src) return true;
-    }
-    return false;
+    a.href = url;
+    return a.href;
   }
 
   /**
@@ -50,16 +76,17 @@
   }
 
   function runAllScripts(scripts, targetRoot) {
-    return scripts.reduce(function (p, s) {
-      return p.then(function () {
-        if (s.src) {
-          return loadExternalScript(s, targetRoot);
-        } else {
-          runInlineScript(s, targetRoot);
-          return Promise.resolve();
-        }
-      });
-    }, Promise.resolve());
+    return scripts.reduce(runScriptReducer(targetRoot), Promise.resolve());
+  }
+  function runScriptReducer(targetRoot) {
+    return function (p, s) {
+      return p.then(() => runScript(s, targetRoot));
+    };
+  }
+  function runScript(s, targetRoot) {
+    if (s.src) return loadExternalScript(s, targetRoot);
+    runInlineScript(s, targetRoot);
+    return Promise.resolve();
   }
 
   function runInlineScript(s, targetRoot) {
@@ -72,17 +99,11 @@
   function loadExternalScript(s, targetRoot) {
     return new Promise(function (resolve) {
       var src = s.getAttribute("src");
-      if (!src) return resolve();
-      if (scriptAlreadyLoaded(src)) return resolve();
+      if (!src || scriptAlreadyLoaded(src)) return resolve();
       var ext = document.createElement("script");
       if (s.type) ext.type = s.type;
       ext.src = src;
-      ext.onload = function () {
-        resolve();
-      };
-      ext.onerror = function () {
-        resolve();
-      };
+      ext.onload = ext.onerror = () => resolve();
       (document.head || document.documentElement).appendChild(ext);
     });
   }
@@ -94,17 +115,12 @@
    */
   function styleAlreadyLoaded(href) {
     if (!href) return false;
-    var a = document.createElement("a");
-    a.href = href;
-    href = a.href;
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-    for (var i = 0; i < links.length; i++) {
-      var a2 = document.createElement("a");
-      a2.href = links[i].getAttribute("href");
-      if (a2.href === href) return true;
-      if (links[i].getAttribute("href") === href) return true;
-    }
-    return false;
+    href = normalizeUrl(href);
+    return Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(
+      (l) => {
+        return normalizeUrl(l.getAttribute("href")) === href;
+      }
+    );
   }
 
   /**
@@ -128,30 +144,23 @@
   }
 
   function removeOldStyles() {
-    var existingLinks = document.querySelectorAll('link[rel="stylesheet"]');
-    existingLinks.forEach(function (link) {
-      var href = link.getAttribute("href");
-      if (href && !href.includes("root.css")) {
-        link.remove();
+    Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach(
+      (link) => {
+        var href = link.getAttribute("href");
+        if (href && !href.includes("root.css")) link.remove();
       }
-    });
+    );
   }
 
   function loadStylesheet(lnk) {
     var href = lnk.getAttribute("href");
-    if (!href) return Promise.resolve();
-    if (href.includes("root.css") && styleAlreadyLoaded(href))
+    if (!href || (href.includes("root.css") && styleAlreadyLoaded(href)))
       return Promise.resolve();
     return new Promise(function (resolve) {
       var link = document.createElement("link");
       link.rel = "stylesheet";
       link.href = href;
-      link.onload = function () {
-        resolve();
-      };
-      link.onerror = function () {
-        resolve();
-      };
+      link.onload = link.onerror = () => resolve();
       (document.head || document.documentElement).appendChild(link);
     });
   }
@@ -170,14 +179,16 @@
     var newBody = newDoc.body;
     if (!newBody) return Promise.resolve(false);
     destroyCurrentRoute();
-    return ensureStyles(newDoc).then(function () {
-      copyBodyAttributes(newBody);
-      document.body.innerHTML = newBody.innerHTML;
-      return executeScripts(newDoc, document.body).then(function () {
+    return ensureStyles(newDoc)
+      .then(() => {
+        copyBodyAttributes(newBody);
+        document.body.innerHTML = newBody.innerHTML;
+        return executeScripts(newDoc, document.body);
+      })
+      .then(() => {
         afterBodyReplace();
         return true;
       });
-    });
   }
 
   function destroyCurrentRoute() {
@@ -219,39 +230,14 @@
    * @returns {Promise} A promise that resolves when the page is rendered.
    */
   function fetchAndRender(path, replace) {
-    // Wenn win.html oder game-over.html, öffne Overlay und lade Inhalt
+    // Overlay-Fall
     if (path.includes("win.html") || path.includes("game-over.html")) {
-      fetch(path, { cache: "no-cache" })
-        .then(function (res) {
-          if (!res.ok) throw new Error("Fetch failed: " + res.status);
-          return res.text();
-        })
-        .then(function (htmlText) {
-          // Parse das geladene HTML
-          var parsed = parseHTML(htmlText);
-          let overlay = document.getElementById("extrascreens");
-          if (!overlay) {
-            overlay = document.createElement("div");
-            overlay.id = "extrascreens";
-            document.body.appendChild(overlay);
-          }
-          overlay.classList.remove("hidden");
-          // Nur den Body-Inhalt ins Overlay einfügen
-          overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
-          // Stylesheets und Inline-Styles nachladen
-          ensureStyles(parsed);
-          // Skripte ausführen (inline und extern)
-          executeScripts(parsed, overlay);
-        })
-        .catch(function (err) {
-          throw new Error(
-            "SPA: fetch failed, falling back to full navigation. " +
-              (err && err.message ? err.message : "")
-          );
-        });
-      return Promise.resolve();
+      return showOverlayPage(path).catch(function (err) {
+        console.error("Overlay fetch failed", err);
+        throw err;
+      });
     }
-    // Standardverhalten für andere Seiten
+    // Standard SPA-Body-Replace
     return fetch(path, { cache: "no-cache" })
       .then(function (res) {
         if (!res.ok) throw new Error("Fetch failed: " + res.status);
@@ -261,16 +247,16 @@
         var parsed = parseHTML(htmlText);
         if (replace) history.replaceState({ path: path }, "", path);
         else history.pushState({ path: path }, "", path);
-
         return replaceBody(parsed).then(function (ok) {
           if (!ok) throw new Error("No body in fetched document");
         });
       })
       .catch(function (err) {
-        throw new Error(
-          "SPA: fetch failed, falling back to full navigation. " +
-            (err && err.message ? err.message : "")
+        console.error(
+          "SPA: fetch failed, falling back to full navigation.",
+          err
         );
+        throw err;
       });
   }
 

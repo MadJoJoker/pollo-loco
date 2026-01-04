@@ -88,12 +88,16 @@ window.stopAllIntervals = function () {
  */
 function getAllAudios() {
   const audios = document.getElementsByTagName("audio");
+  _trackAudioIds(audios);
+  return audios;
+}
+
+function _trackAudioIds(audios) {
   for (let i = 0; i < audios.length; i++) {
     if (audios[i].id && !window.soundIntervalIds.includes(audios[i].id)) {
       window.soundIntervalIds.push(audios[i].id);
     }
   }
-  return audios;
 }
 
 /**
@@ -102,6 +106,10 @@ function getAllAudios() {
  */
 function setMuteForAllAudios(mute) {
   const audios = getAllAudios();
+  _muteAudios(audios, mute);
+}
+
+function _muteAudios(audios, mute) {
   Array.from(audios).forEach((audio) => {
     audio.muted = mute;
   });

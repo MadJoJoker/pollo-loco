@@ -13,6 +13,10 @@ document.addEventListener("contextmenu", function (e) {
 function init() {
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
+  _startGameTimeIfAvailable();
+}
+
+function _startGameTimeIfAvailable() {
   if (window.startGameTime) window.startGameTime();
 }
 
@@ -61,6 +65,10 @@ window.setStoppableInterval = function (fn, time) {
  * Stops and clears all intervals set by setStoppableInterval.
  */
 function stopAllIntervals() {
+  _clearAllIntervals();
+}
+
+function _clearAllIntervals() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
 }
@@ -69,50 +77,49 @@ function stopAllIntervals() {
  * Pauses or resumes the game by stopping or restarting intervals and updating the pause state.
  */
 function pauseGame() {
-  if (window.gamePaused) {
-    // Resume game time and restart world intervals
-    if (window.resumeGameTime) window.resumeGameTime();
-    if (window.stopAllIntervals) {
-      // ensure any previous intervals are cleared before restarting
-      window.stopAllIntervals();
-    }
-    if (world && typeof world.startIntervals === "function") {
-      world.startIntervals();
-    } else if (world && typeof world.startGameLoops === "function") {
-      // fallback: start the main loops again
-      world.startGameLoops();
-      if (typeof world.run === "function") world.run();
-    }
-  } else {
-    // Pause game time and stop all interval-based loops (collision, drawing, etc.)
-    if (window.pauseGameTime) window.pauseGameTime();
-    if (window.stopAllIntervals) window.stopAllIntervals();
-    // Reset all keyboard inputs to prevent character from staying in motion/air
-    resetKeyboardInputs();
+  if (window.gamePaused) _resumeGame();
+  else _pauseGame();
+}
+
+function _resumeGame() {
+  if (window.resumeGameTime) window.resumeGameTime();
+  if (window.stopAllIntervals) window.stopAllIntervals();
+  if (world && typeof world.startIntervals === "function")
+    world.startIntervals();
+  else if (world && typeof world.startGameLoops === "function") {
+    world.startGameLoops();
+    if (typeof world.run === "function") world.run();
   }
+}
+
+function _pauseGame() {
+  if (window.pauseGameTime) window.pauseGameTime();
+  if (window.stopAllIntervals) window.stopAllIntervals();
+  resetKeyboardInputs();
 }
 
 /**
  * Resets all keyboard inputs to false to prevent stuck movement during pause.
  */
 function resetKeyboardInputs() {
-  if (window.keyboard) {
-    window.keyboard.LEFT = false;
-    window.keyboard.RIGHT = false;
-    window.keyboard.UP = false;
-    window.keyboard.DOWN = false;
-    window.keyboard.SPACE = false;
-    window.keyboard.D = false;
-  }
+  if (window.keyboard) _resetAllKeys(window.keyboard);
+}
+
+function _resetAllKeys(kb) {
+  kb.LEFT = false;
+  kb.RIGHT = false;
+  kb.UP = false;
+  kb.DOWN = false;
+  kb.SPACE = false;
+  kb.D = false;
 }
 
 /**
  * Starts the game intervals if the world is initialized.
  */
 function playGame() {
-  if (world && typeof world.startIntervals === "function") {
+  if (world && typeof world.startIntervals === "function")
     world.startIntervals();
-  }
 }
 
 /**
@@ -129,7 +136,7 @@ function restartGame() {
   stopAllIntervals();
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-  if (window.startGameTime) window.startGameTime();
+  _startGameTimeIfAvailable();
 }
 
 const pauseButton = document.getElementById("pauseButton");
