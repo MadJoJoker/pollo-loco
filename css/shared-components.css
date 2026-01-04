@@ -134,7 +134,7 @@ body {
   font-size: clamp(28px, 3.5vw, 40px);
   margin: clamp(6px, 1vh, var(--spacing-sm)) 0;
 }
-
+#home-btn,
 #start-game-btn,
 #how-to-play-btn,
 #settings-btn,
