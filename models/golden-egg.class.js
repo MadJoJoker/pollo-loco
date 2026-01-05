@@ -57,6 +57,8 @@ if (!window.GoldenEgg) {
         if (gameTime >= target) {
           if (window.SPA && typeof window.SPA.navigate === "function") {
             window.SPA.navigate("/pages/win.html");
+          } else if (typeof window.showEndOverlay === "function") {
+            window.showEndOverlay("pages/win.html");
           } else {
             console.log("Overlay für win.html funktioniert nicht");
           }

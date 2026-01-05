@@ -38,7 +38,11 @@
     <div id="fullscreen">
       <h1>El Pollo Loco - Chicken Tabasco</h1>
       <canvas id="canvas" width="720" height="480"> </canvas>
-      <div id="canvasFullscreenBtn" class="canvas-fullscreen-btn hidden">
+      <div
+        id="canvasFullscreenBtn"
+        class="canvas-fullscreen-btn hidden"
+        style="z-index: 100"
+      >
         <div id="rightButtons" class="mobile-buttons">
           <button id="canvasFullscreenButton" class="img-btn">
             <img
@@ -112,8 +116,39 @@
           </button>
         </div>
       </div>
-      <div id="mobileButtonsBar" class="mobile-buttons-bar hidden">
+      <div
+        id="mobileButtonsBar"
+        class="mobile-buttons-bar hidden"
+        style="z-index: 101"
+      >
         <div id="leftButtons" class="mobile-buttons">
+          <!-- Overlay für Win/Game-Over -->
+          <div
+            id="end-overlay-bg"
+            style="
+              display: none;
+              position: fixed;
+              z-index: 9998;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              background: rgba(0, 0, 0, 1.7);
+            "
+          ></div>
+          <div
+            id="end-overlay-content"
+            style="
+              display: none;
+              position: fixed;
+              z-index: 9999;
+              top: 0;
+              left: 0;
+              width: 100vw;
+              height: 100vh;
+              pointer-events: auto;
+            "
+          ></div>
           <button id="leftButton" class="img-btn">
             <img
               src="/assets/button/arrow-left.png"
@@ -204,5 +239,90 @@
     <script src="js/extra-screens.js"></script>
     <script src="js/game.js"></script>
     <!-- <script src="js/start-restart-init.js"></script> -->
+    <script>
+      /**
+       * Zeigt das End-Overlay und lädt dynamisch den Inhalt von win.html oder game-over.html inkl. CSS/JS.
+       * @param {string} pageUrl - URL der Endseite ("pages/win.html" oder "pages/game-over.html")
+       */
+      async function showEndOverlay(pageUrl) {
+        // Spiel und Audios pausieren
+        if (typeof window.pauseGame === "function") window.pauseGame();
+        // Alle Audios stoppen
+        document.querySelectorAll("audio").forEach((a) => {
+          try {
+            a.pause();
+          } catch (e) {}
+        });
+        // Overlay-Elemente holen
+        const bg = document.getElementById("end-overlay-bg");
+        const content = document.getElementById("end-overlay-content");
+        // Vorherigen Inhalt entfernen
+        content.innerHTML = "";
+        // Anzeigen
+        bg.style.display = "block";
+        content.style.display = "block";
+        // Seite laden
+        const resp = await fetch(pageUrl);
+        let html = await resp.text();
+        // Nur <body>-Inhalt extrahieren
+        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        const bodyHtml = bodyMatch ? bodyMatch[1] : html;
+        // CSS/JS extrahieren
+        const cssLinks = [
+          ...html.matchAll(/<link[^>]+href=["']([^"']+\.css)["'][^>]*>/gi),
+        ].map((m) => m[1]);
+        const jsLinks = [
+          ...html.matchAll(
+            /<script[^>]+src=["']([^"']+\.js)["'][^>]*><\/script>/gi
+          ),
+        ].map((m) => m[1]);
+        // CSS einbinden (frisch)
+        cssLinks.forEach((href) => {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href + "?t=" + Date.now();
+          link.classList.add("end-overlay-css");
+          document.head.appendChild(link);
+        });
+        // Inhalt einfügen
+        content.innerHTML = bodyHtml;
+        // JS einbinden (frisch)
+        jsLinks.forEach((src) => {
+          const script = document.createElement("script");
+          script.src = src + "?t=" + Date.now();
+          script.classList.add("end-overlay-js");
+          document.body.appendChild(script);
+        });
+        // Schließen-Logik: Klick auf Hintergrund schließt Overlay
+        bg.onclick = () => hideEndOverlay();
+        // Restart-Button animiert einblenden, falls vorhanden
+        const restartBtn = content.querySelector(
+          "#restartButton, .restart-btn, [data-restart]"
+        );
+        if (restartBtn) {
+          restartBtn.style.opacity = 0;
+          restartBtn.style.transition = "opacity 0.7s";
+          setTimeout(() => (restartBtn.style.opacity = 1), 500);
+          restartBtn.onclick = (e) => {
+            e.stopPropagation();
+            hideEndOverlay();
+            if (typeof restartGame === "function") restartGame();
+          };
+        }
+      }
+
+      function hideEndOverlay() {
+        // Overlay ausblenden
+        document.getElementById("end-overlay-bg").style.display = "none";
+        document.getElementById("end-overlay-content").style.display = "none";
+        // Dynamisch eingebundene CSS/JS entfernen
+        document
+          .querySelectorAll(".end-overlay-css")
+          .forEach((e) => e.remove());
+        document.querySelectorAll(".end-overlay-js").forEach((e) => e.remove());
+        // Inhalt löschen
+        document.getElementById("end-overlay-content").innerHTML = "";
+      }
+    </script>
   </body>
 </html>
