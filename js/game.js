@@ -23,6 +23,22 @@ function showCountdownAndStartGame() {
   charImg.src = "assets/img/2_character_pepe/1_idle/idle/I-1.png";
   const chickenImg = new window.Image();
   chickenImg.src = "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
+
+  // Pause-Button unclickbar machen und Overlay anzeigen
+  const pauseBtn = document.getElementById("pauseButton");
+  if (pauseBtn) {
+    pauseBtn.classList.add("disabled");
+    if (!pauseBtn.querySelector(".pause-disabled-overlay")) {
+      const overlay = document.createElement("div");
+      overlay.className = "pause-disabled-overlay";
+      overlay.innerHTML =
+        '<div class="pause-disabled-circle"></div><div class="pause-disabled-slash"></div>';
+      pauseBtn.appendChild(overlay);
+    } else {
+      pauseBtn.querySelector(".pause-disabled-overlay").style.display = "flex";
+    }
+  }
+
   function drawAll() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCountdown(ctx, countdown, charImg, chickenImg);
@@ -33,6 +49,12 @@ function showCountdownAndStartGame() {
     drawAll();
     if (countdown < 0) {
       clearInterval(countdownInterval);
+      // Pause-Button wieder aktivieren und Overlay entfernen
+      if (pauseBtn) {
+        pauseBtn.classList.remove("disabled");
+        const overlay = pauseBtn.querySelector(".pause-disabled-overlay");
+        if (overlay) overlay.style.display = "none";
+      }
       world = new World(canvas, keyboard);
       _startGameTimeIfAvailable();
     }
