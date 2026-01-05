@@ -19,7 +19,7 @@
   <body onload="init()">
     <audio id="index-sound" src="/assets/audio/guitarre.mp3" loop></audio>
     <script>
-      const allowedReferrers = [
+      window.allowedReferrers = window.allowedReferrers || [
         "start-screen.html",
         "game-over.html",
         "win.html",
@@ -29,10 +29,13 @@
         "highscore.html",
         "how-to-play.html",
       ];
-      const hasValidReferrer = allowedReferrers.some((page) =>
-        document.referrer.includes(page)
-      );
-      if (!hasValidReferrer) {
+      window.hasValidReferrer =
+        typeof window.hasValidReferrer !== "undefined"
+          ? window.hasValidReferrer
+          : window.allowedReferrers.some((page) =>
+              document.referrer.includes(page)
+            );
+      if (!window.hasValidReferrer) {
         window.location.href = "pages/start-screen.html";
       }
     </script>
