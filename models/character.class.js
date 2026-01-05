@@ -396,7 +396,7 @@ class Character extends MovableObject {
   /** Sets throw cooldown. */
   setThrowCooldown() {
     this.throwCooldown = true;
-    const target = window.getGameTime() + 700;
+    const target = window.getGameTime() + 1200;
     const unregister = window.registerGameLoop((gameTime) => {
       if (gameTime >= target) {
         this.throwCooldown = false;
