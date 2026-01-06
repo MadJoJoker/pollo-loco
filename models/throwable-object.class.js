@@ -99,7 +99,14 @@ class ThrowableObject extends MovableObject {
     if (this.bottleCrackAudio) {
       this.bottleCrackAudio.currentTime = 0;
       this.bottleCrackAudio.muted = localStorage.getItem("polloMute") === "1";
-      this.bottleCrackAudio.play();
+      this.bottleCrackAudio.play().catch((err) => {
+        if (window.DEBUG_AUDIO) {
+          console.warn(
+            "Audio playback failed: bottleCrackAudio could not be played. " +
+              (err && err.message ? err.message : "")
+          );
+        }
+      });
     }
     this._unregisterSplashAnim = window.registerSimpleAnimation({
       context: this,

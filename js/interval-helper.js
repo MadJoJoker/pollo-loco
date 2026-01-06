@@ -145,10 +145,13 @@ window.addEventListener("DOMContentLoaded", function () {
   if (indexSound) {
     indexSound.muted = (muteValue || "0") === "1";
     indexSound.play().catch((err) => {
-      throw new Error(
-        "Audio playback failed: index-sound could not be played. " +
-          (err && err.message ? err.message : "")
-      );
+      if (window.DEBUG_AUDIO) {
+        console.warn(
+          "Audio playback failed: index-sound could not be played. " +
+            (err && err.message ? err.message : "")
+        );
+      }
+      // Fehler wird nicht weitergegeben, damit keine Fehlermeldung erscheint
     });
   }
 

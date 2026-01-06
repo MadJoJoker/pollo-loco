@@ -292,7 +292,14 @@ class Character extends MovableObject {
       if (this.hurtAudio?.paused) {
         this.hurtAudio.currentTime = 0;
         this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.hurtAudio.play();
+        this.hurtAudio.play().catch((err) => {
+          if (window.DEBUG_AUDIO) {
+            console.warn(
+              "Audio playback failed: hurtAudio could not be played. " +
+                (err && err.message ? err.message : "")
+            );
+          }
+        });
         const unregister = window.registerGameLoop((gameTime) => {
           if (gameTime >= window.getGameTime() + 1000) {
             this.deathAudio?.pause();
@@ -444,7 +451,16 @@ class Character extends MovableObject {
       if (this.longIdleAudio) {
         this.longIdleAudio.loop = true;
         this.longIdleAudio.muted = localStorage.getItem("polloMute") === "1";
-        if (this.longIdleAudio.paused) this.longIdleAudio.play();
+        if (this.longIdleAudio.paused) {
+          this.longIdleAudio.play().catch((err) => {
+            if (window.DEBUG_AUDIO) {
+              console.warn(
+                "Audio playback failed: longIdleAudio could not be played. " +
+                  (err && err.message ? err.message : "")
+              );
+            }
+          });
+        }
       }
     } else {
       if (gameTime - animState.lastIdleAnimTickRef() >= animInterval) {

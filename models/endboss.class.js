@@ -132,7 +132,14 @@ class Endboss extends MovableObject {
     if (this.deathAudio) {
       this.deathAudio.currentTime = 0;
       this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
-      this.deathAudio.play();
+      this.deathAudio.play().catch((err) => {
+        if (window.DEBUG_AUDIO) {
+          console.warn(
+            "Audio playback failed: deathAudio could not be played. " +
+              (err && err.message ? err.message : "")
+          );
+        }
+      });
     }
     this.playAnimation(this.IMAGES_DEAD);
     if (!this.deadAnimationTimeout) {
@@ -194,7 +201,14 @@ class Endboss extends MovableObject {
     if (this.hurtAudio && this.hurtAudio.paused) {
       this.hurtAudio.currentTime = 0;
       this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
-      this.hurtAudio.play();
+      this.hurtAudio.play().catch((err) => {
+        if (window.DEBUG_AUDIO) {
+          console.warn(
+            "Audio playback failed: hurtAudio could not be played. " +
+              (err && err.message ? err.message : "")
+          );
+        }
+      });
       const target = window.getGameTime() + 1000;
       const unregister = window.registerGameLoop((gameTime) => {
         if (gameTime >= target) {
@@ -238,8 +252,14 @@ class Endboss extends MovableObject {
     this.jump();
     this.playAnimation(this.IMAGES_ATTACK);
     this.attackAudio.muted = localStorage.getItem("polloMute") === "1";
-
-    this.attackAudio.play();
+    this.attackAudio.play().catch((err) => {
+      if (window.DEBUG_AUDIO) {
+        console.warn(
+          "Audio playback failed: attackAudio could not be played. " +
+            (err && err.message ? err.message : "")
+        );
+      }
+    });
 
     this.animationSpeed = 110;
   }
@@ -307,7 +327,14 @@ class Endboss extends MovableObject {
       this._appearSoundPlayed = true;
       this.appearAudio.currentTime = 0;
       this.appearAudio.muted = localStorage.getItem("polloMute") === "1";
-      this.appearAudio.play();
+      this.appearAudio.play().catch((err) => {
+        if (window.DEBUG_AUDIO) {
+          console.warn(
+            "Audio playback failed: appearAudio could not be played. " +
+              (err && err.message ? err.message : "")
+          );
+        }
+      });
     }
     this.animationSpeed = 170;
     this.playAnimation(this.IMAGES_ALERT);
@@ -359,7 +386,14 @@ class Endboss extends MovableObject {
     if (this.hurtAudio) {
       this.hurtAudio.currentTime = 0;
       this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
-      this.hurtAudio.play();
+      this.hurtAudio.play().catch((err) => {
+        if (window.DEBUG_AUDIO) {
+          console.warn(
+            "Audio playback failed: hurtAudio (jump) could not be played. " +
+              (err && err.message ? err.message : "")
+          );
+        }
+      });
     }
 
     const target = window.getGameTime() + 400;
@@ -383,7 +417,14 @@ class Endboss extends MovableObject {
       if (this.deathAudio) {
         this.deathAudio.currentTime = 0;
         this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.deathAudio.play();
+        this.deathAudio.play().catch((err) => {
+          if (window.DEBUG_AUDIO) {
+            console.warn(
+              "Audio playback failed: deathAudio (jump) could not be played. " +
+                (err && err.message ? err.message : "")
+            );
+          }
+        });
       }
     }
   }
