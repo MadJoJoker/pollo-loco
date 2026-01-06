@@ -1,0 +1,58 @@
+/* Moderner Mute-Regler für Settings-Seite */
+#mute-control {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(90deg, #f4ee96 0%, #cc7722 100%);
+  border-radius: 16px;
+  padding: 16px 32px;
+  box-shadow: 0 4px 24px rgba(97, 31, 29, 0.18);
+  font-family: "GringoNights", Arial, sans-serif;
+  font-size: 1.1rem;
+  width: fit-content;
+  max-width: 90%;
+  margin: 24px auto;
+}
+
+#mute-range {
+  width: 120px;
+  height: 8px;
+  background: linear-gradient(90deg, #cc7722 0%, #f4ee96 100%);
+  border-radius: 8px;
+  accent-color: #cc7722;
+  box-shadow: 0 2px 8px rgba(97, 31, 29, 0.15);
+}
+#mute-range::-webkit-slider-thumb {
+  width: 32px;
+  height: 32px;
+  background: url("/assets/img/10_external_img/sound-on.png") center/cover
+    no-repeat;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #cc7722;
+  border: 2px solid #f4ee96;
+  transition: transform 0.2s;
+}
+#mute-range[data-mute="0"]::-webkit-slider-thumb {
+  background: url("/assets/img/10_external_img/sound-on.png") center/cover
+    no-repeat;
+}
+#mute-range[data-mute="1"]::-webkit-slider-thumb {
+  background: url("/assets/button/mute.png") center/cover no-repeat;
+}
+#mute-range:active::-webkit-slider-thumb {
+  transform: scale(1.1);
+}
+
+#mute-status {
+  font-weight: bold;
+  color: #cc7722;
+  padding-left: 12px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+#mute-status img {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+}

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/overlay.css" />
     <link rel="stylesheet" href="/css/animations.css" />
     <link rel="stylesheet" href="/css/settings.css" />
+    <link rel="stylesheet" href="/css/settings-modern.css" />
     <link rel="stylesheet" href="/css/responsive-tablet.css" />
     <link rel="stylesheet" href="/css/responsive-mobile.css" />
     <link rel="stylesheet" href="/css/responsive-desktop.css" />
@@ -30,7 +31,7 @@
 
     <div id="settings-scoreboard">
       <h1>Settings</h1>
-      <div id="mute-control" style="margin: 24px 0">
+      <div id="mute-control">
         <label for="mute-range">Sound:</label>
         <input
           type="range"
@@ -39,20 +40,28 @@
           max="1"
           step="1"
           value="0"
+          data-mute="0"
         />
-        <span id="mute-status">Mute Off</span>
+        <span id="mute-status">
+          Sound on
+          <img id="mute-icon" src="/assets/button/mute.png" alt="mute" />
+        </span>
       </div>
       <script>
         (function () {
           const muteRange = document.getElementById("mute-range");
           const muteStatus = document.getElementById("mute-status");
-
+          const muteIcon = document.getElementById("mute-icon");
           if (muteRange) {
             muteRange.addEventListener("input", function () {
               if (muteRange.value == "1") {
-                muteStatus.textContent = "Sound off";
+                muteStatus.childNodes[0].textContent = "Sound off";
+                muteIcon.src = "/assets/button/mute.png";
+                muteRange.setAttribute("data-mute", "1");
               } else {
-                muteStatus.textContent = "Sound on";
+                muteStatus.childNodes[0].textContent = "Sound on";
+                muteIcon.src = "/assets/img/10_external_img/sound-on.png";
+                muteRange.setAttribute("data-mute", "0");
               }
             });
           }
