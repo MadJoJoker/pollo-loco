@@ -89,12 +89,9 @@ canvas {
   top: 30%;
   left: var(--position-center);
   transform: translateX(-50%);
-  background: var(--color-accent);
-  border: solid var(--clamp-border) var(--color-border);
   border-radius: var(--clamp-border-radius);
   z-index: var(--z-index-modal);
   height: var(--clamp-height);
-  padding: var(--clamp-padding);
   box-sizing: border-box;
 }
 .canvas-fullscreen-btn .img-btn {
@@ -146,8 +143,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.25rem;
-  width: auto;
+  max-width: 75%;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 }
@@ -286,10 +282,10 @@ h1 {
     right: 1rem;
   }
   .mobile-buttons-bar {
-    position: absolute;
-    left: 0.25;
+    left: 0;
     right: 0;
     bottom: 0;
+
   }
 
   .canvas-fullscreen-btn .img-btn {
