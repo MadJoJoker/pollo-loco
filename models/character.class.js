@@ -262,7 +262,14 @@ class Character extends MovableObject {
         this._deathSoundPlayed = true;
         this.deathAudio.currentTime = 0;
         this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.deathAudio.play();
+        this.deathAudio.play().catch((err) => {
+          if (window.DEBUG_AUDIO) {
+            console.warn(
+              "Audio playback failed: deathAudio could not be played. " +
+                (err && err.message ? err.message : "")
+            );
+          }
+        });
       }
       if (!this._gameOverRedirected) {
         this._gameOverRedirected = true;
@@ -330,7 +337,14 @@ class Character extends MovableObject {
       this.walkingAudio.loop = true;
       if (isMoving && !this.isAboveGround() && this.walkingAudio.paused) {
         this.walkingAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.walkingAudio.play();
+        this.walkingAudio.play().catch((err) => {
+          if (window.DEBUG_AUDIO) {
+            console.warn(
+              "Audio playback failed: walkingAudio could not be played. " +
+                (err && err.message ? err.message : "")
+            );
+          }
+        });
       }
       if ((!isMoving || this.isAboveGround()) && !this.walkingAudio.paused) {
         this.walkingAudio.pause();
