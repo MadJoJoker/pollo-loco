@@ -3,19 +3,25 @@ let world;
 window.keyboard = new Keyboard();
 let isPaused = false;
 
+/**
+ * Prevents the default context menu from appearing.
+ * @param {Event} e - The contextmenu event.
+ */
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
 /**
- * Initializes the game by setting up the canvas and creating the world instance.
+ * Initializes the game by setting up the canvas and starting the countdown.
  */
-
 function init() {
   canvas = document.getElementById("canvas");
   showCountdownAndStartGame();
 }
 
+/**
+ * Shows a countdown before the game starts and initializes the world.
+ */
 function showCountdownAndStartGame() {
   let countdown = 3;
   const ctx = canvas.getContext("2d");
@@ -23,22 +29,8 @@ function showCountdownAndStartGame() {
   charImg.src = "assets/img/2_character_pepe/1_idle/idle/I-1.png";
   const chickenImg = new window.Image();
   chickenImg.src = "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
-
-  // Pause-Button unclickbar machen und Overlay anzeigen
   const pauseBtn = document.getElementById("pauseButton");
-  if (pauseBtn) {
-    pauseBtn.classList.add("disabled");
-    if (!pauseBtn.querySelector(".pause-disabled-overlay")) {
-      const overlay = document.createElement("div");
-      overlay.className = "pause-disabled-overlay";
-      overlay.innerHTML =
-        '<div class="pause-disabled-circle"></div><div class="pause-disabled-slash"></div>';
-      pauseBtn.appendChild(overlay);
-    } else {
-      pauseBtn.querySelector(".pause-disabled-overlay").style.display = "flex";
-    }
-  }
-
+  if (pauseBtn) makePauseButtonDisabled(pauseBtn);
   function drawAll() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawCountdown(ctx, countdown, charImg, chickenImg);
@@ -49,18 +41,47 @@ function showCountdownAndStartGame() {
     drawAll();
     if (countdown < 0) {
       clearInterval(countdownInterval);
-      // Pause-Button wieder aktivieren und Overlay entfernen
-      if (pauseBtn) {
-        pauseBtn.classList.remove("disabled");
-        const overlay = pauseBtn.querySelector(".pause-disabled-overlay");
-        if (overlay) overlay.style.display = "none";
-      }
+      if (pauseBtn) enablePauseButton(pauseBtn);
       world = new World(canvas, keyboard);
       _startGameTimeIfAvailable();
     }
   }, 1000);
 }
 
+/**
+ * Disables the pause button and shows overlay.
+ * @param {HTMLElement} pauseBtn - The pause button element.
+ */
+function makePauseButtonDisabled(pauseBtn) {
+  pauseBtn.classList.add("disabled");
+  if (!pauseBtn.querySelector(".pause-disabled-overlay")) {
+    const overlay = document.createElement("div");
+    overlay.className = "pause-disabled-overlay";
+    overlay.innerHTML =
+      '<div class="pause-disabled-circle"></div><div class="pause-disabled-slash"></div>';
+    pauseBtn.appendChild(overlay);
+  } else {
+    pauseBtn.querySelector(".pause-disabled-overlay").style.display = "flex";
+  }
+}
+
+/**
+ * Enables the pause button and hides overlay.
+ * @param {HTMLElement} pauseBtn - The pause button element.
+ */
+function enablePauseButton(pauseBtn) {
+  pauseBtn.classList.remove("disabled");
+  const overlay = pauseBtn.querySelector(".pause-disabled-overlay");
+  if (overlay) overlay.style.display = "none";
+}
+
+/**
+ * Draws the countdown number and images on the canvas.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ * @param {number} number - The countdown number.
+ * @param {HTMLImageElement} charImg - Character image.
+ * @param {HTMLImageElement} chickenImg - Chicken image.
+ */
 function drawCountdown(ctx, number, charImg, chickenImg) {
   ctx.save();
   drawCountdownBg(ctx);
@@ -80,6 +101,10 @@ function drawCountdown(ctx, number, charImg, chickenImg) {
   ctx.restore();
 }
 
+/**
+ * Draws the background gradient for the countdown.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ */
 function drawCountdownBg(ctx) {
   let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
   grad.addColorStop(0, "#f4ee96");
@@ -89,6 +114,12 @@ function drawCountdownBg(ctx) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+/**
+ * Draws the character and chicken images for the countdown.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ * @param {HTMLImageElement} charImg - Character image.
+ * @param {HTMLImageElement} chickenImg - Chicken image.
+ */
 function drawCountdownImgs(ctx, charImg, chickenImg) {
   if (charImg.complete)
     ctx.drawImage(charImg, 40, canvas.height - 180, 120, 140);
@@ -102,6 +133,9 @@ function drawCountdownImgs(ctx, charImg, chickenImg) {
     );
 }
 
+/**
+ * Starts the game time if the function exists.
+ */
 function _startGameTimeIfAvailable() {
   if (window.startGameTime) window.startGameTime();
 }
@@ -135,6 +169,7 @@ document.addEventListener("keydown", function (e) {
 });
 
 window.intervalIds = [];
+
 /**
  * Sets an interval that can be stopped later using stopAllIntervals.
  * @param {Function} fn - The function to execute at each interval.
@@ -154,19 +189,25 @@ function stopAllIntervals() {
   _clearAllIntervals();
 }
 
+/**
+ * Clears all interval IDs in the global intervalIds array.
+ */
 function _clearAllIntervals() {
   intervalIds.forEach(clearInterval);
   intervalIds = [];
 }
 
 /**
- * Pauses or resumes the game by stopping or restarting intervals and updating the pause state.
+ * Pauses or resumes the game depending on the current state.
  */
 function pauseGame() {
   if (window.gamePaused) _resumeGame();
   else _pauseGame();
 }
 
+/**
+ * Resumes the game by restarting intervals and hiding overlays.
+ */
 function _resumeGame() {
   if (window.resumeGameTime) window.resumeGameTime();
   if (window.stopAllIntervals) window.stopAllIntervals();
@@ -179,6 +220,9 @@ function _resumeGame() {
   hideTacoTimeOverlay();
 }
 
+/**
+ * Pauses the game, stops intervals, resets inputs, and shows overlay.
+ */
 function _pauseGame() {
   if (window.pauseGameTime) window.pauseGameTime();
   if (window.stopAllIntervals) window.stopAllIntervals();
@@ -187,6 +231,10 @@ function _pauseGame() {
 }
 
 // Taco Time Overlay anzeigen
+
+/**
+ * Shows the Taco Time overlay.
+ */
 function showTacoTimeOverlay() {
   const overlay = document.getElementById("tacoTimeOverlay");
   if (!overlay) return;
@@ -195,22 +243,30 @@ function showTacoTimeOverlay() {
 }
 
 // Taco Time Overlay ausblenden (mit Animation)
+
+/**
+ * Hides the Taco Time overlay with animation.
+ */
 function hideTacoTimeOverlay() {
   const overlay = document.getElementById("tacoTimeOverlay");
   if (!overlay) return;
   overlay.classList.add("hide");
   setTimeout(() => {
     overlay.style.display = "none";
-  }, 500); // Animationsdauer wie in CSS
+  }, 500);
 }
 
 /**
- * Resets all keyboard inputs to false to prevent stuck movement during pause.
+ * Resets all keyboard inputs to false.
  */
 function resetKeyboardInputs() {
   if (window.keyboard) _resetAllKeys(window.keyboard);
 }
 
+/**
+ * Sets all keyboard keys to false.
+ * @param {Keyboard} kb - The keyboard object.
+ */
 function _resetAllKeys(kb) {
   kb.LEFT = false;
   kb.RIGHT = false;

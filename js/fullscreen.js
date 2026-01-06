@@ -3,12 +3,20 @@
  * If already in fullscreen, exits fullscreen; otherwise, enters fullscreen.
  */
 function fullscreen() {
-  let fullscreenEl = document.getElementById("fullscreen");
+  const fullscreenEl = document.getElementById("fullscreen");
   if (!fullscreenEl) return;
-  if (_isFullscreen(fullscreenEl)) exitFullscreen();
-  else enterFullscreen(fullscreenEl);
+  if (_isFullscreen(fullscreenEl)) {
+    exitFullscreen();
+  } else {
+    enterFullscreen(fullscreenEl);
+  }
 }
 
+/**
+ * Checks if the given element is currently in fullscreen mode.
+ * @param {HTMLElement} el - The element to check.
+ * @returns {boolean} True if the element is in fullscreen, otherwise false.
+ */
 function _isFullscreen(el) {
   return (
     document.fullscreenElement === el ||
@@ -19,6 +27,11 @@ function _isFullscreen(el) {
 
 /**
  * Removes focus from all buttons after click to prevent focus outline.
+ */
+
+/**
+ * Removes focus from all buttons after click to prevent focus outline.
+ * @param {MouseEvent} e - The click event.
  */
 document.addEventListener("click", function (e) {
   if (e.target.tagName === "BUTTON" || e.target.closest("button")) {

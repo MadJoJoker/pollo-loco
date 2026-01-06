@@ -20,9 +20,19 @@
   function insertOverlayHtml(htmlText) {
     var parsed = parseHTML(htmlText);
     let overlay = getOrCreateOverlay();
+    showOverlay(overlay, parsed, htmlText);
+    return Promise.all([ensureStyles(parsed), executeScripts(parsed, overlay)]);
+  }
+
+  /**
+   * Shows the overlay and sets its content.
+   * @param {HTMLElement} overlay The overlay element.
+   * @param {Document} parsed The parsed HTML document.
+   * @param {string} htmlText The raw HTML string.
+   */
+  function showOverlay(overlay, parsed, htmlText) {
     overlay.classList.remove("hidden");
     overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
-    return Promise.all([ensureStyles(parsed), executeScripts(parsed, overlay)]);
   }
 
   function getOrCreateOverlay() {
@@ -129,18 +139,34 @@
    * @returns {Promise} A promise that resolves when all stylesheets are loaded.
    */
   function ensureStyles(fromDoc) {
-    var headLinks = Array.prototype.slice.call(
-      (fromDoc.head &&
-        fromDoc.head.querySelectorAll('link[rel="stylesheet"]')) ||
-        []
-    );
-    var headStyles = Array.prototype.slice.call(
-      (fromDoc.head && fromDoc.head.querySelectorAll("style")) || []
-    );
+    var headLinks = getHeadLinks(fromDoc);
+    var headStyles = getHeadStyles(fromDoc);
     removeOldStyles();
     var promises = headLinks.map(loadStylesheet);
     headStyles.forEach(addInlineStyle);
     return Promise.all(promises);
+  }
+
+  /**
+   * Gets all stylesheet links from a document head.
+   * @param {Document} doc The document.
+   * @returns {Array} Array of link elements.
+   */
+  function getHeadLinks(doc) {
+    return Array.prototype.slice.call(
+      (doc.head && doc.head.querySelectorAll('link[rel="stylesheet"]')) || []
+    );
+  }
+
+  /**
+   * Gets all style elements from a document head.
+   * @param {Document} doc The document.
+   * @returns {Array} Array of style elements.
+   */
+  function getHeadStyles(doc) {
+    return Array.prototype.slice.call(
+      (doc.head && doc.head.querySelectorAll("style")) || []
+    );
   }
 
   function removeOldStyles() {
@@ -180,15 +206,23 @@
     if (!newBody) return Promise.resolve(false);
     destroyCurrentRoute();
     return ensureStyles(newDoc)
-      .then(() => {
-        copyBodyAttributes(newBody);
-        document.body.innerHTML = newBody.innerHTML;
-        return executeScripts(newDoc, document.body);
-      })
+      .then(() => replaceBodyContent(newBody, newDoc))
       .then(() => {
         afterBodyReplace();
         return true;
       });
+  }
+
+  /**
+   * Copies body attributes and innerHTML, then executes scripts.
+   * @param {HTMLElement} newBody The new body element.
+   * @param {Document} newDoc The new document.
+   * @returns {Promise}
+   */
+  function replaceBodyContent(newBody, newDoc) {
+    copyBodyAttributes(newBody);
+    document.body.innerHTML = newBody.innerHTML;
+    return executeScripts(newDoc, document.body);
   }
 
   function destroyCurrentRoute() {
@@ -230,34 +264,85 @@
    * @returns {Promise} A promise that resolves when the page is rendered.
    */
   function fetchAndRender(path, replace) {
-    // Overlay-Fall
-    if (path.includes("win.html") || path.includes("game-over.html")) {
-      return showOverlayPage(path).catch(function (err) {
-        console.error("Overlay fetch failed", err);
-        throw err;
-      });
+    if (isOverlayPage(path)) {
+      return showOverlayPage(path).catch(handleOverlayError);
     }
-    // Standard SPA-Body-Replace
+    return fetchPageAndReplace(path, replace);
+  }
+
+  /**
+   * Checks if the path is for an overlay page.
+   * @param {string} path The path to check.
+   * @returns {boolean}
+   */
+  function isOverlayPage(path) {
+    return path.includes("win.html") || path.includes("game-over.html");
+  }
+
+  /**
+   * Handles overlay fetch errors.
+   * @param {Error} err The error object.
+   */
+  function handleOverlayError(err) {
+    console.error("Overlay fetch failed", err);
+    throw err;
+  }
+
+  /**
+   * Fetches a page and replaces the body content.
+   * @param {string} path The path to fetch.
+   * @param {boolean} replace Replace or push history state.
+   * @returns {Promise}
+   */
+  function fetchPageAndReplace(path, replace) {
     return fetch(path, { cache: "no-cache" })
-      .then(function (res) {
-        if (!res.ok) throw new Error("Fetch failed: " + res.status);
-        return res.text();
-      })
-      .then(function (htmlText) {
-        var parsed = parseHTML(htmlText);
-        if (replace) history.replaceState({ path: path }, "", path);
-        else history.pushState({ path: path }, "", path);
-        return replaceBody(parsed).then(function (ok) {
-          if (!ok) throw new Error("No body in fetched document");
-        });
-      })
-      .catch(function (err) {
-        console.error(
-          "SPA: fetch failed, falling back to full navigation.",
-          err
-        );
-        throw err;
-      });
+      .then(handleFetchResponse)
+      .then((htmlText) => handleFetchedHtml(htmlText, path, replace))
+      .catch(handleFetchError);
+  }
+
+  /**
+   * Handles fetch response.
+   * @param {Response} res The fetch response.
+   * @returns {Promise<string>}
+   */
+  function handleFetchResponse(res) {
+    if (!res.ok) throw new Error("Fetch failed: " + res.status);
+    return res.text();
+  }
+
+  /**
+   * Handles fetched HTML: parses, updates history, replaces body.
+   * @param {string} htmlText The HTML string.
+   * @param {string} path The path.
+   * @param {boolean} replace Replace or push history state.
+   * @returns {Promise}
+   */
+  function handleFetchedHtml(htmlText, path, replace) {
+    var parsed = parseHTML(htmlText);
+    updateHistoryState(path, replace);
+    return replaceBody(parsed).then(function (ok) {
+      if (!ok) throw new Error("No body in fetched document");
+    });
+  }
+
+  /**
+   * Updates browser history state.
+   * @param {string} path The path.
+   * @param {boolean} replace Replace or push history state.
+   */
+  function updateHistoryState(path, replace) {
+    if (replace) history.replaceState({ path: path }, "", path);
+    else history.pushState({ path: path }, "", path);
+  }
+
+  /**
+   * Handles fetch errors.
+   * @param {Error} err The error object.
+   */
+  function handleFetchError(err) {
+    console.error("SPA: fetch failed, falling back to full navigation.", err);
+    throw err;
   }
 
   /**

@@ -1,14 +1,24 @@
+/**
+ * Handles orientation change event and shows/hides rotate screen overlay.
+ */
 function handleOrientationChange() {
-  if (window.matchMedia("(orientation: portrait)").matches) {
+  if (isPortraitOrientation()) {
     showRotateScreenFn();
   } else {
     hideRotateScreenFn();
   }
 }
 
+/**
+ * Checks if the device is in portrait orientation.
+ * @returns {boolean} True if portrait, false otherwise.
+ */
+function isPortraitOrientation() {
+  return window.matchMedia("(orientation: portrait)").matches;
+}
+
 window.addEventListener("orientationchange", handleOrientationChange);
 window.addEventListener("resize", handleOrientationChange);
-// Initial prüfen
 handleOrientationChange();
 const buttonIds = [
   "startGame",
@@ -22,10 +32,18 @@ const buttonIds = [
   "muteButton",
 ];
 
+/**
+ * Prevents the default context menu from appearing.
+ * @param {Event} e - The contextmenu event.
+ */
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
+/**
+ * Prevents default action for Tab, Space, and Enter keys.
+ * @param {KeyboardEvent} e - The keydown event.
+ */
 document.addEventListener("keydown", function (e) {
   if (["Tab", " ", "Enter"].includes(e.key)) {
     e.preventDefault();
@@ -86,12 +104,20 @@ window.addEventListener("resize", checkMobileButtonsBarFn);
 /**
  * Adds touch event listeners to mobile control buttons for game actions.
  */
+
+/**
+ * Adds touch event listeners to all mobile control buttons.
+ */
 function addMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
     addTouchListenersToBtn(id);
   });
 }
 
+/**
+ * Adds touchstart and touchend listeners to a button.
+ * @param {string} id - The button element ID.
+ */
 function addTouchListenersToBtn(id) {
   const btn = document.getElementById(id);
   if (btn) {
@@ -107,12 +133,20 @@ function addTouchListenersToBtn(id) {
 /**
  * Removes touch event listeners from mobile control buttons.
  */
+
+/**
+ * Removes touch event listeners from all mobile control buttons.
+ */
 function removeMobileButtonEventListenerFn() {
   Object.keys(buttonEventListener).forEach((id) => {
     removeTouchListenersFromBtn(id);
   });
 }
 
+/**
+ * Removes touchstart and touchend listeners from a button.
+ * @param {string} id - The button element ID.
+ */
 function removeTouchListenersFromBtn(id) {
   const btn = document.getElementById(id);
   if (btn) {
@@ -129,6 +163,10 @@ function hideScreensFn(ids) {
   ids.forEach(hideScreenById);
 }
 
+/**
+ * Hides a single screen by ID.
+ * @param {string} id - The element ID to hide.
+ */
 function hideScreenById(id) {
   const el = document.getElementById(id);
   if (el) el.classList.add("hidden");
@@ -146,10 +184,17 @@ function showScreenFn(screenId) {
   else removeMobileButtonEventListenerFn();
 }
 
+/**
+ * Shows the extrascreens overlay.
+ */
 function showExtrascreens() {
   document.getElementById("extrascreens").classList.remove("hidden");
 }
 
+/**
+ * Shows a single screen by ID.
+ * @param {string} screenId - The element ID to show.
+ */
 function showScreenById(screenId) {
   const screen = document.getElementById(screenId);
   if (screen) screen.classList.remove("hidden");
@@ -169,7 +214,6 @@ function isFullscreenFn() {
 
 /**
  * Shows or hides the mobile buttons bar based on window width or fullscreen state.
- * Supports tablets up to 1280px width (common for iPad Pro and Android tablets).
  */
 function checkMobileButtonsBarFn() {
   const isTouchDevice =
@@ -179,6 +223,9 @@ function checkMobileButtonsBarFn() {
   else hideAllScreens();
 }
 
+/**
+ * Hides all main overlay screens.
+ */
 function hideAllScreens() {
   hideScreensFn([
     "startscreen",
@@ -202,7 +249,6 @@ function updateCanvasFullscreenBtnFn() {
 /**
  * Shows the rotate screen overlay for mobile devices.
  */
-
 function showRotateScreenFn() {
   showExtrascreens();
   showScreenById("rotateScreen");
@@ -213,7 +259,6 @@ function showRotateScreenFn() {
 /**
  * Hides the rotate screen overlay for mobile devices.
  */
-
 function hideRotateScreenFn() {
   hideScreenById("rotateScreen");
   if (typeof window.resumeGameTime === "function") window.resumeGameTime();

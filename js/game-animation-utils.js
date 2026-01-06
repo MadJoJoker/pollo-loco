@@ -12,10 +12,26 @@
  *
  *   // To stop: unregister();
  */
+
+/**
+ * Registers a simple animation loop for a sprite.
+ * @param {Object} opts - Options for the animation.
+ * @param {Object} opts.context - The object whose .img and .imageCache will be set.
+ * @param {string[]} opts.images - Array of image keys.
+ * @param {number} opts.interval - Time between frames in ms.
+ * @param {Function} [opts.isActive] - Function returning true if animation should run.
+ * @param {Function} [opts.onFrame] - Callback after frame change.
+ * @returns {Function} Unregister function.
+ */
 window.registerSimpleAnimation = function (opts) {
   return _registerSimpleAnimation(opts);
 };
 
+/**
+ * Interne Hilfsfunktion zum Registrieren einer Animation.
+ * @param {Object} opts - Siehe registerSimpleAnimation.
+ * @returns {Function} Unregister-Funktion.
+ */
 function _registerSimpleAnimation({
   context,
   images,
@@ -41,6 +57,10 @@ function _registerSimpleAnimation({
   });
 }
 
+/**
+ * Führt einen Animations-Frame aus.
+ * @param {Object} opts - Frame-Optionen.
+ */
 function _simpleAnimationFrame({
   gameTime,
   isActive,
@@ -73,10 +93,24 @@ function _simpleAnimationFrame({
  *     isActive: () => true // optional
  *   });
  */
+
+/**
+ * Registers a simple interval loop for repeated actions.
+ * @param {Object} opts - Options for the interval.
+ * @param {number} opts.interval - Time between actions in ms.
+ * @param {Function} opts.action - Action to execute.
+ * @param {Function} [opts.isActive] - Function returning true if interval should run.
+ * @returns {Function} Unregister function.
+ */
 window.registerSimpleInterval = function (opts) {
   return _registerSimpleInterval(opts);
 };
 
+/**
+ * Interne Hilfsfunktion zum Registrieren eines Intervalls.
+ * @param {Object} opts - Siehe registerSimpleInterval.
+ * @returns {Function} Unregister-Funktion.
+ */
 function _registerSimpleInterval({ interval, action, isActive = () => true }) {
   let lastTick = window.getGameTime();
   return window.registerGameLoop((gameTime) => {
@@ -91,6 +125,10 @@ function _registerSimpleInterval({ interval, action, isActive = () => true }) {
   });
 }
 
+/**
+ * Führt einen Intervall-Frame aus.
+ * @param {Object} opts - Frame-Optionen.
+ */
 function _simpleIntervalFrame({
   gameTime,
   isActive,

@@ -13,7 +13,7 @@ window.startGameTime = function () {
 };
 
 /**
- * Pauses the GameTime.
+ * Pauses the GameTime if not already paused.
  */
 window.pauseGameTime = function () {
   if (!window.gamePaused && window._gameStartTime) {
@@ -34,6 +34,7 @@ window.resumeGameTime = function () {
 
 /**
  * Returns the elapsed game time in ms (pause-robust).
+ * @returns {number} Elapsed game time in milliseconds.
  */
 window.getGameTime = function () {
   if (!window._gameStartTime) return 0;
@@ -66,8 +67,8 @@ window.soundIntervalIds = [];
 
 /**
  * Sets an interval that can be stopped later using stopAllIntervals.
- * @param {Function} fn - Function to execute on each interval tick.
- * @param {number} time - Interval duration in milliseconds.
+ * @param {Function} fn Function to execute on each interval tick.
+ * @param {number} time Interval duration in milliseconds.
  * @returns {number} The interval ID.
  */
 window.setStoppableInterval = function (fn, time) {
@@ -83,16 +84,20 @@ window.stopAllIntervals = function () {
   window.intervalIds = [];
 };
 /**
- * Retrieves all audio elements in the document and tracks their IDs.
+ * Retrieves all audio elements in the document.
  * @returns {HTMLAudioElement[]} Array of audio elements.
  */
 function getAllAudios() {
   const audios = document.getElementsByTagName("audio");
-  _trackAudioIds(audios);
+  trackAudioIds(audios);
   return audios;
 }
 
-function _trackAudioIds(audios) {
+/**
+ * Tracks audio element IDs in the global soundIntervalIds array.
+ * @param {HTMLCollection} audios Collection of audio elements.
+ */
+function trackAudioIds(audios) {
   for (let i = 0; i < audios.length; i++) {
     if (audios[i].id && !window.soundIntervalIds.includes(audios[i].id)) {
       window.soundIntervalIds.push(audios[i].id);
@@ -102,21 +107,26 @@ function _trackAudioIds(audios) {
 
 /**
  * Sets the muted property for all audio elements in the document.
- * @param {boolean} mute - If true, mute all audios; if false, unmute all audios.
+ * @param {boolean} mute If true, mute all audios; if false, unmute all audios.
  */
 function setMuteForAllAudios(mute) {
   const audios = getAllAudios();
-  _muteAudios(audios, mute);
+  muteAudios(audios, mute);
 }
 
-function _muteAudios(audios, mute) {
+/**
+ * Mutes or unmutes a collection of audio elements.
+ * @param {HTMLCollection} audios Collection of audio elements.
+ * @param {boolean} mute If true, mute all audios; if false, unmute all audios.
+ */
+function muteAudios(audios, mute) {
   Array.from(audios).forEach((audio) => {
     audio.muted = mute;
   });
 }
 
 /**
- * Helper function to mute or unmute all audios based on the mute-range input or localStorage.
+ * Helper to mute/unmute all audios based on mute-range input or localStorage.
  */
 window.muteAllAudiosHelper = function () {
   const muteRange = document.getElementById("mute-range");
@@ -131,19 +141,39 @@ window.muteAllAudiosHelper = function () {
 };
 
 window.addEventListener("DOMContentLoaded", function () {
+  handleMuteRangeOnLoad();
+  setMuteStatusOnLoad();
+  playIndexSoundOnLoad();
+  window.updateMuteButtonVisuals();
+});
+
+/**
+ * Sets mute range value from localStorage on DOMContentLoaded.
+ */
+function handleMuteRangeOnLoad() {
   const muteValue = localStorage.getItem("polloMute");
   const muteRange = document.getElementById("mute-range");
   if (muteValue !== null && muteRange) {
     muteRange.value = muteValue;
   }
+}
 
-  // Setze Mute-Status für alle Audios
-  setMuteForAllAudios((muteValue || "0") === "1");
+/**
+ * Sets mute status for all audios on DOMContentLoaded.
+ */
+function setMuteStatusOnLoad() {
+  const muteValue = localStorage.getItem("polloMute") || "0";
+  setMuteForAllAudios(muteValue === "1");
+}
 
-  // Starte index-sound Audio wenn nicht gemutet
+/**
+ * Plays index-sound audio on DOMContentLoaded if not muted.
+ */
+function playIndexSoundOnLoad() {
+  const muteValue = localStorage.getItem("polloMute") || "0";
   const indexSound = document.getElementById("index-sound");
   if (indexSound) {
-    indexSound.muted = (muteValue || "0") === "1";
+    indexSound.muted = muteValue === "1";
     indexSound.play().catch((err) => {
       if (window.DEBUG_AUDIO) {
         console.warn(
@@ -151,30 +181,30 @@ window.addEventListener("DOMContentLoaded", function () {
             (err && err.message ? err.message : "")
         );
       }
-      // Fehler wird nicht weitergegeben, damit keine Fehlermeldung erscheint
     });
   }
-
-  window.updateMuteButtonVisuals();
-});
+}
 
 // Use event delegation so elements added dynamically (via SPA) are handled.
 document.addEventListener("input", function (e) {
+  handleMuteRangeInput(e);
+});
+
+/**
+ * Handles mute-range input events.
+ * @param {Event} e Input event.
+ */
+function handleMuteRangeInput(e) {
   var t = e.target || e.srcElement;
   if (t && t.id === "mute-range") {
     window.muteAllAudiosHelper();
   }
-});
+}
 
 // Also respond to SPA renders to initialize state for newly injected pages
 document.addEventListener("spa:render", function (e) {
-  // Re-apply mute state to any new audio elements and sync the range control
-  var muteValue = localStorage.getItem("polloMute");
-  var muteRange = document.getElementById("mute-range");
-  if (muteValue !== null && muteRange) {
-    muteRange.value = muteValue;
-  }
-  setMuteForAllAudios((muteValue || "0") === "1");
+  handleMuteRangeOnLoad();
+  setMuteStatusOnLoad();
   window.updateMuteButtonVisuals();
 });
 /**
@@ -183,23 +213,37 @@ document.addEventListener("spa:render", function (e) {
 window.updateMuteButtonVisuals = function () {
   const muteButton = document.getElementById("muteButton");
   if (!muteButton) return;
+  updateMuteButtonImage(muteButton);
+  updateMuteButtonLabel();
+};
 
+/**
+ * Updates the mute button image.
+ * @param {HTMLElement} muteButton The mute button element.
+ */
+function updateMuteButtonImage(muteButton) {
   const muteValue = localStorage.getItem("polloMute") || "0";
   const isMuted = muteValue === "1";
   const img = muteButton.querySelector("img");
-  const label = document.getElementById("muteBtnLabel");
-
   if (img) {
     img.src = isMuted
       ? "/assets/img/10_external_img/mute.png"
       : "/assets/img/10_external_img/sound-on.png";
     img.alt = isMuted ? "muted" : "sound on";
   }
+}
 
+/**
+ * Updates the mute button label.
+ */
+function updateMuteButtonLabel() {
+  const muteValue = localStorage.getItem("polloMute") || "0";
+  const isMuted = muteValue === "1";
+  const label = document.getElementById("muteBtnLabel");
   if (label) {
     label.textContent = isMuted ? "Unmute" : "Mute";
   }
-};
+}
 
 /**
  * Toggles the mute state in localStorage and updates all audio elements accordingly.
