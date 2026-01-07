@@ -1,4 +1,5 @@
 /** Main player character handling movement, animation, actions, and world interactions. */
+
 class Character extends MovableObject {
   height = 250;
   width = 180;
@@ -82,16 +83,26 @@ class Character extends MovableObject {
     this.world = world;
     this.loadAllImages();
     this.applyGravity();
-    this.animate();
     this.deathAudio = new Audio(
       "/assets/audio/grandpa-dying-on-floor-272435.mp3"
     );
     this.hurtAudio = new Audio("/assets/audio/male-extreme-scream-123078.mp3");
     this.walkingAudio = new Audio("/assets/audio/sand-walk-106366.mp3");
     this.longIdleAudio = new Audio("/assets/audio/snoring-42710.mp3");
+    this.animation = new window.CharacterAnimation({
+      character: this,
+      getGameTime: () => window.getGameTime(),
+      registerGameLoop: (cb) => window.registerGameLoop(cb),
+    });
+    this.animation.start();
+    this.status = new window.CharacterStatus(this);
+    this.actions = new window.CharacterActions(this);
   }
 
-  /** Loads all animation images. */
+  /**
+   * Loads all animation images.
+   * @returns {void}
+   */
   loadAllImages() {
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMPING);
@@ -101,223 +112,23 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_IDLE_LONG);
   }
 
-  /** Starts animation intervals. */
-  animate() {
-    let idleStartTime = window.getGameTime();
-    let canThrowBottle = true;
-    this.lastActionTick ??= window.getGameTime();
-    this.lastIdleTick ??= window.getGameTime();
-    this.lastWalkTick ??= window.getGameTime();
-    this.lastJumpTick ??= window.getGameTime();
-    this.lastIdleAnimTick ??= window.getGameTime();
-    this.walkAnimFrame ??= 0;
-    this.jumpAnimFrame ??= 0;
-    this.idleAnimFrame ??= 0;
-    this.idleLongAnimFrame ??= 0;
-    const actionInterval = 1000 / 45;
-    const idleInterval = 300;
-    const walkInterval = this.animationSpeed;
-    const jumpInterval = 80;
-    const idleAnimInterval = 120;
-    let wasWalking = false;
-    let wasJumping = false;
-    let currentAnimState = "idle"; // Track current animation state
-    this._unregisterGameLoop = window.registerGameLoop((gameTime) => {
-      if (gameTime - this.lastActionTick >= actionInterval) {
-        const actionHappened = this.handleActions(canThrowBottle);
-        if (!this.world?.keyboard?.D) canThrowBottle = true;
-        if (actionHappened) idleStartTime = gameTime;
-        this.lastActionTick = gameTime;
-      }
+  // Animation logic is now handled by CharacterAnimation
 
-      // Prüfe Dead/Hurt zuerst (höchste Priorität)
-      if (this.isDead() || this.isHurt()) {
-        if (currentAnimState !== "dead-hurt") {
-          currentAnimState = "dead-hurt";
-        }
-        return; // playAnimation() wird in handleDeath/handleHurt aufgerufen
-      }
-
-      let isWalking = false;
-      let isJumping = false;
-
-      // Jump Animation (höhere Priorität als Walk)
-      if (this.isAboveGround()) {
-        isJumping = true;
-        if (!wasJumping) {
-          // Reset jump animation beim Start des Sprungs
-          this.jumpAnimFrame = 0;
-          this.lastJumpTick = gameTime;
-          currentAnimState = "jumping";
-        }
-        // Jump-Animation basierend auf speedY (Sprungphase)
-        this.updateJumpAnimation(gameTime, jumpInterval);
-      }
-      // Walk Animation (nur wenn auf dem Boden)
-      else if (
-        (this.shouldMoveLeft() || this.shouldMoveRight()) &&
-        !this.isAboveGround()
-      ) {
-        isWalking = true;
-        if (!wasWalking || currentAnimState !== "walking") {
-          // Reset walk animation beim Start des Laufens
-          this.walkAnimFrame = 0;
-          this.lastWalkTick = gameTime;
-          currentAnimState = "walking";
-        }
-        if (gameTime - this.lastWalkTick >= walkInterval) {
-          this.walkAnimFrame =
-            (this.walkAnimFrame + 1) % this.IMAGES_WALKING.length;
-          this.img = this.imageCache[this.IMAGES_WALKING[this.walkAnimFrame]];
-          this.lastWalkTick = gameTime;
-        }
-      }
-      // Idle Animation
-      else if (!isWalking && !isJumping && !this.isDead() && !this.isHurt()) {
-        if (currentAnimState !== "idle") {
-          this.idleAnimFrame = 0;
-          this.idleLongAnimFrame = 0;
-          currentAnimState = "idle";
-        }
-        if (gameTime - this.lastIdleTick >= idleInterval) {
-          this.handleIdle(idleStartTime, gameTime, {
-            idleAnimFrameRef: () => this.idleAnimFrame,
-            setIdleAnimFrame: (v) => {
-              this.idleAnimFrame = v;
-            },
-            idleLongAnimFrameRef: () => this.idleLongAnimFrame,
-            setIdleLongAnimFrame: (v) => {
-              this.idleLongAnimFrame = v;
-            },
-            lastIdleAnimTickRef: () => this.lastIdleAnimTick,
-            setLastIdleAnimTick: (v) => {
-              this.lastIdleAnimTick = v;
-            },
-          });
-          this.lastIdleTick = gameTime;
-        }
-      }
-
-      wasWalking = isWalking;
-      wasJumping = isJumping;
-    });
-  }
-
-  /** Updates jump animation based on jump phase (speedY). */
-  updateJumpAnimation(gameTime, jumpInterval) {
-    if (gameTime - this.lastJumpTick >= jumpInterval) {
-      // Berechne Jump-Frame basierend auf speedY
-      const maxSpeedY = 50; // Angepasst an tatsächlichen Jump-speedY
-      const totalFrames = this.IMAGES_JUMPING.length; // 9 frames
-      // J-31 bis J-34: Aufwärts (4 Frames, Index 0-3)
-      // J-35 bis J-39: Abwärts (5 Frames, Index 4-8)
-
-      if (this.speedY > 0) {
-        // Aufwärtsphase: Frames 0-3 (J-31 bis J-34)
-        const upFrames = 4;
-        // Invertiere den Progress: hoher speedY = Frame 0, niedriger speedY = Frame 3
-        const progress = 1 - Math.min(this.speedY / maxSpeedY, 1);
-        this.jumpAnimFrame = Math.floor(progress * upFrames);
-        // Sicherstellen, dass wir nicht über Index 3 hinausgehen
-        this.jumpAnimFrame = Math.min(this.jumpAnimFrame, 3);
-      } else {
-        // Abwärtsphase: Frames 4-8 (J-35 bis J-39)
-        const downFrames = 5;
-        const downStartFrame = 4;
-        const progress = Math.min(Math.abs(this.speedY) / maxSpeedY, 1);
-        this.jumpAnimFrame = downStartFrame + Math.floor(progress * downFrames);
-        // Sicherstellen, dass wir nicht über Index 8 hinausgehen
-        this.jumpAnimFrame = Math.min(this.jumpAnimFrame, 8);
-      }
-
-      // Sicherstellen, dass Frame im gültigen Bereich ist
-      this.jumpAnimFrame = Math.max(this.jumpAnimFrame, 0);
-
-      this.img = this.imageCache[this.IMAGES_JUMPING[this.jumpAnimFrame]];
-      this.lastJumpTick = gameTime;
-    }
-  }
+  // Jump animation logic is now handled by CharacterAnimation
 
   /** Handles all character actions. */
   handleActions(canThrowBottle) {
     let actionHappened = false;
-    if (this.handleDeath()) actionHappened = true;
-    if (this.handleHurt()) actionHappened = true;
+    if (this.status.handleDeath()) actionHappened = true;
+    if (this.status.handleHurt()) actionHappened = true;
     if (this.handleMovement()) actionHappened = true;
-    if (this.handleJump()) actionHappened = true;
-    if (this.handleThrow(canThrowBottle)) actionHappened = true;
+    if (this.actions.handleJump()) actionHappened = true;
+    if (this.actions.handleThrow(canThrowBottle)) actionHappened = true;
     if (this.handleJumpAnimation()) actionHappened = true;
     return actionHappened;
   }
 
-  /** Handles death animation, sound, and game over. */
-  handleDeath() {
-    if (this.isDead()) {
-      this.playAnimation(this.IMAGES_DEAD);
-      if (this.hurtAudio && !this.hurtAudio.paused) {
-        this.hurtAudio.pause();
-        this.hurtAudio.currentTime = 0;
-      }
-      if (!this._deathSoundPlayed && this.deathAudio?.paused) {
-        this._deathSoundPlayed = true;
-        this.deathAudio.currentTime = 0;
-        this.deathAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.deathAudio.play().catch((err) => {
-          if (window.DEBUG_AUDIO) {
-            console.warn(
-              "Audio playback failed: deathAudio could not be played. " +
-                (err && err.message ? err.message : "")
-            );
-          }
-        });
-      }
-      if (!this._gameOverRedirected) {
-        this._gameOverRedirected = true;
-        const target = window.getGameTime() + 1000;
-        const unregister = window.registerGameLoop((gameTime) => {
-          if (gameTime >= target) {
-            if (window.SPA && typeof window.SPA.navigate === "function") {
-              window.SPA.navigate("/pages/game-over.html");
-            } else if (typeof window.showEndOverlay === "function") {
-              window.showEndOverlay("pages/game-over.html");
-            } else {
-              console.log("Overlay für game-over.html funktioniert nicht");
-            }
-            unregister();
-          }
-        });
-      }
-      return true;
-    }
-    return false;
-  }
-
-  /** Handles hurt animation and sound. */
-  handleHurt() {
-    if (this.isHurt()) {
-      this.playAnimation(this.IMAGES_HURT);
-      if (this.hurtAudio?.paused) {
-        this.hurtAudio.currentTime = 0;
-        this.hurtAudio.muted = localStorage.getItem("polloMute") === "1";
-        this.hurtAudio.play().catch((err) => {
-          if (window.DEBUG_AUDIO) {
-            console.warn(
-              "Audio playback failed: hurtAudio could not be played. " +
-                (err && err.message ? err.message : "")
-            );
-          }
-        });
-        const unregister = window.registerGameLoop((gameTime) => {
-          if (gameTime >= window.getGameTime() + 1000) {
-            this.deathAudio?.pause();
-            unregister();
-          }
-        });
-      }
-      return true;
-    }
-    return false;
-  }
+  // Status/Health logic is now handled by CharacterStatus
 
   /** Handles left/right movement and walking sound. */
   handleMovement() {
