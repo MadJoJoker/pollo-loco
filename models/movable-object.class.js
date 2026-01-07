@@ -68,18 +68,36 @@ class MovableObject extends DrawableObject {
    * @param {string[]} images - Array of image paths for animation.
    */
   playAnimation(images) {
-    let now =
-      typeof window !== "undefined" && window.getGameTime
-        ? window.getGameTime()
-        : Date.now();
+    let now = this._getCurrentTime();
     if (this.isAboveGround() && images === this.IMAGES_WALKING) return;
     if (!this.lastAnimationTime) this.lastAnimationTime = now;
     if (now - this.lastAnimationTime > this.animationSpeed) {
-      this.currentImage = (this.currentImage + 1) % images.length;
-      let path = images[this.currentImage];
-      this.img = this.imageCache[path];
-      this.lastAnimationTime = now;
+      this._advanceAnimation(images, now);
     }
+  }
+
+  /**
+   * Gets the current time for animation and game logic.
+   * @returns {number} The current time in ms.
+   * @private
+   */
+  _getCurrentTime() {
+    return typeof window !== "undefined" && window.getGameTime
+      ? window.getGameTime()
+      : Date.now();
+  }
+
+  /**
+   * Advances the animation frame.
+   * @param {string[]} images - Array of image paths.
+   * @param {number} now - The current time in ms.
+   * @private
+   */
+  _advanceAnimation(images, now) {
+    this.currentImage = (this.currentImage + 1) % images.length;
+    let path = images[this.currentImage];
+    this.img = this.imageCache[path];
+    this.lastAnimationTime = now;
   }
 
   /**
