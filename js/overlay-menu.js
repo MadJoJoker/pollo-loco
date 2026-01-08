@@ -15,6 +15,7 @@
    */
   function setInert(state) {
     const pageMain = document.getElementById("page-main");
+    console.log(`[DEBUG] setInert: state=${state}`, pageMain);
     if ("inert" in HTMLElement.prototype) {
       if (pageMain) pageMain.inert = state;
       return;
@@ -31,6 +32,10 @@
   function setTabIndexes(container, disable) {
     const focusables = container.querySelectorAll(
       "a[href], button, textarea, input, select, [tabindex]"
+    );
+    console.log(
+      `[DEBUG] setTabIndexes: disable=${disable}, found ${focusables.length} focusables`,
+      focusables
     );
     focusables.forEach((el) => {
       if (disable) {
@@ -57,6 +62,7 @@
    * @param {Event} e - Click event.
    */
   function openMenu(e) {
+    console.log("[DEBUG] openMenu: Overlay wird geöffnet", e);
     if (e) e.preventDefault();
     showOverlay();
     setInert(true);
@@ -70,6 +76,10 @@
     if (!overlay || !revolver) return;
     overlay.classList.remove("overlay-hidden");
     overlay.classList.add("overlay-visible");
+    console.log(
+      "[DEBUG] showOverlay: overlay sichtbar gemacht",
+      overlay.classList
+    );
     overlay.setAttribute("aria-hidden", "false");
     revolver.setAttribute("aria-expanded", "true");
     if (pageMain) pageMain.setAttribute("aria-hidden", "true");
@@ -82,6 +92,7 @@
    * Close the overlay menu and restore focus.
    */
   function closeMenu() {
+    console.log("[DEBUG] closeMenu: Overlay wird geschlossen");
     hideOverlay();
     setInert(false);
     if (typeof revolver !== "undefined" && revolver) revolver.focus();
@@ -94,6 +105,7 @@
     if (!overlay || !revolver) return;
     overlay.classList.remove("overlay-visible");
     overlay.classList.add("overlay-hidden");
+    console.log("[DEBUG] hideOverlay: overlay versteckt", overlay.classList);
     overlay.setAttribute("aria-hidden", "true");
     revolver.setAttribute("aria-expanded", "false");
     if (pageMain) pageMain.removeAttribute("aria-hidden");
@@ -107,6 +119,7 @@
    */
   let carouselLoaded = false;
   function loadCarousel() {
+    console.log("[DEBUG] loadCarousel: Start");
     const container = document.getElementById("overlay-carousel-container");
     if (container) container.innerHTML = "";
     carouselLoaded = false;
@@ -126,6 +139,7 @@
   function insertCarousel(html) {
     const container = document.getElementById("overlay-carousel-container");
     if (container) container.innerHTML = html;
+    console.log("[DEBUG] insertCarousel: HTML eingefügt", html);
     // Robust: Warte bis Buttons im DOM sind, dann initialisiere Carousel
     function tryInitCarousel(retries = 10) {
       if (window.initCarousel) {
@@ -133,6 +147,10 @@
           ".carousel button, .carousel a"
         );
         if (btns.length > 0) {
+          console.log(
+            "[DEBUG] tryInitCarousel: Buttons gefunden, initCarousel wird aufgerufen",
+            btns
+          );
           window.initCarousel();
           return;
         }
@@ -188,12 +206,14 @@
       const menuBackdrop = document.getElementById("menu-backdrop");
 
       function openMenu(e) {
+        console.log("[DEBUG] openMenu (setup): Overlay wird geöffnet", e);
         if (e) e.preventDefault();
         showOverlay(overlay, revolverBtn, pageMain);
         setInert(true);
         if (closeMenuBtn) closeMenuBtn.focus();
       }
       function closeMenu() {
+        console.log("[DEBUG] closeMenu (setup): Overlay wird geschlossen");
         hideOverlay(overlay, revolverBtn, pageMain);
         setInert(false);
         if (revolverBtn) revolverBtn.focus();
@@ -211,6 +231,7 @@
           overlay &&
           overlay.classList.contains("overlay-visible")
         ) {
+          console.log("[DEBUG] ESC pressed: Overlay wird geschlossen");
           closeMenu();
         }
       });
@@ -231,6 +252,10 @@
     if (!overlay || !revolver) return;
     overlay.classList.remove("overlay-hidden");
     overlay.classList.add("overlay-visible");
+    console.log(
+      "[DEBUG] showOverlay (setup): overlay sichtbar gemacht",
+      overlay.classList
+    );
     overlay.setAttribute("aria-hidden", "false");
     revolver.setAttribute("aria-expanded", "true");
     if (pageMain) pageMain.setAttribute("aria-hidden", "true");
@@ -246,6 +271,10 @@
     if (!overlay || !revolver) return;
     overlay.classList.remove("overlay-visible");
     overlay.classList.add("overlay-hidden");
+    console.log(
+      "[DEBUG] hideOverlay (setup): overlay versteckt",
+      overlay.classList
+    );
     overlay.setAttribute("aria-hidden", "true");
     revolver.setAttribute("aria-expanded", "false");
     if (pageMain) pageMain.removeAttribute("aria-hidden");

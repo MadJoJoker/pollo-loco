@@ -295,7 +295,8 @@ function setupNoRestartButton() {
   const overlay = document.getElementById("no-restart-overlay");
   if (!noRestartBtn || !overlay) return;
   resetOverlayStyle(overlay);
-  noRestartBtn.addEventListener("click", function () {
+  noRestartBtn.addEventListener("click", function (e) {
+    console.log("[DEBUG] no-restart-btn clicked", e, overlay);
     showOverlayWithTimeout(overlay);
   });
 }
@@ -309,6 +310,7 @@ function resetOverlayStyle(overlay) {
   overlay.style.top = "-200px";
   overlay.style.opacity = "0";
   overlay.style.animation = "none";
+  console.log("[DEBUG] resetOverlayStyle", overlay);
 }
 
 /**
@@ -319,6 +321,7 @@ function showOverlayWithTimeout(overlay) {
   overlay.style.display = "block";
   overlay.style.animation =
     "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
+  console.log("[DEBUG] showOverlayWithTimeout: Overlay eingeblendet", overlay);
   setTimeout(() => {
     hideOverlayWithAnimation(overlay);
   }, 3000);
@@ -331,6 +334,10 @@ function showOverlayWithTimeout(overlay) {
 function hideOverlayWithAnimation(overlay) {
   overlay.style.animation =
     "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
+  console.log(
+    "[DEBUG] hideOverlayWithAnimation: Overlay wird ausgeblendet",
+    overlay
+  );
   setTimeout(() => {
     resetOverlayStyle(overlay);
   }, 700);
