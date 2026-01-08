@@ -36,7 +36,7 @@ function setupCarouselAutoplayWithState(state) {
  * @returns {Object} State and helper functions for the carousel.
  */
 function createCarouselState() {
-  const buttons = document.querySelectorAll(".carousel button");
+  const buttons = document.querySelectorAll(".carousel button, .carousel a");
   const count = buttons.length;
   let activeIndex = 0;
   let autoplayActive = true;

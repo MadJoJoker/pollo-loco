@@ -108,12 +108,8 @@
   let carouselLoaded = false;
   function loadCarousel() {
     const container = document.getElementById("overlay-carousel-container");
-    if (
-      carouselLoaded ||
-      (container && container.innerHTML.trim().length > 0)
-    ) {
-      return;
-    }
+    if (container) container.innerHTML = "";
+    carouselLoaded = false;
     fetch("main-menu.html")
       .then((response) => response.text())
       .then((html) => {
@@ -130,7 +126,26 @@
   function insertCarousel(html) {
     const container = document.getElementById("overlay-carousel-container");
     if (container) container.innerHTML = html;
-    if (window.initCarousel) window.initCarousel();
+    // Robust: Warte bis Buttons im DOM sind, dann initialisiere Carousel
+    function tryInitCarousel(retries = 10) {
+      if (window.initCarousel) {
+        const btns = container.querySelectorAll(
+          ".carousel button, .carousel a"
+        );
+        if (btns.length > 0) {
+          window.initCarousel();
+          return;
+        }
+      }
+      if (retries > 0) {
+        setTimeout(() => tryInitCarousel(retries - 1), 50);
+      } else {
+        console.warn(
+          "Carousel konnte nicht initialisiert werden: keine Buttons gefunden."
+        );
+      }
+    }
+    tryInitCarousel();
   }
 
   /**
