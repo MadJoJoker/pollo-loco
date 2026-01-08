@@ -62,74 +62,7 @@
       </div>
     </div>
 
-    <script>
-      function loadCarousel() {
-        fetch("/pages/main-menu.html")
-          .then((response) => response.text())
-          .then((html) => {
-            const container = document.getElementById(
-              "overlay-carousel-container"
-            );
-            if (container) container.innerHTML = html;
-            if (window.initCarousel) window.initCarousel();
-          })
-          .catch((err) => {
-            console.error("Failed to load main-menu.html", err);
-          });
-      }
-
-      loadCarousel();
-      document.addEventListener("spa:render", loadCarousel);
-
-      function initMenuEventListeners() {
-        const revolverBtn = document.getElementById("revolver-btn");
-        const menuOverlay = document.getElementById("menu-overlay");
-        const closeMenuBtn = document.getElementById("close-menu");
-        const menuBackdrop = document.getElementById("menu-backdrop");
-
-        function openMenu() {
-          if (menuOverlay && revolverBtn) {
-            menuOverlay.classList.remove("overlay-hidden");
-            menuOverlay.classList.add("overlay-visible");
-            menuOverlay.setAttribute("aria-hidden", "false");
-            revolverBtn.setAttribute("aria-expanded", "true");
-          }
-        }
-
-        function closeMenu() {
-          if (menuOverlay && revolverBtn) {
-            menuOverlay.classList.remove("overlay-visible");
-            menuOverlay.classList.add("overlay-hidden");
-            menuOverlay.setAttribute("aria-hidden", "true");
-            revolverBtn.setAttribute("aria-expanded", "false");
-          }
-        }
-
-        if (revolverBtn) {
-          revolverBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            openMenu();
-          });
-        }
-
-        if (closeMenuBtn) {
-          closeMenuBtn.addEventListener("click", closeMenu);
-        }
-
-        if (menuBackdrop) {
-          menuBackdrop.addEventListener("click", closeMenu);
-        }
-
-        if (menuOverlay) {
-          menuOverlay.addEventListener("click", (e) => {
-            if (e.target === menuOverlay) closeMenu();
-          });
-        }
-      }
-
-      initMenuEventListeners();
-      document.addEventListener("spa:render", initMenuEventListeners);
-    </script>
+    <script src="/js/overlay-menu.js"></script>
     <script src="/js/main-menu-carousel.js"></script>
 
     <main class="content-container">
