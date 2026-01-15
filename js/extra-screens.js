@@ -93,8 +93,19 @@ if (canvasFullscreenBtn) {
   canvasFullscreenBtn.addEventListener("click", function () {
     if (typeof fullscreen === "function") fullscreen();
   });
+  // Touch: Button-Text kurz anzeigen
   canvasFullscreenBtn.addEventListener("touchstart", function () {
+    canvasFullscreenBtn.classList.add("show-btn-text");
+    setTimeout(() => {
+      canvasFullscreenBtn.classList.remove("show-btn-text");
+    }, 1500);
     if (typeof fullscreen === "function") fullscreen();
+  });
+  canvasFullscreenBtn.addEventListener("touchend", function () {
+    canvasFullscreenBtn.classList.remove("show-btn-text");
+  });
+  canvasFullscreenBtn.addEventListener("mouseleave", function () {
+    canvasFullscreenBtn.classList.remove("show-btn-text");
   });
 }
 

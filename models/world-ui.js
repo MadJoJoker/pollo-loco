@@ -26,31 +26,6 @@ class WorldUI {
     }
   }
 
-  /**
-   * Shows game over overlay.
-   */
-  showGameOver() {
-    if (window.SPA && typeof window.SPA.navigate === "function") {
-      window.SPA.navigate("/pages/game-over.html");
-    } else if (typeof window.showEndOverlay === "function") {
-      window.showEndOverlay("pages/game-over.html");
-    } else {
-      console.log("Overlay für game-over.html funktioniert nicht");
-    }
-  }
-
-  /**
-   * Shows win overlay.
-   */
-  showWin() {
-    if (window.SPA && typeof window.SPA.navigate === "function") {
-      window.SPA.navigate("/pages/win.html");
-    } else if (typeof window.showEndOverlay === "function") {
-      window.showEndOverlay("pages/win.html");
-    } else {
-      console.log("Overlay für win.html funktioniert nicht");
-    }
-  }
 
   /**
    * Shows pause overlay.

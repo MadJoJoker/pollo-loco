@@ -62,10 +62,8 @@ class CharacterStatus {
         if (gameTime >= target) {
           if (window.SPA && typeof window.SPA.navigate === "function") {
             window.SPA.navigate("/pages/game-over.html");
-          } else if (typeof window.showEndOverlay === "function") {
-            window.showEndOverlay("pages/game-over.html");
           } else {
-            console.log("Overlay for game-over.html does not work");
+            console.log("SPA navigation for game-over.html does not work");
           }
           unregister();
         }

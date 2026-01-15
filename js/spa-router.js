@@ -6,11 +6,24 @@
   var currentPath = location.pathname;
 
   function showOverlayPage(path) {
-    return fetchOverlayHtml(path).then(insertOverlayHtml);
+    console.debug("[SPA-ROUTER] showOverlayPage", path);
+    return fetchOverlayHtml(path)
+      .then((html) => {
+        console.debug("[SPA-ROUTER] Overlay HTML fetched", html.slice(0, 200));
+        return insertOverlayHtml(html);
+      })
+      .catch((err) => {
+        console.error("[SPA-ROUTER] Error fetching overlay HTML", err);
+        throw err;
+      });
   }
   function fetchOverlayHtml(path) {
+    console.debug("[SPA-ROUTER] fetchOverlayHtml", path);
     return fetch(path, { cache: "no-cache" })
-      .then(checkResponse)
+      .then((res) => {
+        console.debug("[SPA-ROUTER] fetchOverlayHtml response", res);
+        return checkResponse(res);
+      })
       .then((res) => res.text());
   }
   function checkResponse(res) {
@@ -18,10 +31,17 @@
     return res;
   }
   function insertOverlayHtml(htmlText) {
+    console.debug("[SPA-ROUTER] insertOverlayHtml", htmlText.slice(0, 200));
     var parsed = parseHTML(htmlText);
     let overlay = getOrCreateOverlay();
     showOverlay(overlay, parsed, htmlText);
-    return Promise.all([ensureStyles(parsed), executeScripts(parsed, overlay)]);
+    return Promise.all([
+      ensureStyles(parsed),
+      executeScripts(parsed, overlay),
+    ]).then((results) => {
+      console.debug("[SPA-ROUTER] Styles and scripts loaded", results);
+      return true;
+    });
   }
 
   /**
@@ -31,8 +51,26 @@
    * @param {string} htmlText The raw HTML string.
    */
   function showOverlay(overlay, parsed, htmlText) {
+    console.debug(
+      "[SPA-ROUTER] showOverlay",
+      overlay,
+      parsed,
+      htmlText.slice(0, 200)
+    );
     overlay.classList.remove("hidden");
     overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
+    // Zentrale Mute-Logik für Overlay-Audio
+    setTimeout(function () {
+      try {
+        var muteValue = localStorage.getItem("polloMute") || "0";
+        var audios = overlay.querySelectorAll("audio");
+        audios.forEach(function (audio) {
+          audio.muted = muteValue === "1";
+        });
+      } catch (e) {
+        console.warn("Mute-Check Overlay failed", e);
+      }
+    }, 0);
   }
 
   function getOrCreateOverlay() {
@@ -41,6 +79,9 @@
       overlay = document.createElement("div");
       overlay.id = "extrascreens";
       document.body.appendChild(overlay);
+      console.debug("[SPA-ROUTER] Overlay element created", overlay);
+    } else {
+      console.debug("[SPA-ROUTER] Overlay element reused", overlay);
     }
     return overlay;
   }
@@ -141,10 +182,19 @@
   function ensureStyles(fromDoc) {
     var headLinks = getHeadLinks(fromDoc);
     var headStyles = getHeadStyles(fromDoc);
+    console.debug(
+      "[SPA-ROUTER] ensureStyles: found links",
+      headLinks,
+      "styles",
+      headStyles
+    );
     removeOldStyles();
     var promises = headLinks.map(loadStylesheet);
     headStyles.forEach(addInlineStyle);
-    return Promise.all(promises);
+    return Promise.all(promises).then((res) => {
+      console.debug("[SPA-ROUTER] All stylesheets loaded", res);
+      return res;
+    });
   }
 
   /**
@@ -169,24 +219,56 @@
     );
   }
 
+  // Entfernt nur seiten-/overlay-spezifische Styles, globale Styles bleiben erhalten
   function removeOldStyles() {
+    const globalCss = [
+      "root.css",
+      "layout.css",
+      "navigation.css",
+      "animations.css",
+      "responsive-tablet.css",
+      "responsive-mobile.css",
+      "responsive-desktop.css",
+      "overlay.css",
+      "game-over.css",
+      "win.css",
+    ];
     Array.from(document.querySelectorAll('link[rel="stylesheet"]')).forEach(
       (link) => {
-        var href = link.getAttribute("href");
-        if (href && !href.includes("root.css")) link.remove();
+        var href = link.getAttribute("href") || "";
+        if (href && !globalCss.some((css) => href.includes(css))) {
+          console.debug("[SPA-ROUTER] removeOldStyles: removing", href);
+          link.remove();
+        } else {
+          console.debug("[SPA-ROUTER] removeOldStyles: keeping", href);
+        }
       }
     );
   }
 
   function loadStylesheet(lnk) {
     var href = lnk.getAttribute("href");
-    if (!href || (href.includes("root.css") && styleAlreadyLoaded(href)))
+    if (!href) return Promise.resolve();
+    if (href.includes("root.css") && styleAlreadyLoaded(href)) {
+      console.debug(
+        "[SPA-ROUTER] loadStylesheet: root.css already loaded",
+        href
+      );
       return Promise.resolve();
+    }
+    if (styleAlreadyLoaded(href)) {
+      console.debug("[SPA-ROUTER] loadStylesheet: already loaded", href);
+      return Promise.resolve();
+    }
+    console.debug("[SPA-ROUTER] loadStylesheet: loading", href);
     return new Promise(function (resolve) {
       var link = document.createElement("link");
       link.rel = "stylesheet";
       link.href = href;
-      link.onload = link.onerror = () => resolve();
+      link.onload = link.onerror = () => {
+        console.debug("[SPA-ROUTER] loadStylesheet: loaded", href);
+        resolve();
+      };
       (document.head || document.documentElement).appendChild(link);
     });
   }
@@ -195,6 +277,7 @@
     var style = document.createElement("style");
     if (st.textContent) style.textContent = st.textContent;
     (document.head || document.documentElement).appendChild(style);
+    console.debug("[SPA-ROUTER] addInlineStyle", style);
   }
   /**
    * Replaces the current body content with content from the new document.

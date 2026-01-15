@@ -4,9 +4,24 @@
   transition: opacity 0.2s;
 }
 .img-btn:hover .btn-text,
-.img-btn:focus .btn-text {
+.img-btn:focus .btn-text,
+.img-btn.show-btn-text .btn-text {
   display: block;
   opacity: 1;
+  color: var(--color-black);
+}
+.img-btn .btn-text {
+  display: none;
+  transition: opacity 0.2s;
+  font-size: 0.9rem;
+  opacity: 0;
+}
+.img-btn:hover .btn-text,
+.img-btn:focus .btn-text,
+.img-btn.show-btn-text .btn-text {
+  display: block;
+  opacity: 1;
+  font-size: 0.9rem;
 }
 @font-face {
   font-family: "GringoNights";
@@ -285,7 +300,6 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-
   }
 
   .canvas-fullscreen-btn .img-btn {
