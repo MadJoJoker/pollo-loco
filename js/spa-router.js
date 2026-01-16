@@ -58,8 +58,10 @@
       htmlText.slice(0, 200)
     );
     overlay.classList.remove("hidden");
+    if (typeof window.pauseGameTime === "function") window.pauseGameTime();
+    if (typeof window.stopAllIntervals === "function")
+      window.stopAllIntervals();
     overlay.innerHTML = parsed.body ? parsed.body.innerHTML : htmlText;
-    // Zentrale Mute-Logik für Overlay-Audio
     setTimeout(function () {
       try {
         var muteValue = localStorage.getItem("polloMute") || "0";
