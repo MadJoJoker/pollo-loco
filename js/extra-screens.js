@@ -93,7 +93,6 @@ if (canvasFullscreenBtn) {
   canvasFullscreenBtn.addEventListener("click", function () {
     if (typeof fullscreen === "function") fullscreen();
   });
-  // Touch: Button-Text kurz anzeigen
   canvasFullscreenBtn.addEventListener("touchstart", function () {
     canvasFullscreenBtn.classList.add("show-btn-text");
     setTimeout(() => {
