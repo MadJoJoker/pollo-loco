@@ -18,6 +18,12 @@ class OverlayManager {
     this.overlay.style.display = "none";
     this.overlay.style.zIndex = "9999";
     this.overlay.innerHTML = '<div id="spa-overlay-content"></div>';
+    const content = this.overlay.querySelector("#spa-overlay-content");
+    if (content) {
+      content.style.width = "100%";
+      content.style.boxSizing = "border-box";
+      content.style.padding = "32px 24px";
+    }
     if (document.body) {
       document.body.appendChild(this.overlay);
     } else {
@@ -31,7 +37,7 @@ class OverlayManager {
     this.pauseGameLoop();
     this.overlay.style.display = "flex";
     this.overlay.style.justifyContent = "center";
-    this.overlay.style.alignItems = "center";
+    this.overlay.style.alignItems = "flex-start";
     const content = await fetch(url).then((r) => r.text());
 
     // CSS & JS aus geladenem HTML extrahieren und einfügen
@@ -58,7 +64,7 @@ class OverlayManager {
       if (!href) return;
       if (
         !Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(
-          (l) => l.getAttribute("href") === href
+          (l) => l.getAttribute("href") === href,
         )
       ) {
         const newLink = document.createElement("link");
@@ -81,7 +87,7 @@ class OverlayManager {
       if (!src) return;
       if (
         !Array.from(document.querySelectorAll("script[src]")).some(
-          (s) => s.getAttribute("src") === src
+          (s) => s.getAttribute("src") === src,
         )
       ) {
         const newScript = document.createElement("script");

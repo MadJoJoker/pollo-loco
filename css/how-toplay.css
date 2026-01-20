@@ -351,3 +351,29 @@ li {
     width: 10px;
   }
 }
+
+#start-header button {
+  text-decoration: none;
+  color: rgb(255, 200, 100);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: rgb(255, 200, 100);
+  border-style: solid;
+  border-width: var(--border-width);
+  display: inline-block;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+#start-header button:hover {
+  color: rgb(255, 220, 120);
+  background-color: rgb(60, 20, 18);
+  border: var(--color-border);
+  border-style: solid;
+  border-width: var(--border-width);
+}

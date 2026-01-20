@@ -10,7 +10,8 @@
 #scoreboard-win img {
   max-width: clamp(75%, 90%, 95%);
   object-fit: contain;
-  transition: max-width var(--transition-standard),
+  transition:
+    max-width var(--transition-standard),
     max-height var(--transition-standard);
   display: block;
   margin: 0 auto;
@@ -26,7 +27,8 @@
   border: var(--border-solid);
   border-radius: var(--border-radius);
   background-color: transparent;
-  transition: background-color var(--transition-standard),
+  transition:
+    background-color var(--transition-standard),
     transform var(--transition-fast);
   box-sizing: border-box;
 }
@@ -58,8 +60,10 @@
   text-align: center;
   display: block;
   box-sizing: border-box;
-  transition: opacity var(--transition-standard),
-    transform var(--transition-standard), font-size var(--transition-standard),
+  transition:
+    opacity var(--transition-standard),
+    transform var(--transition-standard),
+    font-size var(--transition-standard),
     padding var(--transition-standard);
 }
 
@@ -73,7 +77,8 @@
   background-position: center;
   border: var(--border-solid);
   border-radius: var(--border-radius);
-  transition: width var(--transition-standard),
+  transition:
+    width var(--transition-standard),
     height var(--transition-standard);
   box-sizing: border-box;
 }
@@ -83,4 +88,30 @@ h1 {
   flex-direction: column;
   align-items: center;
   padding: 40px;
+}
+
+#start-header button {
+  text-decoration: none;
+  color: rgb(255, 200, 100);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: rgb(255, 200, 100);
+  border-style: solid;
+  border-width: var(--border-width);
+  display: inline-block;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+#start-header button:hover {
+  color: rgb(255, 220, 120);
+  background-color: rgb(60, 20, 18);
+  border: var(--color-border);
+  border-style: solid;
+  border-width: var(--border-width);
 }

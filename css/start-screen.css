@@ -7,7 +7,8 @@
   max-width: clamp(70%, 90%, 95%);
   max-height: clamp(50%, 60%, 70%);
   object-fit: contain;
-  transition: max-width var(--transition-standard),
+  transition:
+    max-width var(--transition-standard),
     max-height var(--transition-standard);
   display: block;
   margin: 0 auto;
@@ -23,13 +24,40 @@
   max-width: 98%;
   text-align: center;
   z-index: 1;
-  transition: font-size var(--transition-standard),
+  transition:
+    font-size var(--transition-standard),
     top var(--transition-standard);
   color: rgb(255, 200, 100);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   margin: 0;
   padding: clamp(4px, 1vh, 8px);
   line-height: 1.2;
+}
+
+#start-header button {
+  text-decoration: none;
+  color: rgb(255, 200, 100);
+  background-color: var(--color-primary);
+  font-size: var(--font-size-small);
+  font-weight: bold;
+  font-family: var(--font-family);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: rgb(255, 200, 100);
+  border-style: solid;
+  border-width: var(--border-width);
+  display: inline-block;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+#start-header button:hover {
+  color: rgb(255, 220, 120);
+  background-color: rgb(60, 20, 18);
+  border: var(--color-border);
+  border-style: solid;
+  border-width: var(--border-width);
 }
 
 /* Media queries moved to shared-responsive.css for better consistency */
