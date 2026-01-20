@@ -18,7 +18,6 @@ class OverlayManager {
     this.overlay.style.display = "none";
     this.overlay.style.zIndex = "9999";
     this.overlay.innerHTML = '<div id="spa-overlay-content"></div>';
-    // body könnte noch nicht existieren, daher verzögert einfügen
     if (document.body) {
       document.body.appendChild(this.overlay);
     } else {

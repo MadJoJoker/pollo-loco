@@ -31,11 +31,11 @@
    */
   function setTabIndexes(container, disable) {
     const focusables = container.querySelectorAll(
-      "a[href], button, textarea, input, select, [tabindex]"
+      "a[href], button, textarea, input, select, [tabindex]",
     );
     console.log(
       `[DEBUG] setTabIndexes: disable=${disable}, found ${focusables.length} focusables`,
-      focusables
+      focusables,
     );
     focusables.forEach((el) => {
       if (disable) {
@@ -78,7 +78,7 @@
     overlay.classList.add("overlay-visible");
     console.log(
       "[DEBUG] showOverlay: overlay sichtbar gemacht",
-      overlay.classList
+      overlay.classList,
     );
     overlay.setAttribute("aria-hidden", "false");
     revolver.setAttribute("aria-expanded", "true");
@@ -144,12 +144,12 @@
     function tryInitCarousel(retries = 10) {
       if (window.initCarousel) {
         const btns = container.querySelectorAll(
-          ".carousel button, .carousel a"
+          ".carousel button, .carousel a",
         );
         if (btns.length > 0) {
           console.log(
             "[DEBUG] tryInitCarousel: Buttons gefunden, initCarousel wird aufgerufen",
-            btns
+            btns,
           );
           window.initCarousel();
           return;
@@ -159,7 +159,7 @@
         setTimeout(() => tryInitCarousel(retries - 1), 50);
       } else {
         console.warn(
-          "Carousel konnte nicht initialisiert werden: keine Buttons gefunden."
+          "Carousel konnte nicht initialisiert werden: keine Buttons gefunden.",
         );
       }
     }
@@ -254,7 +254,7 @@
     overlay.classList.add("overlay-visible");
     console.log(
       "[DEBUG] showOverlay (setup): overlay sichtbar gemacht",
-      overlay.classList
+      overlay.classList,
     );
     overlay.setAttribute("aria-hidden", "false");
     revolver.setAttribute("aria-expanded", "true");
@@ -273,7 +273,7 @@
     overlay.classList.add("overlay-hidden");
     console.log(
       "[DEBUG] hideOverlay (setup): overlay versteckt",
-      overlay.classList
+      overlay.classList,
     );
     overlay.setAttribute("aria-hidden", "true");
     revolver.setAttribute("aria-expanded", "false");
@@ -281,4 +281,43 @@
   }
 
   addOverlayListeners();
+
+  // === Main Menu Overlay Loader ===
+  window.showMainMenuOverlay = function () {
+    const overlay = document.getElementById("menu-overlay");
+    if (overlay) {
+      overlay.classList.remove("overlay-hidden");
+      overlay.classList.add("overlay-visible");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+    fetchMainMenuHtml().then((html) => {
+      injectMainMenuHtml(html);
+      injectMainMenuAssets(html);
+    });
+  };
+
+  function fetchMainMenuHtml() {
+    return fetch("pages/main-menu.html").then((r) => r.text());
+  }
+
+  function injectMainMenuHtml(html) {
+    const container = document.getElementById("overlay-carousel-container");
+    if (container) container.innerHTML = html;
+  }
+
+  function injectMainMenuAssets(html) {
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
+    temp.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+      if (!document.querySelector(`link[href="${link.href}"]`))
+        document.head.appendChild(link.cloneNode());
+    });
+    temp.querySelectorAll("script[src]").forEach((script) => {
+      if (!document.querySelector(`script[src="${script.src}"]`)) {
+        const s = document.createElement("script");
+        s.src = script.src;
+        document.body.appendChild(s);
+      }
+    });
+  }
 })();
