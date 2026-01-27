@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/pause-disabled.css" />
     <title>El Pollo Loco- Chicken Tabasco</title>
     <script src="js/overlay-manager.js"></script>
+    <script src="js/div-visibility-manager.js"></script>
     <script src="js/spa-router.js"></script>
   </head>
 
@@ -35,7 +36,7 @@
         typeof window.hasValidReferrer !== "undefined"
           ? window.hasValidReferrer
           : window.allowedReferrers.some((page) =>
-              document.referrer.includes(page)
+              document.referrer.includes(page),
             );
       if (!window.hasValidReferrer) {
         if (window.SPA && typeof window.SPA.navigate === "function") {
@@ -95,12 +96,7 @@
           <button
             id="backButton"
             class="img-btn"
-            onclick="
-              window.SPA && window.SPA.navigate
-                ? window.SPA.navigate('pages/start-screen.html')
-                : window.overlayManager &&
-                  window.overlayManager.open('pages/start-screen.html')
-            "
+            onclick="showPageDiv('start-screen')"
           >
             <img
               src="/assets/button/back-btn.png"
@@ -303,7 +299,7 @@
         ].map((m) => m[1]);
         const jsLinks = [
           ...html.matchAll(
-            /<script[^>]+src=["']([^"']+\.js)["'][^>]*><\/script>/gi
+            /<script[^>]+src=["']([^"']+\.js)["'][^>]*><\/script>/gi,
           ),
         ].map((m) => m[1]);
         // CSS einbinden (frisch)
@@ -327,7 +323,7 @@
         bg.onclick = () => hideEndOverlay();
         // Restart-Button animiert einblenden, falls vorhanden
         const restartBtn = content.querySelector(
-          "#restartButton, .restart-btn, [data-restart]"
+          "#restartButton, .restart-btn, [data-restart]",
         );
         if (restartBtn) {
           restartBtn.style.opacity = 0;
@@ -354,5 +350,16 @@
         document.getElementById("end-overlay-content").innerHTML = "";
       }
     </script>
+    <!-- Dynamisch generierte Divs für jede Seite in /pages -->
+    <div id="div-datenschutz" style="display: none"></div>
+    <div id="div-game-over" style="display: none"></div>
+    <div id="div-highscore" style="display: none"></div>
+    <div id="div-start-screen" style="display: none"></div>
+    <div id="div-settings" style="display: none"></div>
+    <div id="div-overlay-highscore" style="display: none"></div>
+    <div id="div-main-menu" style="display: none"></div>
+    <div id="div-impressum" style="display: none"></div>
+    <div id="div-how-to-play" style="display: none"></div>
+    <div id="div-win" style="display: none"></div>
   </body>
 </html>
