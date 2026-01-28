@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="css/taco-time-overlay.css" />
     <link rel="stylesheet" href="css/pause-disabled.css" />
     <title>El Pollo Loco- Chicken Tabasco</title>
-    <script src="js/overlay-manager.js"></script>
-    <script src="js/div-visibility-manager.js"></script>
-    <script src="js/spa-router.js"></script>
   </head>
 
   <body onload="init()">
@@ -63,7 +60,6 @@
             />
             <span class="btn-text">Fulls.</span>
           </button>
-          <!-- Taco Time Overlay: direkt unterhalb der Button-Bar -->
           <div
             id="tacoTimeOverlay"
             class="taco-time-overlay hide"
@@ -224,7 +220,6 @@
         </button>
       </div>
     </div>
-    <!-- SCRIPTS AM SEITENENDE FÜR KORREKTE LADE-REIHENFOLGE -->
     <script src="js/interval-helper.js"></script>
     <script src="js/game-animation-utils.js"></script>
     <script src="models/drawable-object.class.js"></script>
@@ -264,93 +259,11 @@
     <script src="js/fullscreen.js"></script>
     <script src="js/extra-screens.js"></script>
     <script src="js/game.js"></script>
-    <!-- <script src="js/start-restart-init.js"></script> -->
-    <script>
-      /**
-       * Zeigt das End-Overlay und lädt dynamisch den Inhalt von win.html oder game-over.html inkl. CSS/JS.
-       * @param {string} pageUrl - URL der Endseite ("pages/win.html" oder "pages/game-over.html")
-       */
-      async function showEndOverlay(pageUrl) {
-        // Spiel und Audios pausieren
-        if (typeof window.pauseGame === "function") window.pauseGame();
-        // Alle Audios stoppen
-        document.querySelectorAll("audio").forEach((a) => {
-          try {
-            a.pause();
-          } catch (e) {}
-        });
-        // Overlay-Elemente holen
-        const bg = document.getElementById("end-overlay-bg");
-        const content = document.getElementById("end-overlay-content");
-        // Vorherigen Inhalt entfernen
-        content.innerHTML = "";
-        // Anzeigen
-        bg.style.display = "block";
-        content.style.display = "block";
-        // Seite laden
-        const resp = await fetch(pageUrl);
-        let html = await resp.text();
-        // Nur <body>-Inhalt extrahieren
-        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-        const bodyHtml = bodyMatch ? bodyMatch[1] : html;
-        // CSS/JS extrahieren
-        const cssLinks = [
-          ...html.matchAll(/<link[^>]+href=["']([^"']+\.css)["'][^>]*>/gi),
-        ].map((m) => m[1]);
-        const jsLinks = [
-          ...html.matchAll(
-            /<script[^>]+src=["']([^"']+\.js)["'][^>]*><\/script>/gi,
-          ),
-        ].map((m) => m[1]);
-        // CSS einbinden (frisch)
-        cssLinks.forEach((href) => {
-          const link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.href = href + "?t=" + Date.now();
-          link.classList.add("end-overlay-css");
-          document.head.appendChild(link);
-        });
-        // Inhalt einfügen
-        content.innerHTML = bodyHtml;
-        // JS einbinden (frisch)
-        jsLinks.forEach((src) => {
-          const script = document.createElement("script");
-          script.src = src + "?t=" + Date.now();
-          script.classList.add("end-overlay-js");
-          document.body.appendChild(script);
-        });
-        // Schließen-Logik: Klick auf Hintergrund schließt Overlay
-        bg.onclick = () => hideEndOverlay();
-        // Restart-Button animiert einblenden, falls vorhanden
-        const restartBtn = content.querySelector(
-          "#restartButton, .restart-btn, [data-restart]",
-        );
-        if (restartBtn) {
-          restartBtn.style.opacity = 0;
-          restartBtn.style.transition = "opacity 0.7s";
-          setTimeout(() => (restartBtn.style.opacity = 1), 500);
-          restartBtn.onclick = (e) => {
-            e.stopPropagation();
-            hideEndOverlay();
-            if (typeof restartGame === "function") restartGame();
-          };
-        }
-      }
+    <script src="js/open-page.js"></script>
 
-      function hideEndOverlay() {
-        // Overlay ausblenden
-        document.getElementById("end-overlay-bg").style.display = "none";
-        document.getElementById("end-overlay-content").style.display = "none";
-        // Dynamisch eingebundene CSS/JS entfernen
-        document
-          .querySelectorAll(".end-overlay-css")
-          .forEach((e) => e.remove());
-        document.querySelectorAll(".end-overlay-js").forEach((e) => e.remove());
-        // Inhalt löschen
-        document.getElementById("end-overlay-content").innerHTML = "";
-      }
-    </script>
-    <!-- Dynamisch generierte Divs für jede Seite in /pages -->
+
+
+
     <div id="div-datenschutz" style="display: none"></div>
     <div id="div-game-over" style="display: none"></div>
     <div id="div-highscore" style="display: none"></div>
