@@ -2,18 +2,35 @@
  * @param {string} pageName - The HTML page to load
  * Loads the requested page and injects its content into the target div
  */
-window.openPage = async function (pageName) {
-  const targetDivId = getDivIdForPage(pageName);
-  let container = getOrCreateDiv(targetDivId);
-  clearDiv(container);
-  removeDynamicAssets();
-  const html = await fetchHtml(pageName);
-  injectHtml(container, html);
-  loadDynamicCss(html);
-  loadDynamicJs(html);
-  setTimeout(() => {
-    window.showOnlyDiv(targetDivId);
-  }, 300);
+window.openPage = function (pageName) {
+  return new Promise(async (resolve) => {
+    const targetDivId = getDivIdForPage(pageName);
+    let container = getOrCreateDiv(targetDivId);
+    clearDiv(container);
+    removeDynamicAssets();
+    const html = await fetchHtml(pageName);
+    injectHtml(container, html);
+    loadDynamicCss(html);
+    loadDynamicJs(html);
+    setTimeout(async () => {
+      const headerPlaceholder = document.getElementById("header-placeholder");
+      if (headerPlaceholder) {
+        const resp = await fetch("/header.html");
+        const headerHtml = await resp.text();
+        headerPlaceholder.innerHTML = headerHtml;
+        const revolverBtn = document.getElementById("revolver-btn");
+        if (revolverBtn) {
+          revolverBtn.onclick = function () {
+            window.showPageDiv("main-menu");
+          };
+        }
+      }
+    }, 10);
+    setTimeout(() => {
+      window.showOnlyDiv(targetDivId);
+      resolve(targetDivId);
+    }, 300);
+  });
 };
 
 /**
@@ -160,5 +177,5 @@ window.showPageDiv = function (pageKey) {
     "overlay-highscore": "overlay-highscore.html",
   };
   const pageName = pageMap[pageKey] || "start-screen.html";
-  window.openPage(pageName);
+  return window.openPage(pageName);
 };

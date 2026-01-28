@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -84,24 +84,7 @@
       </div>
     </div>
 
-    <header id="start-header">
-      <a href="impressum.html" data-link="impressum.html">Impressum</a>
-      <nav id="start-navbar">
-        <a
-          id="revolver-btn"
-          href="#"
-          aria-controls="menu-overlay"
-          aria-expanded="false"
-        >
-          <img
-            src="/assets/img/10_external_img/revolver-menu.png"
-            alt="menu"
-            class="nav-icon"
-          />
-        </a>
-      </nav>
-      <a href="datenschutz.html" data-link="datenschutz.html">Datenschutz</a>
-    </header>
+    <div id="header-placeholder"></div>
 
     <div id="page-main"></div>
 
@@ -131,7 +114,7 @@
           .then((response) => response.text())
           .then((html) => {
             const container = document.getElementById(
-              "overlay-carousel-container"
+              "overlay-carousel-container",
             );
             if (container) container.innerHTML = html;
             if (window.initCarousel) window.initCarousel();

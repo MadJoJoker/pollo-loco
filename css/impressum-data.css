@@ -123,7 +123,8 @@ body
   text-decoration: underline;
 }
 
-#start-header a {
+#start-header a,
+#start-header button.header-btn {
   text-decoration: none;
   color: rgb(255, 200, 100);
   background-color: var(--color-primary);
@@ -136,9 +137,11 @@ body
   border-style: solid;
   border-width: var(--border-width);
   display: inline-block;
+  cursor: pointer;
 }
 
-#start-header a:hover {
+#start-header a:hover,
+#start-header button.header-btn:hover {
   color: rgb(255, 220, 120);
   background-color: rgb(60, 20, 18);
   border: var(--color-border);
