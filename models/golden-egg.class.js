@@ -55,12 +55,10 @@ if (!window.GoldenEgg) {
       const target = window.getGameTime() + 400;
       const unregister = window.registerGameLoop((gameTime) => {
         if (gameTime >= target) {
-          if (window.SPA && typeof window.SPA.navigate === "function") {
-            window.SPA.navigate("/pages/win.html");
-          } else if (typeof window.showEndOverlay === "function") {
-            window.showEndOverlay("pages/win.html");
+          if (typeof window.openPage === "function") {
+            window.openPage("win.html");
           } else {
-            console.log("Overlay für win.html funktioniert nicht");
+            console.log("window.openPage('win.html') nicht verfügbar");
           }
           unregister();
         }

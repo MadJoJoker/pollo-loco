@@ -12,20 +12,7 @@ window.openPage = function (pageName) {
     injectHtml(container, html);
     loadDynamicCss(html);
     loadDynamicJs(html);
-    setTimeout(async () => {
-      const headerPlaceholder = document.getElementById("header-placeholder");
-      if (headerPlaceholder) {
-        const resp = await fetch("/header.html");
-        const headerHtml = await resp.text();
-        headerPlaceholder.innerHTML = headerHtml;
-        const revolverBtn = document.getElementById("revolver-btn");
-        if (revolverBtn) {
-          revolverBtn.onclick = function () {
-            window.showPageDiv("main-menu");
-          };
-        }
-      }
-    }, 10);
+    // Dynamisches Nachladen des Headers entfernt, statischer Header bleibt erhalten
     setTimeout(() => {
       window.showOnlyDiv(targetDivId);
       resolve(targetDivId);

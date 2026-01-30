@@ -89,7 +89,7 @@
   user-select: none;
   -webkit-user-select: none;
   pointer-events: auto !important;
-  z-index: 10000;
+  z-index: var(--z-index-overlay);
 
   &::before {
     content: "";

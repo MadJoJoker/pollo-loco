@@ -11,215 +11,232 @@
     />
     <link rel="stylesheet" href="css/root.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/game-over.css" />
+    <link rel="stylesheet" href="css/how-toplay.css" />
+    <link rel="stylesheet" href="css/highscore-screen.css" />
+    <link rel="stylesheet" href="css/carousel.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/overlay.css" />
+    <link rel="stylesheet" href="css/navigation.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/impressum-data.css" />
+    <link rel="stylesheet" href="css/win.css" />
     <link rel="stylesheet" href="css/taco-time-overlay.css" />
+    <link rel="stylesheet" href="css/shared-responsive.css" />
+    <link rel="stylesheet" href="css/shared-components.css" />
+    <link rel="stylesheet" href="css/settings.css" />
+    <link rel="stylesheet" href="css/settings-modern.css" />
+    <link rel="stylesheet" href="css/responsive-tablet.css" />
+    <link rel="stylesheet" href="css/responsive-mobile.css" />
+    <link rel="stylesheet" href="css/responsive-desktop.css" />
     <link rel="stylesheet" href="css/pause-disabled.css" />
     <title>El Pollo Loco- Chicken Tabasco</title>
   </head>
 
   <body onload="init()">
     <audio id="index-sound" src="/assets/audio/guitarre.mp3" loop></audio>
-    <script>
-      window.allowedReferrers = window.allowedReferrers || [
-        "start-screen.html",
-        "game-over.html",
-        "win.html",
-        "impressum.html",
-        "datenschutz.html",
-        "settings.html",
-        "highscore.html",
-        "how-to-play.html",
-      ];
-      window.hasValidReferrer =
-        typeof window.hasValidReferrer !== "undefined"
-          ? window.hasValidReferrer
-          : window.allowedReferrers.some((page) =>
-              document.referrer.includes(page),
-            );
-      if (!window.hasValidReferrer) {
-        if (window.SPA && typeof window.SPA.navigate === "function") {
-          window.SPA.navigate("pages/start-screen.html");
-        } else if (window.overlayManager) {
-          window.overlayManager.open("pages/start-screen.html");
-        }
-      }
-    </script>
-    <div id="fullscreen">
-      <h1>El Pollo Loco - Chicken Tabasco</h1>
-      <canvas id="canvas" width="720" height="480"> </canvas>
-      <div
-        id="canvasFullscreenBtn"
-        class="canvas-fullscreen-btn hidden"
-        style="z-index: 100"
+    <header id="start-header">
+      <button
+        type="button"
+        id="impressum-link"
+        class="header-btn"
+        onclick="window.openPage('impressum.html')"
       >
-        <div id="rightButtons" class="mobile-buttons">
-          <button id="canvasFullscreenButton" class="img-btn">
-            <img
-              src="/assets/button/btn-small.png"
-              alt="Fullscreen"
-              class="small-img-height"
-            />
-            <span class="btn-text">Fulls.</span>
-          </button>
+        Impressum
+      </button>
+      <nav id="start-navbar">
+        <button
+          type="button"
+          id="revolver-btn"
+          class="header-btn"
+          aria-controls="menu-overlay"
+          aria-expanded="false"
+          onclick="window.showPageDiv('main-menu')"
+        >
+          <img
+            src="/assets/img/10_external_img/revolver-menu.png"
+            alt="menu"
+            class="nav-icon"
+          />
+        </button>
+      </nav>
+      <button
+        type="button"
+        id="datenschutz-link"
+        class="header-btn"
+        onclick="window.openPage('datenschutz.html')"
+      >
+        Datenschutz
+      </button>
+    </header>
+    <main>
+      <section id="game-container">
+        <div id="fullscreen">
+          <h1>El Pollo Loco - Chicken Tabasco</h1>
+          <canvas id="canvas" width="720" height="480"> </canvas>
           <div
-            id="tacoTimeOverlay"
-            class="taco-time-overlay hide"
-            style="display: none"
+            id="canvasFullscreenBtn"
+            class="canvas-fullscreen-btn hidden"
+            style="z-index: var(--z-index-overlay)"
           >
-            <div class="taco-time-icons">
-              <img
-                src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
-                class="taco-time-icon"
-                alt="Bottle"
-              />
-              <span class="taco-time-text">TACO TIME</span>
-              <img
-                src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
-                class="taco-time-icon"
-                alt="Bottle"
-              />
-              <img
-                src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
-                class="taco-time-icon"
-                alt="Bottle"
-              />
-              <img
-                src="assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png"
-                class="taco-time-icon"
-                alt="Bottle"
-              />
+            <div id="rightButtons" class="mobile-buttons">
+              <button id="canvasFullscreenButton" class="img-btn">
+                <img
+                  src="/assets/button/btn-small.png"
+                  alt="Fullscreen"
+                  class="small-img-height"
+                />
+                <span class="btn-text">Fulls.</span>
+              </button>
+              <div
+                id="tacoTimeOverlay"
+                class="taco-time-overlay hide"
+                style="display: none"
+              >
+                <div class="taco-time-icons">
+                  <img
+                    src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
+                    class="taco-time-icon"
+                    alt="Bottle"
+                  />
+                  <span class="taco-time-text">TACO TIME</span>
+                  <img
+                    src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
+                    class="taco-time-icon"
+                    alt="Bottle"
+                  />
+                  <img
+                    src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
+                    class="taco-time-icon"
+                    alt="Bottle"
+                  />
+                  <img
+                    src="assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png"
+                    class="taco-time-icon"
+                    alt="Bottle"
+                  />
+                </div>
+              </div>
+              <button
+                id="backButton"
+                class="img-btn"
+                onclick="showPageDiv('start-screen')"
+              >
+                <img
+                  src="/assets/button/back-btn.png"
+                  alt="back"
+                  class="small-img-height"
+                />
+                <span class="btn-text">Back</span>
+              </button>
+              <button id="pauseButton" class="img-btn">
+                <img
+                  src="/assets/button/cowboy-1297120_640.png"
+                  alt="pause"
+                  class="small-img-height"
+                />
+                <span class="btn-text">Pause</span>
+              </button>
+              <button
+                id="muteButton"
+                class="img-btn"
+                onclick="toggleMuteInLocalStorage()"
+              >
+                <img
+                  src="/assets/button/mute.png"
+                  alt="mute"
+                  class="small-img-height"
+                />
+                <span class="btn-text" id="muteBtnLabel">Mute</span>
+              </button>
             </div>
           </div>
-          <button
-            id="backButton"
-            class="img-btn"
-            onclick="showPageDiv('start-screen')"
+          <div
+            id="mobileButtonsBar"
+            class="mobile-buttons-bar hidden"
+            style="z-index: var(--z-index-modal)"
           >
+            <div id="leftButtons" class="mobile-buttons">
+              <button id="leftButton" class="img-btn">
+                <img
+                  src="/assets/button/arrow-left.png"
+                  alt="left"
+                  class="small-img-height"
+                />
+              </button>
+              <button id="rightButton" class="img-btn">
+                <img
+                  src="/assets/button/arrow-right.png"
+                  alt="right"
+                  class="small-img-height"
+                />
+              </button>
+            </div>
+            <div id="middleButtons" class="mobile-buttons">
+              <button id="jumpButton" class="img-btn">
+                <img
+                  src="/assets/button/boot-306065_640.png"
+                  alt="jump"
+                  class="small-img-height"
+                />
+              </button>
+              <button id="throwButton" class="img-btn">
+                <img
+                  src="/assets/button/bow-and-arrow-7846362_640.png"
+                  alt="throw"
+                  class="small-img-height"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="extrascreens" class="extrascreens hidden">
+        <div id="rotateScreen" class="rotate-screen hidden">
+          <div
+            style="display: flex; flex-direction: column; align-items: center"
+          >
+            <h1 style="margin-bottom: 10px">GAME PAUSED</h1>
+            <p style="margin-top: 0">
+              🔄️📱 Please rotate your phone to landscape mode!📱🔄️
+            </p>
+          </div>
+        </div>
+        <div id="startscreen" class="startscreen">
+          <button id="startGame" class="img-btn">
+            <img
+              src="/assets/button/hat-310509_640.png"
+              alt="start"
+              class="small-img-height"
+            />
+          </button>
+        </div>
+        <div id="highscore" class="highscore hidden">
+          <button id="startGame">Start EL Gameos</button>
+          <button id="backButton" class="img-btn">
             <img
               src="/assets/button/back-btn.png"
               alt="back"
               class="small-img-height"
             />
-            <span class="btn-text">Back</span>
-          </button>
-          <button id="pauseButton" class="img-btn">
-            <img
-              src="/assets/button/cowboy-1297120_640.png"
-              alt="pause"
-              class="small-img-height"
-            />
-            <span class="btn-text">Pause</span>
-          </button>
-          <button
-            id="muteButton"
-            class="img-btn"
-            onclick="toggleMuteInLocalStorage()"
-          >
-            <img
-              src="/assets/button/mute.png"
-              alt="mute"
-              class="small-img-height"
-            />
-            <span class="btn-text" id="muteBtnLabel">Mute</span>
           </button>
         </div>
       </div>
-      <div
-        id="mobileButtonsBar"
-        class="mobile-buttons-bar hidden"
-        style="z-index: 101"
-      >
-        <div id="leftButtons" class="mobile-buttons">
-          <!-- Overlay für Win/Game-Over -->
-          <div
-            id="end-overlay-bg"
-            style="
-              display: none;
-              position: fixed;
-              z-index: 9998;
-              top: 0;
-              left: 0;
-              width: 100vw;
-              height: 100vh;
-              background: rgba(0, 0, 0, 1.7);
-            "
-          ></div>
-          <div
-            id="end-overlay-content"
-            style="
-              display: none;
-              position: fixed;
-              z-index: 9999;
-              top: 0;
-              left: 0;
-              width: 100vw;
-              height: 100vh;
-              pointer-events: auto;
-            "
-          ></div>
-          <button id="leftButton" class="img-btn">
-            <img
-              src="/assets/button/arrow-left.png"
-              alt="left"
-              class="small-img-height"
-            />
-          </button>
-          <button id="rightButton" class="img-btn">
-            <img
-              src="/assets/button/arrow-right.png"
-              alt="right"
-              class="small-img-height"
-            />
-          </button>
-        </div>
 
-        <div id="middleButtons" class="mobile-buttons">
-          <button id="jumpButton" class="img-btn">
-            <img
-              src="/assets/button/boot-306065_640.png"
-              alt="jump"
-              class="small-img-height"
-            />
-          </button>
-          <button id="throwButton" class="img-btn">
-            <img
-              src="/assets/button/bow-and-arrow-7846362_640.png"
-              alt="throw"
-              class="small-img-height"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="extrascreens" class="extrascreens hidden">
-      <div id="rotateScreen" class="rotate-screen hidden">
-        <div style="display: flex; flex-direction: column; align-items: center">
-          <h1 style="margin-bottom: 10px">GAME PAUSED</h1>
-          <p style="margin-top: 0">
-            🔄️📱 Please rotate your phone to landscape mode!📱🔄️
-          </p>
-        </div>
-      </div>
-      <div id="startscreen" class="startscreen">
-        <button id="startGame" class="img-btn">
-          <img
-            src="/assets/button/hat-310509_640.png"
-            alt="start"
-            class="small-img-height"
-          />
-        </button>
-      </div>
-      <div id="highscore" class="highscore hidden">
-        <button id="startGame">Start EL Gameos</button>
-        <button id="backButton" class="img-btn">
-          <img
-            src="/assets/button/back-btn.png"
-            alt="back"
-            class="small-img-height"
-          />
-        </button>
-      </div>
-    </div>
+      <section id="page-divs" >
+        <div id="div-datenschutz" style="display: none"></div>
+        <div id="div-game-over" style="display: none"></div>
+        <div id="div-highscore" style="display: none"></div>
+        <div id="div-start-screen" style="display: none"></div>
+        <div id="div-settings" style="display: none"></div>
+        <div id="div-overlay-highscore" style="display: none"></div>
+        <div id="div-main-menu" style="display: none"></div>
+        <div id="div-impressum" style="display: none"></div>
+        <div id="div-how-to-play" style="display: none"></div>
+        <div id="div-win" style="display: none"></div>
+      </section>
+    </main>
     <script src="js/interval-helper.js"></script>
     <script src="js/game-animation-utils.js"></script>
     <script src="models/drawable-object.class.js"></script>
@@ -260,19 +277,5 @@
     <script src="js/extra-screens.js"></script>
     <script src="js/game.js"></script>
     <script src="js/open-page.js"></script>
-
-
-
-
-    <div id="div-datenschutz" style="display: none"></div>
-    <div id="div-game-over" style="display: none"></div>
-    <div id="div-highscore" style="display: none"></div>
-    <div id="div-start-screen" style="display: none"></div>
-    <div id="div-settings" style="display: none"></div>
-    <div id="div-overlay-highscore" style="display: none"></div>
-    <div id="div-main-menu" style="display: none"></div>
-    <div id="div-impressum" style="display: none"></div>
-    <div id="div-how-to-play" style="display: none"></div>
-    <div id="div-win" style="display: none"></div>
   </body>
 </html>

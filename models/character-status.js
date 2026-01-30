@@ -34,7 +34,7 @@ class CharacterStatus {
    * Plays the death audio if not already played.
    * @param {Character} character - The character instance.
    */
-  playDeathAudio(character) {
+    playDeathAudio(character) {
     if (!character._deathSoundPlayed && character.deathAudio?.paused) {
       character._deathSoundPlayed = true;
       character.deathAudio.currentTime = 0;
@@ -43,7 +43,7 @@ class CharacterStatus {
         if (window.DEBUG_AUDIO) {
           console.warn(
             "Audio playback failed: deathAudio could not be played. " +
-              (err && err.message ? err.message : "")
+              (err && err.message ? err.message : ""),
           );
         }
       });
@@ -60,10 +60,10 @@ class CharacterStatus {
       const target = window.getGameTime() + 1000;
       const unregister = window.registerGameLoop((gameTime) => {
         if (gameTime >= target) {
-          if (window.SPA && typeof window.SPA.navigate === "function") {
-            window.SPA.navigate("/pages/game-over.html");
+          if (typeof window.showPageDiv === "function") {
+            window.showPageDiv("game-over");
           } else {
-            console.log("SPA navigation for game-over.html does not work");
+            console.log("showPageDiv('game-over') not available");
           }
           unregister();
         }
@@ -106,7 +106,7 @@ class CharacterStatus {
         if (window.DEBUG_AUDIO) {
           console.warn(
             "Audio playback failed: hurtAudio could not be played. " +
-              (err && err.message ? err.message : "")
+              (err && err.message ? err.message : ""),
           );
         }
       });

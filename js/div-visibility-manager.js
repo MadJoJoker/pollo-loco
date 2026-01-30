@@ -19,6 +19,8 @@ const PAGE_DIV_IDS = [
  * @param {string} pageName z.B. "start-screen" (ohne .html)
  */
 async function showPageDiv(pageName) {
+  const pageDivsSection = document.getElementById("page-divs");
+  if (pageDivsSection) pageDivsSection.style.display = "block";
   // Alle Divs verstecken
   PAGE_DIV_IDS.forEach((id) => {
     const div = document.getElementById(id);
