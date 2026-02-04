@@ -8,16 +8,17 @@ window.initCarousel = function () {
     state.buttons,
     state.count,
     state.getActiveIndex,
-    state.setActiveIndex
+    state.setActiveIndex,
   );
   const unregisterAutoplay = setupCarouselAutoplayWithState(state);
-  _updateCarousel(state.buttons, state.getActiveIndex);
+  updateCarouselButtons(state.buttons, state.getActiveIndex);
   return unregisterAutoplay;
 };
 
+
 /**
  * Sets up autoplay for the carousel using the state object.
- * @param {Object} state The carousel state object.
+ * @param {Object} state - The carousel state object.
  * @returns {Function|null} Unregister function or null.
  */
 function setupCarouselAutoplayWithState(state) {
@@ -27,9 +28,10 @@ function setupCarouselAutoplayWithState(state) {
     state.setActiveIndex,
     state.getAutoplayActive,
     state.setAutoplayActive,
-    state.autoplayInterval
+    state.autoplayInterval,
   );
 }
+
 
 /**
  * Creates and returns the state and helpers for the carousel.
@@ -52,104 +54,111 @@ function createCarouselState() {
   };
 }
 
+
 /**
  * Sets up the carousel wheel event.
- * @param {NodeList} buttons Carousel buttons.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
+ * @param {NodeList} buttons - Carousel buttons.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
  */
 function setupCarouselWheelShort(buttons, count, getIdx, setIdx) {
   const carousel = document.querySelector(".carousel");
   if (!carousel) return;
   carousel.addEventListener("wheel", (e) =>
-    handleWheelEvent(e, count, getIdx, setIdx, buttons)
+    handleWheelEvent(e, count, getIdx, setIdx, buttons),
   );
 }
 
+
 /**
  * Handles the wheel event for carousel.
- * @param {WheelEvent} e Wheel event.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
- * @param {NodeList} buttons Carousel buttons.
+ * @param {WheelEvent} e - Wheel event.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
+ * @param {NodeList} buttons - Carousel buttons.
  */
 function handleWheelEvent(e, count, getIdx, setIdx, buttons) {
   const delta = e.deltaY > 0 ? 1 : -1;
-  _scrollCarousel(count, getIdx, setIdx, delta, buttons);
+  scrollCarousel(count, getIdx, setIdx, delta, buttons);
   e.preventDefault();
 }
 
+
 /**
  * Sets up autoplay for the carousel.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
- * @param {Function} getActive Getter for autoplay active.
- * @param {Function} setActive Setter for autoplay active.
- * @param {number} interval Autoplay interval in ms.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
+ * @param {Function} getActive - Getter for autoplay active.
+ * @param {Function} setActive - Setter for autoplay active.
+ * @param {number} interval - Autoplay interval in ms.
  * @returns {Function|null} Unregister function or null.
  */
 function setupAutoplay(count, getIdx, setIdx, getActive, setActive, interval) {
-  if (_canUseGameLoop()) {
-    return _setupGameLoopCarousel(
+  if (canUseGameLoop()) {
+    return setupGameLoopCarousel(
       count,
       getIdx,
       setIdx,
       getActive,
       setActive,
-      interval
+      interval,
     );
   }
-  return _setupIntervalCarousel(
+  return setupIntervalCarousel(
     count,
     getIdx,
     setIdx,
     getActive,
     setActive,
-    interval
+    interval,
   );
 }
 
+
 /**
  * Scrolls the carousel by delta.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
- * @param {number} delta Scroll direction (+1 or -1).
- * @param {NodeList} buttons Carousel buttons.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
+ * @param {number} delta - Scroll direction (+1 or -1).
+ * @param {NodeList} buttons - Carousel buttons.
  */
-function _scrollCarousel(count, getIdx, setIdx, delta, buttons) {
+function scrollCarousel(count, getIdx, setIdx, delta, buttons) {
   setIdx((getIdx() + delta + count) % count);
-  _updateCarousel(buttons, getIdx);
+  updateCarouselButtons(buttons, getIdx);
 }
+
 
 /**
  * Updates the carousel button states and scrolls active into view.
- * @param {NodeList} buttons Carousel buttons.
- * @param {Function} getIdx Getter for active index.
+ * @param {NodeList} buttons - Carousel buttons.
+ * @param {Function} getIdx - Getter for active index.
  */
-function _updateCarousel(buttons, getIdx) {
+function updateCarouselButtons(buttons, getIdx) {
   buttons.forEach((btn, i) => updateButtonState(btn, i, getIdx));
   scrollActiveButton(buttons, getIdx);
 }
 
+
 /**
  * Updates a single button's state.
- * @param {HTMLElement} btn Button element.
- * @param {number} i Button index.
- * @param {Function} getIdx Getter for active index.
+ * @param {HTMLElement} btn - Button element.
+ * @param {number} i - Button index.
+ * @param {Function} getIdx - Getter for active index.
  */
 function updateButtonState(btn, i, getIdx) {
   btn.classList.toggle("active", i === getIdx());
   btn.style.display = "inline-flex";
 }
 
+
 /**
  * Scrolls the active button into view.
- * @param {NodeList} buttons Carousel buttons.
- * @param {Function} getIdx Getter for active index.
+ * @param {NodeList} buttons - Carousel buttons.
+ * @param {Function} getIdx - Getter for active index.
  */
 function scrollActiveButton(buttons, getIdx) {
   const activeBtn = buttons[getIdx()];
@@ -162,34 +171,36 @@ function scrollActiveButton(buttons, getIdx) {
   }
 }
 
+
 /**
  * Checks if the game loop functions are available.
  * @returns {boolean} True if game loop can be used.
  */
-function _canUseGameLoop() {
+function canUseGameLoop() {
   return (
     typeof window.getGameTime === "function" &&
     typeof window.registerGameLoop === "function"
   );
 }
 
+
 /**
  * Sets up carousel autoplay using the game loop.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
- * @param {Function} getActive Getter for autoplay active.
- * @param {Function} setActive Setter for autoplay active.
- * @param {number} interval Autoplay interval in ms.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
+ * @param {Function} getActive - Getter for autoplay active.
+ * @param {Function} setActive - Setter for autoplay active.
+ * @param {number} interval - Autoplay interval in ms.
  * @returns {Function} Unregister function.
  */
-function _setupGameLoopCarousel(
+function setupGameLoopCarousel(
   count,
   getIdx,
   setIdx,
   getActive,
   setActive,
-  interval
+  interval,
 ) {
   let lastAutoplayTick = window.getGameTime();
   const unregister = window.registerGameLoop((gameTime) => {
@@ -200,7 +211,7 @@ function _setupGameLoopCarousel(
       interval,
       count,
       getIdx,
-      setIdx
+      setIdx,
     );
     if (gameTime - lastAutoplayTick >= interval) lastAutoplayTick = gameTime;
   });
@@ -212,6 +223,13 @@ function _setupGameLoopCarousel(
 
 /**
  * Handles the autoplay logic inside the game loop.
+ * @param {number} gameTime - Current game time.
+ * @param {Function} getActive - Getter for autoplay active.
+ * @param {number} lastAutoplayTick - Last autoplay tick time.
+ * @param {number} interval - Autoplay interval in ms.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
  */
 function handleGameLoopAutoplay(
   gameTime,
@@ -220,24 +238,23 @@ function handleGameLoopAutoplay(
   interval,
   count,
   getIdx,
-  setIdx
+  setIdx,
 ) {
   if (!getActive()) return;
   if (gameTime - lastAutoplayTick >= interval) {
-    _scrollCarousel(
+    scrollCarousel(
       count,
       getIdx,
       setIdx,
       1,
-      document.querySelectorAll(".carousel button")
+      document.querySelectorAll(".carousel button"),
     );
   }
-}
 
 /**
  * Sets up mouseenter/mouseleave events for carousel.
- * @param {Function} setActive Setter for autoplay active.
- * @param {Function} onLeave Callback for mouseleave.
+ * @param {Function} setActive - Setter for autoplay active.
+ * @param {Function} onLeave - Callback for mouseleave.
  */
 function setupCarouselHoverEvents(setActive, onLeave) {
   const carouselElem = document.querySelector(".carousel");
@@ -249,32 +266,33 @@ function setupCarouselHoverEvents(setActive, onLeave) {
   });
 }
 
+
 /**
  * Sets up carousel autoplay using setInterval.
- * @param {number} count Number of buttons.
- * @param {Function} getIdx Getter for active index.
- * @param {Function} setIdx Setter for active index.
- * @param {Function} getActive Getter for autoplay active.
- * @param {Function} setActive Setter for autoplay active.
- * @param {number} interval Autoplay interval in ms.
+ * @param {number} count - Number of buttons.
+ * @param {Function} getIdx - Getter for active index.
+ * @param {Function} setIdx - Setter for active index.
+ * @param {Function} getActive - Getter for autoplay active.
+ * @param {Function} setActive - Setter for autoplay active.
+ * @param {number} interval - Autoplay interval in ms.
  * @returns {Function} Unregister function.
  */
-function _setupIntervalCarousel(
+function setupIntervalCarousel(
   count,
   getIdx,
   setIdx,
   getActive,
   setActive,
-  interval
+  interval,
 ) {
   let intervalId = setInterval(() => {
     if (getActive())
-      _scrollCarousel(
+      scrollCarousel(
         count,
         getIdx,
         setIdx,
         1,
-        document.querySelectorAll(".carousel button")
+        document.querySelectorAll(".carousel button"),
       );
   }, interval);
   setupCarouselHoverEvents(setActive);
@@ -296,49 +314,44 @@ function setupNoRestartButton() {
   if (!noRestartBtn || !overlay) return;
   resetOverlayStyle(overlay);
   noRestartBtn.addEventListener("click", function (e) {
-    console.log("[DEBUG] no-restart-btn clicked", e, overlay);
     showOverlayWithTimeout(overlay);
   });
 }
 
+
 /**
  * Resets the overlay style.
- * @param {HTMLElement} overlay The overlay element.
+ * @param {HTMLElement} overlay - The overlay element.
  */
 function resetOverlayStyle(overlay) {
   overlay.style.display = "none";
   overlay.style.top = "-200px";
   overlay.style.opacity = "0";
   overlay.style.animation = "none";
-  console.log("[DEBUG] resetOverlayStyle", overlay);
 }
 
 /**
  * Shows the overlay and hides it after a timeout.
- * @param {HTMLElement} overlay The overlay element.
+ * @param {HTMLElement} overlay - The overlay element.
  */
 function showOverlayWithTimeout(overlay) {
   overlay.style.display = "block";
   overlay.style.animation =
     "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
-  console.log("[DEBUG] showOverlayWithTimeout: Overlay eingeblendet", overlay);
   setTimeout(() => {
     hideOverlayWithAnimation(overlay);
   }, 3000);
 }
 
+
 /**
  * Hides the overlay with animation and resets style.
- * @param {HTMLElement} overlay The overlay element.
+ * @param {HTMLElement} overlay - The overlay element.
  */
 function hideOverlayWithAnimation(overlay) {
   overlay.style.animation =
     "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
-  console.log(
-    "[DEBUG] hideOverlayWithAnimation: Overlay wird ausgeblendet",
-    overlay
-  );
   setTimeout(() => {
     resetOverlayStyle(overlay);
   }, 700);
-}
+}}

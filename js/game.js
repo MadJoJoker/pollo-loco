@@ -1,3 +1,39 @@
+/**
+ * Draws the countdown number and images on the canvas.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ * @param {number} number - The countdown number.
+ * @param {HTMLImageElement} charImg - Character image.
+ * @param {HTMLImageElement} chickenImg - Chicken image.
+ */
+function drawCountdown(ctx, number, charImg, chickenImg) {
+  ctx.save();
+  drawCountdownBg(ctx);
+  drawCountdownImgs(ctx, charImg, chickenImg);
+  ctx.font = "bold 120px GringoNights, Arial, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = "#1b0b0b";
+  ctx.fillStyle = "#f4ee96";
+  let text = number > 0 ? number : "GO!";
+  ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  ctx.shadowColor = "#b85f14";
+  ctx.shadowBlur = 30;
+  ctx.globalAlpha = 0.7;
+  ctx.restore();
+}
+/**
+ * Clears the canvas and draws the countdown frame.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ * @param {number} countdown - The countdown number.
+ * @param {HTMLImageElement} charImg - Character image.
+ * @param {HTMLImageElement} chickenImg - Chicken image.
+ */
+function drawCountdownFrame(ctx, countdown, charImg, chickenImg) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawCountdown(ctx, countdown, charImg, chickenImg);
+}
 let canvas;
 let world;
 window.keyboard = new Keyboard();
@@ -16,13 +52,13 @@ document.addEventListener("contextmenu", function (e) {
  */
 function init() {
   canvas = document.getElementById("canvas");
-  showCountdownAndStartGame();
+  startCountdown();
 }
 
 /**
  * Shows a countdown before the game starts and initializes the world.
  */
-function showCountdownAndStartGame() {
+function startCountdown() {
   let countdown = 3;
   const ctx = canvas.getContext("2d");
   const charImg = new window.Image();
@@ -31,14 +67,10 @@ function showCountdownAndStartGame() {
   chickenImg.src = "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
   const pauseBtn = document.getElementById("pauseButton");
   if (pauseBtn) makePauseButtonDisabled(pauseBtn);
-  function drawAll() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCountdown(ctx, countdown, charImg, chickenImg);
-  }
-  drawAll();
+  drawCountdownFrame(ctx, countdown, charImg, chickenImg);
   let countdownInterval = setInterval(() => {
     countdown--;
-    drawAll();
+    drawCountdownFrame(ctx, countdown, charImg, chickenImg);
     if (countdown < 0) {
       clearInterval(countdownInterval);
       if (pauseBtn) enablePauseButton(pauseBtn);
@@ -82,24 +114,6 @@ function enablePauseButton(pauseBtn) {
  * @param {HTMLImageElement} charImg - Character image.
  * @param {HTMLImageElement} chickenImg - Chicken image.
  */
-function drawCountdown(ctx, number, charImg, chickenImg) {
-  ctx.save();
-  drawCountdownBg(ctx);
-  drawCountdownImgs(ctx, charImg, chickenImg);
-  ctx.font = "bold 120px GringoNights, Arial, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.lineWidth = 10;
-  ctx.strokeStyle = "#1b0b0b";
-  ctx.fillStyle = "#f4ee96";
-  let text = number > 0 ? number : "GO!";
-  ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
-  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-  ctx.shadowColor = "#b85f14";
-  ctx.shadowBlur = 30;
-  ctx.globalAlpha = 0.7;
-  ctx.restore();
-}
 
 /**
  * Draws the background gradient for the countdown.
@@ -201,12 +215,9 @@ function _clearAllIntervals() {
  * Pauses or resumes the game depending on the current state.
  */
 function pauseGame() {
-  if (window.gamePaused) {
-    window.gamePaused = 0;
-    _resumeGame();
-  } else {
-    window.gamePaused = 1;
-    _pauseGame();
+  function pauseGame() {
+    window.gamePaused = window.gamePaused ? 0 : 1;
+    window.gamePaused ? _resumeGame() : _pauseGame();
   }
 }
 
@@ -214,30 +225,32 @@ function pauseGame() {
  * Resumes the game by restarting intervals and hiding overlays.
  */
 function _resumeGame() {
-  window.gamePaused = 0;
-  if (window.resumeGameTime) window.resumeGameTime();
-  if (window.stopAllIntervals) window.stopAllIntervals();
-  if (world && typeof world.startIntervals === "function")
-    world.startIntervals();
-  else if (world && typeof world.startGameLoops === "function") {
-    world.startGameLoops();
-    if (typeof world.run === "function") world.run();
+  function _resumeGame() {
+    window.gamePaused = 0;
+    if (window.resumeGameTime) window.resumeGameTime();
+    if (window.stopAllIntervals) window.stopAllIntervals();
+    if (world && typeof world.startIntervals === "function") {
+      world.startIntervals();
+    } else if (world && typeof world.startGameLoops === "function") {
+      world.startGameLoops();
+      if (typeof world.run === "function") world.run();
+    }
+    hideTacoTimeOverlay();
   }
-  hideTacoTimeOverlay();
 }
 
 /**
  * Pauses the game, stops intervals, resets inputs, and shows overlay.
  */
 function _pauseGame() {
-  window.gamePaused = 1;
-  if (window.pauseGameTime) window.pauseGameTime();
-  if (window.stopAllIntervals) window.stopAllIntervals();
-  resetKeyboardInputs();
-  showTacoTimeOverlay();
+  function _pauseGame() {
+    window.gamePaused = 1;
+    if (window.pauseGameTime) window.pauseGameTime();
+    if (window.stopAllIntervals) window.stopAllIntervals();
+    resetKeyboardInputs();
+    showTacoTimeOverlay();
+  }
 }
-
-// Taco Time Overlay anzeigen
 
 /**
  * Shows the Taco Time overlay.
@@ -248,8 +261,6 @@ function showTacoTimeOverlay() {
   overlay.style.display = "flex";
   overlay.classList.remove("hide");
 }
-
-// Taco Time Overlay ausblenden (mit Animation)
 
 /**
  * Hides the Taco Time overlay with animation.

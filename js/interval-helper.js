@@ -1,7 +1,7 @@
-// --- Central GameTime and Pause Management ---
 window.gamePaused = false;
 window._gameStartTime = null;
 window._gameElapsed = 0;
+
 
 /**
  * Starts or resets the GameTime.
@@ -11,6 +11,7 @@ window.startGameTime = function () {
   window._gameElapsed = 0;
   window.gamePaused = false;
 };
+
 
 /**
  * Pauses the GameTime if not already paused.
@@ -22,6 +23,7 @@ window.pauseGameTime = function () {
   }
 };
 
+
 /**
  * Resumes the GameTime after a pause.
  */
@@ -31,6 +33,7 @@ window.resumeGameTime = function () {
     window.gamePaused = false;
   }
 };
+
 
 /**
  * Returns the elapsed game time in ms (pause-robust).
@@ -42,22 +45,27 @@ window.getGameTime = function () {
   return window._gameElapsed + (Date.now() - window._gameStartTime);
 };
 
-// --- Central Game Loop ---
 window._gameLoopCallbacks = [];
+/**
+ * Registers a function to be called on each game loop tick.
+ * @param {Function} fn - Callback to register.
+ * @returns {Function} Unregister function.
+ */
 window.registerGameLoop = function (fn) {
   window._gameLoopCallbacks.push(fn);
-  return () => {
+  return function unregister() {
     const idx = window._gameLoopCallbacks.indexOf(fn);
     if (idx > -1) window._gameLoopCallbacks.splice(idx, 1);
   };
 };
 
+/**
+ * Main game loop handler. Calls registered callbacks with current game time.
+ */
 function _mainGameLoop() {
   if (!window.gamePaused) {
     const t = window.getGameTime();
-    for (const cb of window._gameLoopCallbacks) {
-      cb(t);
-    }
+    for (const cb of window._gameLoopCallbacks) cb(t);
   }
   window.requestAnimationFrame(_mainGameLoop);
 }
@@ -65,10 +73,11 @@ window.requestAnimationFrame(_mainGameLoop);
 window.intervalIds = [];
 window.soundIntervalIds = [];
 
+
 /**
  * Sets an interval that can be stopped later using stopAllIntervals.
- * @param {Function} fn Function to execute on each interval tick.
- * @param {number} time Interval duration in milliseconds.
+ * @param {Function} fn - Function to execute on each interval tick.
+ * @param {number} time - Interval duration in milliseconds.
  * @returns {number} The interval ID.
  */
 window.setStoppableInterval = function (fn, time) {
@@ -76,6 +85,7 @@ window.setStoppableInterval = function (fn, time) {
   window.intervalIds.push(id);
   return id;
 };
+
 /**
  * Stops and clears all intervals set by setStoppableInterval.
  */
@@ -83,6 +93,7 @@ window.stopAllIntervals = function () {
   window.intervalIds.forEach(clearInterval);
   window.intervalIds = [];
 };
+
 /**
  * Retrieves all audio elements in the document.
  * @returns {HTMLAudioElement[]} Array of audio elements.
@@ -93,9 +104,10 @@ function getAllAudios() {
   return audios;
 }
 
+
 /**
  * Tracks audio element IDs in the global soundIntervalIds array.
- * @param {HTMLCollection} audios Collection of audio elements.
+ * @param {HTMLCollection} audios - Collection of audio elements.
  */
 function trackAudioIds(audios) {
   for (let i = 0; i < audios.length; i++) {
@@ -105,25 +117,28 @@ function trackAudioIds(audios) {
   }
 }
 
+
 /**
  * Sets the muted property for all audio elements in the document.
- * @param {boolean} mute If true, mute all audios; if false, unmute all audios.
+ * @param {boolean} mute - If true, mute all audios; if false, unmute all audios.
  */
 function setMuteForAllAudios(mute) {
   const audios = getAllAudios();
   muteAudios(audios, mute);
 }
 
+
 /**
  * Mutes or unmutes a collection of audio elements.
- * @param {HTMLCollection} audios Collection of audio elements.
- * @param {boolean} mute If true, mute all audios; if false, unmute all audios.
+ * @param {HTMLCollection} audios - Collection of audio elements.
+ * @param {boolean} mute - If true, mute all audios; if false, unmute all audios.
  */
 function muteAudios(audios, mute) {
   Array.from(audios).forEach((audio) => {
     audio.muted = mute;
   });
 }
+
 
 /**
  * Helper to mute/unmute all audios based on mute-range input or localStorage.
@@ -140,12 +155,16 @@ window.muteAllAudiosHelper = function () {
   setMuteForAllAudios(muteValue === "1");
 };
 
+/**
+ * Handles mute and audio setup on DOMContentLoaded.
+ */
 window.addEventListener("DOMContentLoaded", function () {
   handleMuteRangeOnLoad();
   setMuteStatusOnLoad();
   playIndexSoundOnLoad();
   window.updateMuteButtonVisuals();
 });
+
 
 /**
  * Sets mute range value from localStorage on DOMContentLoaded.
@@ -158,6 +177,7 @@ function handleMuteRangeOnLoad() {
   }
 }
 
+
 /**
  * Sets mute status for all audios on DOMContentLoaded.
  */
@@ -165,6 +185,7 @@ function setMuteStatusOnLoad() {
   const muteValue = localStorage.getItem("polloMute") || "0";
   setMuteForAllAudios(muteValue === "1");
 }
+
 
 /**
  * Plays index-sound audio on DOMContentLoaded if not muted.
@@ -174,25 +195,21 @@ function playIndexSoundOnLoad() {
   const indexSound = document.getElementById("index-sound");
   if (indexSound) {
     indexSound.muted = muteValue === "1";
-    indexSound.play().catch((err) => {
-      if (window.DEBUG_AUDIO) {
-        console.warn(
-          "Audio playback failed: index-sound could not be played. " +
-            (err && err.message ? err.message : "")
-        );
-      }
-    });
+    indexSound.play().catch(() => {});
   }
 }
 
-// Use event delegation so elements added dynamically (via SPA) are handled.
+/**
+ * Handles mute-range input events for dynamically added elements.
+ */
 document.addEventListener("input", function (e) {
   handleMuteRangeInput(e);
 });
 
+
 /**
  * Handles mute-range input events.
- * @param {Event} e Input event.
+ * @param {Event} e - Input event.
  */
 function handleMuteRangeInput(e) {
   var t = e.target || e.srcElement;
@@ -201,12 +218,15 @@ function handleMuteRangeInput(e) {
   }
 }
 
-// Also respond to SPA renders to initialize state for newly injected pages
+/**
+ * Handles SPA render events to initialize mute state for injected pages.
+ */
 document.addEventListener("spa:render", function (e) {
   handleMuteRangeOnLoad();
   setMuteStatusOnLoad();
   window.updateMuteButtonVisuals();
 });
+
 /**
  * Updates the visual appearance of the mute button based on the current mute state.
  */
@@ -219,7 +239,7 @@ window.updateMuteButtonVisuals = function () {
 
 /**
  * Updates the mute button image.
- * @param {HTMLElement} muteButton The mute button element.
+ * @param {HTMLElement} muteButton - The mute button element.
  */
 function updateMuteButtonImage(muteButton) {
   const muteValue = localStorage.getItem("polloMute") || "0";
@@ -233,6 +253,7 @@ function updateMuteButtonImage(muteButton) {
   }
 }
 
+
 /**
  * Updates the mute button label.
  */
@@ -244,6 +265,7 @@ function updateMuteButtonLabel() {
     label.textContent = isMuted ? "Unmute" : "Mute";
   }
 }
+
 
 /**
  * Toggles the mute state in localStorage and updates all audio elements accordingly.
