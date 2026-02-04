@@ -51,7 +51,7 @@
           class="header-btn"
           aria-controls="menu-overlay"
           aria-expanded="false"
-          onclick="window.showPageDiv('main-menu')"
+          onclick="window.showMainMenuOverlay()"
         >
           <img
             src="/assets/img/10_external_img/revolver-menu.png"
@@ -223,19 +223,28 @@
           </button>
         </div>
       </div>
-
-      <section id="page-divs" >
-        <div id="div-datenschutz" style="display: none"></div>
-        <div id="div-game-over" style="display: none"></div>
-        <div id="div-highscore" style="display: none"></div>
-        <div id="div-start-screen" style="display: none"></div>
-        <div id="div-settings" style="display: none"></div>
-        <div id="div-main-menu" style="display: none"></div>
-        <div id="div-impressum" style="display: none"></div>
-        <div id="div-how-to-play" style="display: none"></div>
-        <div id="div-win" style="display: none"></div>
-      </section>
     </main>
+    <div id="main-menu-overlay" class="menu-overlay overlay-hidden">
+      <button
+        class="close-menu"
+        onclick="window.hideMainMenuOverlay()"
+        aria-label="Close Main Menu"
+      >
+        &times;
+      </button>
+      <div id="div-main-menu"></div>
+    </div>
+    <section id="page-divs">
+      <div id="div-datenschutz" style="display: none"></div>
+      <div id="div-game-over" style="display: none"></div>
+      <div id="div-highscore" style="display: none"></div>
+      <div id="div-start-screen" style="display: none"></div>
+      <div id="div-settings" style="display: none"></div>
+      <div id="div-impressum" style="display: none"></div>
+      <div id="div-how-to-play" style="display: none"></div>
+      <div id="div-win" style="display: none"></div>
+    </section>
+    <script src="js/div-visibility-manager.js"></script>
     <script src="js/interval-helper.js"></script>
     <script src="js/game-animation-utils.js"></script>
     <script src="models/drawable-object.class.js"></script>

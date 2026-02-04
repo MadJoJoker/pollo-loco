@@ -8,7 +8,7 @@ const PAGE_DIV_IDS = [
   "div-start-screen",
   "div-settings",
   "div-overlay-highscore",
-  "div-main-menu",
+  // "div-main-menu", // now handled as overlay, not a page
   "div-impressum",
   "div-how-to-play",
   "div-win",
@@ -77,5 +77,35 @@ async function showPageDiv(pageName) {
   div.style.display = "block";
 }
 
-// Export für globale Nutzung
+// Overlay Main Menu logic
+function showMainMenuOverlay() {
+  const overlay = document.getElementById("main-menu-overlay");
+  if (overlay) {
+    overlay.classList.remove("overlay-hidden");
+    overlay.classList.add("overlay-visible");
+    // Optionally load content if needed
+    const div = document.getElementById("div-main-menu");
+    if (div && !div.hasAttribute("data-loaded")) {
+      fetch("pages/main-menu.html")
+        .then((resp) => resp.text())
+        .then((html) => {
+          const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+          const bodyHtml = bodyMatch ? bodyMatch[1] : html;
+          div.innerHTML = bodyHtml;
+          div.setAttribute("data-loaded", "1");
+        });
+    }
+  }
+}
+
+function hideMainMenuOverlay() {
+  const overlay = document.getElementById("main-menu-overlay");
+  if (overlay) {
+    overlay.classList.remove("overlay-visible");
+    overlay.classList.add("overlay-hidden");
+  }
+}
+
 window.showPageDiv = showPageDiv;
+window.showMainMenuOverlay = showMainMenuOverlay;
+window.hideMainMenuOverlay = hideMainMenuOverlay;

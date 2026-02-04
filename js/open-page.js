@@ -34,7 +34,7 @@ function getDivIdForPage(pageName) {
     "settings.html": "div-settings",
     "highscore.html": "div-highscore",
     "how-to-play.html": "div-how-to-play",
-    "main-menu.html": "div-main-menu",
+    // "main-menu.html": "div-main-menu", // now handled as overlay
     "overlay-highscore.html": "div-overlay-highscore",
   };
   return divMap[pageName] || "div-start-screen";
@@ -160,7 +160,7 @@ window.showPageDiv = function (pageKey) {
     settings: "settings.html",
     highscore: "highscore.html",
     "how-to-play": "how-to-play.html",
-    "main-menu": "main-menu.html",
+    // "main-menu": "main-menu.html", // now handled as overlay
     "overlay-highscore": "overlay-highscore.html",
   };
   const pageName = pageMap[pageKey] || "start-screen.html";
