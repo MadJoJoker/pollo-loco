@@ -214,29 +214,26 @@ function _clearAllIntervals() {
 /**
  * Pauses or resumes the game depending on the current state.
  */
-function pauseGame() {
-  function pauseGame() {
-    window.gamePaused = window.gamePaused ? 0 : 1;
-    window.gamePaused ? _resumeGame() : _pauseGame();
-  }
-}
+window.pauseGame = function () {
+  const paused = window.gamePaused ? 0 : 1;
+  window.gamePaused = paused;
+  paused ? _pauseGame() : _resumeGame();
+};
 
 /**
  * Resumes the game by restarting intervals and hiding overlays.
  */
 function _resumeGame() {
-  function _resumeGame() {
-    window.gamePaused = 0;
-    if (window.resumeGameTime) window.resumeGameTime();
-    if (window.stopAllIntervals) window.stopAllIntervals();
-    if (world && typeof world.startIntervals === "function") {
-      world.startIntervals();
-    } else if (world && typeof world.startGameLoops === "function") {
-      world.startGameLoops();
-      if (typeof world.run === "function") world.run();
-    }
-    hideTacoTimeOverlay();
+  window.gamePaused = 0;
+  if (window.resumeGameTime) window.resumeGameTime();
+  if (window.stopAllIntervals) window.stopAllIntervals();
+  if (world && typeof world.startIntervals === "function") {
+    world.startIntervals();
+  } else if (world && typeof world.startGameLoops === "function") {
+    world.startGameLoops();
+    if (typeof world.run === "function") world.run();
   }
+  hideTacoTimeOverlay();
 }
 
 /**
