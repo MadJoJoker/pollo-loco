@@ -83,6 +83,7 @@ function showMainMenuOverlay() {
   if (!overlay) return;
   overlay.classList.remove("overlay-hidden");
   overlay.classList.add("overlay-visible");
+  window.gamePaused = 1;
   const div = document.getElementById("div-main-menu");
 
   // Remove old event listeners if present
@@ -195,6 +196,7 @@ function hideMainMenuOverlay() {
   if (overlay) {
     overlay.classList.remove("overlay-visible");
     overlay.classList.add("overlay-hidden");
+    window.gamePaused = 0;
   }
 }
 

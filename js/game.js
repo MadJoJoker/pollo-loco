@@ -129,7 +129,7 @@ function drawCountdownImgs(ctx, charImg, chickenImg) {
       canvas.width - 160,
       canvas.height - 150,
       110,
-      110
+      110,
     );
 }
 
@@ -201,14 +201,20 @@ function _clearAllIntervals() {
  * Pauses or resumes the game depending on the current state.
  */
 function pauseGame() {
-  if (window.gamePaused) _resumeGame();
-  else _pauseGame();
+  if (window.gamePaused) {
+    window.gamePaused = 0;
+    _resumeGame();
+  } else {
+    window.gamePaused = 1;
+    _pauseGame();
+  }
 }
 
 /**
  * Resumes the game by restarting intervals and hiding overlays.
  */
 function _resumeGame() {
+  window.gamePaused = 0;
   if (window.resumeGameTime) window.resumeGameTime();
   if (window.stopAllIntervals) window.stopAllIntervals();
   if (world && typeof world.startIntervals === "function")
@@ -224,6 +230,7 @@ function _resumeGame() {
  * Pauses the game, stops intervals, resets inputs, and shows overlay.
  */
 function _pauseGame() {
+  window.gamePaused = 1;
   if (window.pauseGameTime) window.pauseGameTime();
   if (window.stopAllIntervals) window.stopAllIntervals();
   resetKeyboardInputs();
