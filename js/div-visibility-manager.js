@@ -80,24 +80,110 @@ async function showPageDiv(pageName) {
 // Overlay Main Menu logic
 function showMainMenuOverlay() {
   const overlay = document.getElementById("main-menu-overlay");
-  if (overlay) {
-    overlay.classList.remove("overlay-hidden");
-    overlay.classList.add("overlay-visible");
-    // Optionally load content if needed
-    const div = document.getElementById("div-main-menu");
-    if (div && !div.hasAttribute("data-loaded")) {
-      fetch("pages/main-menu.html")
-        .then((resp) => resp.text())
-        .then((html) => {
-          const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-          const bodyHtml = bodyMatch ? bodyMatch[1] : html;
-          div.innerHTML = bodyHtml;
-          div.setAttribute("data-loaded", "1");
-        });
+  if (!overlay) return;
+  overlay.classList.remove("overlay-hidden");
+  overlay.classList.add("overlay-visible");
+  const div = document.getElementById("div-main-menu");
+
+  // Remove old event listeners if present
+  if (overlay._mainMenuListeners) {
+    const { outerClick, stopPropDrawer, closeBtnHandler, btnHandlers } =
+      overlay._mainMenuListeners;
+    overlay.removeEventListener("mousedown", outerClick);
+    const drawer = overlay.querySelector(".menu-drawer");
+    if (drawer && stopPropDrawer)
+      drawer.removeEventListener("mousedown", stopPropDrawer);
+    const closeBtn = overlay.querySelector(".close-menu, #close-menu");
+    if (closeBtn && closeBtnHandler)
+      closeBtn.removeEventListener("click", closeBtnHandler);
+    if (btnHandlers) {
+      Object.entries(btnHandlers).forEach(([id, handler]) => {
+        const btn = overlay.querySelector(`#${id}`);
+        if (btn) btn.removeEventListener("click", handler);
+      });
     }
   }
-}
 
+  function addOverlayEventListeners() {
+    // Named handlers for removal
+    const outerClick = function (e) {
+      if (e.target === overlay) {
+        window.hideMainMenuOverlay();
+      }
+    };
+    overlay.addEventListener("mousedown", outerClick);
+
+    const drawer = overlay.querySelector(".menu-drawer");
+    const stopPropDrawer = function (e) {
+      e.stopPropagation();
+    };
+    if (drawer) drawer.addEventListener("mousedown", stopPropDrawer);
+
+    const closeBtn = overlay.querySelector(".close-menu, #close-menu");
+    const closeBtnHandler = function (e) {
+      e.stopPropagation();
+      window.hideMainMenuOverlay();
+    };
+    if (closeBtn) closeBtn.addEventListener("click", closeBtnHandler);
+
+    // Carousel button handlers
+    const btnMap = {
+      "home-btn": () => {
+        console.log("Home btn geklickt");
+        window.showPageDiv("start-screen");
+      },
+      "start-game-btn": () => {
+        console.log("Start btn geklickt");
+        window.showPageDiv("start-screen");
+      },
+      "how-to-play-btn": () => {
+        console.log("Howto btn geklickt");
+        window.showPageDiv("how-to-play");
+      },
+      "settings-btn": () => {
+        console.log("Settings btn geklickt");
+        window.showPageDiv("settings");
+      },
+      "highscore-btn": () => {
+        console.log("Highscore btn geklickt");
+        window.showPageDiv("highscore");
+      },
+    };
+    const btnHandlers = {};
+    Object.entries(btnMap).forEach(([id, fn]) => {
+      btnHandlers[id] = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        fn();
+        window.hideMainMenuOverlay();
+      };
+      const btn = overlay.querySelector(`#${id}`);
+      if (btn) btn.addEventListener("click", btnHandlers[id]);
+    });
+    // Store for later removal
+    overlay._mainMenuListeners = {
+      outerClick,
+      stopPropDrawer,
+      closeBtnHandler,
+      btnHandlers,
+    };
+  }
+
+  // If content not loaded, load and then add listeners
+  if (div && !div.hasAttribute("data-loaded")) {
+    fetch("pages/main-menu.html")
+      .then((resp) => resp.text())
+      .then((html) => {
+        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        const bodyHtml = bodyMatch ? bodyMatch[1] : html;
+        div.innerHTML = bodyHtml;
+        div.setAttribute("data-loaded", "1");
+        addOverlayEventListeners();
+      });
+  } else {
+    addOverlayEventListeners();
+  }
+}
 function hideMainMenuOverlay() {
   const overlay = document.getElementById("main-menu-overlay");
   if (overlay) {
