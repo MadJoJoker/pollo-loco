@@ -157,6 +157,7 @@ async function showPageDiv(pageName) {
     await loadPageDivContent(pageName, div);
   }
   setPageDivVisible(div);
+  if (window.updatePageAudios) window.updatePageAudios(divId);
 }
 
 /**

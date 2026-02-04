@@ -22,12 +22,7 @@
     <link rel="stylesheet" href="/css/responsive-desktop.css" />
   </head>
   <body id="settings-body">
-    <audio
-      id="settings-sound"
-      src="/assets/audio/waiting-music.mp3"
-      autoplay
-      loop
-    ></audio>
+    <audio id="settings-sound" src="/assets/audio/waiting-music.mp3"></audio>
 
     <div id="settings-scoreboard">
       <h1>Settings</h1>
@@ -39,7 +34,6 @@
           min="0"
           max="1"
           step="1"
-          value="0"
           data-mute="0"
         />
         <span id="mute-status">
@@ -49,6 +43,13 @@
       </div>
       <script>
         (function () {
+          const muteRangeInit = document.getElementById("mute-range");
+          if (muteRangeInit) {
+            const storedMute = localStorage.getItem("polloMute");
+            if (storedMute === "1" || storedMute === "0") {
+              muteRangeInit.value = storedMute;
+            }
+          }
           const muteRange = document.getElementById("mute-range");
           const muteStatus = document.getElementById("mute-status");
           const muteIcon = document.getElementById("mute-icon");
@@ -58,10 +59,18 @@
                 muteStatus.childNodes[0].textContent = "Sound off";
                 muteIcon.src = "/assets/button/mute.png";
                 muteRange.setAttribute("data-mute", "1");
+                localStorage.setItem("polloMute", "1");
               } else {
                 muteStatus.childNodes[0].textContent = "Sound on";
                 muteIcon.src = "/assets/img/10_external_img/sound-on.png";
                 muteRange.setAttribute("data-mute", "0");
+                localStorage.setItem("polloMute", "0");
+              }
+              if (window.updatePageAudios) {
+                const visibleDiv = Array.from(
+                  document.querySelectorAll('div[id^="div-"]'),
+                ).find((div) => div.style.display === "block");
+                if (visibleDiv) window.updatePageAudios(visibleDiv.id);
               }
             });
           }

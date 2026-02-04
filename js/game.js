@@ -320,3 +320,27 @@ const pauseButton = document.getElementById("pauseButton");
 const playButton = document.getElementById("playButton");
 if (pauseButton) pauseButton.addEventListener("click", pauseGame);
 if (playButton) playButton.addEventListener("click", playGame);
+
+/**
+ * Controls all page audios, only plays visible, applies mute.
+ * @param {string} visibleDivId - The id of the visible page div.
+ */
+function updatePageAudios(visibleDivId) {
+  const mute = localStorage.getItem("polloMute") === "1";
+  document.querySelectorAll("audio").forEach((audio) => {
+    const parentDiv = audio.closest("div[id]");
+    if (visibleDivId && parentDiv && parentDiv.id === visibleDivId && !mute) {
+      audio.currentTime = 0;
+      audio.play();
+      audio.muted = false;
+    } else if (!visibleDivId && audio.id === "index-sound" && !mute) {
+      audio.currentTime = 0;
+      audio.play();
+      audio.muted = false;
+    } else {
+      audio.pause();
+      audio.muted = true;
+    }
+  });
+}
+window.updatePageAudios = updatePageAudios;

@@ -15,6 +15,7 @@ window.openPage = async function (pageName) {
   setTimeout(() => {
     restoreOverlayFunctions();
     window.showOnlyDiv(targetDivId);
+    if (window.updatePageAudios) window.updatePageAudios(targetDivId);
   }, 300);
   return targetDivId;
 };
