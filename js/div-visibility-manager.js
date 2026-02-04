@@ -85,6 +85,7 @@ function showMainMenuOverlay() {
   overlay.classList.add("overlay-visible");
   window.gamePaused = 1;
   const div = document.getElementById("div-main-menu");
+  if (div) div.style.display = "block";
 
   // Remove old event listeners if present
   if (overlay._mainMenuListeners) {
@@ -106,7 +107,11 @@ function showMainMenuOverlay() {
   }
 
   function addOverlayEventListeners() {
-    // Named handlers for removal
+    // Suche den Drawer im aktuellen Overlay
+    const overlay = document.getElementById("main-menu-overlay");
+    const drawer = overlay.querySelector(".menu-drawer");
+    if (!drawer) return;
+
     const outerClick = function (e) {
       if (e.target === overlay) {
         window.hideMainMenuOverlay();
@@ -114,13 +119,12 @@ function showMainMenuOverlay() {
     };
     overlay.addEventListener("mousedown", outerClick);
 
-    const drawer = overlay.querySelector(".menu-drawer");
     const stopPropDrawer = function (e) {
       e.stopPropagation();
     };
-    if (drawer) drawer.addEventListener("mousedown", stopPropDrawer);
+    drawer.addEventListener("mousedown", stopPropDrawer);
 
-    const closeBtn = overlay.querySelector(".close-menu, #close-menu");
+    const closeBtn = drawer.querySelector(".close-menu, #close-menu");
     const closeBtnHandler = function (e) {
       e.stopPropagation();
       window.hideMainMenuOverlay();
@@ -158,10 +162,10 @@ function showMainMenuOverlay() {
         fn();
         window.hideMainMenuOverlay();
       };
-      const btn = overlay.querySelector(`#${id}`);
+      const btn = drawer.querySelector(`#${id}`);
       if (btn) btn.addEventListener("click", btnHandlers[id]);
     });
-    // Store for later removal
+    // Store for späteres Entfernen
     overlay._mainMenuListeners = {
       outerClick,
       stopPropDrawer,
@@ -170,25 +174,23 @@ function showMainMenuOverlay() {
     };
   }
 
-  // If content not loaded, load and then add listeners
-  if (div && !div.hasAttribute("data-loaded")) {
+  // Lade und initialisiere die komplette Overlay-Struktur immer neu, kein Caching
+  if (div) {
     fetch("pages/main-menu.html")
       .then((resp) => resp.text())
       .then((html) => {
-        // Nur den Drawer extrahieren, nicht das ganze Overlay
-        let drawerHtml = html;
+        // Komplette .menu-overlay extrahieren
         const temp = document.createElement("div");
         temp.innerHTML = html;
-        const drawer = temp.querySelector(".menu-drawer");
-        if (drawer) {
-          drawerHtml = drawer.outerHTML;
+        const overlayBlock = temp.querySelector(".menu-overlay");
+        if (overlayBlock) {
+          div.innerHTML = overlayBlock.outerHTML;
+        } else {
+          // Fallback: alles einfügen
+          div.innerHTML = html;
         }
-        div.innerHTML = drawerHtml;
-        div.setAttribute("data-loaded", "1");
         addOverlayEventListeners();
       });
-  } else {
-    addOverlayEventListeners();
   }
 }
 function hideMainMenuOverlay() {
