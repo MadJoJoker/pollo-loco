@@ -12,8 +12,12 @@ window.openPage = function (pageName) {
     injectHtml(container, html);
     loadDynamicCss(html);
     loadDynamicJs(html);
-    // Dynamisches Nachladen des Headers entfernt, statischer Header bleibt erhalten
+    // Nach jedem Seiteninhalt-Ladevorgang Overlay-Handler wiederherstellen
     setTimeout(() => {
+      if (window.showMainMenuOverlayOrig) {
+        window.showMainMenuOverlay = window.showMainMenuOverlayOrig;
+        window.hideMainMenuOverlay = window.hideMainMenuOverlayOrig;
+      }
       window.showOnlyDiv(targetDivId);
       resolve(targetDivId);
     }, 300);
@@ -164,5 +168,17 @@ window.showPageDiv = function (pageKey) {
     "overlay-highscore": "overlay-highscore.html",
   };
   const pageName = pageMap[pageKey] || "start-screen.html";
-  return window.openPage(pageName);
+  return window.openPage(pageName).then(() => {
+    // Re-assign overlay functions in case globals were overwritten
+    if (window.showMainMenuOverlayOrig) {
+      window.showMainMenuOverlay = window.showMainMenuOverlayOrig;
+      window.hideMainMenuOverlay = window.hideMainMenuOverlayOrig;
+    }
+  });
 };
+
+// Save original overlay functions for re-initialization
+if (!window.showMainMenuOverlayOrig && window.showMainMenuOverlay) {
+  window.showMainMenuOverlayOrig = window.showMainMenuOverlay;
+  window.hideMainMenuOverlayOrig = window.hideMainMenuOverlay;
+}

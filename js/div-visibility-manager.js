@@ -174,9 +174,15 @@ function showMainMenuOverlay() {
     fetch("pages/main-menu.html")
       .then((resp) => resp.text())
       .then((html) => {
-        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-        const bodyHtml = bodyMatch ? bodyMatch[1] : html;
-        div.innerHTML = bodyHtml;
+        // Nur den Drawer extrahieren, nicht das ganze Overlay
+        let drawerHtml = html;
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+        const drawer = temp.querySelector(".menu-drawer");
+        if (drawer) {
+          drawerHtml = drawer.outerHTML;
+        }
+        div.innerHTML = drawerHtml;
         div.setAttribute("data-loaded", "1");
         addOverlayEventListeners();
       });

@@ -45,6 +45,8 @@
 
     .menu-overlay-backdrop {
       opacity: var(--opacity-visible);
+        background: rgba(0,0,0,0.9); /* <-- Hier die Transparenz/Farbe */
+
     }
     .menu-drawer {
       transform: none;
