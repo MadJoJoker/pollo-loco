@@ -46,6 +46,7 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  border-bottom: var(--border-solid-tertiary);
 }
 
 #main-menu-placeholder {

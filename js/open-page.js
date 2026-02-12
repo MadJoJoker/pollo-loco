@@ -15,8 +15,28 @@ window.openPage = async function (pageName) {
   setTimeout(() => {
     restoreOverlayFunctions();
     window.showOnlyDiv(targetDivId);
+    hideAllOverlaysAndExtrascreens();
     if (window.updatePageAudios) window.updatePageAudios(targetDivId);
   }, 300);
+  /**
+   * Blendet alle Overlays und Extrascreens im DOM aus.
+   */
+  function hideAllOverlaysAndExtrascreens() {
+    const extras = document.getElementById("extrascreens");
+    if (extras) extras.classList.add("hidden");
+    const overlay = document.getElementById("menu-overlay");
+    if (overlay) {
+      overlay.classList.remove("overlay-visible");
+      overlay.classList.add("overlay-hidden");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+    const rotateScreen = document.getElementById("rotateScreen");
+    if (rotateScreen) rotateScreen.classList.add("hidden");
+    const startscreen = document.getElementById("startscreen");
+    if (startscreen) startscreen.classList.add("hidden");
+    const highscore = document.getElementById("highscore");
+    if (highscore) highscore.classList.add("hidden");
+  }
   return targetDivId;
 };
 
@@ -106,15 +126,42 @@ function injectHtml(container, html) {
  * Loads all CSS files found in the HTML.
  * @param {string} html - The HTML content
  */
+/**
+ * Loads all CSS files from HTML in the exact order as in the HTML.
+ * Removes previously loaded dynamic CSS files.
+ * @param {string} html - The HTML content
+ */
+/**
+ * Loads all CSS files from HTML in the exact order as in the HTML.
+ * Removes all existing <link rel="stylesheet"> except font-face/reset.
+ * @param {string} html - The HTML content
+ */
 function loadDynamicCss(html) {
-  const cssLinks = [
-    ...html.matchAll(/<link[^>]+href=["']([^"']+\.css)["'][^>]*>/gi),
-  ].map((m) => m[1]);
-  cssLinks.forEach((href) => {
+  // Entferne alle dynamisch geladenen CSS-Dateien
+  document
+    .querySelectorAll("link.dynamic-css")
+    .forEach((link) => link.remove());
+  // Entferne alle <link rel="stylesheet"> außer font/reset, style.css, root.css, layout.css
+  document.querySelectorAll('link[rel="stylesheet"]').forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    if (
+      !/font|reset|style\.css|root\.css|layout\.css/i.test(href) &&
+      !link.classList.contains("dynamic-css")
+    )
+      link.remove();
+  });
+  // Füge alle CSS-Links in der richtigen Reihenfolge hinzu
+  const matches = [
+    ...html.matchAll(
+      /<link[^>]+rel=["']stylesheet["'][^>]+href=["']([^"']+\.css)["'][^>]*>/gi,
+    ),
+  ];
+  matches.forEach((m) => {
+    const href = m[1];
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = href + "?t=" + Date.now();
     link.classList.add("dynamic-css");
+    link.href = href + "?t=" + Date.now();
     document.head.appendChild(link);
   });
 }

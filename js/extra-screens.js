@@ -179,7 +179,7 @@ function hideScreensFn(ids) {
  */
 function hideScreenById(id) {
   const el = document.getElementById(id);
-  if (el) el.classList.add("hidden");
+  if (el) el.style.display = "none";
 }
 
 /**
@@ -205,9 +205,9 @@ function showExtrascreens() {
  * Shows a single screen by ID.
  * @param {string} screenId - The element ID to show.
  */
-function showScreenById(screenId) {
-  const screen = document.getElementById(screenId);
-  if (screen) screen.classList.remove("hidden");
+function showScreenById(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = "block";
 }
 
 /**

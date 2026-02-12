@@ -1,4 +1,34 @@
 /**
+ * Shows the no-restart overlay with animation when the button is clicked.
+ */
+function showNoRestartOverlay() {
+  const overlay = document.getElementById("no-restart-overlay");
+  if (!overlay) return;
+  overlay.style.display = "block";
+  overlay.classList.remove("overlay-hidden");
+  overlay.classList.add("overlay-visible");
+  overlay.style.animation =
+    "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
+  setTimeout(() => {
+    overlay.style.animation =
+      "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
+    setTimeout(() => {
+      overlay.classList.remove("overlay-visible");
+      overlay.classList.add("overlay-hidden");
+      overlay.style.display = "none";
+      overlay.style.animation = "none";
+    }, 700);
+  }, 3000);
+}
+
+// Attach overlay logic to no-restart-btn
+document.addEventListener("DOMContentLoaded", function () {
+  const noRestartBtn = document.getElementById("no-restart-btn");
+  if (noRestartBtn) {
+    noRestartBtn.onclick = showNoRestartOverlay;
+  }
+});
+/**
  * Initializes the main menu carousel, sets up event listeners, and starts autoplay.
  * @returns {Function|null} Function to unregister autoplay or null.
  */
@@ -15,7 +45,6 @@ window.initCarousel = function () {
   return unregisterAutoplay;
 };
 
-
 /**
  * Sets up autoplay for the carousel using the state object.
  * @param {Object} state - The carousel state object.
@@ -31,7 +60,6 @@ function setupCarouselAutoplayWithState(state) {
     state.autoplayInterval,
   );
 }
-
 
 /**
  * Creates and returns the state and helpers for the carousel.
@@ -54,7 +82,6 @@ function createCarouselState() {
   };
 }
 
-
 /**
  * Sets up the carousel wheel event.
  * @param {NodeList} buttons - Carousel buttons.
@@ -70,7 +97,6 @@ function setupCarouselWheelShort(buttons, count, getIdx, setIdx) {
   );
 }
 
-
 /**
  * Handles the wheel event for carousel.
  * @param {WheelEvent} e - Wheel event.
@@ -84,7 +110,6 @@ function handleWheelEvent(e, count, getIdx, setIdx, buttons) {
   scrollCarousel(count, getIdx, setIdx, delta, buttons);
   e.preventDefault();
 }
-
 
 /**
  * Sets up autoplay for the carousel.
@@ -117,7 +142,6 @@ function setupAutoplay(count, getIdx, setIdx, getActive, setActive, interval) {
   );
 }
 
-
 /**
  * Scrolls the carousel by delta.
  * @param {number} count - Number of buttons.
@@ -131,7 +155,6 @@ function scrollCarousel(count, getIdx, setIdx, delta, buttons) {
   updateCarouselButtons(buttons, getIdx);
 }
 
-
 /**
  * Updates the carousel button states and scrolls active into view.
  * @param {NodeList} buttons - Carousel buttons.
@@ -141,7 +164,6 @@ function updateCarouselButtons(buttons, getIdx) {
   buttons.forEach((btn, i) => updateButtonState(btn, i, getIdx));
   scrollActiveButton(buttons, getIdx);
 }
-
 
 /**
  * Updates a single button's state.
@@ -153,7 +175,6 @@ function updateButtonState(btn, i, getIdx) {
   btn.classList.toggle("active", i === getIdx());
   btn.style.display = "inline-flex";
 }
-
 
 /**
  * Scrolls the active button into view.
@@ -171,7 +192,6 @@ function scrollActiveButton(buttons, getIdx) {
   }
 }
 
-
 /**
  * Checks if the game loop functions are available.
  * @returns {boolean} True if game loop can be used.
@@ -182,7 +202,6 @@ function canUseGameLoop() {
     typeof window.registerGameLoop === "function"
   );
 }
-
 
 /**
  * Sets up carousel autoplay using the game loop.
@@ -251,107 +270,105 @@ function handleGameLoopAutoplay(
     );
   }
 
-/**
- * Sets up mouseenter/mouseleave events for carousel.
- * @param {Function} setActive - Setter for autoplay active.
- * @param {Function} onLeave - Callback for mouseleave.
- */
-function setupCarouselHoverEvents(setActive, onLeave) {
-  const carouselElem = document.querySelector(".carousel");
-  if (!carouselElem) return;
-  carouselElem.addEventListener("mouseenter", () => setActive(false));
-  carouselElem.addEventListener("mouseleave", () => {
-    setActive(true);
-    if (onLeave) onLeave();
+  /**
+   * Sets up mouseenter/mouseleave events for carousel.
+   * @param {Function} setActive - Setter for autoplay active.
+   * @param {Function} onLeave - Callback for mouseleave.
+   */
+  function setupCarouselHoverEvents(setActive, onLeave) {
+    const carouselElem = document.querySelector(".carousel");
+    if (!carouselElem) return;
+    carouselElem.addEventListener("mouseenter", () => setActive(false));
+    carouselElem.addEventListener("mouseleave", () => {
+      setActive(true);
+      if (onLeave) onLeave();
+    });
+  }
+
+  /**
+   * Sets up carousel autoplay using setInterval.
+   * @param {number} count - Number of buttons.
+   * @param {Function} getIdx - Getter for active index.
+   * @param {Function} setIdx - Setter for active index.
+   * @param {Function} getActive - Getter for autoplay active.
+   * @param {Function} setActive - Setter for autoplay active.
+   * @param {number} interval - Autoplay interval in ms.
+   * @returns {Function} Unregister function.
+   */
+  function setupIntervalCarousel(
+    count,
+    getIdx,
+    setIdx,
+    getActive,
+    setActive,
+    interval,
+  ) {
+    let intervalId = setInterval(() => {
+      if (getActive())
+        scrollCarousel(
+          count,
+          getIdx,
+          setIdx,
+          1,
+          document.querySelectorAll(".carousel button"),
+        );
+    }, interval);
+    setupCarouselHoverEvents(setActive);
+    return () => clearInterval(intervalId);
+  }
+  /**
+   * Sets up the no-restart button alert on DOMContentLoaded.
+   */
+  document.addEventListener("DOMContentLoaded", function () {
+    setupNoRestartButton();
   });
-}
 
-
-/**
- * Sets up carousel autoplay using setInterval.
- * @param {number} count - Number of buttons.
- * @param {Function} getIdx - Getter for active index.
- * @param {Function} setIdx - Setter for active index.
- * @param {Function} getActive - Getter for autoplay active.
- * @param {Function} setActive - Setter for autoplay active.
- * @param {number} interval - Autoplay interval in ms.
- * @returns {Function} Unregister function.
- */
-function setupIntervalCarousel(
-  count,
-  getIdx,
-  setIdx,
-  getActive,
-  setActive,
-  interval,
-) {
-  let intervalId = setInterval(() => {
-    if (getActive())
-      scrollCarousel(
-        count,
-        getIdx,
-        setIdx,
-        1,
-        document.querySelectorAll(".carousel button"),
-      );
-  }, interval);
-  setupCarouselHoverEvents(setActive);
-  return () => clearInterval(intervalId);
-}
-/**
- * Sets up the no-restart button alert on DOMContentLoaded.
- */
-document.addEventListener("DOMContentLoaded", function () {
-  setupNoRestartButton();
-});
-
-/**
- * Sets up the no-restart button alert overlay.
- */
-function setupNoRestartButton() {
-  const noRestartBtn = document.getElementById("no-restart-btn");
-  const overlay = document.getElementById("no-restart-overlay");
-  if (!noRestartBtn || !overlay) return;
-  resetOverlayStyle(overlay);
-  noRestartBtn.addEventListener("click", function (e) {
-    showOverlayWithTimeout(overlay);
-  });
-}
-
-
-/**
- * Resets the overlay style.
- * @param {HTMLElement} overlay - The overlay element.
- */
-function resetOverlayStyle(overlay) {
-  overlay.style.display = "none";
-  overlay.style.top = "-200px";
-  overlay.style.opacity = "0";
-  overlay.style.animation = "none";
-}
-
-/**
- * Shows the overlay and hides it after a timeout.
- * @param {HTMLElement} overlay - The overlay element.
- */
-function showOverlayWithTimeout(overlay) {
-  overlay.style.display = "block";
-  overlay.style.animation =
-    "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
-  setTimeout(() => {
-    hideOverlayWithAnimation(overlay);
-  }, 3000);
-}
-
-
-/**
- * Hides the overlay with animation and resets style.
- * @param {HTMLElement} overlay - The overlay element.
- */
-function hideOverlayWithAnimation(overlay) {
-  overlay.style.animation =
-    "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
-  setTimeout(() => {
+  /**
+   * Sets up the no-restart button alert overlay.
+   */
+  function setupNoRestartButton() {
+    const noRestartBtn = document.getElementById("no-restart-btn");
+    const overlay = document.getElementById("no-restart-overlay");
+    if (!noRestartBtn || !overlay) return;
     resetOverlayStyle(overlay);
-  }, 700);
-}}
+    noRestartBtn.addEventListener("click", function (e) {
+      showOverlayWithTimeout(overlay);
+    });
+  }
+
+  /**
+   * Resets the overlay style.
+   * @param {HTMLElement} overlay - The overlay element.
+   */
+  function resetOverlayStyle(overlay) {
+    overlay.style.display = "none";
+    overlay.style.top = "-200px";
+    overlay.style.opacity = "0";
+    overlay.style.animation = "none";
+  }
+
+  /**
+   * Shows the overlay and hides it after a timeout.
+   * @param {HTMLElement} overlay - The overlay element.
+   */
+  function showOverlayWithTimeout(overlay) {
+    overlay.style.display = "block";
+    overlay.style.animation =
+      "overlaySlideIn 0.7s cubic-bezier(.77,0,.18,1) forwards";
+    setTimeout(() => {
+      hideOverlayWithAnimation(overlay);
+    }, 3000);
+  }
+
+  /**
+   * Hides the overlay with animation and resets style.
+   * @param {HTMLElement} overlay - The overlay element.
+   */
+  function hideOverlayWithAnimation(overlay) {
+    overlay.style.animation =
+      "overlaySlideOut 0.7s cubic-bezier(.77,0,.18,1) forwards";
+    setTimeout(() => {
+      resetOverlayStyle(overlay);
+    }, 700);
+  }
+}

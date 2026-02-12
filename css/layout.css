@@ -26,6 +26,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 2px var(--color-primary);
 }
 
 .body,
@@ -37,6 +39,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 2px var(--color-primary);
 }
 
 #settings-body {
@@ -64,6 +68,10 @@ body {
   top: var(--position-center);
 }
 
+#start-header {
+  border-bottom: var(--border-solid-tertiary);
+}
+
 .scoreboard,
 #scoreboard,
 #heros-scoreboard,
@@ -88,9 +96,12 @@ body {
   flex-direction: column;
   padding: clamp(20px, 5vh, 60px) clamp(20px, 4vw, 50px) clamp(15px, 4vh, 40px);
   box-sizing: border-box;
-  transition: width var(--transition-standard),
-    height var(--transition-standard), top var(--transition-standard),
-    left var(--transition-standard), padding var(--transition-standard);
+  transition:
+    width var(--transition-standard),
+    height var(--transition-standard),
+    top var(--transition-standard),
+    left var(--transition-standard),
+    padding var(--transition-standard);
 }
 
 #scoreboard,
@@ -122,8 +133,10 @@ body {
   border: var(--border-solid);
   margin: clamp(8px, 1.5vh, var(--spacing-md)) 0;
   text-align: center;
-  transition: font-size var(--transition-standard),
-    margin var(--transition-standard), padding var(--transition-standard);
+  transition:
+    font-size var(--transition-standard),
+    margin var(--transition-standard),
+    padding var(--transition-standard);
   max-width: 95%;
   word-wrap: break-word;
 }

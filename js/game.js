@@ -66,7 +66,13 @@ function startCountdown() {
   const chickenImg = new window.Image();
   chickenImg.src = "assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
   const pauseBtn = document.getElementById("pauseButton");
+  const impressumBtn = document.getElementById("impressum-link");
+  const datenschutzBtn = document.getElementById("datenschutz-link");
+  const revolverBtn = document.getElementById("revolver-btn");
   if (pauseBtn) makePauseButtonDisabled(pauseBtn);
+  if (impressumBtn) makePauseButtonDisabled(impressumBtn);
+  if (datenschutzBtn) makePauseButtonDisabled(datenschutzBtn);
+  if (revolverBtn) makePauseButtonDisabled(revolverBtn);
   drawCountdownFrame(ctx, countdown, charImg, chickenImg);
   let countdownInterval = setInterval(() => {
     countdown--;
@@ -74,6 +80,9 @@ function startCountdown() {
     if (countdown < 0) {
       clearInterval(countdownInterval);
       if (pauseBtn) enablePauseButton(pauseBtn);
+      if (impressumBtn) enablePauseButton(impressumBtn);
+      if (datenschutzBtn) enablePauseButton(datenschutzBtn);
+      if (revolverBtn) enablePauseButton(revolverBtn);
       world = new World(canvas, keyboard);
       _startGameTimeIfAvailable();
     }

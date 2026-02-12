@@ -1,10 +1,13 @@
 /* Overlay for disabled pause button */
-#pauseButton.disabled {
+/* Gilt für Pause-Button und Header-Buttons (Impressum, Datenschutz, Revolver) */
+#pauseButton.disabled,
+.header-btn.disabled {
   pointer-events: none;
   opacity: 0.6;
   position: relative;
 }
-#pauseButton .pause-disabled-overlay {
+#pauseButton .pause-disabled-overlay,
+.header-btn .pause-disabled-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -17,7 +20,8 @@
   align-items: center;
   justify-content: center;
 }
-#pauseButton .pause-disabled-circle {
+#pauseButton .pause-disabled-circle,
+.header-btn .pause-disabled-circle {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -27,7 +31,8 @@
   top: 0;
   left: 0;
 }
-#pauseButton .pause-disabled-slash {
+#pauseButton .pause-disabled-slash,
+.header-btn .pause-disabled-slash {
   position: absolute;
   width: 2.5rem;
   height: 0.4rem;

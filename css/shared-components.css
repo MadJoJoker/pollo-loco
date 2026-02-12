@@ -185,6 +185,7 @@ body {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  border-bottom: var(--border-solid-tertiary);
 }
 
 #main-menu-placeholder {
@@ -297,7 +298,14 @@ h1 {
     }
   }
 }
+.img-btn .btn-text {
+  display: none;
+}
 
+.img-btn:hover .btn-text,
+.img-btn.show-btn-text .btn-text {
+  display: inline;
+}
 .close-menu {
   position: absolute;
   right: 20px;
@@ -330,11 +338,6 @@ h1 {
     inset: 0;
     border-radius: 50%;
     z-index: -1;
-  }
-
-  * {
-    pointer-events: none !important;
-    user-select: none;
   }
 
   &:hover {

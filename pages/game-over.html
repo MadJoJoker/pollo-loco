@@ -30,7 +30,7 @@
           <a id="restart-btn" href="../index.html" class="img-btn">
             <img src="/assets/button/check-btn.png" alt="restart" />
           </a>
-          <img
+          <img onclick=" showNoRestartOverlay()"
             id="no-restart-btn"
             src="/assets/button/close-btn.png"
             alt="no-restart"
@@ -38,7 +38,7 @@
         </div>
       </h1>
       <div id="game-over-msg"></div>
-      <div id="no-restart-overlay" class="overlay-hidden">
+      <div id="no-restart-overlay" class="overlay-hidden" style="display: none;">
         Give up is no option. Try again.
       </div>
     </div>
@@ -46,5 +46,10 @@
     <script src="/js/interval-helper.js"></script>
     <script src="/js/main-menu-carousel.js"></script>
     <script src="/js/overlay-menu.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.setupNoRestartButton) window.setupNoRestartButton();
+      });
+    </script>
   </body>
 </html>
