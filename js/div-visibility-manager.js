@@ -229,7 +229,7 @@ function addOverlayEventListeners(overlay) {
       window.showPageDiv("start-screen");
     },
     "start-game-btn": () => {
-      window.showPageDiv("start-screen");
+      window.location.href = "index.html";
     },
     "how-to-play-btn": () => {
       window.showPageDiv("how-to-play");
