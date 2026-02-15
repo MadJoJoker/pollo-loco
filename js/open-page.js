@@ -17,6 +17,10 @@ window.openPage = async function (pageName) {
     window.showOnlyDiv(targetDivId);
     hideAllOverlaysAndExtrascreens();
     if (window.updatePageAudios) window.updatePageAudios(targetDivId);
+    if (["impressum.html", "datenschutz.html"].includes(pageName)) {
+      if (typeof window.pauseGameTime === "function") window.pauseGameTime();
+      window.gamePaused = true;
+    }
   }, 300);
   /**
    * Blendet alle Overlays und Extrascreens im DOM aus.
@@ -208,6 +212,21 @@ function hideCanvasAndBars() {
   if (mobileBtnBar) mobileBtnBar.style.display = "none";
   const fullscreenH1 = document.querySelector("#fullscreen h1");
   if (fullscreenH1) fullscreenH1.style.display = "none";
+  // Extrascreens und rotateScreen immer ausblenden
+  const extras = document.getElementById("extrascreens");
+  if (extras) {
+    extras.classList.add("hidden");
+    extras.style.setProperty("display", "none", "important");
+  }
+  const rotateScreen = document.getElementById("rotateScreen");
+  if (rotateScreen) {
+    rotateScreen.classList.add("hidden");
+    rotateScreen.style.setProperty("display", "none", "important");
+  }
+  // Spielstatus-Flag deaktivieren
+  window.isGameActive = false;
+  // Alle Game-Intervalle stoppen
+  if (window.stopAllIntervals) window.stopAllIntervals();
 }
 
 /**

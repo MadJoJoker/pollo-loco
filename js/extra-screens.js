@@ -198,7 +198,23 @@ function showScreenFn(screenId) {
  * Shows the extrascreens overlay.
  */
 function showExtrascreens() {
-  document.getElementById("extrascreens").classList.remove("hidden");
+  const canvas = document.getElementById("canvas");
+  const gameContainer = document.getElementById("game-container");
+  const divs = document.querySelectorAll('div[id^="div-"]');
+  const allDivsHidden = Array.from(divs).every(
+    (div) => getComputedStyle(div).display === "none",
+  );
+  if (
+    canvas &&
+    canvas.offsetParent !== null &&
+    getComputedStyle(canvas).display !== "none" &&
+    gameContainer &&
+    gameContainer.offsetParent !== null &&
+    getComputedStyle(gameContainer).display !== "none" &&
+    allDivsHidden
+  ) {
+    document.getElementById("extrascreens").classList.remove("hidden");
+  }
 }
 
 /**
@@ -260,6 +276,7 @@ function updateCanvasFullscreenBtnFn() {
  * Shows the rotate screen overlay for mobile devices.
  */
 function showRotateScreenFn() {
+  if (!window.isGameActive) return;
   showExtrascreens();
   showScreenById("rotateScreen");
   if (typeof window.pauseGameTime === "function") window.pauseGameTime();
@@ -271,6 +288,8 @@ function showRotateScreenFn() {
  */
 function hideRotateScreenFn() {
   hideScreenById("rotateScreen");
-  if (typeof window.resumeGameTime === "function") window.resumeGameTime();
+  if (window.isGameActive && typeof window.resumeGameTime === "function") {
+    window.resumeGameTime();
+  }
   window.gamePaused = false;
 }

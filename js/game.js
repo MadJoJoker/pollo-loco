@@ -83,6 +83,7 @@ function startCountdown() {
       if (impressumBtn) enablePauseButton(impressumBtn);
       if (datenschutzBtn) enablePauseButton(datenschutzBtn);
       if (revolverBtn) enablePauseButton(revolverBtn);
+      window.isGameActive = true;
       world = new World(canvas, keyboard);
       _startGameTimeIfAvailable();
     }
@@ -304,6 +305,7 @@ function _resetAllKeys(kb) {
  * Starts the game intervals if the world is initialized.
  */
 function playGame() {
+  window.isGameActive = true;
   if (world && typeof world.startIntervals === "function")
     world.startIntervals();
 }
@@ -320,6 +322,7 @@ function stopGame() {
  */
 function restartGame() {
   stopAllIntervals();
+  window.isGameActive = true;
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
   _startGameTimeIfAvailable();
