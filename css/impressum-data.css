@@ -18,7 +18,7 @@ body {
   letter-spacing: 0.5px;
   overflow-y: auto;
   margin: 0;
-    background-color: var(--color-bg-light-transparent);
+  background-color: var(--color-bg-light-transparent);
   scrollbar-width: none;
   -ms-overflow-style: none;
   display: block !important;
@@ -206,11 +206,11 @@ body
 
 .content-container {
   text-align: center;
-    color: rgb(255, 220, 120);
-
+  color: rgb(255, 220, 120);
 }
 .content-wrapper {
   max-width: 1140px;
+  margin: 80px auto 0 auto;
   padding: var(--spacing-lg) var(--spacing-md);
   box-sizing: border-box;
   background: none;
