@@ -1,37 +1,35 @@
-html {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
   color: var(--color-primary);
   font-family: var(--font-family);
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.8;
   background-color: var(--color-bg-light-transparent);
   overflow-x: hidden;
 }
 
 body {
-  width: 100%;
   min-height: 100vh;
   text-align: center;
   padding: 0;
-  font-size: 18px;
-  line-height: 1.8;
   letter-spacing: 0.5px;
-  overflow-x: hidden;
   overflow-y: auto;
   margin: 0;
-  background-color: var(--color-bg-light-transparent);
+    background-color: var(--color-bg-light-transparent);
   scrollbar-width: none;
   -ms-overflow-style: none;
+  display: block !important;
+  justify-content: unset !important;
+  align-items: unset !important;
 }
 
 body::-webkit-scrollbar {
   display: none;
 }
-#page-main {
-  margin-top: auto;
-}
+
 p,
 li,
 ul {
@@ -59,7 +57,7 @@ h1 {
   width: 100%;
   padding: var(--spacing-xl) var(--spacing-md);
   box-sizing: border-box;
-  margin-top: 100px;
+  margin-top: 100px !important;
 }
 
 h2 {
@@ -95,7 +93,6 @@ h1::before,
 h2::before,
 h3::before {
   max-width: var(--max-width);
-  margin: 0 auto;
   display: block;
 }
 
@@ -192,6 +189,7 @@ body
   min-height: 60px;
   padding: 0 var(--spacing-md);
   box-sizing: border-box;
+  margin-bottom: 10px !important;
 }
 
 #start-header > a,
@@ -207,18 +205,29 @@ body
 }
 
 .content-container {
-  max-width: var(--max-width);
-  margin: 150px auto 0 !important;
-  padding: var(--spacing-sm);
-  width: 100%;
-  box-sizing: border-box;
   text-align: center;
-  min-width: 80vh;
+    color: rgb(255, 220, 120);
+
+}
+.content-wrapper {
+  max-width: 1140px;
+  padding: var(--spacing-lg) var(--spacing-md);
+  box-sizing: border-box;
+  background: none;
+}
+.content-wrapper h1,
+.content-wrapper h2,
+.content-wrapper h3 {
+  max-width: none;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+  background-color: var(--color-bg-dark-transparent);
 }
 
 @media only screen and (max-width: 720px), (max-height: 720px) {
   .content-container {
-    margin-top: 95px;
+    margin-top: 75px;
     padding: var(--spacing-sm);
   }
 
@@ -231,14 +240,14 @@ body
 @media only screen and (max-width: 500px) and (orientation: landscape),
   (max-height: 500px) and (orientation: landscape) {
   .content-container {
-    margin-top: 85px;
+    margin-top: 60px;
     padding: var(--spacing-xs);
   }
 }
 
 @media only screen and (max-width: 400px), (max-height: 400px) {
   .content-container {
-    margin-top: 90px;
+    margin-top: 50px;
     padding: var(--spacing-xs);
   }
 }
