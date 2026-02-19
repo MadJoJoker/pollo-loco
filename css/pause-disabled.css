@@ -1,5 +1,3 @@
-/* Overlay for disabled pause button */
-/* Gilt für Pause-Button und Header-Buttons (Impressum, Datenschutz, Revolver) */
 #pauseButton.disabled,
 .header-btn.disabled {
   pointer-events: none;

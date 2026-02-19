@@ -1,4 +1,3 @@
-/* Button-Text standardmäßig ausblenden, nur bei Hover/Fokus anzeigen */
 .img-btn .btn-text {
   display: none;
   transition: opacity 0.2s;
