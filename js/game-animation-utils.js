@@ -24,6 +24,16 @@
  * @returns {Function} Unregister function.
  */
 window.registerSimpleAnimation = function (opts) {
+  /**
+   * Registers a simple animation loop for a sprite.
+   * @param {Object} opts - Options for the animation.
+   * @param {Object} opts.context - The object whose .img and .imageCache will be set.
+   * @param {string[]} opts.images - Array of image keys.
+   * @param {number} opts.interval - Time between frames in ms.
+   * @param {Function} [opts.isActive] - Function returning true if animation should run.
+   * @param {Function} [opts.onFrame] - Callback after frame change.
+   * @returns {Function} Unregister function.
+   */
   return _registerSimpleAnimation(opts);
 };
 
@@ -33,6 +43,11 @@ window.registerSimpleAnimation = function (opts) {
  * @returns {Function} Unregister-Funktion.
  */
 function _registerSimpleAnimation({
+  /**
+   * Internal helper to register an animation.
+   * @param {Object} opts - See registerSimpleAnimation.
+   * @returns {Function} Unregister function.
+   */
   context,
   images,
   interval,
@@ -62,6 +77,10 @@ function _registerSimpleAnimation({
  * @param {Object} opts - Frame-Optionen.
  */
 function _simpleAnimationFrame({
+  /**
+   * Executes an animation frame.
+   * @param {Object} opts - Frame options.
+   */
   gameTime,
   isActive,
   interval,
@@ -74,13 +93,43 @@ function _simpleAnimationFrame({
   setFrame,
 }) {
   if (!isActive()) return;
-  if (gameTime - lastTickRef() >= interval) {
-    const nextFrame = (frameRef() + 1) % images.length;
-    setFrame(nextFrame);
-    context.img = context.imageCache[images[nextFrame]];
-    if (onFrame) onFrame(nextFrame);
+  if (shouldAdvanceFrame(gameTime, lastTickRef, interval)) {
+    advanceAnimationFrame({ images, context, onFrame, frameRef, setFrame });
     setLastTick(gameTime);
   }
+}
+
+function shouldAdvanceFrame(gameTime, lastTickRef, interval) {
+  /**
+   * Checks if enough time has passed to advance the frame.
+   * @param {number} gameTime - Current game time.
+   * @param {Function} lastTickRef - Function returning last tick time.
+   * @param {number} interval - Frame interval in ms.
+   * @returns {boolean}
+   */
+  /**
+   * Advances the animation frame and updates the sprite image.
+   * @param {Object} params - Animation parameters.
+   * @param {string[]} params.images - Array of image keys.
+   * @param {Object} params.context - The object whose .img and .imageCache will be set.
+   * @param {Function} [params.onFrame] - Callback after frame change.
+   * @param {Function} frameRef - Function returning current frame index.
+   * @param {Function} setFrame - Function to set new frame index.
+   */
+  return gameTime - lastTickRef() >= interval;
+}
+
+function advanceAnimationFrame({
+  images,
+  context,
+  onFrame,
+  frameRef,
+  setFrame,
+}) {
+  const nextFrame = (frameRef() + 1) % images.length;
+  setFrame(nextFrame);
+  context.img = context.imageCache[images[nextFrame]];
+  if (onFrame) onFrame(nextFrame);
 }
 
 /**
@@ -103,6 +152,14 @@ function _simpleAnimationFrame({
  * @returns {Function} Unregister function.
  */
 window.registerSimpleInterval = function (opts) {
+  /**
+   * Registers a simple interval loop for repeated actions.
+   * @param {Object} opts - Options for the interval.
+   * @param {number} opts.interval - Time between actions in ms.
+   * @param {Function} opts.action - Action to execute.
+   * @param {Function} [opts.isActive] - Function returning true if interval should run.
+   * @returns {Function} Unregister function.
+   */
   return _registerSimpleInterval(opts);
 };
 
@@ -112,6 +169,11 @@ window.registerSimpleInterval = function (opts) {
  * @returns {Function} Unregister-Funktion.
  */
 function _registerSimpleInterval({ interval, action, isActive = () => true }) {
+  /**
+   * Internal helper to register an interval.
+   * @param {Object} opts - See registerSimpleInterval.
+   * @returns {Function} Unregister function.
+   */
   let lastTick = window.getGameTime();
   return window.registerGameLoop((gameTime) => {
     _simpleIntervalFrame({
@@ -130,6 +192,10 @@ function _registerSimpleInterval({ interval, action, isActive = () => true }) {
  * @param {Object} opts - Frame-Optionen.
  */
 function _simpleIntervalFrame({
+  /**
+   * Executes an interval frame.
+   * @param {Object} opts - Frame options.
+   */
   gameTime,
   isActive,
   interval,
@@ -138,7 +204,7 @@ function _simpleIntervalFrame({
   setLastTick,
 }) {
   if (!isActive()) return;
-  if (gameTime - lastTickRef() >= interval) {
+  if (shouldAdvanceFrame(gameTime, lastTickRef, interval)) {
     action();
     setLastTick(gameTime);
   }
