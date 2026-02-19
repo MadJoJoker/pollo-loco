@@ -1,5 +1,4 @@
 /**
- * Draws the countdown number and images on the canvas.
  * @param {CanvasRenderingContext2D} ctx - The canvas context.
  * @param {number} number - The countdown number.
  * @param {HTMLImageElement} charImg - Character image.
