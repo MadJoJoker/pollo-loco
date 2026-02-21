@@ -97,15 +97,6 @@ function startCountdown() {
  */
 function makePauseButtonDisabled(pauseBtn) {
   pauseBtn.classList.add("disabled");
-  if (!pauseBtn.querySelector(".pause-disabled-overlay")) {
-    const overlay = document.createElement("div");
-    overlay.className = "pause-disabled-overlay";
-    overlay.innerHTML =
-      '<div class="pause-disabled-circle"></div><div class="pause-disabled-slash"></div>';
-    pauseBtn.appendChild(overlay);
-  } else {
-    pauseBtn.querySelector(".pause-disabled-overlay").style.display = "flex";
-  }
 }
 
 /**
@@ -114,8 +105,6 @@ function makePauseButtonDisabled(pauseBtn) {
  */
 function enablePauseButton(pauseBtn) {
   pauseBtn.classList.remove("disabled");
-  const overlay = pauseBtn.querySelector(".pause-disabled-overlay");
-  if (overlay) overlay.style.display = "none";
 }
 
 /**
