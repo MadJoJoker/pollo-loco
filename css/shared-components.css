@@ -343,7 +343,6 @@ h1 {
   &:hover {
     background: rgb(204, 119, 34) !important;
     color: rgb(27, 11, 11);
-    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(204, 119, 34, 0.4);
   }
 
