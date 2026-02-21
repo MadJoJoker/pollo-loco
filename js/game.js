@@ -7,7 +7,6 @@
 function drawCountdown(ctx, number, charImg, chickenImg) {
   ctx.save();
   drawCountdownBg(ctx);
-  drawCountdownImgs(ctx, charImg, chickenImg);
   ctx.font = "bold 120px GringoNights, Arial, sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -72,12 +71,15 @@ function startCountdown() {
   if (impressumBtn) makePauseButtonDisabled(impressumBtn);
   if (datenschutzBtn) makePauseButtonDisabled(datenschutzBtn);
   if (revolverBtn) makePauseButtonDisabled(revolverBtn);
+  const revolverImg = document.getElementById("countdown-revolver-img");
+  if (revolverImg) revolverImg.style.display = "block";
   drawCountdownFrame(ctx, countdown, charImg, chickenImg);
   let countdownInterval = setInterval(() => {
     countdown--;
     drawCountdownFrame(ctx, countdown, charImg, chickenImg);
     if (countdown < 0) {
       clearInterval(countdownInterval);
+      if (revolverImg) revolverImg.style.display = "none";
       if (pauseBtn) enablePauseButton(pauseBtn);
       if (impressumBtn) enablePauseButton(impressumBtn);
       if (datenschutzBtn) enablePauseButton(datenschutzBtn);
@@ -135,25 +137,6 @@ function drawCountdownBg(ctx) {
   grad.addColorStop(1, "#611f1d");
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-/**
- * Draws the character and chicken images for the countdown.
- * @param {CanvasRenderingContext2D} ctx - The canvas context.
- * @param {HTMLImageElement} charImg - Character image.
- * @param {HTMLImageElement} chickenImg - Chicken image.
- */
-function drawCountdownImgs(ctx, charImg, chickenImg) {
-  if (charImg.complete)
-    ctx.drawImage(charImg, 40, canvas.height - 180, 120, 140);
-  if (chickenImg.complete)
-    ctx.drawImage(
-      chickenImg,
-      canvas.width - 160,
-      canvas.height - 150,
-      110,
-      110,
-    );
 }
 
 /**

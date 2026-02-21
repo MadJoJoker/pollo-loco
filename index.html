@@ -73,7 +73,28 @@
       <section id="game-container">
         <div id="fullscreen">
           <h1>El Pollo Loco - Chicken Tabasco</h1>
-          <canvas id="canvas" width="720" height="480"> </canvas>
+          <div
+            id="countdown-revolver-wrapper"
+            style="position: relative; width: 720px; margin: 0 auto"
+          >
+            <img
+              id="countdown-revolver-img"
+              src="assets/img/10_external_img/revolver-menu.png"
+              alt="Revolver"
+              style="
+                position: absolute;
+                left: 50%;
+                top: 55%;
+                transform: translate(-50%, 0);
+                width: 380px;
+                max-width: 75%;
+                display: none;
+                z-index: 2;
+                pointer-events: none;
+              "
+            />
+            <canvas id="canvas" width="720" height="480"></canvas>
+          </div>
           <div
             id="canvasFullscreenBtn"
             class="canvas-fullscreen-btn hidden"
