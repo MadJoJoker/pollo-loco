@@ -1,9 +1,9 @@
 .taco-time-overlay {
   position: absolute;
-  left: 0;
+  left: -10%;
   right: 0;
   top: 100%;
-  margin: 12px auto 0 auto;
+  margin: 55px auto 0 auto;
   width: 100%;
   max-width: 320px;
   min-width: 180px;
