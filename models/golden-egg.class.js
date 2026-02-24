@@ -55,10 +55,10 @@ if (!window.GoldenEgg) {
       const target = window.getGameTime() + 400;
       const unregister = window.registerGameLoop((gameTime) => {
         if (gameTime >= target) {
-          if (typeof window.openPage === "function") {
-            window.openPage("win.html");
+          if (typeof window.showPageDiv === "function") {
+            window.showPageDiv("win");
           } else {
-            console.log("window.openPage('win.html') nicht verfügbar");
+            console.log("window.showPageDiv('win') nicht verfügbar");
           }
           unregister();
         }
