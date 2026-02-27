@@ -47,18 +47,25 @@ document.addEventListener("click", function (e) {
  */
 function enterFullscreen(fullscreen) {
   if (fullscreen.requestFullscreen) {
-    fullscreen.requestFullscreen()
-      .catch(err => {
-        if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
-          console.error('Fullscreen error:', err);
-        }
-      });
+    fullscreen.requestFullscreen().catch((err) => {
+      if (
+        !err ||
+        !err.message ||
+        !err.message.toLowerCase().includes("permission")
+      ) {
+        console.error("Fullscreen error:", err);
+      }
+    });
   } else if (fullscreen.msRequestFullscreen) {
     try {
       fullscreen.msRequestFullscreen();
     } catch (err) {
-      if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
-        console.error('Fullscreen error:', err);
+      if (
+        !err ||
+        !err.message ||
+        !err.message.toLowerCase().includes("permission")
+      ) {
+        console.error("Fullscreen error:", err);
       }
       // Permission errors are suppressed
     }
@@ -66,8 +73,12 @@ function enterFullscreen(fullscreen) {
     try {
       fullscreen.webkitRequestFullscreen();
     } catch (err) {
-      if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
-        console.error('Fullscreen error:', err);
+      if (
+        !err ||
+        !err.message ||
+        !err.message.toLowerCase().includes("permission")
+      ) {
+        console.error("Fullscreen error:", err);
       }
       // Permission errors are suppressed
     }
