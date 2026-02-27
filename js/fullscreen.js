@@ -46,10 +46,32 @@ document.addEventListener("click", function (e) {
  * @param {HTMLElement} fullscreen - The element to display in fullscreen.
  */
 function enterFullscreen(fullscreen) {
-  if (fullscreen.requestFullscreen) fullscreen.requestFullscreen();
-  else if (fullscreen.msRequestFullscreen) fullscreen.msRequestFullscreen();
-  else if (fullscreen.webkitRequestFullscreen)
-    fullscreen.webkitRequestFullscreen();
+  if (fullscreen.requestFullscreen) {
+    fullscreen.requestFullscreen()
+      .catch(err => {
+        if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
+          console.error('Fullscreen error:', err);
+        }
+      });
+  } else if (fullscreen.msRequestFullscreen) {
+    try {
+      fullscreen.msRequestFullscreen();
+    } catch (err) {
+      if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
+        console.error('Fullscreen error:', err);
+      }
+      // Permission errors are suppressed
+    }
+  } else if (fullscreen.webkitRequestFullscreen) {
+    try {
+      fullscreen.webkitRequestFullscreen();
+    } catch (err) {
+      if (!err || !err.message || !err.message.toLowerCase().includes('permission')) {
+        console.error('Fullscreen error:', err);
+      }
+      // Permission errors are suppressed
+    }
+  }
 }
 
 /**
